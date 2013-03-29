@@ -25,7 +25,7 @@ IF (DOXYGEN_FOUND)
     MESSAGE(STATUS "configured ${CMAKE_CURRENT_SOURCE_DIR}/doxy.config.in --> ${CMAKE_CURRENT_BINARY_DIR}/doxy.config")
     CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/doxy.config.in 
       ${CMAKE_CURRENT_BINARY_DIR}/doxy.config
-      @ONLY )
+    )
     # use (configured) doxy.config from (out of place) BUILD tree:
     SET(DOXY_CONFIG "${CMAKE_CURRENT_BINARY_DIR}/doxy.config")
   ELSE (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/doxy.config.in")

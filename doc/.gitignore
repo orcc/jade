@@ -1,0 +1,5 @@
+# Ignore everything but project and config file
+!CMakeLists.txt
+!doxy.config.in
+
+*

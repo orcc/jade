@@ -87,6 +87,7 @@ endif(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
 set(JADE_MAIN_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(JADE_MAIN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(JADE_TOOLS_DIR ${JADE_MAIN_SRC_DIR}/tools)
+set(JADE_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/doc)
 
 # Generate documentation option
 option(GENERATE_DOCS "Generate documentation using doxygen.")
