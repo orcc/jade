@@ -19,6 +19,7 @@ include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS} ${SDL_INCLUDE_
 
 add_definitions(${LLVM_CPP_FLAGS} ${JADE_CPP_FLAGS})
 
+file(GLOB_RECURSE Scheduler_HDRS "${JADE_MAIN_INCLUDE_DIR}/lib/Scheduler/*.h")
 file(GLOB_RECURSE RoundRobinScheduler_HDRS "${JADE_MAIN_INCLUDE_DIR}/lib/RoundRobinScheduler/*.h")
 
 add_library (RoundRobinScheduler
@@ -32,6 +33,7 @@ add_library (RoundRobinScheduler
 	QSDFScheduler.h
 	RoundRobinScheduler.cpp
 	Fifo.cpp
+	${Scheduler_HDRS}
 	${RoundRobinScheduler_HDRS}
 )
 
