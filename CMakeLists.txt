@@ -10,10 +10,10 @@ find_package(Threads REQUIRED)
 
 # PThread dependencies
 IF(NOT CMAKE_HAVE_PTHREAD_H)
-	set(PHTREAD_DIR CACHE STRING "pthread directory")
+	set(PTHREAD_DIR CACHE STRING "pthread directory")
 
-	set(PHTREAD_INCLUDE_DIRS ${PHTREAD_DIR}/include)
-	set(CMAKE_THREAD_LIBS_INIT ${PHTREAD_DIR}/lib/pthreadVCE2.lib)
+	set(PHTREAD_INCLUDE_DIRS ${PTHREAD_DIR}/include)
+	set(CMAKE_THREAD_LIBS_INIT ${PTHREAD_DIR}/lib/pthreadVCE2.lib)
 
 	include_directories(${PHTREAD_INCLUDE_DIRS})
 ENDIF(NOT CMAKE_HAVE_PTHREAD_H)
