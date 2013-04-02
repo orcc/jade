@@ -42,9 +42,9 @@
 #include <stdio.h>
 #include "TypeParser.h"
 
-#include "Jade/Core/Network.h"
-#include "Jade/Core/Entry.h"
-#include "Jade/TinyXml/TinyXml.h"
+#include "lib/IRCore/Network.h"
+#include "lib/IRCore/Entry.h"
+#include "lib/TinyXml/TinyXml.h"
 
 namespace llvm{
 	class ConstantInt;

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,141 +44,141 @@
 #include "llvm/Module.h"
 #include "llvm/Support/Host.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/Network.h"
-#include "Jade/Configuration/ConfigurationEngine.h"
-#include "Jade/Jit/LLVMExecution.h"
-#include "Jade/Jit/LLVMArmFix.h"
-#include "Jade/RoundRobinScheduler/RoundRobinScheduler.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/Network.h"
+#include "lib/ConfigurationEngine/ConfigurationEngine.h"
+#include "lib/IRJit/LLVMExecution.h"
+#include "lib/IRJit/LLVMArmFix.h"
+#include "lib/RoundRobinScheduler/RoundRobinScheduler.h"
 //------------------------------
 
 using namespace llvm;
 using namespace std;
 
 Decoder::Decoder(LLVMContext& C, Configuration* configuration, bool verbose, bool noMultiCore, bool armFix): Context(C){
-	
-	//Set property of the decoder
-	this->configuration = configuration;
-	this->verbose = verbose;
-	this->thread = NULL;
-	this->executionEngine = NULL;
-	this->fifoFn = NULL;
-	this->running = false;
-	this->scheduler = NULL;
-	this->noMultiCore = noMultiCore;
-	this->armFix = armFix;
 
-	//Create a new module that contains the current decoder
-	module = new Module("decoder", C);
-	
-	//Configure the decoder
-	ConfigurationEngine engine(Context, verbose);
-	engine.configure(this);
+    //Set property of the decoder
+    this->configuration = configuration;
+    this->verbose = verbose;
+    this->thread = NULL;
+    this->executionEngine = NULL;
+    this->fifoFn = NULL;
+    this->running = false;
+    this->scheduler = NULL;
+    this->noMultiCore = noMultiCore;
+    this->armFix = armFix;
 
-	//Set schedulers of the decoder
-	map<string, Partition*>::iterator itPartition;
-	map<string, Partition*>* partitions = configuration->getPartitions();
+    //Create a new module that contains the current decoder
+    module = new Module("decoder", C);
 
-	// Unpartitionned instance scheduler
-	scheduler = new RoundRobinScheduler(Context, this, configuration->getUnpartitioned(), configuration->mergeActors(), noMultiCore, verbose);
+    //Configure the decoder
+    ConfigurationEngine engine(Context, verbose);
+    engine.configure(this);
 
-	// Partitionned instance scheduler
-	for(itPartition = partitions->begin(); itPartition != partitions->end(); itPartition++){
-		Partition* partition = itPartition->second;
-		Scheduler* procSchedul = new RoundRobinScheduler(Context, this, partition->getInstances(), configuration->mergeActors(), noMultiCore, verbose);
-		procSchedulers.insert(pair<Partition*, Scheduler*>(partition, procSchedul));
-	}
+    //Set schedulers of the decoder
+    map<string, Partition*>::iterator itPartition;
+    map<string, Partition*>* partitions = configuration->getPartitions();
 
-	//Create execution engine
-	if (armFix){
-		executionEngine = new LLVMArmFix(Context, this, verbose);
-	}else{
-		executionEngine = new LLVMExecution(Context, this, verbose);
-	}
+    // Unpartitionned instance scheduler
+    scheduler = new RoundRobinScheduler(Context, this, configuration->getUnpartitioned(), configuration->mergeActors(), noMultiCore, verbose);
+
+    // Partitionned instance scheduler
+    for(itPartition = partitions->begin(); itPartition != partitions->end(); itPartition++){
+        Partition* partition = itPartition->second;
+        Scheduler* procSchedul = new RoundRobinScheduler(Context, this, partition->getInstances(), configuration->mergeActors(), noMultiCore, verbose);
+        procSchedulers.insert(pair<Partition*, Scheduler*>(partition, procSchedul));
+    }
+
+    //Create execution engine
+    if (armFix){
+        executionEngine = new LLVMArmFix(Context, this, verbose);
+    }else{
+        executionEngine = new LLVMExecution(Context, this, verbose);
+    }
 }
 
 Decoder::~Decoder (){
-	delete scheduler;
-	delete module;
+    delete scheduler;
+    delete module;
 }
 
 list<Procedure*> Decoder::getExternalProcs(){
-	list<Procedure*> externs;
+    list<Procedure*> externs;
 
-	// Look across all instances for external procedures
-	map<std::string, Instance*>::iterator it;
-	map<std::string, Instance*>* instances = configuration->getInstances();
-	for (it = instances->begin(); it != instances->end(); it++){
-		Instance* instance = it->second;
+    // Look across all instances for external procedures
+    map<std::string, Instance*>::iterator it;
+    map<std::string, Instance*>* instances = configuration->getInstances();
+    for (it = instances->begin(); it != instances->end(); it++){
+        Instance* instance = it->second;
 
-		// Look accross all procs for external property
-		map<string, Procedure*>::iterator itProc;
-		map<string, Procedure*>* procs = instance->getProcs();
+        // Look accross all procs for external property
+        map<string, Procedure*>::iterator itProc;
+        map<string, Procedure*>* procs = instance->getProcs();
 
-		for (itProc = procs->begin(); itProc != procs->end(); itProc++){
-			Procedure* proc = itProc->second;
+        for (itProc = procs->begin(); itProc != procs->end(); itProc++){
+            Procedure* proc = itProc->second;
 
-			if (proc->isExternal()){
-				externs.push_back(proc);
-			}
+            if (proc->isExternal()){
+                externs.push_back(proc);
+            }
 
-		}
-	}
+        }
+    }
 
-	return externs;
+    return externs;
 }
 
 void Decoder::setConfiguration(Configuration* newConfiguration){
-	clock_t start = clock ();
-	/*if (running){
-		//Decoder is currently running
-		cout << "Can't set a configuration, the decoder is currently running.";
-		exit(1);
-	}*/
+    clock_t start = clock ();
+    /*if (running){
+        //Decoder is currently running
+        cout << "Can't set a configuration, the decoder is currently running.";
+        exit(1);
+    }*/
 
-	//Reconfigure the decoder
-	ConfigurationEngine engine(Context, verbose);
-	engine.reconfigure(this, newConfiguration);
-	if (verbose){
-		cout<< "---> Reconfiguring times of engines takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-		start = clock();
-	}
+    //Reconfigure the decoder
+    ConfigurationEngine engine(Context, verbose);
+    engine.reconfigure(this, newConfiguration);
+    if (verbose){
+        cout<< "---> Reconfiguring times of engines takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        start = clock();
+    }
 
-	//Delete old configuration and set the new one
-	delete configuration;
-	configuration = newConfiguration;
+    //Delete old configuration and set the new one
+    delete configuration;
+    configuration = newConfiguration;
 
-	executionEngine->recompile(scheduler->getMainFunction());
+    executionEngine->recompile(scheduler->getMainFunction());
 
-	if (verbose){
-		cout<< "---> Scheduling recompilation takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-	}
+    if (verbose){
+        cout<< "---> Scheduling recompilation takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+    }
 }
 
 void Decoder::run(){
-	running = true;
-	executionEngine->initialize();
-	executionEngine->run();
+    running = true;
+    executionEngine->initialize();
+    executionEngine->run();
 }
 
 void Decoder::stop(){
-	executionEngine->stop(thread);
-	
-	running = false;
+    executionEngine->stop(thread);
 
-	ConfigurationEngine engine(Context);
-	engine.reinit(this);
+    running = false;
+
+    ConfigurationEngine engine(Context);
+    engine.reinit(this);
 }
 
 void Decoder::runInThread(pthread_t* thread){
-	this->thread = thread;
-	
-	//Lock display mutex until the first image arrive
-	pthread_create( thread, NULL, &Decoder::threadRun, this );
+    this->thread = thread;
+
+    //Lock display mutex until the first image arrive
+    pthread_create( thread, NULL, &Decoder::threadRun, this );
 }
 
 void* Decoder::threadRun( void* args ){
-	Decoder* decoder = static_cast<Decoder*>(args);
-	decoder->run();
-	return NULL;
+    Decoder* decoder = static_cast<Decoder*>(args);
+    decoder->run();
+    return NULL;
 }

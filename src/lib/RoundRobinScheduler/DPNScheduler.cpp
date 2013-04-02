@@ -46,16 +46,16 @@
 
 #include "DPNScheduler.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Actor/Action.h"
-#include "Jade/Core/Actor/ActionScheduler.h"
-#include "Jade/Core/Actor/ActionTag.h"
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Core/Actor/Procedure.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Util/TraceMng.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Actor/Action.h"
+#include "lib/IRCore/Actor/ActionScheduler.h"
+#include "lib/IRCore/Actor/ActionTag.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/Actor/Procedure.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRUtil/TraceMng.h"
 //------------------------------
 
 using namespace llvm;

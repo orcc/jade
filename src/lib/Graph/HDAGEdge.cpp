@@ -16,7 +16,7 @@ parallel applications.
  * 
  * @author mpelcat
  */
-#include "Jade/Graph/HDAGEdge.h"
+#include "lib/Graph/HDAGEdge.h"
 
 HDAGEdge* HDAGEdge::firstInSinkOrder = NULL;
 HDAGEdge* HDAGEdge::lastInSinkOrder = NULL;

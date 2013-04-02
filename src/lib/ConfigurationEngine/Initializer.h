@@ -40,10 +40,10 @@
 #define INITIALIZER_H
 #include <map>
 
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Core/Expr/BoolExpr.h"
-#include "Jade/Core/Expr/IntExpr.h"
-#include "Jade/Core/Expr/ListExpr.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRCore/Expr/BoolExpr.h"
+#include "lib/IRCore/Expr/IntExpr.h"
+#include "lib/IRCore/Expr/ListExpr.h"
 
 namespace llvm{
 	class BasicBlock;

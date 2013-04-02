@@ -43,11 +43,11 @@
 #include "llvm/Module.h"
 #include "llvm/Support/CommandLine.h"
 
-#include "Jade/Core/Network/Connection.h"
-#include "Jade/Core/Expression.h"
-#include "Jade/Core/Attribute/ValueAttribute.h"
-#include "Jade/Core/Network/Vertex.h"
-#include "Jade/Graph/HDAGGraph.h"
+#include "lib/IRCore/Network/Connection.h"
+#include "lib/IRCore/Expression.h"
+#include "lib/IRCore/Attribute/ValueAttribute.h"
+#include "lib/IRCore/Network/Vertex.h"
+#include "lib/Graph/HDAGGraph.h"
 //------------------------------
 
 using namespace std;

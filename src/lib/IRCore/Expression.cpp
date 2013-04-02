@@ -41,11 +41,11 @@
 #include "llvm/Constants.h"
 #include "llvm/DerivedTypes.h"
 
-#include "Jade/Core/Expr/BoolExpr.h"
-#include "Jade/Core/Expr/BinaryExpr.h"
-#include "Jade/Core/Expr/IntExpr.h"
-#include "Jade/Core/Expr/ListExpr.h"
-#include "Jade/Core/Expr/StringExpr.h"
+#include "lib/IRCore/Expr/BoolExpr.h"
+#include "lib/IRCore/Expr/BinaryExpr.h"
+#include "lib/IRCore/Expr/IntExpr.h"
+#include "lib/IRCore/Expr/ListExpr.h"
+#include "lib/IRCore/Expr/StringExpr.h"
 //------------------------------
 
 using namespace std;

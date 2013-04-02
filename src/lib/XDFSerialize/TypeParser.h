@@ -34,10 +34,10 @@
 #include <stdio.h>
 #include <string>
 
-#include "Jade/Core/Entry.h"
-#include "Jade/Core/IRType.h"
-#include "Jade/Core/Network.h"
-#include "Jade/TinyXml/TinyXml.h"
+#include "lib/IRCore/Entry.h"
+#include "lib/IRCore/IRType.h"
+#include "lib/IRCore/Network.h"
+#include "lib/TinyXml/TinyXml.h"
 
 #include "ExprParser.h"
 

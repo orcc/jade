@@ -36,10 +36,10 @@
 */
 
 //------------------------------
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Core/InstancedActor.h"
-#include "Jade/Core/Instance.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/InstancedActor.h"
+#include "lib/IRCore/Instance.h"
 //------------------------------
 
 using namespace std;

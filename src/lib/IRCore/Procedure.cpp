@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "Jade/Core/Actor/Procedure.h"
+#include "lib/IRCore/Actor/Procedure.h"
 
 #include "llvm/Constants.h"
 #include "llvm/Function.h"

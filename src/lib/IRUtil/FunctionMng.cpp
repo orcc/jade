@@ -41,8 +41,8 @@
 #include "llvm/Instructions.h"
 #include "llvm/Module.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Util/FunctionMng.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRUtil/FunctionMng.h"
 //------------------------------
 
 using namespace std;

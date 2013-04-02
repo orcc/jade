@@ -40,7 +40,7 @@
 #define SCENARIOPARSER_H
 #include <string>
 
-#include "Jade/TinyXml/TinyXml.h"
+#include "lib/TinyXml/TinyXml.h"
 
 #include "Scenario.h"
 //------------------------------

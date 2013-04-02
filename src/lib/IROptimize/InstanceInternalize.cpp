@@ -40,9 +40,9 @@
 
 #include "llvm/Function.h"
 
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Optimize/InstanceInternalize.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IROptimize/InstanceInternalize.h"
 
 //------------------------------
 

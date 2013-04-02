@@ -44,9 +44,9 @@
 #include "llvm/DerivedTypes.h"
 #include "llvm/Instructions.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/RoundRobinScheduler/Fifo.h"
-#include "Jade/Util/FunctionMng.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/RoundRobinScheduler/Fifo.h"
+#include "lib/IRUtil/FunctionMng.h"
 //------------------------------
 
 using namespace llvm;

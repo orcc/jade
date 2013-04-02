@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "Jade/Core/Actor/Pattern.h"
+#include "lib/IRCore/Actor/Pattern.h"
 //------------------------------
 
 using namespace std;

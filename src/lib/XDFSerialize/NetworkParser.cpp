@@ -37,11 +37,11 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Core/Network.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Core/Attribute/TypeAttribute.h"
-#include "Jade/Core/Attribute/ValueAttribute.h"
-#include "Jade/TinyXml/TinyStr.h"
+#include "lib/IRCore/Network.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/Attribute/TypeAttribute.h"
+#include "lib/IRCore/Attribute/ValueAttribute.h"
+#include "lib/TinyXml/TinyStr.h"
 
 #include "NetworkParser.h"
 //------------------------------

@@ -38,7 +38,7 @@
 //------------------------------
 #include "llvm/Function.h"
 
-#include "Jade/Core/Actor/ActionScheduler.h"
+#include "lib/IRCore/Actor/ActionScheduler.h"
 //------------------------------
 
 using namespace std;

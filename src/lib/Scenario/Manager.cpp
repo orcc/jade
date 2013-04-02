@@ -41,9 +41,9 @@
 
 #include "llvm/LLVMContext.h"
 
-#include "Jade/RVCEngine.h"
-#include "Jade/XDFSerialize/XDFParser.h"
-#include "Jade/Scenario/Manager.h"
+#include "lib/RVCEngine/RVCEngine.h"
+#include "lib/XDFSerialize/XDFParser.h"
+#include "lib/Scenario/Manager.h"
 
 #include "ScenarioParser.h"
 

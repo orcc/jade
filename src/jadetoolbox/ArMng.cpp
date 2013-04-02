@@ -38,7 +38,7 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Util/CompressionMng.h"
+#include "lib/IRUtil/CompressionMng.h"
 
 #include "ArMng.h"
 #include "FilesMng.h"

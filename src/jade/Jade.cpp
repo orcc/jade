@@ -50,12 +50,12 @@
 #include "llvm/Support/Threading.h"
 #include "llvm/Support/TargetSelect.h"
 
-#include "Jade/XDFSerialize/XDFParser.h"
-#include "Jade/XCFSerialize/XCFParser.h"
-#include "Jade/RVCEngine.h"
-#include "Jade/Scenario/Manager.h"
-#include "Jade/Util/OptionMng.h"
-#include "Jade/Util/CompressionMng.h"
+#include "lib/XDFSerialize/XDFParser.h"
+#include "lib/XCFSerialize/XCFParser.h"
+#include "lib/RVCEngine/RVCEngine.h"
+#include "lib/Scenario/Manager.h"
+#include "lib/IRUtil/OptionMng.h"
+#include "lib/IRUtil/CompressionMng.h"
 //------------------------------
 
 #define DISPLAY_DISABLE 0

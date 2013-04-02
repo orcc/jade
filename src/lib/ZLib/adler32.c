@@ -5,7 +5,7 @@
 
 /* @(#) $Id$ */
 
-#include "Jade/ZLib/zutil.h"
+#include "lib/ZLib/zutil.h"
 
 #define local static
 

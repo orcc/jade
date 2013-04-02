@@ -38,7 +38,7 @@
 //------------------------------
 #include <map>
 
-#include "Jade/Optimize/FifoFnRemoval.h"
+#include "lib/IROptimize/FifoFnRemoval.h"
 
 #include "llvm/Function.h"
 

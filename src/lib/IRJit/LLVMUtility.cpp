@@ -44,8 +44,8 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/CommandLine.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Jit/LLVMUtility.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRJit//LLVMUtility.h"
 //------------------------------
 
 using namespace llvm;

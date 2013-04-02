@@ -44,11 +44,11 @@
 
 #include "llvm/DerivedTypes.h"
 
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Graph/HDAGGraph.h"
-#include "Jade/Core/Network.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/Port.h"
+#include "lib/Graph/HDAGGraph.h"
+#include "lib/IRCore/Network.h"
 //------------------------------
 
 

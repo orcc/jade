@@ -39,7 +39,7 @@
 #include "llvm/Module.h"
 #include "llvm/Bitcode/Archive.h"
 
-#include "Jade/Util/PackageMng.h"
+#include "lib/IRUtil/PackageMng.h"
 
 #include <algorithm>
 #include <iostream>

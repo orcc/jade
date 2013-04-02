@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,17 +41,17 @@
 
 #include "llvm/PassManager.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/RVCEngine.h"
-#include "Jade/Serialize/IRParser.h"
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Core/Network.h"
-#include "Jade/Jit/LLVMUtility.h"
-#include "Jade/Jit/LLVMOptimizer.h"
-#include "Jade/Jit/LLVMExecution.h"
-#include "Jade/Optimize/FifoFnRemoval.h"
-#include "Jade/Optimize/InstanceInternalize.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/RVCEngine/RVCEngine.h"
+#include "lib/IRSerialize/IRParser.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/Network.h"
+#include "lib/IRJit/LLVMUtility.h"
+#include "lib/IRJit/LLVMOptimizer.h"
+#include "lib/IRJit/LLVMExecution.h"
+#include "lib/IROptimize/FifoFnRemoval.h"
+#include "lib/IROptimize/InstanceInternalize.h"
 #include "llvm/Support/PassNameParser.h"
 //------------------------------
 
@@ -61,247 +61,247 @@ using namespace llvm;
 //extern cl::list<const PassInfo*, bool, PassNameParser> PassList;
 
 RVCEngine::RVCEngine(llvm::LLVMContext& C,
-							 string library,
-							 int defaultFifoSize,
-							 string system, 
-							 string outputDir, 
-							 bool noMerging,
-							 bool noMultiCore,
-							 bool verbose, bool armFix): Context(C) {
-	//Set properties	
-	this->library = library;
-	this->systemPackage = system;
-	this->verbose = verbose;
-	this->noMerging = noMerging;
-	this->outputDir = outputDir;
-	this->noMultiCore = noMultiCore;
-	this->armFix = armFix;
+                             string library,
+                             int defaultFifoSize,
+                             string system,
+                             string outputDir,
+                             bool noMerging,
+                             bool noMultiCore,
+                             bool verbose, bool armFix): Context(C) {
+    //Set properties
+    this->library = library;
+    this->systemPackage = system;
+    this->verbose = verbose;
+    this->noMerging = noMerging;
+    this->outputDir = outputDir;
+    this->noMultiCore = noMultiCore;
+    this->armFix = armFix;
 
-	//Load IR Parser
-	irParser = new IRParser(C, library);
+    //Load IR Parser
+    irParser = new IRParser(C, library);
 }
 
 RVCEngine::~RVCEngine(){
-	
+
 }
 
 int RVCEngine::load(Network* network, int optLevel) {
-	map<string, Actor*>::iterator it;
-	clock_t timer = clock ();
+    map<string, Actor*>::iterator it;
+    clock_t timer = clock ();
 
-	//Create the Configuration from the network
-	Configuration* configuration = new Configuration(network, noMerging);
+    //Create the Configuration from the network
+    Configuration* configuration = new Configuration(network, noMerging);
 
-	// Parsing actor and bound it to the configuration
-	map<string, Actor*>* requieredActors = parseActors(configuration);
-	configuration->setActors(requieredActors);
+    // Parsing actor and bound it to the configuration
+    map<string, Actor*>* requieredActors = parseActors(configuration);
+    configuration->setActors(requieredActors);
 
-	if (verbose){
-		cout << "---> The given configuration requiered " << requieredActors->size() << " actors for "<<configuration->getInstances()->size() << " instances.\n";
-		cout << "--> Modules parsed in : "<<(clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-		timer = clock ();
-	}
-	
-	//Create decoder
-	Decoder* decoder = new Decoder(Context, configuration, verbose, noMultiCore, armFix);
-	
-	if (verbose){
-		cout << "--> Decoder created in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-		timer = clock ();
-	}
-	
-	//doOptimizeDecoder(decoder);
-	
-	//Insert decoder into the list of created decoders
-	decoders.insert(pair<Network*, Decoder*>(network, decoder));
+    if (verbose){
+        cout << "---> The given configuration requiered " << requieredActors->size() << " actors for "<<configuration->getInstances()->size() << " instances.\n";
+        cout << "--> Modules parsed in : "<<(clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        timer = clock ();
+    }
 
-	return 0;
+    //Create decoder
+    Decoder* decoder = new Decoder(Context, configuration, verbose, noMultiCore, armFix);
+
+    if (verbose){
+        cout << "--> Decoder created in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        timer = clock ();
+    }
+
+    //doOptimizeDecoder(decoder);
+
+    //Insert decoder into the list of created decoders
+    decoders.insert(pair<Network*, Decoder*>(network, decoder));
+
+    return 0;
 }
 
 int RVCEngine::unload(Network* network) {
-	map<Network*, Decoder*>::iterator it;
+    map<Network*, Decoder*>::iterator it;
 
-	it = decoders.find(network);
+    it = decoders.find(network);
 
-	if (it == decoders.end()){
-		cout << "No decoders load for this network.\n";
-		return 1;
-	}
-	
-	decoders.erase(it);
-	
-	return 0;	
+    if (it == decoders.end()){
+        cout << "No decoders load for this network.\n";
+        return 1;
+    }
+
+    decoders.erase(it);
+
+    return 0;
 }
 
 
 int RVCEngine::stop(Network* network){
-	map<Network*, Decoder*>::iterator it;
+    map<Network*, Decoder*>::iterator it;
 
-	it = decoders.find(network);
+    it = decoders.find(network);
 
-	if (it == decoders.end()){
-		cout << "No decoders found for this network.\n";
-		return 1;
-	}
-	
-	Decoder* decoder = it->second;
-	decoder->stop();
+    if (it == decoders.end()){
+        cout << "No decoders found for this network.\n";
+        return 1;
+    }
 
-	return 0;
+    Decoder* decoder = it->second;
+    decoder->stop();
+
+    return 0;
 }
 
 
 int RVCEngine::verify(Network* network, std::string errorFile){
-	map<Network*, Decoder*>::iterator it;
-	clock_t	timer = clock ();
-	it = decoders.find(network);
+    map<Network*, Decoder*>::iterator it;
+    clock_t	timer = clock ();
+    it = decoders.find(network);
 
-	if (it == decoders.end()){
-		cout << "No decoders found for this network.\n";
-		return 1;
-	}
-	
-	LLVMUtility utility;
-	utility.verify(errorFile, it->second);
+    if (it == decoders.end()){
+        cout << "No decoders found for this network.\n";
+        return 1;
+    }
 
-	if (verbose){
-		cout << "--> Decoder verified in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-	}
-	return 0;
+    LLVMUtility utility;
+    utility.verify(errorFile, it->second);
+
+    if (verbose){
+        cout << "--> Decoder verified in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+    }
+    return 0;
 }
 
-int RVCEngine::run(Network* network, pthread_t* thread){	
-	map<Network*, Decoder*>::iterator it;
+int RVCEngine::run(Network* network, pthread_t* thread){
+    map<Network*, Decoder*>::iterator it;
 
-	it = decoders.find(network);
+    it = decoders.find(network);
 
-	if (it == decoders.end()){
-		cout << "No decoders found for this network.\n";
-		return 1;
-	}
+    if (it == decoders.end()){
+        cout << "No decoders found for this network.\n";
+        return 1;
+    }
 
-	Decoder* decoder = it->second;
+    Decoder* decoder = it->second;
 
-	//Start decoding
-	if (thread != NULL){
-		decoder->runInThread(thread);
-	} else {
-		decoder->run();
-	}
+    //Start decoding
+    if (thread != NULL){
+        decoder->runInThread(thread);
+    } else {
+        decoder->run();
+    }
 
-	return 0;
+    return 0;
 }
 
 int RVCEngine::optimize(Network* network, int optLevel){
-	clock_t	timer = clock ();
-	
-	map<Network*, Decoder*>::iterator it;
+    clock_t	timer = clock ();
 
-	it = decoders.find(network);
+    map<Network*, Decoder*>::iterator it;
 
-	if (it == decoders.end()){
-		cout << "No decoders found for this network.\n";
-		return 1;
-	}
+    it = decoders.find(network);
 
-	cout << "-> Start optimization of : " << network->getName().c_str() << "\n";
+    if (it == decoders.end()){
+        cout << "No decoders found for this network.\n";
+        return 1;
+    }
 
-	LLVMOptimizer opt(it->second);
-	opt.optimize(optLevel);
-	
-	cout << "--> Decoder optimized in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+    cout << "-> Start optimization of : " << network->getName().c_str() << "\n";
+
+    LLVMOptimizer opt(it->second);
+    opt.optimize(optLevel);
+
+    cout << "--> Decoder optimized in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
     return 0;
 }
 
 int RVCEngine::reconfigure(Network* oldNetwork, Network* newNetwork){
-	map<Network*, Decoder*>::iterator it;
+    map<Network*, Decoder*>::iterator it;
 
-	it = decoders.find(oldNetwork);
+    it = decoders.find(oldNetwork);
 
-	if (it == decoders.end()){
-		cout << "No decoders found for this network.\n";
-		return 1;
-	}
+    if (it == decoders.end()){
+        cout << "No decoders found for this network.\n";
+        return 1;
+    }
 
-	Decoder* decoder = it->second;
+    Decoder* decoder = it->second;
 
-	//Create the new Configuration
-	Configuration* configuration = new Configuration(newNetwork);
+    //Create the new Configuration
+    Configuration* configuration = new Configuration(newNetwork);
 
-	// Parsing actor and bound it to the new configuration
-	map<string, Actor*>* requieredActors = parseActors(configuration);
-	configuration->setActors(requieredActors);
+    // Parsing actor and bound it to the new configuration
+    map<string, Actor*>* requieredActors = parseActors(configuration);
+    configuration->setActors(requieredActors);
 
-	// Set the new configuration
-	decoder->setConfiguration(configuration);
+    // Set the new configuration
+    decoder->setConfiguration(configuration);
 
-	//Set the new decoder
-	decoders.erase(it);
-	decoders.insert(pair<Network*, Decoder*>(newNetwork, decoder));
+    //Set the new decoder
+    decoders.erase(it);
+    decoders.insert(pair<Network*, Decoder*>(newNetwork, decoder));
 
-	return 0;
+    return 0;
 }
 
 map<string, Actor*>* RVCEngine::parseActors(Configuration* Configuration) {
-	list<string>::iterator it;
-	
-	//Resulting map of actors
-	map<string, Actor*>* configurationActors = new map<string, Actor*>();
+    list<string>::iterator it;
 
-	//Get files requiered by the configuration
-	list<string>* files = Configuration->getActorFiles();
+    //Resulting map of actors
+    map<string, Actor*>* configurationActors = new map<string, Actor*>();
 
-	//Iterate though files and parses actors if requiered
-	for ( it = files->begin(); it != files->end(); ++it ){
-		map<string, Actor*>::iterator itAct;
-		
-		//Check if actor has been already parsed before
-		Actor* actor = NULL;
-		itAct = actors.find(*it);
+    //Get files requiered by the configuration
+    list<string>* files = Configuration->getActorFiles();
 
-		if(itAct == actors.end()){
-			//Actor has not been parsed
-			actor = irParser->parseActor(*it);
-		}else{
-			//Actor has been parsed
-			actor = itAct->second;
-		}
-		
-		//Set actors as requiered by the configuration
-		configurationActors->insert(pair<string, Actor*>(*it, actor));
-	}
+    //Iterate though files and parses actors if requiered
+    for ( it = files->begin(); it != files->end(); ++it ){
+        map<string, Actor*>::iterator itAct;
 
-	//Insert all actors into the list of all parsed actor by the decoder engine
-	actors.insert(configurationActors->begin(), configurationActors->end());
-	
-	return configurationActors;
+        //Check if actor has been already parsed before
+        Actor* actor = NULL;
+        itAct = actors.find(*it);
+
+        if(itAct == actors.end()){
+            //Actor has not been parsed
+            actor = irParser->parseActor(*it);
+        }else{
+            //Actor has been parsed
+            actor = itAct->second;
+        }
+
+        //Set actors as requiered by the configuration
+        configurationActors->insert(pair<string, Actor*>(*it, actor));
+    }
+
+    //Insert all actors into the list of all parsed actor by the decoder engine
+    actors.insert(configurationActors->begin(), configurationActors->end());
+
+    return configurationActors;
 }
 
 void RVCEngine::doOptimizeDecoder(Decoder* decoder){
 //TODO : add CFGSimplification and mem2reg
 /*	InstanceInternalize internalize;
-	internalize.transform(decoder);
-	
-	PassManager Passes;
-	Passes.add(createFunctionInliningPass());
-	Passes.run(*decoder->getModule());
+    internalize.transform(decoder);
 
-	FifoFnRemoval removeFifo;
-	removeFifo.transform(decoder);*/
+    PassManager Passes;
+    Passes.add(createFunctionInliningPass());
+    Passes.run(*decoder->getModule());
+
+    FifoFnRemoval removeFifo;
+    removeFifo.transform(decoder);*/
 }
 
 int RVCEngine::print(Network* network, string outputFile){
-	LLVMUtility utility;
-	map<Network*, Decoder*>::iterator it;
+    LLVMUtility utility;
+    map<Network*, Decoder*>::iterator it;
 
-	it = decoders.find(network);
+    it = decoders.find(network);
 
-	if (it == decoders.end()){
-		cout << "No decoders found for this network.\n";
-		return 1;
-	}
+    if (it == decoders.end()){
+        cout << "No decoders found for this network.\n";
+        return 1;
+    }
 
-	Decoder* decoder = it->second;
-	utility.printModule(outputFile, decoder);
-	return 0;
+    Decoder* decoder = it->second;
+    utility.printModule(outputFile, decoder);
+    return 0;
 }

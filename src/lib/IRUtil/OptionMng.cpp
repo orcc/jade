@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "Jade/Util/OptionMng.h"
+#include "lib/IRUtil/OptionMng.h"
 //------------------------------
 
 using namespace std;

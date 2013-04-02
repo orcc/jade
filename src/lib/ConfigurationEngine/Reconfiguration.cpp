@@ -41,7 +41,7 @@
 
 #include "Reconfiguration.h"
 
-#include "Jade/Decoder.h"
+#include "lib/RVCEngine/Decoder.h"
 //------------------------------
 
 using namespace std;

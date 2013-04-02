@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "Jade/Core/Entity.h"
+#include "lib/IRCore/Entity.h"
 //------------------------------
 
 using namespace std;

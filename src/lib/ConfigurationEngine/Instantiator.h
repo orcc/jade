@@ -41,7 +41,7 @@
 
 #include <map>
 
-#include "Jade/Core/Actor.h"
+#include "lib/IRCore/Actor.h"
 
 class Connection;
 class Configuration;

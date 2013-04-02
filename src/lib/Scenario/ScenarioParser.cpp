@@ -38,17 +38,17 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Scenario/Event/LoadEvent.h"
-#include "Jade/Scenario/Event/PauseEvent.h"
-#include "Jade/Scenario/Event/StartEvent.h"
-#include "Jade/Scenario/Event/StopEvent.h"
-#include "Jade/Scenario/Event/SetEvent.h"
-#include "Jade/Scenario/Event/VerifyEvent.h"
-#include "Jade/Scenario/Event/WaitEvent.h"
-#include "Jade/Scenario/Event/PrintEvent.h"
-#include "Jade/Scenario/Event/RemoveEvent.h"
-#include "Jade/Scenario/Event/ListEvent.h"
-#include "Jade/TinyXml/TinyStr.h"
+#include "lib/Scenario/Event/LoadEvent.h"
+#include "lib/Scenario/Event/PauseEvent.h"
+#include "lib/Scenario/Event/StartEvent.h"
+#include "lib/Scenario/Event/StopEvent.h"
+#include "lib/Scenario/Event/SetEvent.h"
+#include "lib/Scenario/Event/VerifyEvent.h"
+#include "lib/Scenario/Event/WaitEvent.h"
+#include "lib/Scenario/Event/PrintEvent.h"
+#include "lib/Scenario/Event/RemoveEvent.h"
+#include "lib/Scenario/Event/ListEvent.h"
+#include "lib/TinyXml/TinyStr.h"
 
 #include "ScenarioParser.h"
 //------------------------------

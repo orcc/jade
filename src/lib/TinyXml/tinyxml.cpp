@@ -29,7 +29,7 @@ distribution.
 #include <iostream>
 #endif
 
-#include "Jade/TinyXml/TinyXml.h"
+#include "lib/TinyXml/TinyXml.h"
 
 FILE* TiXmlFOpen( const char* filename, const char* mode );
 

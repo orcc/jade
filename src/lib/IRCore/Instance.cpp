@@ -40,11 +40,11 @@
 #include "llvm/DerivedTypes.h"
 #include "llvm/GlobalVariable.h"
 
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/Variable.h"
-#include "Jade/Graph/HDAGGraph.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Core/Network/Vertex.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/Variable.h"
+#include "lib/Graph/HDAGGraph.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRCore/Network/Vertex.h"
 //------------------------------
 
 using namespace std;

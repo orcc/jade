@@ -41,9 +41,9 @@
 #include "llvm/Bitcode/Archive.h"
 #include "llvm/Support/IRReader.h"
 
-#include "Jade/Jit/LLVMParser.h"
-#include "Jade/Util/PackageMng.h"
-#include "Jade/Util/CompressionMng.h"
+#include "lib/IRJit//LLVMParser.h"
+#include "lib/IRUtil/PackageMng.h"
+#include "lib/IRUtil/CompressionMng.h"
 //------------------------------
 
 using namespace llvm;

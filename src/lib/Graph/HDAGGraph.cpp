@@ -16,9 +16,9 @@ parallel applications.
  * @author mpelcat
  */
 
-#include "Jade/Graph/HDAGGraph.h"
-#include "Jade/Graph/HDAGVertex.h"
-#include "Jade/Graph/HDAGEdge.h"
+#include "lib/Graph/HDAGGraph.h"
+#include "lib/Graph/HDAGVertex.h"
+#include "lib/Graph/HDAGEdge.h"
 #include <cstdio>
 #include <cstring>
 #include <map>

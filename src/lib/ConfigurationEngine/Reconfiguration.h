@@ -39,7 +39,7 @@
 #ifndef RECONFIGURATION_H
 #define RECONFIGURATION_H
 
-#include "Jade/Configuration/Configuration.h"
+#include "lib/ConfigurationEngine/Configuration.h"
 
 class Decoder;
 //------------------------------

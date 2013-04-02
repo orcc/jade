@@ -9,7 +9,7 @@ parallel applications.
 
  *********************************************************/
  
-#include "Jade/Graph/HDAGVertex.h"
+#include "lib/Graph/HDAGVertex.h"
 #include <cstdio>
 #include <cstring>
 

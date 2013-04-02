@@ -43,9 +43,9 @@
 #include "llvm/LLVMContext.h"
 #include "llvm/Module.h"
 
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Core/MoC/QSDFMoC.h"
-#include "Jade/Core/Actor.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRCore/MoC/QSDFMoC.h"
+#include "lib/IRCore/Actor.h"
 //------------------------------
 
 using namespace llvm;

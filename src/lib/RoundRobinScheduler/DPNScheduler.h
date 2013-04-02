@@ -43,7 +43,7 @@
 #include <map>
 
 #include "ActionSchedulerAdder.h"
-#include "Jade/Core/Actor/FSM.h"
+#include "lib/IRCore/Actor/FSM.h"
 
 namespace llvm{
 	class BasicBlock;

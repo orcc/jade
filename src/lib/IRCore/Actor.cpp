@@ -36,11 +36,11 @@
 */
 
 //------------------------------
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/Actor/Action.h"
-#include "Jade/Core/StateVariable.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Util/PackageMng.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/Actor/Action.h"
+#include "lib/IRCore/StateVariable.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRUtil/PackageMng.h"
 //------------------------------
 
 using namespace std;

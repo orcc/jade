@@ -40,7 +40,7 @@
 #include <sstream>
 #include <list>
 
-#include "Jade/XDFSerialize/InstanceIdRemoval.h"
+#include "lib/XDFSerialize/InstanceIdRemoval.h"
 //------------------------------
 
 using namespace std;

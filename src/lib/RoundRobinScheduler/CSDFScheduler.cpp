@@ -45,11 +45,11 @@
 #include "llvm/LLVMContext.h"
 #include "llvm/Module.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/MoC/CSDFMoC.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Merger/SuperInstance.h"
-#include "Jade/Util/TraceMng.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/MoC/CSDFMoC.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRMerger/SuperInstance.h"
+#include "lib/IRUtil/TraceMng.h"
 //------------------------------
 
 using namespace llvm;

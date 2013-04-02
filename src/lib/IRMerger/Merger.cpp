@@ -45,11 +45,11 @@
 
 #include "llvm/Constants.h"
 
-#include "Jade/Core/Network.h"
-#include "Jade/Core/MoC/CSDFMoC.h"
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Merger/Merger.h"
-#include "Jade/Merger/SuperInstance.h"
+#include "lib/IRCore/Network.h"
+#include "lib/IRCore/MoC/CSDFMoC.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRMerger/Merger.h"
+#include "lib/IRMerger/SuperInstance.h"
 //------------------------------
 
 using namespace std;

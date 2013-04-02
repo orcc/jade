@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,18 +43,18 @@
 #include "llvm/Module.h"
 
 #include "Connector.h"
-#include "Jade/Decoder.h"
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Network.h"
-#include "Jade/Jit/LLVMExecution.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Network.h"
+#include "lib/IRJit/LLVMExecution.h"
 //------------------------------
 
 using namespace std;
 using namespace llvm;
 
 Connector::Connector(llvm::LLVMContext& C, Decoder* decoder) : Context(C){
-	this->decoder = decoder;
-	this->module = decoder->getModule();
+    this->decoder = decoder;
+    this->module = decoder->getModule();
 }
 
 Connector::~Connector(){
@@ -62,75 +62,75 @@ Connector::~Connector(){
 }
 
 void Connector::setConnections(Configuration* configuration){
-	Network* network = configuration->getNetwork();
-	HDAGGraph* graph = network->getGraph();
-	
-	int edges = graph->getNbEdges();
-	
-	for (int i = 0; i < edges; i++){
-		setConnection((Connection*)graph->getEdge(i));
-	}
+    Network* network = configuration->getNetwork();
+    HDAGGraph* graph = network->getGraph();
+
+    int edges = graph->getNbEdges();
+
+    for (int i = 0; i < edges; i++){
+        setConnection((Connection*)graph->getEdge(i));
+    }
 }
 
 void Connector::unsetConnections(Configuration* configuration){
-	Network* network = configuration->getNetwork();
-	HDAGGraph* graph = network->getGraph();
-	
-	int edges = graph->getNbEdges();
-	
-	for (int i = 0; i < edges; i++){
-		Connection* connection = ((Connection*)graph->getEdge(i));
-		connection->unsetFifo();
-	}
+    Network* network = configuration->getNetwork();
+    HDAGGraph* graph = network->getGraph();
+
+    int edges = graph->getNbEdges();
+
+    for (int i = 0; i < edges; i++){
+        Connection* connection = ((Connection*)graph->getEdge(i));
+        connection->unsetFifo();
+    }
 }
 
 void Connector::connect(Port* port, Fifo* fifo){
-	GlobalVariable* var = port->getFifoVar();
-	
-	if (var == NULL){
-		//Get fifo structure type
-		Type* portStruct = fifo->getGV()->getType();
+    GlobalVariable* var = port->getFifoVar();
 
-		//Return new variable
-		var =  new GlobalVariable(*module, portStruct, true,  GlobalValue::InternalLinkage, /*init*/0, port->getName(), 0, false);;
+    if (var == NULL){
+        //Get fifo structure type
+        Type* portStruct = fifo->getGV()->getType();
 
-		// Store the generated variable
-		port->setFifoVar(var);
-	}
-	
-	// Initialize variable
-	var->setInitializer(fifo->getGV());
+        //Return new variable
+        var =  new GlobalVariable(*module, portStruct, true,  GlobalValue::InternalLinkage, /*init*/0, port->getName(), 0, false);;
+
+        // Store the generated variable
+        port->setFifoVar(var);
+    }
+
+    // Initialize variable
+    var->setInitializer(fifo->getGV());
 }
 
 void Connector::setConnection(Connection* connection){
-	//Source port is choosen as the reference type
-	Port* src = connection->getSourcePort();
-	Port* dst = connection->getDestinationPort();
+    //Source port is choosen as the reference type
+    Port* src = connection->getSourcePort();
+    Port* dst = connection->getDestinationPort();
 
-	//Initialize ports with a new fifo
-	Fifo* fifo = new Fifo(Context, decoder->getModule(), src->getType(), connection->getSize());
-	connect(src, fifo);
-	connect(dst, fifo);
-	
-	// Set the new fifo to the connection
-	connection->setFifo(fifo);
+    //Initialize ports with a new fifo
+    Fifo* fifo = new Fifo(Context, decoder->getModule(), src->getType(), connection->getSize());
+    connect(src, fifo);
+    connect(dst, fifo);
+
+    // Set the new fifo to the connection
+    connection->setFifo(fifo);
 }
 
 void Connector::setConnections(Configuration* configuration, LLVMExecution* executionEngine){
-	Network* network = configuration->getNetwork();
-	HDAGGraph* graph = network->getGraph();
-	
-	int edges = graph->getNbEdges();
-	
-	for (int i = 0; i < edges; i++){
-		setConnection((Connection*)graph->getEdge(i), executionEngine);
-	}
+    Network* network = configuration->getNetwork();
+    HDAGGraph* graph = network->getGraph();
+
+    int edges = graph->getNbEdges();
+
+    for (int i = 0; i < edges; i++){
+        setConnection((Connection*)graph->getEdge(i), executionEngine);
+    }
 }
 
 void Connector::setConnection(Connection* connection, LLVMExecution* executionEngine){
-	setConnection(connection);
-	
-	//Source port is choosen as the reference type
-	executionEngine->mapFifo(connection->getSourcePort(), connection->getFifo());
-	executionEngine->mapFifo(connection->getDestinationPort(), connection->getFifo());
+    setConnection(connection);
+
+    //Source port is choosen as the reference type
+    executionEngine->mapFifo(connection->getSourcePort(), connection->getFifo());
+    executionEngine->mapFifo(connection->getDestinationPort(), connection->getFifo());
 }

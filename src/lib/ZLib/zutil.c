@@ -5,7 +5,7 @@
 
 /* @(#) $Id$ */
 
-#include "Jade/ZLib/zutil.h"
+#include "lib/ZLib/zutil.h"
 
 #ifndef NO_DUMMY_DECL
 struct internal_state      {int dummy;}; /* for buggy compilers */

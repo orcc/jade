@@ -57,11 +57,11 @@
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/Process.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Core/Actor/Procedure.h"
-#include "Jade/RoundRobinScheduler/Fifo.h"
-#include "Jade/Jit/LLVMExecution.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/Actor/Procedure.h"
+#include "lib/RoundRobinScheduler/Fifo.h"
+#include "lib/IRJit//LLVMExecution.h"
 //------------------------------
 
 using namespace llvm;

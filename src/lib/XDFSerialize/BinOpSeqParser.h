@@ -43,8 +43,8 @@
 
 #include "llvm/LLVMContext.h"
 
-#include "Jade/Core/Expression.h"
-#include "Jade/Core/Expr/BinaryOp.h"
+#include "lib/IRCore/Expression.h"
+#include "lib/IRCore/Expr/BinaryOp.h"
 //------------------------------
 
 

@@ -2,6 +2,8 @@ add_definitions(${LLVM_CPP_FLAGS} ${JADE_CPP_FLAGS})
 
 include_directories(${LLVM_INCLUDE_DIRS} ${JADE_MAIN_INCLUDE_DIR})
 
+file(GLOB_RECURSE RVCDecoder_HDRS "${JADE_MAIN_INCLUDE_DIR}/lib/RVCDecoder/*.h")
+
 add_library(RVCDecoder SHARED
 	RVCDecoder.cpp
 	source.c
@@ -12,6 +14,7 @@ add_library(RVCDecoder SHARED
 	orcc_util.c
 	orcc_util.h
 	orcc_types.h
+	${RVCDecoder_HDRS}
  )
 
 # Library required

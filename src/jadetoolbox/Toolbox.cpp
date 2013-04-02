@@ -42,9 +42,9 @@
 #include "llvm/LLVMContext.h"
 #include "llvm/Support/PrettyStackTrace.h"
 
-#include "Jade/XDFSerialize/InstanceIdRemoval.h"
-#include "Jade/Util/OptionMng.h"
-#include "Jade/Util/CompressionMng.h"
+#include "lib/XDFSerialize/InstanceIdRemoval.h"
+#include "lib/IRUtil/OptionMng.h"
+#include "lib/IRUtil/CompressionMng.h"
 #include "llvm/Support/TargetSelect.h"
 
 #include "FilesMng.h"

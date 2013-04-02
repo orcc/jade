@@ -36,9 +36,9 @@
 */
 
 //------------------------------
-#include "Jade/Core/Network.h"
-#include "Jade/Graph/HDAGGraph.h"
-#include "Jade/Graph/DotWriter.h"
+#include "lib/IRCore/Network.h"
+#include "lib/Graph/HDAGGraph.h"
+#include "lib/Graph/DotWriter.h"
 //------------------------------
 
 using namespace std;

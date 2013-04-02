@@ -43,9 +43,9 @@
 #include "llvm/DerivedTypes.h"
 #include "llvm/GlobalVariable.h"
 
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/MoC/SDFMoC.h"
-#include "Jade/Merger/SuperInstance.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/MoC/SDFMoC.h"
+#include "lib/IRMerger/SuperInstance.h"
 //------------------------------
 
 using namespace std;

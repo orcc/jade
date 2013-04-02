@@ -38,9 +38,9 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Serialize/IRUnwriter.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRSerialize/IRUnwriter.h"
 
 #include "llvm/Module.h"
 

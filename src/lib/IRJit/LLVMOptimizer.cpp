@@ -38,8 +38,8 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Decoder.h"
-#include "Jade/Jit/LLVMOptimizer.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRJit//LLVMOptimizer.h"
 
 #include "llvm/LinkAllPasses.h"
 #include "llvm/LinkAllVMCore.h"

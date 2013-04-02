@@ -55,16 +55,16 @@
 #include "CSDFScheduler.h"
 #include "QSDFScheduler.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Actor.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Core/Actor/ActionScheduler.h"
-#include "Jade/Core/Actor/Procedure.h"
-#include "Jade/Core/Variable.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/RoundRobinScheduler/RoundRobinScheduler.h"
-#include "Jade/Util/TraceMng.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Actor.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRCore/Actor/ActionScheduler.h"
+#include "lib/IRCore/Actor/Procedure.h"
+#include "lib/IRCore/Variable.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/RoundRobinScheduler/RoundRobinScheduler.h"
+#include "lib/IRUtil/TraceMng.h"
 //------------------------------
 
 using namespace std;

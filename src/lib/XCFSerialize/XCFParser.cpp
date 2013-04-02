@@ -40,10 +40,10 @@
 
 #include "XCFConstant.h"
 
-#include "Jade/XCFSerialize/XCFParser.h"
+#include "lib/XCFSerialize/XCFParser.h"
 
-#include "Jade/TinyXml/TinyStr.h"
-#include "Jade/TinyXml/TinyXml.h"
+#include "lib/TinyXml/TinyStr.h"
+#include "lib/TinyXml/TinyXml.h"
 //------------------------------
 
 using namespace std;

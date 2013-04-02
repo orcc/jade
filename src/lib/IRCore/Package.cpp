@@ -38,7 +38,7 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Core/Package.h"
+#include "lib/IRCore/Package.h"
 //------------------------------
 
 using namespace std;

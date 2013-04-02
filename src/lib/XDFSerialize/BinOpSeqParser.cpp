@@ -38,7 +38,7 @@
 //------------------------------
 #include "BinOpSeqParser.h"
 
-#include "Jade/Core/Expr/BinaryExpr.h"
+#include "lib/IRCore/Expr/BinaryExpr.h"
 //------------------------------
 using namespace std;
 

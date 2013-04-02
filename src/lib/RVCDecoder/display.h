@@ -40,7 +40,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "Jade/RVCDecoder/RVCDecoder.h"
+#include "lib/RVCDecoder/RVCDecoder.h"
 
 #ifdef __cplusplus
 extern "C" {

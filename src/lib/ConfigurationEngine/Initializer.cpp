@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -46,9 +46,9 @@
 #include "llvm/GlobalVariable.h"
 #include "llvm/Support/IRBuilder.h"
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/Network/Instance.h"
-#include "Jade/Jit/LLVMExecution.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/Network/Instance.h"
+#include "lib/IRJit/LLVMExecution.h"
 //------------------------------
 
 
@@ -56,131 +56,131 @@ using namespace std;
 using namespace llvm;
 
 Initializer::Initializer( LLVMContext& C, Decoder* decoder) : Context(C){
-	this->executionEngine = decoder->getEE();
-	this->decoder = decoder;
+    this->executionEngine = decoder->getEE();
+    this->decoder = decoder;
 
-	createInitializeFn(decoder->getModule());
+    createInitializeFn(decoder->getModule());
 }
 
 Initializer::~Initializer(){
-	if (initFn != NULL){
-		initFn->eraseFromParent();
-	}	
+    if (initFn != NULL){
+        initFn->eraseFromParent();
+    }
 }
 
 void Initializer::initialize(){
-	//Close function
-	ReturnInst::Create(Context, 0, entryBB);
+    //Close function
+    ReturnInst::Create(Context, 0, entryBB);
 
-	executionEngine->runFunction(initFn);
+    executionEngine->runFunction(initFn);
 }
 
 void Initializer::createInitializeFn(Module* module){
-	
-	FunctionType* FTY = FunctionType::get(Type::getVoidTy(Context), (Type*)NULL);
-	initFn = Function::Create(FTY, Function::ExternalLinkage, "init", module);
-	
-	// Add a basic block entry to init.
-	entryBB = BasicBlock::Create(Context, "entry", initFn);
-	
+
+    FunctionType* FTY = FunctionType::get(Type::getVoidTy(Context), (Type*)NULL);
+    initFn = Function::Create(FTY, Function::ExternalLinkage, "init", module);
+
+    // Add a basic block entry to init.
+    entryBB = BasicBlock::Create(Context, "entry", initFn);
+
 }
 
 void Initializer::add(Instance* instance){
-	ActionScheduler* actionScheduler = instance->getActionScheduler();
-	
-	if (actionScheduler->hasFsm()){
-		initializeFSM(actionScheduler->getFsm());
-	}
+    ActionScheduler* actionScheduler = instance->getActionScheduler();
 
-	initializeStateVariables(instance->getStateVars());
+    if (actionScheduler->hasFsm()){
+        initializeFSM(actionScheduler->getFsm());
+    }
+
+    initializeStateVariables(instance->getStateVars());
 }
 
 void Initializer::initializeFSM(FSM* fsm){
-	
-	FSM::State* state = fsm->getInitialState();
-	int stateIndex = state->getIndex();
 
-	GlobalVariable* fsmVar = fsm->getFsmState();
+    FSM::State* state = fsm->getInitialState();
+    int stateIndex = state->getIndex();
 
-	if (executionEngine->isCompiledGV(fsmVar)){
-		int* fsmPtr = (int*)executionEngine->getGVPtr(fsmVar);
-		
-		*fsmPtr = stateIndex;
-	}
+    GlobalVariable* fsmVar = fsm->getFsmState();
+
+    if (executionEngine->isCompiledGV(fsmVar)){
+        int* fsmPtr = (int*)executionEngine->getGVPtr(fsmVar);
+
+        *fsmPtr = stateIndex;
+    }
 }
 
 void Initializer::initializeStateVariables(map<string, StateVar*>* vars){
-	map<string, StateVar*>::iterator it;
+    map<string, StateVar*>::iterator it;
 
-	for (it = vars->begin(); it != vars->end(); ++it){
-		StateVar* var = it->second;
+    for (it = vars->begin(); it != vars->end(); ++it){
+        StateVar* var = it->second;
 
-		if (var->isAssignable() && var->hasInitialValue()){
-			if (executionEngine->isCompiledGV(var->getGlobalVariable())){
-				//Variable has been previously compiled
-				initializeVariable(var);
-			}
-		}
-	}
+        if (var->isAssignable() && var->hasInitialValue()){
+            if (executionEngine->isCompiledGV(var->getGlobalVariable())){
+                //Variable has been previously compiled
+                initializeVariable(var);
+            }
+        }
+    }
 }
 
 void Initializer::initializeParameters(map<string, Variable*>* parameters){
-	map<string, Variable*>::iterator it;
+    map<string, Variable*>::iterator it;
 
-	for (it = parameters->begin(); it != parameters->end(); ++it){
-		Variable* var = it->second;
+    for (it = parameters->begin(); it != parameters->end(); ++it){
+        Variable* var = it->second;
 
-		if (executionEngine->isCompiledGV(var->getGlobalVariable())){
-			//Variable has been previously compiled
-			initializeVariable(var);
-		}
-	}
+        if (executionEngine->isCompiledGV(var->getGlobalVariable())){
+            //Variable has been previously compiled
+            initializeVariable(var);
+        }
+    }
 }
 
 void Initializer::initializeVariable(Variable* var){
-	Expr* initVal = var->getInitialValue();
-	
-	if (initVal->isBooleanExpr()){
-		initializeBoolExpr(var->getGlobalVariable(), (BoolExpr*)initVal);
-	}else if (initVal->isIntExpr()){
-		initializeIntExpr(var->getGlobalVariable(), (IntExpr*)initVal);
-	}else if (initVal->isListExpr()){
-		initializeListExpr(var->getGlobalVariable(), (ListExpr*)initVal);
-	}else{
-		cout<< "Initialize only support initialization of integer. \n";
-		exit(1);
-	}
+    Expr* initVal = var->getInitialValue();
+
+    if (initVal->isBooleanExpr()){
+        initializeBoolExpr(var->getGlobalVariable(), (BoolExpr*)initVal);
+    }else if (initVal->isIntExpr()){
+        initializeIntExpr(var->getGlobalVariable(), (IntExpr*)initVal);
+    }else if (initVal->isListExpr()){
+        initializeListExpr(var->getGlobalVariable(), (ListExpr*)initVal);
+    }else{
+        cout<< "Initialize only support initialization of integer. \n";
+        exit(1);
+    }
 }
 
 void Initializer::initializeIntExpr(GlobalVariable* var, IntExpr* expr){
-	new StoreInst(expr->getConstant(), var, entryBB);
+    new StoreInst(expr->getConstant(), var, entryBB);
 }
 
 void Initializer::initializeBoolExpr(GlobalVariable* var, BoolExpr* expr){
-	new StoreInst(expr->getConstant(), var, entryBB);
+    new StoreInst(expr->getConstant(), var, entryBB);
 }
 
 void Initializer::initializeListExpr(GlobalVariable* var, ListExpr* expr){
-	ConstantArray* constantArray = cast<ConstantArray>(expr->getConstant());
-	const PointerType* ptrType = cast<PointerType>(var->getType());
-	const ArrayType* arraytype = cast<ArrayType>(ptrType->getElementType());
-	
-	uint64_t numElements = arraytype->getNumElements();
+    ConstantArray* constantArray = cast<ConstantArray>(expr->getConstant());
+    const PointerType* ptrType = cast<PointerType>(var->getType());
+    const ArrayType* arraytype = cast<ArrayType>(ptrType->getElementType());
 
-	for (uint64_t elt = 0; elt < numElements; elt++){
-		Constant* Elt = constantArray->getOperand(elt);
+    uint64_t numElements = arraytype->getNumElements();
 
-		if (Elt == NULL){
-			cout<< "Initialization error of array. \n";
-			exit(1);
-		}
+    for (uint64_t elt = 0; elt < numElements; elt++){
+        Constant* Elt = constantArray->getOperand(elt);
 
-		Value *Idxs[2];
-		Idxs[0] = ConstantInt::get(Context, APInt(32, 0));
-		Idxs[1] = ConstantInt::get(Context, APInt(32, elt));
-		
-		GetElementPtrInst* getInst = GetElementPtrInst::Create(var, Idxs, "", entryBB);
-			
-		new StoreInst( Elt, getInst, entryBB);
-	}
+        if (Elt == NULL){
+            cout<< "Initialization error of array. \n";
+            exit(1);
+        }
+
+        Value *Idxs[2];
+        Idxs[0] = ConstantInt::get(Context, APInt(32, 0));
+        Idxs[1] = ConstantInt::get(Context, APInt(32, elt));
+
+        GetElementPtrInst* getInst = GetElementPtrInst::Create(var, Idxs, "", entryBB);
+
+        new StoreInst( Elt, getInst, entryBB);
+    }
 }

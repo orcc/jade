@@ -42,10 +42,10 @@
 #include "llvm/Constants.h"
 
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Jit/LLVMExecution.h"
-#include "Jade/Serialize/IRLinker.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRJit//LLVMExecution.h"
+#include "lib/IRSerialize/IRLinker.h"
 
 #include "IRConstant.h"
 //------------------------------

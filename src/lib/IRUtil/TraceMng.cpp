@@ -43,11 +43,11 @@
 #include "llvm/Instructions.h"
 #include "llvm/Module.h"
 
-#include "Jade/Core/Port.h"
-#include "Jade/Core/StateVariable.h"
-#include "Jade/Core/Actor/Action.h"
-#include "Jade/Util/FunctionMng.h"
-#include "Jade/Util/TraceMng.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/StateVariable.h"
+#include "lib/IRCore/Actor/Action.h"
+#include "lib/IRUtil/FunctionMng.h"
+#include "lib/IRUtil/TraceMng.h"
 //------------------------------
 
 using namespace llvm;

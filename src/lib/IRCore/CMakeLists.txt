@@ -2,6 +2,8 @@ add_definitions(${LLVM_CPP_FLAGS} ${JADE_CPP_FLAGS})
 
 include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS})
 
+file(GLOB_RECURSE IRCore_HDRS "${JADE_MAIN_INCLUDE_DIR}/lib/IRCore/*.h")
+
 add_library (IRCore
 	Action.cpp 
 	ActionScheduler.cpp 
@@ -16,6 +18,7 @@ add_library (IRCore
 	Pattern.cpp
 	Port.cpp
 	Procedure.cpp
+	${IRCore_HDRS}
  )
  
 if(UNIX)

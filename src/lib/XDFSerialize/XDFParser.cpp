@@ -37,8 +37,8 @@
 
 //------------------------------
 #include "NetworkParser.h"
-#include "Jade/XDFSerialize/XDFParser.h"
-#include "Jade/Util/CompressionMng.h"
+#include "lib/XDFSerialize/XDFParser.h"
+#include "lib/IRUtil/CompressionMng.h"
 //------------------------------
 
 using namespace std;

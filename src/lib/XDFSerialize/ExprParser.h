@@ -39,9 +39,9 @@
 #define EXPRPARSER_H
 
 #include <stdio.h>
-#include "Jade/Core/Expression.h"
-#include "Jade/Core/Expr/BinaryOp.h"
-#include "Jade/TinyXml/TinyXml.h"
+#include "lib/IRCore/Expression.h"
+#include "lib/IRCore/Expr/BinaryOp.h"
+#include "lib/TinyXml/TinyXml.h"
 
 #include "XDFConstant.h"
 #include "ParseContinuation.h"

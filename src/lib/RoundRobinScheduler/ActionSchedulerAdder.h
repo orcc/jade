@@ -41,7 +41,7 @@
 
 #include <list>
 #include <map>
-#include "Jade/Core/Actor/FSM.h"
+#include "lib/IRCore/Actor/FSM.h"
 
 namespace llvm{
 	class BasicBlock;

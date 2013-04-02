@@ -45,11 +45,11 @@
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/PassSupport.h"
 
-#include "Jade/XDFSerialize/XDFParser.h"
-#include "Jade/Jit/LLVMExecution.h"
-#include "Jade/Jit/LLVMOptimizer.h"
-#include "Jade/Jit/LLVMUtility.h"
-#include "Jade/RVCEngine.h"
+#include "lib/XDFSerialize/XDFParser.h"
+#include "lib/IRJit//LLVMExecution.h"
+#include "lib/IRJit//LLVMOptimizer.h"
+#include "lib/IRJit//LLVMUtility.h"
+#include "lib/RVCEngine/RVCEngine.h"
 
 #include "source.h"
 #include "display.h"
@@ -90,7 +90,7 @@ Decoder* decoder;
 extern "C" {
 #endif
 
-#include "Jade/RVCDecoder/RVCDecoder.h"
+#include "lib/RVCDecoder/RVCDecoder.h"
 #include "source.h"
 
 

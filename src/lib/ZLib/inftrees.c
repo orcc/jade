@@ -3,8 +3,8 @@
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#include "Jade/ZLib/zutil.h"
-#include "Jade/ZLib/inftrees.h"
+#include "lib/ZLib/zutil.h"
+#include "lib/ZLib/inftrees.h"
 
 #define MAXBITS 15
 

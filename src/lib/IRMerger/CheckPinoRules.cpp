@@ -40,7 +40,7 @@
 
 #include "CheckPinoRules.h"
 
-#include "Jade/Core/Network.h"
+#include "lib/IRCore/Network.h"
 //------------------------------
 
 using namespace std;

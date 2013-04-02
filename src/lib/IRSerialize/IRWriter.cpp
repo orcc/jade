@@ -38,16 +38,16 @@
 //------------------------------
 #include <iostream>
 
-#include "Jade/Decoder.h"
-#include "Jade/Core/Port.h"
-#include "Jade/Core/MoC/CSDFMoC.h"
-#include "Jade/Core/MoC/SDFMoC.h"
-#include "Jade/Core/MoC/QSDFMoC.h"
-#include "Jade/Core/MoC/DPNMoC.h"
-#include "Jade/Core/MoC/KPNMoC.h"
-#include "Jade/Jit/LLVMWriter.h"
-#include "Jade/Serialize/IRWriter.h"
-#include "Jade/Util/FunctionMng.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/MoC/CSDFMoC.h"
+#include "lib/IRCore/MoC/SDFMoC.h"
+#include "lib/IRCore/MoC/QSDFMoC.h"
+#include "lib/IRCore/MoC/DPNMoC.h"
+#include "lib/IRCore/MoC/KPNMoC.h"
+#include "lib/IRJit//LLVMWriter.h"
+#include "lib/IRSerialize/IRWriter.h"
+#include "lib/IRUtil/FunctionMng.h"
 
 #include "llvm/Module.h"
 

@@ -36,8 +36,8 @@
 */
 
 //------------------------------
-#include "Jade/Core/Port.h"
-#include "Jade/Core/Network/Connection.h"
+#include "lib/IRCore/Port.h"
+#include "lib/IRCore/Network/Connection.h"
 //------------------------------
 
 using namespace std;

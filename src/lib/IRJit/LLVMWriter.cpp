@@ -36,8 +36,8 @@
 */
 
 //------------------------------
-#include "Jade/Decoder.h"
-#include "Jade/Jit/LLVMWriter.h"
+#include "lib/RVCEngine/Decoder.h"
+#include "lib/IRJit//LLVMWriter.h"
 
 #include "llvm/Constants.h"
 #include "llvm/Instructions.h"

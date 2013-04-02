@@ -41,15 +41,15 @@
 #include "llvm/LLVMContext.h"
 
 #include "XDFConstant.h"
-#include "Jade/XDFSerialize/XDFWriter.h"
-#include "Jade/Core/Attribute/ValueAttribute.h"
-#include "Jade/Core/Attribute/TypeAttribute.h"
-#include "Jade/Core/Type/IntType.h"
-#include "Jade/Core/Type/UIntType.h"
-#include "Jade/Core/Expr/IntExpr.h"
-#include "Jade/Core/Expr/BoolExpr.h"
-#include "Jade/Core/Expr/StringExpr.h"
-#include "Jade/Core/Expr/ListExpr.h"
+#include "lib/XDFSerialize/XDFWriter.h"
+#include "lib/IRCore/Attribute/ValueAttribute.h"
+#include "lib/IRCore/Attribute/TypeAttribute.h"
+#include "lib/IRCore/Type/IntType.h"
+#include "lib/IRCore/Type/UIntType.h"
+#include "lib/IRCore/Expr/IntExpr.h"
+#include "lib/IRCore/Expr/BoolExpr.h"
+#include "lib/IRCore/Expr/StringExpr.h"
+#include "lib/IRCore/Expr/ListExpr.h"
 //------------------------------
 
 using namespace std;

@@ -40,17 +40,17 @@
 
 #include "llvm/Support/CommandLine.h"
 
-#include "Jade/RVCEngine.h"
-#include "Jade/XDFSerialize/XDFParser.h"
-#include "Jade/Scenario/Manager.h"
-#include "Jade/Scenario/Event/LoadEvent.h"
-#include "Jade/Scenario/Event/StartEvent.h"
-#include "Jade/Scenario/Event/StopEvent.h"
-#include "Jade/Scenario/Event/SetEvent.h"
-#include "Jade/Scenario/Event/WaitEvent.h"
-#include "Jade/Scenario/Event/PauseEvent.h"
-#include "Jade/Scenario/Event/PrintEvent.h"
-#include "Jade/Scenario/Event/VerifyEvent.h"
+#include "lib/RVCEngine/RVCEngine.h"
+#include "lib/XDFSerialize/XDFParser.h"
+#include "lib/Scenario/Manager.h"
+#include "lib/Scenario/Event/LoadEvent.h"
+#include "lib/Scenario/Event/StartEvent.h"
+#include "lib/Scenario/Event/StopEvent.h"
+#include "lib/Scenario/Event/SetEvent.h"
+#include "lib/Scenario/Event/WaitEvent.h"
+#include "lib/Scenario/Event/PauseEvent.h"
+#include "lib/Scenario/Event/PrintEvent.h"
+#include "lib/Scenario/Event/VerifyEvent.h"
 
 #include "Console.h"
 //------------------------------

@@ -36,9 +36,9 @@
 */
 
 //------------------------------
-#include "Jade/Core/Actor/Action.h"
-#include "Jade/Core/Actor/ActionTag.h"
-#include "Jade/Core/Actor/Procedure.h"
+#include "lib/IRCore/Actor/Action.h"
+#include "lib/IRCore/Actor/ActionTag.h"
+#include "lib/IRCore/Actor/Procedure.h"
 //------------------------------
 
 using namespace std;

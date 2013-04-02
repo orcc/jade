@@ -40,7 +40,7 @@
 #define SCENARIO_H
 #include <list>
 
-#include "Jade/Scenario/Event.h"
+#include "lib/Scenario/Event.h"
 //------------------------------
 
 /**

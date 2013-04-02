@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "Jade/Util/CompressionMng.h"
+#include "lib/IRUtil/CompressionMng.h"
 
 #include "llvm/Support/Signals.h"
 

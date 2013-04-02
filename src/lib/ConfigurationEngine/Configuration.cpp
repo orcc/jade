@@ -38,10 +38,10 @@
 //------------------------------
 #include "Instantiator.h"
 
-#include "Jade/Configuration/Configuration.h"
-#include "Jade/Core/Network.h"
-#include "Jade/Graph/HDAGGraph.h"
-#include "Jade/Util/PackageMng.h"
+#include "lib/ConfigurationEngine/Configuration.h"
+#include "lib/IRCore/Network.h"
+#include "lib/Graph/HDAGGraph.h"
+#include "lib/IRUtil/PackageMng.h"
 //------------------------------
 
 using namespace std;

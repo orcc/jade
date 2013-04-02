@@ -42,12 +42,12 @@
 #include "llvm/LLVMContext.h"
 #include "llvm/DerivedTypes.h"
 
-#include "Jade/Core/Entry/ExprEntry.h"
-#include "Jade/Core/Entry/TypeEntry.h"
-#include "Jade/Core/Expr/IntExpr.h"
-#include "Jade/Core/Type/BoolType.h"
-#include "Jade/Core/Type/IntType.h"
-#include "Jade/Core/Type/UIntType.h"
+#include "lib/IRCore/Entry/ExprEntry.h"
+#include "lib/IRCore/Entry/TypeEntry.h"
+#include "lib/IRCore/Expr/IntExpr.h"
+#include "lib/IRCore/Type/BoolType.h"
+#include "lib/IRCore/Type/IntType.h"
+#include "lib/IRCore/Type/UIntType.h"
 
 #include "TypeParser.h"
 //------------------------------
