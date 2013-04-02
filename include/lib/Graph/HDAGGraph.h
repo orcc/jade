@@ -1,5 +1,5 @@
 /*********************************************************
-Copyright or � or Copr. IETR/INSA: Maxime Pelcat
+Copyright or © or Copr. IETR/INSA: Maxime Pelcat
 
 Contact mpelcat for more information:
 mpelcat@insa-rennes.fr

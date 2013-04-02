@@ -55,7 +55,7 @@
  * translates expressions such as "e(1) op(1) e(2) ... op(n-1) e(n)" to a binary
  * expression tree with respect to operator precedence.
  * 
- * @author Jérôme Gorin
+ * @author JÃ©rÃ´me Gorin
  * 
  */
 class BinOpSeqParser {

@@ -29,7 +29,7 @@
 
 /**
 @brief Implementation of XDF file keyword
-@author Jérôme Gorin
+@author JÃ©rÃ´me Gorin
 @file XCFConstant.cpp
 @version 1.0
 @date 31/03/2011
