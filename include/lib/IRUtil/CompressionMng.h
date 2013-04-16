@@ -75,7 +75,7 @@ public:
     /**
      * @brief Uncompress the GZip file given.
      *
-     *  The original file is remove
+     * The original file is removed
      *
      * @param file : name of the file
      *
@@ -93,9 +93,8 @@ public:
      *
      */
     static bool IsGZipFile(std::string file) {
-        llvm::sys::Path GZipFile(file + ".gz");
-        return GZipFile.exists();
-    };
+        return llvm::sys::fs::exists(file + ".gz");
+    }
 
     /**
      * @brief See if the file name given contain the GZip extension.

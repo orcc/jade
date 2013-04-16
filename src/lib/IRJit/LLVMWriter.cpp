@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -48,36 +48,36 @@ using namespace std;
 using namespace llvm;
 
 LLVMWriter::LLVMWriter(string prefix, Decoder* decoder){
-	this->decoder = decoder;
-	this->module = decoder->getModule();
-	this->prefix = prefix;
-	this->fifoFns = decoder->getFifoFn();
-	void createInstrisics();
-	
+    this->decoder = decoder;
+    this->module = decoder->getModule();
+    this->prefix = prefix;
+    this->fifoFns = decoder->getFifoFn();
+    void createInstrisics();
+
 }
 
 GlobalVariable* LLVMWriter::createVariable(GlobalVariable* variable){
-	GlobalVariable* var = addVariable(variable);
-	LinkGlobalInits(variable);
+    GlobalVariable* var = addVariable(variable);
+    LinkGlobalInits(variable);
 
-	return var;
+    return var;
 }
 
 GlobalVariable* LLVMWriter::createPortVariable(Port* port){
-	GlobalVariable* portVar = port->getFifoVar();
+    GlobalVariable* portVar = port->getFifoVar();
 
-	GlobalVariable *newPortVar =  new GlobalVariable(*module, portVar->getType(),
+    GlobalVariable *newPortVar =  new GlobalVariable(*module, portVar->getType(),
                           true, portVar->getLinkage(), ConstantPointerNull::get(portVar->getType()),
                            prefix + portVar->getName(), 0, false);
 
-	return newPortVar;
+    return newPortVar;
 }
 
 GlobalVariable* LLVMWriter::addVariable(llvm::GlobalVariable* variable){
-	string Err;
-	const GlobalVariable *SGV = variable;
-	Module *Dest = module;
-	
+    string Err;
+    const GlobalVariable *SGV = variable;
+    Module *Dest = module;
+
       // No linking to be performed, simply create an identical version of the
       // symbol over in the dest module... the initializer will be filled in
       // later by LinkGlobalInits.
@@ -96,90 +96,90 @@ GlobalVariable* LLVMWriter::addVariable(llvm::GlobalVariable* variable){
 }
 
 bool LLVMWriter::LinkGlobalInits(llvm::GlobalVariable* variable){
-	string Error;
-    
-	GlobalVariable *GV = cast<GlobalVariable>(ValueMap[variable]);
-    
-	if (variable->hasInitializer())
+    string Error;
+
+    GlobalVariable *GV = cast<GlobalVariable>(ValueMap[variable]);
+
+    if (variable->hasInitializer())
       GV->setInitializer(cast<Constant>(MapValue(variable->getInitializer(),
                                                  ValueMap)));
     GV->setLinkage(variable->getLinkage());
     GV->setThreadLocal(variable->isThreadLocal());
     GV->setConstant(variable->isConstant());
 
-	return true;
+    return true;
 }
 
 /// CopyGVAttributes - copy additional attributes (those not needed to construct
 /// a GlobalValue) from the SrcGV to the DestGV.
 void LLVMWriter::CopyGVAttributes(GlobalValue *DestGV, const GlobalValue *SrcGV) {
-  
-	// Use the maximum alignment, rather than just copying the alignment of SrcGV.
+
+    // Use the maximum alignment, rather than just copying the alignment of SrcGV.
   unsigned Alignment = std::max(DestGV->getAlignment(), SrcGV->getAlignment());
   DestGV->copyAttributesFrom(SrcGV);
   DestGV->setAlignment(Alignment);
 }
 
 Function* LLVMWriter::createFunction(Function* function){
-	Function* newFunction = (Function*)addFunctionProtosInternal(function);
-	linkProcedureBody(function);
+    Function* newFunction = (Function*)addFunctionProtosInternal(function);
+    linkProcedureBody(function);
 
-	return newFunction;
+    return newFunction;
 }
 
 Function* LLVMWriter::addFunctionProtosInternal(const Function* function){
     const Function *SF = function;   // SrcFunction
-	Module* Dest = module;
-	std::string Err;
+    Module* Dest = module;
+    std::string Err;
 
-	Function *NF =
+    Function *NF =
       Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
                        GlobalValue::InternalLinkage,  prefix + SF->getName(), Dest);
     NF->copyAttributesFrom(SF);
-	ValueMap[SF] = NF;
+    ValueMap[SF] = NF;
 
     return NF;
 }
 
 Function* LLVMWriter::addFunctionProtosExternal(const Function* function){
     const Function *SF = function;   // SrcFunction
-	Module* Dest = module;
-	std::string Err;
-	
-	Function *NF =
-	Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
-					 GlobalValue::ExternalLinkage, SF->getName(), Dest);
+    Module* Dest = module;
+    std::string Err;
+
+    Function *NF =
+    Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
+                     GlobalValue::ExternalLinkage, SF->getName(), Dest);
     NF->copyAttributesFrom(SF);
-	ValueMap[SF] = NF;
-	
-	return NF;
+    ValueMap[SF] = NF;
+
+    return NF;
 }
 
 void LLVMWriter::linkExternalFunction(Function* srcFunction, Function* dstFunction){
-	ValueMap[srcFunction] = dstFunction;
+    ValueMap[srcFunction] = dstFunction;
 
 }
 
 
 bool LLVMWriter::linkProcedureBody(Function* function){
-	Function *F = cast<Function>(ValueMap[function]);
-	if (!function->isDeclaration()) {
-		Function::arg_iterator DestI = F->arg_begin();
-		for (Function::const_arg_iterator J = function->arg_begin(); J != function->arg_end();
-			++J) {
-			DestI->setName(J->getName());
-			ValueMap[J] = DestI++;
-		}
-	
-		SmallVector<ReturnInst*, 8> Returns;  // Ignore returns cloned.
+    Function *F = cast<Function>(ValueMap[function]);
+    if (!function->isDeclaration()) {
+        Function::arg_iterator DestI = F->arg_begin();
+        for (Function::const_arg_iterator J = function->arg_begin(); J != function->arg_end();
+            ++J) {
+            DestI->setName(J->getName());
+            ValueMap[J] = DestI++;
+        }
 
-		linkFunctionBody(F, function, ValueMap, /*ModuleLevelChanges=*/true, Returns/*,  decoder->getFifo()*/);
+        SmallVector<ReturnInst*, 8> Returns;  // Ignore returns cloned.
 
-	}
+        linkFunctionBody(F, function, ValueMap, /*ModuleLevelChanges=*/true, Returns/*,  decoder->getFifo()*/);
 
-	F->setLinkage(function->getLinkage());
+    }
 
-	return true;	
+    F->setLinkage(function->getLinkage());
+
+    return true;
 }
 
 void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
@@ -192,7 +192,7 @@ void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
     NewFunc->copyAttributesFrom(OldFunc);
   else {
     //Some arguments were deleted with the VMap. Copy arguments one by one
-    for (Function::const_arg_iterator I = OldFunc->arg_begin(), 
+    for (Function::const_arg_iterator I = OldFunc->arg_begin(),
            E = OldFunc->arg_end(); I != E; ++I)
       if (Argument* Anew = dyn_cast<Argument>(VMap[I]))
         Anew->addAttr( OldFunc->getAttributes()
@@ -233,6 +233,5 @@ void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
 }
 
 bool LLVMWriter::addType(string name, StructType* type){
-	Module* module = decoder->getModule();
-	return StructType::create(name, type);
+    return StructType::create(name, type);
 }

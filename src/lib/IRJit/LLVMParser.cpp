@@ -126,25 +126,24 @@ void LLVMParser::openArchive(Package* package){
 
     //Get archive file name
     string archiveName = PackageMng::getFirstFolder(package->getDirectory()) + ".a";
-    sys::Path archiveFile(directory + archiveName);
+    string archivePath(directory + archiveName);
 
     //If useful, uncompress archive
-    if(CompressionMng::IsGZipFile(archiveFile.c_str())){
-        string GZipFile = archiveFile.str() + ".gz";
-        CompressionMng::uncompressGZip(GZipFile);
+    if(CompressionMng::IsGZipFile(archivePath)){
+        CompressionMng::uncompressGZip(archivePath + ".gz");
     }
 
     //Check if archive exists
-    if(!archiveFile.exists()){
+    if(!llvm::sys::fs::exists(archivePath)){
         cerr <<"Package system not found";
         exit(1);
     }
 
     //Load archive
-    package->setArchive(Archive::OpenAndLoad(archiveFile, Context, &Error));
+    package->setArchive(Archive::OpenAndLoad(llvm::sys::Path(archivePath), Context, &Error));
 
     if (Error != ""){
-        cerr <<"Error when open archive "<< archiveFile.c_str();
+        cerr <<"Error when open archive "<< archivePath.c_str();
     }
 
     //Set archive on all parents of package
