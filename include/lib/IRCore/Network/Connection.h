@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -50,9 +50,9 @@
 #include "lib/Graph/HDAGEdge.h"
 
 namespace llvm{
-	class Constant;
-	class IntegerType;
-	class GlobalVariable;
+    class Constant;
+    class IntegerType;
+    class GlobalVariable;
 }
 
 class Expr;
@@ -73,119 +73,119 @@ class Vertex;
 class Connection : public HDAGEdge {
 
 public:
-	/**
+    /**
      *  @brief Constructor
      *
-	 * Creates a connection from source port to target port with the given
-	 * attributes.
-	 *
-	 * @param source : source port
-	 *
-	 * @param target : target port
-	 *
-	 * @param parameters : map of Attr that contains actor parameters
-	 *
-     */
-	Connection (HDAGGraph* graph, Vertex* source, Port* srcPort, Vertex* target, Port* tgtPort, std::map<std::string, IRAttribute*>* attributes);
-
-	~Connection ();
-
-	/*!
-     *  @brief Getter of the source port
+     * Creates a connection from source port to target port with the given
+     * attributes.
      *
-	 *  @return source port.
+     * @param source : source port
+     *
+     * @param target : target port
+     *
+     * @param parameters : map of Attr that contains actor parameters
      *
      */
-	Port* getSourcePort(){return srcPort;};
+    Connection (HDAGGraph* graph, Vertex* source, Port* srcPort, Vertex* target, Port* tgtPort, std::map<std::string, IRAttribute*>* attributes);
+
+    ~Connection ();
 
     /*!
      *  @brief Getter of the source port
      *
-	 *  @return source port.
+     *  @return source port.
      *
      */
-	void getSourcePort(Port* source){this->srcPort = source;};
+    Port* getSourcePort(){return srcPort;};
 
-	/*!
+    /*!
+     *  @brief Getter of the source port
+     *
+     *  @return source port.
+     *
+     */
+    void getSourcePort(Port* source){this->srcPort = source;};
+
+    /*!
      *  @brief Getter of the destination port
      *
-	 *  @return destination port.
+     *  @return destination port.
      *
      */
-	Port* getDestinationPort(){return tgtPort;};
+    Port* getDestinationPort(){return tgtPort;};
 
 
-	/*!
+    /*!
      *  @brief Setter of the destination port
      *
-	 *  @param target: the destination Port.
+     *  @param target: the destination Port.
      */
-	void setDestinationPort(Port* target){this->tgtPort = target;};
+    void setDestinationPort(Port* target){this->tgtPort = target;};
 
-	/*!
+    /*!
      *  @brief Setter of the source port
      *
-	 *  @param source: the source Port.
+     *  @param source: the source Port.
      */
-	void setSourcePort(Port* source){this->srcPort = source;};
+    void setSourcePort(Port* source){this->srcPort = source;};
 
 
-	/*!
+    /*!
      *  @brief Getter of attributes
      *
-	 *  @return a map of Attribute.
+     *  @return a map of Attribute.
      *
      */
-	std::map<std::string, IRAttribute*>* getAttributes(){return attributes;};
+    std::map<std::string, IRAttribute*>* getAttributes(){return attributes;};
 
-	/*!
+    /*!
      *  @brief Get size of the connection
      *
-	 *  @return an integer representing the size of the connection.
+     *  @return an integer representing the size of the connection.
      *
      */
-	int getSize();
+    int getSize();
 
-	/*!
+    /*!
      *  @brief Get fifo bound to the connection
      *
-	 *  @return a llvm::GlobalVariable representing the fifo of the connection
+     *  @return a llvm::GlobalVariable representing the fifo of the connection
      *
      */
-	Fifo* getFifo(){return fifo;};
+    Fifo* getFifo(){return fifo;};
 
-	/*!
+    /*!
      *  @brief Get fifo bound to the connection
      *
-	 *  @return a llvm::GlobalVariable representing the fifo of the connection
+     *  @return a llvm::GlobalVariable representing the fifo of the connection
      *
      */
-	void setFifo(Fifo* fifo){this->fifo = fifo;};
+    void setFifo(Fifo* fifo){this->fifo = fifo;};
 
-	 /*!
-	 *  @brief unset the fifo bound to the connection
+     /*!
+     *  @brief unset the fifo bound to the connection
      *
      */
-	 void unsetFifo();
+     void unsetFifo();
 
-	 /**
-	 * @brief  return an attribute
-	 *
-	 * Returns the IRAttribute associated with the given name.
-	 * 
-	 * @param name : an attribute name
-	 * @return the attribute associated with the given name, or if not found, NULL
-	 */
-	 IRAttribute* getAttribute(std::string name);
+     /**
+     * @brief  return an attribute
+     *
+     * Returns the IRAttribute associated with the given name.
+     *
+     * @param name : an attribute name
+     * @return the attribute associated with the given name, or if not found, NULL
+     */
+     IRAttribute* getAttribute(std::string name);
 
 private:
-	std::map<std::string, IRAttribute*>* attributes;	/** Map of attributes */
-	Vertex* source;             /** Source vertex */
-	Vertex* target;				/** Target vertex */
-	Port* srcPort;				/** Source Port */
-	Port* tgtPort;				/** Destination Port */
-	Fifo* fifo;			    /** Fifo of the connection */
-	HDAGGraph* parent;          /** Graph of this connection */
+    std::map<std::string, IRAttribute*>* attributes;	/** Map of attributes */
+    Vertex* source;             /** Source vertex */
+    Vertex* target;				/** Target vertex */
+    Port* srcPort;				/** Source Port */
+    Port* tgtPort;				/** Destination Port */
+    Fifo* fifo;			    /** Fifo of the connection */
+    HDAGGraph* parent;          /** Graph of this connection */
 };
 
 #endif

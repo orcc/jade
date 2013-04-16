@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,8 +44,8 @@
 #include <string>
 
 namespace llvm {
-	class Function;
-	class GlobalVariable;
+    class Function;
+    class GlobalVariable;
 }
 
 class Action;
@@ -55,314 +55,314 @@ class Action;
  * @class FSM
  *
  * @brief  This class defines a Finite State Machine (FSM)
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class FSM {
 public:
-	/**
+    /**
      *  @brief Constructor
      *
-	 *	Creates a new FSM.
+     *	Creates a new FSM.
      */
-	FSM(){
-		index = 0;
-		functions = NULL;
-		fsm_state = NULL;
-		outFsm = NULL;
-	};
+    FSM(){
+        index = 0;
+        functions = NULL;
+        fsm_state = NULL;
+        outFsm = NULL;
+    };
 
-	~FSM();
+    ~FSM();
 
-	/**
+    /**
      *  @brief Set functions used by the fsm
-	 *
-	 *	@param function : llvm::Function used by the fsm
+     *
+     *	@param function : llvm::Function used by the fsm
      */
-	void setFunctions(std::list<llvm::Function*>* functions){
-		this->functions = functions;
-	};
+    void setFunctions(std::list<llvm::Function*>* functions){
+        this->functions = functions;
+    };
 
-	/**
+    /**
      *  @brief Get functions used by the fsm
-	 *
-	 *	@return a list of llvm::Function used by the fsm
+     *
+     *	@return a list of llvm::Function used by the fsm
      */
-	std::list<llvm::Function*>* getFunctions(){ return functions;}
+    std::list<llvm::Function*>* getFunctions(){ return functions;}
 
 
-	/**
+    /**
      *  @brief Set fsm_state used by the fsm
-	 *
-	 *  Set the llvm::GlobalVariable fsm_state used to manage fsm in llvm
-	 *
-	 *	@param function : llvm::Function used by the fsm
+     *
+     *  Set the llvm::GlobalVariable fsm_state used to manage fsm in llvm
+     *
+     *	@param function : llvm::Function used by the fsm
      */
-	void setFsmState(llvm::GlobalVariable* fsm_state){
-		this->fsm_state = fsm_state;
-	};
+    void setFsmState(llvm::GlobalVariable* fsm_state){
+        this->fsm_state = fsm_state;
+    };
 
-	/**
+    /**
      *  @brief Set outside_fsm function used by the fsm
-	 *
-	 *  Set the llvm::Function outside_fsm used to manage actions outside the fsm.
-	 *   This function is set to null when no actions are outside the fsm.
-	 *
-	 *	@param function : llvm::Function used by the fsm
+     *
+     *  Set the llvm::Function outside_fsm used to manage actions outside the fsm.
+     *   This function is set to null when no actions are outside the fsm.
+     *
+     *	@param function : llvm::Function used by the fsm
      */
-	void setOutFsmFn(llvm::Function* outFsm){
-		this->outFsm = outFsm;
-	};
+    void setOutFsmFn(llvm::Function* outFsm){
+        this->outFsm = outFsm;
+    };
 
-	/**
+    /**
      *  @brief Return true if fms has an outside_fsm function
-	 *
-	 *  Return Tree if actions from the actor are outside this fsm, 
-	 *    otherwise return False
-	 *
-	 *	@return true if exist an outside_fsm function, otherwise False
+     *
+     *  Return Tree if actions from the actor are outside this fsm,
+     *    otherwise return False
+     *
+     *	@return true if exist an outside_fsm function, otherwise False
      */
-	bool hasOutFsmFn(){ return outFsm != NULL;}
+    bool hasOutFsmFn(){ return outFsm != NULL;}
 
-	/**
+    /**
      *  @brief Get outside_fsm function used by the fsm
-	 *
-	 *  Get the llvm::Function outside_fsm used to manage actions outside the fsm in llvm
-	 *
-	 *	@return llvm::Function corresponding to outside_fsm
+     *
+     *  Get the llvm::Function outside_fsm used to manage actions outside the fsm in llvm
+     *
+     *	@return llvm::Function corresponding to outside_fsm
      */
-	llvm::Function* getOutFsmFn(){ return outFsm;}
+    llvm::Function* getOutFsmFn(){ return outFsm;}
 
-	/**
+    /**
      *  @brief Get fsm_state used by the fsm
-	 *
-	 *  Get the llvm::GlobalVariable fsm_state used to manage fsm in llvm
-	 *
-	 *	@return llvm::GlobalVariable corresponding to fsm_state
+     *
+     *  Get the llvm::GlobalVariable fsm_state used to manage fsm in llvm
+     *
+     *	@return llvm::GlobalVariable corresponding to fsm_state
      */
-	llvm::GlobalVariable* getFsmState(){ return fsm_state;}
-	
+    llvm::GlobalVariable* getFsmState(){ return fsm_state;}
+
 
 public:
-	/**
-	* @class State
-	*
-	* @brief  This class defines an internal State of the class FSM
-	* 
-	* @author Jerome Gorin
-	*/
-	class State {			
-	public:
-		/**
-		 * @brief Creates a new state
-		 *
-		 * Creates a new state with the given name and index.
-		 * 
-		 * @param name : string name of the state
-		 * @param index : index of the state
-		 */
-		State(std::string name, int index){
-			this->index = index;
-			this->name = name;
-		}
+    /**
+    * @class State
+    *
+    * @brief  This class defines an internal State of the class FSM
+    *
+    * @author Jerome Gorin
+    */
+    class State {
+    public:
+        /**
+         * @brief Creates a new state
+         *
+         * Creates a new state with the given name and index.
+         *
+         * @param name : string name of the state
+         * @param index : index of the state
+         */
+        State(std::string name, int index){
+            this->index = index;
+            this->name = name;
+        }
 
-		/**
-		 * @brief Returns the index of this state.
-		 * 
-		 * @return the index of this state
-		 */
-		int getIndex() {
-			return index;
-		}
+        /**
+         * @brief Returns the index of this state.
+         *
+         * @return the index of this state
+         */
+        int getIndex() {
+            return index;
+        }
 
-		/**
-		 * @brief Returns the name of this state.
-		 * 
-		 * @return the name of this state
-		 */
-		std::string getName() {
-			return name;
-		}
-		
-	private:
-		/** index of the state */
-		int index;
+        /**
+         * @brief Returns the name of this state.
+         *
+         * @return the name of this state
+         */
+        std::string getName() {
+            return name;
+        }
 
-		/** name of the state */
-		std::string name;
+    private:
+        /** index of the state */
+        int index;
 
-	};
-	
-	/**
-	* @class NextStateInfo
-	*
-	* @brief  This class gives information about the next State of the FSM
-	* 
-	* @author Jerome Gorin
-	*/
-	class NextStateInfo{
-	public:
-		NextStateInfo(Action* action, State* state){
-			this->action = action;
-			this->targetState = state;
+        /** name of the state */
+        std::string name;
 
-		};
+    };
 
-		Action* getAction(){return action;};
+    /**
+    * @class NextStateInfo
+    *
+    * @brief  This class gives information about the next State of the FSM
+    *
+    * @author Jerome Gorin
+    */
+    class NextStateInfo{
+    public:
+        NextStateInfo(Action* action, State* state){
+            this->action = action;
+            this->targetState = state;
 
-		State* getTargetState(){return targetState;};
-	private:
-		Action* action;
+        };
 
-		State* targetState;
-	};
+        Action* getAction(){return action;};
 
-	public:
-	
-		class Transition {
-		public:
-			/**
-			 * @brief Create a transition
-			 *
-			 * Creates a transition from a source state.
-			 * 
-			 * @param sourceState : source State
-			 */
-			Transition(State* state)
-			{
-				this->sourceState = state;
-			};
+        State* getTargetState(){return targetState;};
+    private:
+        Action* action;
 
-			State* getSourceState() {
-				return sourceState;
-			}
+        State* targetState;
+    };
 
-			std::list<NextStateInfo*>* getNextStateInfo() {
-				return &nextStateInfo;
-			}
+    public:
 
-		private:
-			/** next state of the transition */
-			std::list<NextStateInfo*> nextStateInfo;
+        class Transition {
+        public:
+            /**
+             * @brief Create a transition
+             *
+             * Creates a transition from a source state.
+             *
+             * @param sourceState : source State
+             */
+            Transition(State* state)
+            {
+                this->sourceState = state;
+            };
 
-			/** source state */
-			State* sourceState;
+            State* getSourceState() {
+                return sourceState;
+            }
 
-		};
+            std::list<NextStateInfo*>* getNextStateInfo() {
+                return &nextStateInfo;
+            }
+
+        private:
+            /** next state of the transition */
+            std::list<NextStateInfo*> nextStateInfo;
+
+            /** source state */
+            State* sourceState;
+
+        };
 
 public:
-	/**
-	 * @brief add a transition into the fsm
-	 *
-	 * Adds a transition between two state with the given action.
-	 * 
-	 * @param source: string name of the source state
-	 *
-	 * @param target: string name of the target state
-	 *
-	 * @param action: an Action
-	 */
-	void addTransition(std::string source, std::string target, Action* action){
-		std::map<std::string, State*>::iterator itState;
-		std::map<std::string, Transition*>::iterator itTransition;
-		
-		itState = states.find(target);
-		itTransition = transitions.find(source);
-		Transition* transition = itTransition->second;
+    /**
+     * @brief add a transition into the fsm
+     *
+     * Adds a transition between two state with the given action.
+     *
+     * @param source: string name of the source state
+     *
+     * @param target: string name of the target state
+     *
+     * @param action: an Action
+     */
+    void addTransition(std::string source, std::string target, Action* action){
+        std::map<std::string, State*>::iterator itState;
+        std::map<std::string, Transition*>::iterator itTransition;
 
-		std::list<NextStateInfo*>* nextState = transition->getNextStateInfo();
-		nextState->push_back(new NextStateInfo(action, itState->second));
-	}
+        itState = states.find(target);
+        itTransition = transitions.find(source);
+        Transition* transition = itTransition->second;
 
-	/**
-	 * @brief add a state into the fsm
-	 *
-	 * Adds a state with the given name only if the given state is not already
-	 * present.
-	 * 
-	 * @param name : string name of a state
-	 *
-	 * @return the state created
-	 */
-	State* addState(std::string name){
-		std::map<std::string, State*>::iterator it;
-		it = states.find(name);
+        std::list<NextStateInfo*>* nextState = transition->getNextStateInfo();
+        nextState->push_back(new NextStateInfo(action, itState->second));
+    }
 
-		if(it == states.end()){
-			State* state = new State(name, index++);
-			states.insert(std::pair<std::string, State*>(name, state));
-			transitions.insert(std::pair<std::string, Transition*>(name, new Transition(state)));
-			return state;
-		}
+    /**
+     * @brief add a state into the fsm
+     *
+     * Adds a state with the given name only if the given state is not already
+     * present.
+     *
+     * @param name : string name of a state
+     *
+     * @return the state created
+     */
+    State* addState(std::string name){
+        std::map<std::string, State*>::iterator it;
+        it = states.find(name);
 
-		return (*it).second;
-	};
+        if(it == states.end()){
+            State* state = new State(name, index++);
+            states.insert(std::pair<std::string, State*>(name, state));
+            transitions.insert(std::pair<std::string, Transition*>(name, new Transition(state)));
+            return state;
+        }
+
+        return (*it).second;
+    };
 
 
-	/**
-	 * @brief Sets the initial state
-	 *
-	 * Sets the initial state of this FSM to the given state.
-	 * 
-	 * @param state
-	 *            a state name
-	 */
-	void setInitialState(std::string state) {
-		initialState = addState(state);
-	}
+    /**
+     * @brief Sets the initial state
+     *
+     * Sets the initial state of this FSM to the given state.
+     *
+     * @param state
+     *            a state name
+     */
+    void setInitialState(std::string state) {
+        initialState = addState(state);
+    }
 
-	/**
-	 * Returns the list of transitions of this FSM as a list of
-	 * {@link Transition}.
-	 * 
-	 * @return the list of transitions of this FSM as a list of
-	 *         {@link Transition}
-	 */
-	std::map<std::string, Transition*>* getTransitions() {
-		return &transitions;
-	}
+    /**
+     * Returns the list of transitions of this FSM as a list of
+     * {@link Transition}.
+     *
+     * @return the list of transitions of this FSM as a list of
+     *         {@link Transition}
+     */
+    std::map<std::string, Transition*>* getTransitions() {
+        return &transitions;
+    }
 
-	/**
-	 * @brief Get the initial state
-	 *
-	 * Gets the initial state of this FSM.
-	 * 
-	 * @return the initial state
-	 */
-	State* getInitialState() {return initialState;};
+    /**
+     * @brief Get the initial state
+     *
+     * Gets the initial state of this FSM.
+     *
+     * @return the initial state
+     */
+    State* getInitialState() {return initialState;};
 
-	/**
-	 * @breif Returns the map of states.
-	 * 
-	 * @return a map of State
-	 */
-	std::map<std::string, State*>* getStates(){
-		return &states;
-	}
+    /**
+     * @breif Returns the map of states.
+     *
+     * @return a map of State
+     */
+    std::map<std::string, State*>* getStates(){
+        return &states;
+    }
 
 
 private:
-	/**	index of last state added to the state map */
-	int index;
+    /**	index of last state added to the state map */
+    int index;
 
-	/** initial state	 */
-	State* initialState;
+    /** initial state	 */
+    State* initialState;
 
-	/** map of state name to state	 */
-	std::map<std::string, State*> states;
+    /** map of state name to state	 */
+    std::map<std::string, State*> states;
 
-	/** map of state name to transition	 */
-	std::map<std::string, Transition*> transitions;
+    /** map of state name to transition	 */
+    std::map<std::string, Transition*> transitions;
 
-	/** llvm::Function of the fsm */
-	std::list<llvm::Function*>* functions;
+    /** llvm::Function of the fsm */
+    std::list<llvm::Function*>* functions;
 
-	/** llvm::GlobalVariable that contains state of the fsm */
-	llvm::GlobalVariable* fsm_state;
-	
-	/** llvm::Function that contains function outside the fsm */
-	llvm::Function* outFsm;
+    /** llvm::GlobalVariable that contains state of the fsm */
+    llvm::GlobalVariable* fsm_state;
+
+    /** llvm::Function that contains function outside the fsm */
+    llvm::Function* outFsm;
 };
 
 #endif

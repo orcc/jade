@@ -8,7 +8,7 @@ This software is a computer program whose purpose is to execute
 parallel applications.
 
  *********************************************************/
- 
+
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
@@ -45,42 +45,42 @@ parallel applications.
 
 /**
  * Class handling the whole graph transformation and scheduling
- * 
+ *
  * @author mpelcat
  */
 class Scheduler {
 
-	private :
-		/**
-		 CSDAG to HDAG transformer
-		*/
-		CSDAGTransformer transformer;
-		/**
-		 List scheduler
-		*/
-		ListScheduler scheduler;
-	public : 
-		/**
-		 Constructor
-		*/
-		Scheduler();
+    private :
+        /**
+         CSDAG to HDAG transformer
+        */
+    CSDAGTransformer transformer;
+        /**
+         List scheduler
+        */
+        ListScheduler scheduler;
+    public :
+        /**
+         Constructor
+        */
+        Scheduler();
 
 
-		/**
-		 Destructor
-		*/
-		~Scheduler();
+        /**
+         Destructor
+        */
+        ~Scheduler();
 
 
-		/**
-		 Generates the HDAG graph and schedules it, 
-		 displaying graphs and gantt chart if DISPLAY is defined
+        /**
+         Generates the HDAG graph and schedules it,
+         displaying graphs and gantt chart if DISPLAY is defined
 
-		 @param csDag: input graph
-		 @param hDag: output graph
-		 @param archi: slave architecture
-		*/
-		void generateAndSchedule(CSDAGGraph* csDag, HDAGGraph* hDag, Architecture* archi);
+         @param csDag: input graph
+         @param hDag: output graph
+         @param archi: slave architecture
+        */
+        void generateAndSchedule(CSDAGGraph* csDag, HDAGGraph* hDag, Architecture* archi);
 };
 
 

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, ARTEMIS SudParis - IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -59,59 +59,59 @@ class TiXmlElement;
 class XCFParser {
 public:
 
-	/**
+    /**
      *  @brief Constructor of the class XDFParser
      */
-	XCFParser (bool verbose = false);
+    XCFParser (bool verbose = false);
 
-	 /**
+     /**
      *  @brief Destructor of the class XDFParser
      */
-	~XCFParser (){};
+    ~XCFParser (){};
 
-   /**
+    /**
      *  @brief Start Parsing XCF filep
-	 *
-	 *  @param	filename : name of the XCF file to parse
+     *
+     *  @param	filename : name of the XCF file to parse
      *
      *  @return a mapping class that describe the mapping of a network, NULL if parsing failed
      */
-	std::map<std::string, std::string>* parseFile (std::string filename);
+    std::map<std::string, std::string>* parseFile (std::string filename);
 
 private:
-	/*!
+    /*!
      *  @brief Parses an XCF document.
-	 *
+     *
      *  @return a mapping class that describe the mapping of a network, NULL if parsing failed
-     *  
+     *
      */
-	std::map<std::string, std::string>* parseXCFDoc();
+    std::map<std::string, std::string>* parseXCFDoc();
 
-	/*!
+    /*!
      *  @brief Parses partitioning of the XCF document.
      *
      *  Parses the body of the XCF document. The body can contain any element
-	 *  among the supPorted elements. SupPorted elements are: Partitionning, Partitip,
-	 * and Instance.
-	 *
-     *  @param root : TiXmlElement representation of root element 
-	 *
-	 *  @return a map of instance id and its corresponding partition
+     *  among the supPorted elements. SupPorted elements are: Partitionning, Partitip,
+     * and Instance.
+     *
+     *  @param root : TiXmlElement representation of root element
+     *
+     *  @return a map of instance id and its corresponding partition
      */
-	void parsePartitioning(TiXmlElement* root);
+    void parsePartitioning(TiXmlElement* root);
 
-	void parsePartition(TiXmlElement* elt);
+    void parsePartition(TiXmlElement* elt);
 
 private:
 
-	/* TinyXml document container */
-	TiXmlDocument* xcfDoc;
+    /* TinyXml document container */
+    TiXmlDocument* xcfDoc;
 
-	/* Resulting mapping */
-	std::map<std::string, std::string>* mapStr;
+    /* Resulting mapping */
+    std::map<std::string, std::string>* mapStr;
 
-	/** Verbose actions taken */
-	bool verbose;
+    /** Verbose actions taken */
+    bool verbose;
 };
 
 #endif

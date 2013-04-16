@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,7 +41,7 @@
 
 #include <string>
 namespace llvm{
-	class LLVMContext;
+    class LLVMContext;
 }
 
 #include "lib/IRCore/Network.h"
@@ -61,38 +61,38 @@ namespace llvm{
 class XDFParser {
 
 public:
-	/**
+    /**
      *  @brief Constructor of the class XDFParser
      */
-	XDFParser (bool verbose = false);
+    XDFParser (bool verbose = false);
 
-	 /**
+     /**
      *  @brief Destructor of the class XDFParser
      */
-	~XDFParser ();
+    ~XDFParser ();
 
    /**
      *  @brief Start Parsing XDF file
-	 *
-	 *  @param	filename : name of the XDF file to parse
+     *
+     *  @param	filename : name of the XDF file to parse
      *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
      */
-	Network* parseFile (std::string XDF, llvm::LLVMContext& C);
+    Network* parseFile (std::string XDF, llvm::LLVMContext& C);
 
-	/**
+    /**
      *  @brief Start Parsing XDF char
      *
-	 *  @param	XML : XML text to parse
-	 *
+     *  @param	XML : XML text to parse
+     *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
      */
-	Network* parseChar (char* XML, llvm::LLVMContext& C);
+    Network* parseChar (char* XML, llvm::LLVMContext& C);
 
 private:
 
-	/** Verbose actions taken */
-	bool verbose;
+    /** Verbose actions taken */
+    bool verbose;
 };
 
 #endif

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,135 +49,135 @@
  *
  * @brief  This class defines a Binary Operation of Expression
  *
- * This class represents an Binary Operation that can be used for Binary expression in a network. 
+ * This class represents an Binary Operation that can be used for Binary expression in a network.
  * This class intend to be used with BinExpr class.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class BinaryOp{
 
 public:
-	
-	/** Binary operation type */
-	enum OPTYPE{ 
-		/** bitand <code>&</code> */
-		BITAND,
 
-		/** bitor <code>|</code> */
-		BITOR,
+    /** Binary operation type */
+    enum OPTYPE{
+        /** bitand <code>&</code> */
+        BITAND,
 
-		/** bitxor <code>^</code> */
-		BITXOR,
+        /** bitor <code>|</code> */
+        BITOR,
 
-		/** division <code>/</code> */
-		DIV,
+        /** bitxor <code>^</code> */
+        BITXOR,
 
-		/** integer division <code>div</code> */
-		DIV_INT,
+        /** division <code>/</code> */
+        DIV,
 
-		/** equal <code>==</code> */
-		EQ,
+        /** integer division <code>div</code> */
+        DIV_INT,
 
-		/** exponentiation <code>**</code> */
-		EXP,
+        /** equal <code>==</code> */
+        EQ,
 
-		/** greater than or equal <code>&gt;=</code> */
-		GE,
+        /** exponentiation <code>**</code> */
+        EXP,
 
-		/** greater than <code>&gt;</code> */
-		GT,
+        /** greater than or equal <code>&gt;=</code> */
+        GE,
 
-		/** less than or equal <code>&lt;=</code> */
-		LE,
+        /** greater than <code>&gt;</code> */
+        GT,
 
-		/** logical and <code>&&</code> */
-		LOGIC_AND,
+        /** less than or equal <code>&lt;=</code> */
+        LE,
 
-		/** logical or <code>||</code> */
-		LOGIC_OR,
+        /** logical and <code>&&</code> */
+        LOGIC_AND,
 
-		/** less than <code>&lt;</code> */
-		LT,
+        /** logical or <code>||</code> */
+        LOGIC_OR,
 
-		/** minus <code>-</code> */
-		MINUS,
+        /** less than <code>&lt;</code> */
+        LT,
 
-		/** modulo <code>%</code> */
-		MOD,
+        /** minus <code>-</code> */
+        MINUS,
 
-		/** not equal <code>!=</code> */
-		NE,
+        /** modulo <code>%</code> */
+        MOD,
 
-		/** plus <code>+</code> */
-		PLUS,
+        /** not equal <code>!=</code> */
+        NE,
 
-		/** shift left <code>&lt;&lt;</code> */
-		SHIFT_LEFT,
+        /** plus <code>+</code> */
+        PLUS,
 
-		/** shift right <code>&gt;&gt;</code> */
-		SHIFT_RIGHT,
+        /** shift left <code>&lt;&lt;</code> */
+        SHIFT_LEFT,
 
-		/** times <code>*</code> */
-		TIMES,
+        /** shift right <code>&gt;&gt;</code> */
+        SHIFT_RIGHT,
 
-		/** unkown operator */
-		UNKNOW
-	}; 
+        /** times <code>*</code> */
+        TIMES,
+
+        /** unkown operator */
+        UNKNOW
+    };
 
 public:
 
-	/**
+    /**
      *  @brief Constructor
      *
-	 * Creates a new binary operator with the given precedence.
-	 *
-	 * @param opName : string kind of the operation
-	 *
+     * Creates a new binary operator with the given precedence.
+     *
+     * @param opName : string kind of the operation
+     *
      */
-	BinaryOp(std::string opName){
-		if(opName.compare("+")==0){
-			op = PLUS;
-		}else if(opName.compare("*")==0){
-			op = TIMES;
-		}else{
-			fprintf(stderr,"Unkow binary");
-		}
-	};
+    BinaryOp(std::string opName){
+        if(opName.compare("+")==0){
+            op = PLUS;
+        }else if(opName.compare("*")==0){
+            op = TIMES;
+        }else{
+            fprintf(stderr,"Unkow binary");
+        }
+    };
 
-	~BinaryOp();
+    ~BinaryOp();
 
-	/**
-	 * Returns this operator's precedence. An operator O1 that has a lower
-	 * precedence than another operator O2 means that the operation involving O1
-	 * is to be evaluated first.
-	 * 
-	 * @return this operator's precedence
-	 */
-	int getPrecedence() {
-		return precedence;
-	}
+    /**
+     * Returns this operator's precedence. An operator O1 that has a lower
+     * precedence than another operator O2 means that the operation involving O1
+     * is to be evaluated first.
+     *
+     * @return this operator's precedence
+     */
+    int getPrecedence() {
+        return precedence;
+    }
 
-	/**
-	 * Returns true if this operator is right-to-left associative.
-	 * 
-	 * @return true if this operator is right-to-left associative
-	 */
-	bool isRightAssociative() {
-		return rightAssociative;
-	}
+    /**
+     * Returns true if this operator is right-to-left associative.
+     *
+     * @return true if this operator is right-to-left associative
+     */
+    bool isRightAssociative() {
+        return rightAssociative;
+    }
 
-	/**
-	 * @brief Returns the binary operator.
-	 * 
-	 * @return a binary operator.
-	 */
-	OPTYPE getType() {return op;};
+    /**
+     * @brief Returns the binary operator.
+     *
+     * @return a binary operator.
+     */
+    OPTYPE getType() {return op;};
 
 private:
-	OPTYPE op;
-	int precedence;
-	bool rightAssociative;
+    OPTYPE op;
+    int precedence;
+    bool rightAssociative;
 
 };
 

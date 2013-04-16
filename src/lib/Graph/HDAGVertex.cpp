@@ -8,7 +8,7 @@ This software is a computer program whose purpose is to execute
 parallel applications.
 
  *********************************************************/
- 
+
 #include "lib/Graph/HDAGVertex.h"
 #include <cstdio>
 #include <cstring>
@@ -18,7 +18,7 @@ parallel applications.
 */
 HDAGVertex::HDAGVertex()
 {
-	nbSuccessors = 0;
+    nbSuccessors = 0;
 }
 
 /**

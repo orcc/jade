@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,7 +43,7 @@
 #include "lib/IRCore/Expression.h"
 
 namespace llvm{
-	class Constant;
+    class Constant;
 }
 //------------------------------
 
@@ -53,36 +53,36 @@ namespace llvm{
  * @brief This class defines a expression entry.
  *
  * @author Jerome Gorin
- * 
+ *
  */
 class ExprEntry : public Entry {
 public:
 
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates an expression entry.
-	 *
+     * Creates an expression entry.
+     *
      */
-	ExprEntry(Expr* expr){this->expr = expr;};
-	~ExprEntry();
+    ExprEntry(Expr* expr){this->expr = expr;};
+    ~ExprEntry();
 
-	/**
-	 * @brief Returns true if this entry is type of ExprEntry.
-	 * 
-	 * @return true if this type is ExprEntry
-	 */
-	bool isExprEntry(){return true;};
+    /**
+     * @brief Returns true if this entry is type of ExprEntry.
+     *
+     * @return true if this type is ExprEntry
+     */
+    bool isExprEntry(){return true;};
 
-	/**
-	 * @brief Getter of expr.
-	 * 
-	 * @return Expr of the Entry
-	 */
-	Expr* getExprEntry(){return expr;};
+    /**
+     * @brief Getter of expr.
+     *
+     * @return Expr of the Entry
+     */
+    Expr* getExprEntry(){return expr;};
 
 private:
-	Expr* expr;
+    Expr* expr;
 
 };
 

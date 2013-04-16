@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,82 +42,82 @@
 #include <string>
 
 namespace llvm {
-	class Function;
-	class ConstantInt;
+    class Function;
+    class ConstantInt;
 }
 //------------------------------
 
 /**
  * @brief  This class defines a Procedure for the Functional Unit.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Procedure {
 public:
-	/**
-	 *
-	 * @brief constructor
-	 *
-	 * Construcs a new procedure.
-	 * 
-	 * @param name		: name of the procedure.
-	 *
-	 * @param external	: whether it is external or not.
-	 *
-	 * @param function : the llvm::Function of this procedure.
-	 */
-	Procedure(std::string name, llvm::ConstantInt* external,
-		llvm::Function* function) {
-		this->external = external;
-		this->name = name;
-		this->function = function;
-	}
+    /**
+     *
+     * @brief constructor
+     *
+     * Construcs a new procedure.
+     *
+     * @param name		: name of the procedure.
+     *
+     * @param external	: whether it is external or not.
+     *
+     * @param function : the llvm::Function of this procedure.
+     */
+    Procedure(std::string name, llvm::ConstantInt* external,
+        llvm::Function* function) {
+        this->external = external;
+        this->name = name;
+        this->function = function;
+    }
 
-	~Procedure();
+    ~Procedure();
 
-	/**
+    /**
      *  @brief Getter of function
      *
-	 *	Return the llvm::function bound to this procedure
-	 *
-	 *	@return llvm::Function corresponding to the procedure
+     *	Return the llvm::function bound to this procedure
+     *
+     *	@return llvm::Function corresponding to the procedure
      */
-	llvm::Function* getFunction(){return function;};
+    llvm::Function* getFunction(){return function;};
 
-	/**
+    /**
      *  @brief Getter of the function's name
-	 *
-	 *	@return name of the function
+     *
+     *	@return name of the function
      */
-	std::string getName(){return name;};
+    std::string getName(){return name;};
 
-	/**
+    /**
      *  @brief Getter of external
-	 *
-	 *	@return llvm::ConstantInt about external function
+     *
+     *	@return llvm::ConstantInt about external function
      */
-	llvm::ConstantInt* getExternal(){return external;};
+    llvm::ConstantInt* getExternal(){return external;};
 
-	/**
+    /**
      *  @brief Return true if procedure external
-	 *
-	 *	@return true if procedure is external otherwise false
+     *
+     *	@return true if procedure is external otherwise false
      */
-	bool isExternal();
+    bool isExternal();
 
-	/**
+    /**
      *  @brief Clear the procedure from its instructions
-	 *
-	 *  Remove all instructions from the procedure but keep the function.
-	 *  If the procedure must return a value, it always will return false.
+     *
+     *  Remove all instructions from the procedure but keep the function.
+     *  If the procedure must return a value, it always will return false.
      */
-	void setEmpty();
+    void setEmpty();
 
 private:
-	std::string name;
-	llvm::ConstantInt* external;
-	llvm::Function* function;
+    std::string name;
+    llvm::ConstantInt* external;
+    llvm::Function* function;
 };
 
 #endif

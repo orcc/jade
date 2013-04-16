@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,7 +44,7 @@
 class Decoder;
 
 namespace llvm{
-	class Instruction;
+    class Instruction;
 }
 
 //------------------------------
@@ -55,23 +55,23 @@ namespace llvm{
  * @brief This class contains methods for managing llvm functions.
  *
  * @author Jerome Gorin
- * 
+ *
  */
 class FunctionMng {
 
 public:
 
-	/**
+    /**
      *  @brief Create a puts to display the given message
-	 *
+     *
      */
-	static llvm::Function* createPrintf(llvm::Module* module, std::string message = "", llvm::Instruction* instr = NULL, llvm::Value* value = NULL);
+    static llvm::Function* createPrintf(llvm::Module* module, std::string message = "", llvm::Instruction* instr = NULL, llvm::Value* value = NULL);
 
-	static llvm::Function* createPrintf(llvm::Module* module, std::string message, llvm::Instruction* instr, std::vector<llvm::Value*> values);
+    static llvm::Function* createPrintf(llvm::Module* module, std::string message, llvm::Instruction* instr, std::vector<llvm::Value*> values);
 
-	static void createPuts(llvm::Module* module, std::string message, llvm::Instruction* instr);
+    static void createPuts(llvm::Module* module, std::string message, llvm::Instruction* instr);
 
-	static llvm::Constant* createStdMessage(llvm::Module* module, std::string message);
+    static llvm::Constant* createStdMessage(llvm::Module* module, std::string message);
 };
 
 #endif

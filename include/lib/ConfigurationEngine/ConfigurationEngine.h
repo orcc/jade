@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,8 +42,8 @@
 #include "lib/ConfigurationEngine/Configuration.h"
 
 namespace llvm{
-	class LLVMContext;
-	class Module;
+    class LLVMContext;
+    class Module;
 }
 
 class Actor;
@@ -52,67 +52,67 @@ class Decoder;
 
 /**
  * @brief  This class represents configuration engine
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class ConfigurationEngine {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new configuration engine.
+     * Creates a new configuration engine.
      */
-	ConfigurationEngine(llvm::LLVMContext& C, bool verbose = false);
+    ConfigurationEngine(llvm::LLVMContext& C, bool verbose = false);
 
-	/*!
+    /*!
      *  @brief Instanciate a configuration of decoder
      *
-	 * Instanciate a configuration of decoder using the given Configuration.
-	 *
-	 *	@param configuration : a Configuration for instanciating a configuration
+     * Instanciate a configuration of decoder using the given Configuration.
+     *
+     *	@param configuration : a Configuration for instanciating a configuration
      */
-	void configure(Decoder* decoder);
+    void configure(Decoder* decoder);
 
-	/*!
+    /*!
      *  @brief Reconfigure a decoder
      *
-	 * Reconfigure a decoder with the given configuration
-	 *
-	 *	@param decoder : the Decoder to reconfigure
-	 *
-	 *	@param configuration : the new Configuration
+     * Reconfigure a decoder with the given configuration
+     *
+     *	@param decoder : the Decoder to reconfigure
+     *
+     *	@param configuration : the new Configuration
      */
-	void reconfigure(Decoder* decoder, Configuration* configuration);
+    void reconfigure(Decoder* decoder, Configuration* configuration);
 
-	/*!
+    /*!
      *  @brief Reinitialize a decoder
      *
-	 *  Reinitialize a decoder
-	 *
-	 *	@param decoder : the Decoder to reinitialize
+     *  Reinitialize a decoder
+     *
+     *	@param decoder : the Decoder to reinitialize
      */
-	void reinit(Decoder* decoder);
+    void reinit(Decoder* decoder);
 
 private:
 
-	/**
+    /**
      *  @brief Clear connections of a decoder
-	 *
-	 *	Remove every connections and broadcast created in the decoder 
-	 *
-	 *	@param decoder : the decoder to clean
+     *
+     *	Remove every connections and broadcast created in the decoder
+     *
+     *	@param decoder : the decoder to clean
      */
-	void clearConnections(Decoder* decoder);
+    void clearConnections(Decoder* decoder);
 
-	/** Decoder to configure */
-	Decoder* decoder;
+    /** Decoder to configure */
+    Decoder* decoder;
 
-	/** LLVM Context */
-	llvm::LLVMContext &Context;
+    /** LLVM Context */
+    llvm::LLVMContext &Context;
 
-	/** Display messages */
-	bool verbose;
+    /** Display messages */
+    bool verbose;
 
 };
 

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -51,52 +51,52 @@
  * exhibits static behavior for a given configuration. An actor that has the
  * quasi-static class has one action for each configuration, therefore this
  * class associates one action with one static class.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class QSDFMoC : public MoC {
 public:
 
-	/**
-	 * @brief Creates a new DPN MoC.
-	 */
-	QSDFMoC(Entity* parent) : MoC(parent){
-	};
-	
-	~QSDFMoC(){};
+    /**
+     * @brief Creates a new DPN MoC.
+     */
+    QSDFMoC(Entity* parent) : MoC(parent){
+    };
 
-	/**
-	 * @brief Returns true if this MoC is QCSDF.
-	 * 
-	 * @return true if this MoC is QCSDF
-	 */
-	bool isQuasiStatic(){return true;};
+    ~QSDFMoC(){};
 
-	/**
-	 * @brief Returns true if this MoC is QCSDF.
-	 *
-	 * Adds a configuration to this quasi-static MoC. A configuration is given
-	 * by an action and associated with a SDF MoC.
-	 * 
-	 * @param action : a configuration action
-	 * @param moc : a CSDF MoC
-	 */
-	void addConfiguration(Action* action, CSDFMoC* moc) {
-		configurations.push_back(std::pair<Action*, CSDFMoC*>(action, moc));
-	}
+    /**
+     * @brief Returns true if this MoC is QCSDF.
+     *
+     * @return true if this MoC is QCSDF
+     */
+    bool isQuasiStatic(){return true;};
+
+    /**
+     * @brief Returns true if this MoC is QCSDF.
+     *
+     * Adds a configuration to this quasi-static MoC. A configuration is given
+     * by an action and associated with a SDF MoC.
+     *
+     * @param action : a configuration action
+     * @param moc : a CSDF MoC
+     */
+    void addConfiguration(Action* action, CSDFMoC* moc) {
+        configurations.push_back(std::pair<Action*, CSDFMoC*>(action, moc));
+    }
 
 
-	/**
-	 * @brief Return the configurations of this quasi-static MoC.
-	 * 
-	 * @return a map of configurations
-	 */
-	std::list<std::pair<Action*, CSDFMoC*> >* getConfigurations() {
-		return &configurations;
-	}
+    /**
+     * @brief Return the configurations of this quasi-static MoC.
+     *
+     * @return a map of configurations
+     */
+    std::list<std::pair<Action*, CSDFMoC*> >* getConfigurations() {
+        return &configurations;
+    }
 private:
-	std::list<std::pair<Action*, CSDFMoC*> > configurations;
+    std::list<std::pair<Action*, CSDFMoC*> > configurations;
 
 };
 

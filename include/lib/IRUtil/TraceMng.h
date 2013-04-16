@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -53,45 +53,45 @@ class StateVar;
  * @brief This class contains methods for managing llvm functions.
  *
  * @author Jerome Gorin
- * 
+ *
  */
 class TraceMng {
 
 public:
 
-	/**
-	 * @brief Create traces for the given action
-	 *
-	 * @param module : module where traces are placed
-	 *
-	 * @param action : the Action to trace
-	 *
-	 * @param instruction : the instruction where trace are added
-	 */
-	static void createActionTrace (llvm::Module* module, Action* action, llvm::Instruction* instruction);
+    /**
+     * @brief Create traces for the given action
+     *
+     * @param module : module where traces are placed
+     *
+     * @param action : the Action to trace
+     *
+     * @param instruction : the instruction where trace are added
+     */
+    static void createActionTrace (llvm::Module* module, Action* action, llvm::Instruction* instruction);
 
-	/**
-	 * @brief Create traces for the given list of state variable
-	 *
-	 * @param module : module where traces are placed
-	 *
-	 * @param stateVars : a map of stateVariable to trace
-	 *
-	 * @param instruction : the instruction where trace are added
-	 */
-	static void createStateVarTrace(llvm::Module* module, std::map<std::string, StateVar*>* stateVars, llvm::Instruction* instruction);
+    /**
+     * @brief Create traces for the given list of state variable
+     *
+     * @param module : module where traces are placed
+     *
+     * @param stateVars : a map of stateVariable to trace
+     *
+     * @param instruction : the instruction where trace are added
+     */
+    static void createStateVarTrace(llvm::Module* module, std::map<std::string, StateVar*>* stateVars, llvm::Instruction* instruction);
 
-	/**
-	 * @brief Create traces when calling the given instance
-	 *
-	 * @param module : module where traces are placed
-	 *
-	 * @param stateVars : a map of stateVariable to trace
-	 *
-	 * @param instruction : the instruction where trace are added
-	 */
-	static void createCallTrace(llvm::Module* module, Instance* instance, llvm::Instruction* instruction);
-	
+    /**
+     * @brief Create traces when calling the given instance
+     *
+     * @param module : module where traces are placed
+     *
+     * @param stateVars : a map of stateVariable to trace
+     *
+     * @param instruction : the instruction where trace are added
+     */
+    static void createCallTrace(llvm::Module* module, Instance* instance, llvm::Instruction* instruction);
+
 };
 
 #endif

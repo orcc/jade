@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,11 +43,11 @@
 //------------------------------
 
 /**
- * @brief  This class defines a Rational.  A rational represents a number that can be 
+ * @brief  This class defines a Rational.  A rational represents a number that can be
  *  expressed as a ratio of two integers
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Rational {
 public:
@@ -85,7 +85,7 @@ public:
   *  @return the numerator of the Rational
   */
   long numerator() const { return num; }
-  
+
   /**
   *  @brief Return the denominator of the rational.
   *
@@ -115,7 +115,7 @@ public:
   const Rational& operator-=(long rhs);
   const Rational& operator*=(long rhs);
   const Rational& operator/=(long rhs);
-  
+
   // increment/decrement iterators
   const Rational& operator++();
   const Rational operator++(int);

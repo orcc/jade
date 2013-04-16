@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,80 +49,80 @@
  * @brief  This class defines an integer expression.
  *
  * This class represents an integer Expression in a network.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 
 class IntExpr : public Expr {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new integer expression with an int value.
-	 *
-	 *  @param C : llvm::LLVMContext.
-	 *
-	 *  @param value : integer value of the IntExpr.
+     * Creates a new integer expression with an int value.
+     *
+     *  @param C : llvm::LLVMContext.
+     *
+     *  @param value : integer value of the IntExpr.
      *
      */
-	IntExpr(llvm::LLVMContext &C, int value) : Expr(C){
-		this->value = value;
-	};
+    IntExpr(llvm::LLVMContext &C, int value) : Expr(C){
+        this->value = value;
+    };
 
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new integer expression with a ConstantInt value.
-	 *
-	 *  @param C : llvm::LLVMContext.
-	 *
-	 *  @param value : llvm::ConstantInt value of the IntExpr.
+     * Creates a new integer expression with a ConstantInt value.
+     *
+     *  @param C : llvm::LLVMContext.
+     *
+     *  @param value : llvm::ConstantInt value of the IntExpr.
      *
      */
-	IntExpr(llvm::LLVMContext &C, llvm::Constant* value) : Expr(C){
-		this->constantVal = value;
-	};
+    IntExpr(llvm::LLVMContext &C, llvm::Constant* value) : Expr(C){
+        this->constantVal = value;
+    };
 
-	~IntExpr();
+    ~IntExpr();
 
-	/*!
+    /*!
      *  @brief Return IRType of the integer expression
      *
-	 *  @return IRType of the integer expression.
+     *  @return IRType of the integer expression.
      *
      */
-	IRType* getIRType(){return new IntType(32);};
+    IRType* getIRType(){return new IntType(32);};
 
 
 
-	/*!
+    /*!
      *  @brief Getter of expression value
      *
-	 *  @return value of the expression.
+     *  @return value of the expression.
      *
      */
-	int getValue(){return value;};
+    int getValue(){return value;};
 
-	/**
-	 * @brief Returns llvm::Constant corresponding to the llvm value of this expression.
-	 * 
-	 * @return llvm::Constant of this expression
-	 */
-	llvm::Constant* getConstant();
+    /**
+     * @brief Returns llvm::Constant corresponding to the llvm value of this expression.
+     *
+     * @return llvm::Constant of this expression
+     */
+    llvm::Constant* getConstant();
 
-	/**
-	 * @brief Returns true if the expression is an instance of IntExpr
-	 * 
-	 * @return True if the expression is an instance of IntExpr
-	 */
-	bool isIntExpr(){return true;};
+    /**
+     * @brief Returns true if the expression is an instance of IntExpr
+     *
+     * @return True if the expression is an instance of IntExpr
+     */
+    bool isIntExpr(){return true;};
 
 private:
-	/** Value of IntExpr */
-	int value;
-	
-	llvm::Constant* constantVal;
+    /** Value of IntExpr */
+    int value;
+
+    llvm::Constant* constantVal;
 };
 
 #endif

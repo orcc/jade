@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -55,117 +55,117 @@ list<FileRemover> CompressionMng::tmpFiles;
 
 
 string CompressionMng::compressFile(string file, string compressLevel){
-	FILE* in;
-	gzFile out;
-	
-	//Open file
-	CompressionMng::checkFile(file);
-	in = fopen(file.c_str(), "rb");
+    FILE* in;
+    gzFile out;
 
-	//Create output file
-	string outFile = file + ".gz";
+    //Open file
+    CompressionMng::checkFile(file);
+    in = fopen(file.c_str(), "rb");
 
-	string mode = "wb" + compressLevel;
-	out = gzopen(outFile.c_str(), mode.c_str());
+    //Create output file
+    string outFile = file + ".gz";
 
-	CompressionMng::checkFile(outFile);
+    string mode = "wb" + compressLevel;
+    out = gzopen(outFile.c_str(), mode.c_str());
 
-	//Compress and set file in output file
-	CompressionMng::compress(in, out);
+    CompressionMng::checkFile(outFile);
 
-	//Remove original file
-	unlink(file.c_str());
+    //Compress and set file in output file
+    CompressionMng::compress(in, out);
+
+    //Remove original file
+    unlink(file.c_str());
 
 
-	return outFile;
+    return outFile;
 }
 
 string CompressionMng::uncompressGZip(string file){
-	FILE* out;
-	gzFile in;
+    FILE* out;
+    gzFile in;
 
-	//Open file
-	CompressionMng::checkFile(file);
-	in = gzopen(file.c_str(), "rb");
+    //Open file
+    CompressionMng::checkFile(file);
+    in = gzopen(file.c_str(), "rb");
 
-	//Create output file
-	file.erase(file.end()-3, file.end()); //Erase ".gz"
-	sys::Path outFile(file);
+    //Create output file
+    file.erase(file.end()-3, file.end()); //Erase ".gz"
+    sys::Path outFile(file);
 
-	out = fopen(outFile.c_str(), "wb");
-	CompressionMng::checkFile(outFile.c_str());
+    out = fopen(outFile.c_str(), "wb");
+    CompressionMng::checkFile(outFile.c_str());
 
-	//Insert outFile in the list of temporary files
-	CompressionMng::addTmpFile(outFile);
+    //Insert outFile in the list of temporary files
+    CompressionMng::addTmpFile(outFile);
 
-	//Uncompress and set file in output file
-	CompressionMng::uncompress(in, out);
+    //Uncompress and set file in output file
+    CompressionMng::uncompress(in, out);
 
-	return outFile.c_str();
+    return outFile.c_str();
 }
 
 void CompressionMng::checkFile(string file){
-	sys::Path filePath(file);
+    sys::Path filePath(file);
 
-	if(!filePath.exists()){
-		//File doesn't exist
-		cout << "File " << filePath.c_str() << " does not exists or be create.'\n";
-		exit(0);
-	}
+    if(!filePath.exists()){
+        //File doesn't exist
+        cout << "File " << filePath.c_str() << " does not exists or be create.'\n";
+        exit(0);
+    }
 }
 
 void CompressionMng::compress(FILE* in, gzFile out){
-	char buf[BUFLEN];
+    char buf[BUFLEN];
     int len;
 
     for (;;) {
-		len = (int)fread(buf, 1, sizeof(buf), in);
+        len = (int)fread(buf, 1, sizeof(buf), in);
         if (ferror(in)) {
             CompressionMng::error("compress : failed fread");
         }
         if (len == 0) break;
 
-		if (gzwrite(out, buf, (unsigned)len) != len){
-			CompressionMng::error("compress : failed gzwrite");
-		}
+        if (gzwrite(out, buf, (unsigned)len) != len){
+            CompressionMng::error("compress : failed gzwrite");
+        }
     }
 
     fclose(in);
-	if (gzclose(out) != 0){
-		CompressionMng::error("compress : failed gzclose");
-	}
+    if (gzclose(out) != 0){
+        CompressionMng::error("compress : failed gzclose");
+    }
 }
 
 void CompressionMng::uncompress(gzFile in, FILE* out){
-	char buf[BUFLEN];
+    char buf[BUFLEN];
     int len;
 
     for (;;) {
         len = gzread(in, buf, sizeof(buf));
         if (len < 0){
-			CompressionMng::error("uncompress : failed gzread");
-		}
+            CompressionMng::error("uncompress : failed gzread");
+        }
         if (len == 0) break;
 
         if ((int)fwrite(buf, 1, (unsigned)len, out) != len){
-			CompressionMng::error("uncompress : failed fwrite");
-		}
+            CompressionMng::error("uncompress : failed fwrite");
+        }
     }
-	if (fclose(out)){
-		CompressionMng::error("uncompress : failed fclose");
-	}
+    if (fclose(out)){
+        CompressionMng::error("uncompress : failed fclose");
+    }
 
-	if (gzclose(in) != Z_OK){
-		CompressionMng::error("uncompress : failed gzclose");
-	}
+    if (gzclose(in) != Z_OK){
+        CompressionMng::error("uncompress : failed gzclose");
+    }
 }
 
 void CompressionMng::error(string msg){
-	cerr << msg;
-	exit(1);
+    cerr << msg;
+    exit(1);
 }
 
 void CompressionMng::addTmpFile(sys::Path file){
-	CompressionMng::tmpFiles.push_back(FileRemover());
-	CompressionMng::tmpFiles.back().setFile(file.str());
+    CompressionMng::tmpFiles.push_back(FileRemover());
+    CompressionMng::tmpFiles.back().setFile(file.str());
 }

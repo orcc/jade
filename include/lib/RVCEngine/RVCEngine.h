@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,7 +39,7 @@
 #ifndef DECODERENGINE_H
 #define DECODERENGINE_H
 namespace llvm{
-	class LLVMContext;
+    class LLVMContext;
 }
 
 class JIT;
@@ -65,155 +65,155 @@ class Configuration;
  * @class RVCEngine
  *
  * @brief  This class defines an RVCEngine that manages Decoder.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class RVCEngine {
 public:
-	/*!
+    /*!
      *  @brief Create a new Decoder Engine
      *
      *  Create a new Decoder Engine with the given llvm::LLVMContext.
-	 *   
-	 *  @param C : the LLVM Context used by JIT
+     *
+     *  @param C : the LLVM Context used by JIT
      */
-	RVCEngine(llvm::LLVMContext& C, std::string library, int defaultFifoSize, std::string system = "", std::string outputDir="", bool noMerging = false, bool noMultiCore = false, bool verbose = false, bool armFix =false);
-	~RVCEngine();
+    RVCEngine(llvm::LLVMContext& C, std::string library, int defaultFifoSize, std::string system = "", std::string outputDir="", bool noMerging = false, bool noMultiCore = false, bool verbose = false, bool armFix =false);
+    ~RVCEngine();
 
-	/*!
+    /*!
      *  @brief Load the given network
      *
      *  Load, create and execute the given network.
-	 *   
-	 *  @param network : the Network to load
      *
-	 *  @param optLevel : the level of optimization to apply
+     *  @param network : the Network to load
+     *
+     *  @param optLevel : the level of optimization to apply
      */
-	int load(Network* network, int optLevel);
+    int load(Network* network, int optLevel);
 
-	/*!
+    /*!
      *  @brief Unload the given network
      *
      *  Unload and clear the given network.
-	 *   
-	 *  @param network : the Network to unload
+     *
+     *  @param network : the Network to unload
      */
-	int unload(Network* network);
+    int unload(Network* network);
 
-	/*!
+    /*!
      *  @brief Stop the given network
-	 *   
-	 *  @param network : the Network to stop
+     *
+     *  @param network : the Network to stop
      */
-	int stop(Network* network);
+    int stop(Network* network);
 
-	/*!
+    /*!
      *  @brief Run the given network
-	 *   
-	 *  @param network : the Network to run
-	 *
-	 *  @param thread : the thread where network is execute
+     *
+     *  @param network : the Network to run
+     *
+     *  @param thread : the thread where network is execute
      */
-	int run(Network* network, pthread_t* thread = NULL);
+    int run(Network* network, pthread_t* thread = NULL);
 
-	/*!
+    /*!
      *  @brief Reconfigure a network into another network
-	 *   
-	 *  @param oldNetwork : the original network
-	 *
-	 *  @param newNetwork : the new network
-	 *
+     *
+     *  @param oldNetwork : the original network
+     *
+     *  @param newNetwork : the new network
+     *
      */
-	int reconfigure(Network* oldNetwork, Network* newNetwork);
+    int reconfigure(Network* oldNetwork, Network* newNetwork);
 
-	/*!
+    /*!
      *  @brief Print the given network into a file
-	 *   
-	 *  @param network : the Network to print
-	 *
-	 *  @param outputFile : the name of the file to print into
-	 *
+     *
+     *  @param network : the Network to print
+     *
+     *  @param outputFile : the name of the file to print into
+     *
      */
-	int print(Network* network, std::string outputFile);
+    int print(Network* network, std::string outputFile);
 
-	/*!
+    /*!
      *  @brief Verify the network
-	 *   
-	 *  Verify if the given network has been correctely compiled,
-	 *    otherwise, print error into the given filename
-	 *
-	 *  @param network : the Network to verify
-	 *
-	 *  @param errorFile : name of the error file if needed
-	 *
+     *
+     *  Verify if the given network has been correctely compiled,
+     *    otherwise, print error into the given filename
+     *
+     *  @param network : the Network to verify
+     *
+     *  @param errorFile : name of the error file if needed
+     *
      */
-	int verify(Network* network, std::string errorFile);
+    int verify(Network* network, std::string errorFile);
 
-	/*!
+    /*!
      *  @brief Optimize a network
-	 *   
-	 *  Apply an optimisation to the network that corresponds to the given
-	 *    level.
-	 *
-	 *  @param network : the Network to optmize
-	 *
-	 *  @param optLevel : the level of optimization
-	 *
+     *
+     *  Apply an optimisation to the network that corresponds to the given
+     *    level.
+     *
+     *  @param network : the Network to optmize
+     *
+     *  @param optLevel : the level of optimization
+     *
      */
-	int optimize(Network* network, int optLevel);
+    int optimize(Network* network, int optLevel);
 
-	/*!
+    /*!
      *  @brief Parse and returns actors requiered by the configuration
-	 *   
-	 *  @param configuration : the Configuration thats contains actors indication
-	 *
-	 *  @return a map of actors requiered by the configuration
+     *
+     *  @param configuration : the Configuration thats contains actors indication
+     *
+     *  @return a map of actors requiered by the configuration
      */
-	std::map<std::string, Actor*>* parseActors(Configuration* configuration);
+    std::map<std::string, Actor*>* parseActors(Configuration* configuration);
 
 private:
 
-	/*!
+    /*!
      *  @brief Optimize decoder
      *
      *  Perform special optimization for the decoder
-	 *   
-	 *  @param decoder : the Decoder to optimize
+     *
+     *  @param decoder : the Decoder to optimize
      */
-	void doOptimizeDecoder(Decoder* decoder);
-	
-	IRParser* irParser;
+    void doOptimizeDecoder(Decoder* decoder);
 
-	/** Map of actors loaded */
-	std::map<std::string, Actor*> actors;
+    IRParser* irParser;
 
-	/** LLVM Context */
-	llvm::LLVMContext &Context;
+    /** Map of actors loaded */
+    std::map<std::string, Actor*> actors;
 
-	/** Library location */
-	std::string library;
+    /** LLVM Context */
+    llvm::LLVMContext &Context;
 
-	/** System package location */
-	std::string systemPackage;
-	
-	/** Map of decoder loaded in the decoder engine */
-	std::map<Network*, Decoder*> decoders;
+    /** Library location */
+    std::string library;
 
-	/** Writing directory */
-	std::string outputDir;
+    /** System package location */
+    std::string systemPackage;
 
-	/** Whether or not merging static actors */
-	bool noMerging;
+    /** Map of decoder loaded in the decoder engine */
+    std::map<Network*, Decoder*> decoders;
 
-	/** Whether or not activate multicore */
-	bool noMultiCore;
+    /** Writing directory */
+    std::string outputDir;
 
-	/** Print all actions made by decoder engine*/
-	bool verbose;
+    /** Whether or not merging static actors */
+    bool noMerging;
 
-	/** Special fix for ARM execution on Linux*/
-	bool armFix;
+    /** Whether or not activate multicore */
+    bool noMultiCore;
+
+    /** Print all actions made by decoder engine*/
+    bool verbose;
+
+    /** Special fix for ARM execution on Linux*/
+    bool armFix;
 };
 
 #endif

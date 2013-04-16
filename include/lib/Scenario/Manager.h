@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -58,162 +58,162 @@ class Scenario;
 
 /**
  * @brief  This class represents a manager for the DecoderEngine.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Manager {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new manager for the DecoderEngine.
-	 *
-	 * @param engine : the DecoderEngine to manage
-	 *
-	 * @param verify : decoder has to be verify or not 
-	 *
-	 * @param verbose : display actions taken
+     * Creates a new manager for the DecoderEngine.
+     *
+     * @param engine : the DecoderEngine to manage
+     *
+     * @param verify : decoder has to be verify or not
+     *
+     * @param verbose : display actions taken
      */
-	Manager(RVCEngine* engine, int optLevel = 0, bool verify = false, bool verbose = false);
+    Manager(RVCEngine* engine, int optLevel = 0, bool verify = false, bool verbose = false);
 
-	/*!
+    /*!
      *  @brief Start the manager
      *
-	 * Start the manager with the given scenario.
-	 *
-	 * @param scFile : the file that contains a scenario.
-	 *
-	 * @return true if scenario finished correctly, otherwise false
+     * Start the manager with the given scenario.
+     *
+     * @param scFile : the file that contains a scenario.
+     *
+     * @return true if scenario finished correctly, otherwise false
      */
-	bool start(std::string scFile);
+    bool start(std::string scFile);
 
-	/*!
+    /*!
      *  @brief Start an event
-	 *
-	 * @param newEvent : the Event to start.
-	 *
-	 * @return true if Event finished correctly, otherwise false
+     *
+     * @param newEvent : the Event to start.
+     *
+     * @return true if Event finished correctly, otherwise false
      */
-	bool startEvent(Event* newEvent);
+    bool startEvent(Event* newEvent);
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete the scenario.
+     * Delete the scenario.
      */
-	~Manager(){};
+    ~Manager(){};
 
 private:
 
-	/*!
+    /*!
      *  @brief run a load event
-	 *
-	 * @param loadEvent : the LoadEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param loadEvent : the LoadEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runLoadEvent(LoadEvent* loadEvent);
+    bool runLoadEvent(LoadEvent* loadEvent);
 
-	/*!
+    /*!
      *  @brief run a start event
-	 *
-	 * @param startEvent : the StartEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param startEvent : the StartEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runStartEvent(StartEvent* startEvent);
+    bool runStartEvent(StartEvent* startEvent);
 
-	/*!
+    /*!
      *  @brief run a wait event
-	 *
-	 * @param waitEvent : the WaitEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param waitEvent : the WaitEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runWaitEvent(WaitEvent* waitEvent);
+    bool runWaitEvent(WaitEvent* waitEvent);
 
-	/*!
+    /*!
      *  @brief run a stop event
-	 *
-	 * @param stopEvent : the StopEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param stopEvent : the StopEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runStopEvent(StopEvent* stopEvent);
+    bool runStopEvent(StopEvent* stopEvent);
 
-	/*!
+    /*!
      *  @brief run a set event
-	 *
-	 * @param setEvent : the SetEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param setEvent : the SetEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runSetEvent(SetEvent* setEvent);
+    bool runSetEvent(SetEvent* setEvent);
 
-	/*!
+    /*!
      *  @brief run a pause event
-	 *
-	 * @param pauseEvent : the PauseEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param pauseEvent : the PauseEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runPauseEvent(PauseEvent* pauseEvent);
+    bool runPauseEvent(PauseEvent* pauseEvent);
 
-	/*!
+    /*!
      *  @brief run a print event
-	 *
-	 * @param printEvent : the PrintEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param printEvent : the PrintEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runPrintEvent(PrintEvent* printEvent);
+    bool runPrintEvent(PrintEvent* printEvent);
 
-	/*!
+    /*!
      *  @brief run a verify event
-	 *
-	 * @param verifyEvent : the VerifyEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param verifyEvent : the VerifyEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runVerifyEvent(VerifyEvent* verifyEvent);
+    bool runVerifyEvent(VerifyEvent* verifyEvent);
 
-	/*!
+    /*!
      *  @brief run a remove event
-	 *
-	 * @param removeEvent : the RemoveEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param removeEvent : the RemoveEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runRemoveEvent(RemoveEvent* removeEvent);
+    bool runRemoveEvent(RemoveEvent* removeEvent);
 
-	/*!
+    /*!
      *  @brief run a list event
-	 *
-	 * @param listEvent : the ListEvent to run.
-	 *
-	 * @return true if event finished correctly, otherwise false
+     *
+     * @param listEvent : the ListEvent to run.
+     *
+     * @return true if event finished correctly, otherwise false
      */
-	bool runListEvent(ListEvent* listEvent);
+    bool runListEvent(ListEvent* listEvent);
 
 
-	/** Decoder engine to manage*/
-	RVCEngine* engine;
+    /** Decoder engine to manage*/
+    RVCEngine* engine;
 
-	/** Network loads */
-	std::map<int, Network*> networks;
+    /** Network loads */
+    std::map<int, Network*> networks;
 
-	/** Network pointer */
-	std::map<int, Network*>::iterator netPtr;
+    /** Network pointer */
+    std::map<int, Network*>::iterator netPtr;
 
-	/** Verify generated decoder */
-	bool verify;
-	
-	/** Verbose events */
-	bool verbose;
+    /** Verify generated decoder */
+    bool verify;
 
-	/** optimization level*/
-	int optLevel;
+    /** Verbose events */
+    bool verbose;
+
+    /** optimization level*/
+    int optLevel;
 };
 
 #endif

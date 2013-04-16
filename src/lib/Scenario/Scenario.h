@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -45,59 +45,59 @@
 
 /**
  * @brief  This class represents a scenario for decoder engine.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Scenario {
 public:
-	/**
+    /**
      *  @brief Constructor
      *
-	 * Creates a new scenario .
+     * Creates a new scenario .
      */
-	Scenario(){};
+    Scenario(){};
 
-	/**
+    /**
      *  @brief Destructor
      *
-	 * Delete the scenario.
+     * Delete the scenario.
      */
-	~Scenario(){};
+    ~Scenario(){};
 
-	/**
+    /**
      * @brief Add an event to the scenario
      *
-	 * @param scEvent : the Event to add
+     * @param scEvent : the Event to add
      */
-	void addEvent(Event* scEvent){
-		events.push_back(scEvent);
-	}
+    void addEvent(Event* scEvent){
+        events.push_back(scEvent);
+    }
 
-	/**
+    /**
      * @brief Return true if the scenario finished
-	 *
-	 *	Return true if all elements of the scenario has been consumed
      *
-	 * @return true if the scenario is finished otherwise false
+     *	Return true if all elements of the scenario has been consumed
+     *
+     * @return true if the scenario is finished otherwise false
      */
-	bool end(){
-		return events.empty();
-	}
+    bool end(){
+        return events.empty();
+    }
 
-	/**
+    /**
      * @brief Get an event from the scenario pool
      *
-	 * @param scEvent : the Event to add
+     * @param scEvent : the Event to add
      */
-	Event* getEvent(){
-		Event* curEvent = events.front();
-		events.pop_front();
-		return curEvent;
-	}
+    Event* getEvent(){
+        Event* curEvent = events.front();
+        events.pop_front();
+        return curEvent;
+    }
 
 private:
-	std::list<Event*> events;
+    std::list<Event*> events;
 };
 
 #endif

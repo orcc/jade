@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -47,8 +47,8 @@
 #include "lib/TinyXml/TinyXml.h"
 
 namespace llvm{
-	class ConstantInt;
-	class LLVMContext;
+    class ConstantInt;
+    class LLVMContext;
 }
 
 class Vertex;
@@ -59,7 +59,7 @@ class Connection;
 class IRAttribute;
 //------------------------------
 
-/*! 
+/*!
 *	@class NetworkParser
 *	@brief This class defines the network parser of class XDFparser.
 *
@@ -67,176 +67,176 @@ class IRAttribute;
 class NetworkParser {
 
 public:
-	std::list<Connection*>* Connections;
-	Network* network;
+    std::list<Connection*>* Connections;
+    Network* network;
 
 public:
 
-	/*!
+    /*!
      *  @brief Constructor
      *
      *  Constructor of the class NetworkParser
-	 *
-	 *  @param verbose : verbose actions taken
-	 *
-	 *  @param FifoSize : default size of fifo
+     *
+     *  @param verbose : verbose actions taken
+     *
+     *  @param FifoSize : default size of fifo
      */
-	NetworkParser (llvm::LLVMContext& C, bool verbose = false);
+    NetworkParser (llvm::LLVMContext& C, bool verbose = false);
 
-	/*!
+    /*!
      *  @brief Destructor
      *
      *  Destructor of the class NetworkParser
      */
-	~NetworkParser ();
+    ~NetworkParser ();
 
-	/*!
+    /*!
      *  @brief Parses an XDF network.
      *
      *  Parses the document given in constructor as an XDF network.
-	 *
+     *
      *  @param filename : name of the network file to parse
-	 *
+     *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
-     *  
+     *
      */
-	Network* parseNetworkFile (std::string filename);
+    Network* parseNetworkFile (std::string filename);
 
-	/*!
+    /*!
      *  @brief Parses an XDF network.
-	 *
-	 *  @param XML : a char which contains an XDF network
-	 *
+     *
+     *  @param XML : a char which contains an XDF network
+     *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
-     *  
+     *
      */
-	Network* parseXML(char* XML);
+    Network* parseXML(char* XML);
 
 private:
 
-	/* TinyXml document container */
-	TiXmlDocument* xdfDoc;
-	
-	/* Xml type parser */
-	TypeParser* typeParser;
+    /* TinyXml document container */
+    TiXmlDocument* xdfDoc;
 
-	/** XDF expression parser. */
-	ExprParser* exprParser;
+    /* Xml type parser */
+    TypeParser* typeParser;
 
-	/** map of input ports  */
-	std::map<std::string, Port*>* inputs;
+    /** XDF expression parser. */
+    ExprParser* exprParser;
 
-	/** map of outputs ports  */
-	std::map<std::string, Port*>* outputs;
+    /** map of input ports  */
+    std::map<std::string, Port*>* inputs;
 
-	/** map of instances ports  */
-	std::map<std::string, Instance*>* instances;
+    /** map of outputs ports  */
+    std::map<std::string, Port*>* outputs;
 
-	/** graph of the network  */
-	HDAGGraph* graph;
+    /** map of instances ports  */
+    std::map<std::string, Instance*>* instances;
 
-	/** Verboses actions taken */
-	bool verbose;
+    /** graph of the network  */
+    HDAGGraph* graph;
 
-	/*!
+    /** Verboses actions taken */
+    bool verbose;
+
+    /*!
      *  @brief Parses an XDF network.
      *
      *  Parses the xdfDoc loaded by the parseNetwork
-	 *
+     *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
-     *  
+     *
      */
-	Network* parseXDFDoc();
+    Network* parseXDFDoc();
 
-	/*!
+    /*!
      *  @brief Parses the body of the XDF document.
      *
      *  Parses the body of the XDF document. The body can contain any element
-	 *  among the supPorted elements. SupPorted elements are: Connection, Decl
-	 * (kind=Param or kind=Var), Instance, Package, Port.
-	 *
-     *  @param root : TiXmlElement representation of root element 
+     *  among the supPorted elements. SupPorted elements are: Connection, Decl
+     * (kind=Param or kind=Var), Instance, Package, Port.
+     *
+     *  @param root : TiXmlElement representation of root element
      */
-	void parseBody(TiXmlElement* root);
+    void parseBody(TiXmlElement* root);
 
 
-	/*!
+    /*!
      *  @brief Parses an "Instance" element and returns an {@link Instance}.
      *
-	 *
+     *
      *  @param instance : TiXmlElement representation of root element .
-	 *
-	 *  @return an Instance
+     *
+     *  @return an Instance
      */
-	Instance* parseInstance(TiXmlElement* instance);
-	
-	/*!
+    Instance* parseInstance(TiXmlElement* instance);
+
+    /*!
      *  @brief Parses the given TiXmlElement as a Connection element.
      *
-	 * Parses the given TiXmlElement as a Connection, and adds a matching
-	 * Connection to the graph of the network being parsed.
-	 *
+     * Parses the given TiXmlElement as a Connection, and adds a matching
+     * Connection to the graph of the network being parsed.
+     *
      *  @param root : TiXmlElement representation of Connection element
      */
-	void parseConnection(TiXmlElement* connection);
+    void parseConnection(TiXmlElement* connection);
 
-	/*!
+    /*!
      *  @brief Parses IRAttributes elements.
      *
-	 * Returns a map of IRAttribute names -> values by parsing the "IRAttribute"
-	 * nodes.
-	 *
-     *  @param element : TiXmlNode representation of IRAttributes element 
-	 *
-	 *  @return  a map of IRAttributes with their names  
+     * Returns a map of IRAttribute names -> values by parsing the "IRAttribute"
+     * nodes.
+     *
+     *  @param element : TiXmlNode representation of IRAttributes element
+     *
+     *  @return  a map of IRAttributes with their names
      */
-	std::map<std::string, IRAttribute*> *parseAttributes(TiXmlNode* node);
+    std::map<std::string, IRAttribute*> *parseAttributes(TiXmlNode* node);
 
-	/*!
+    /*!
      *  @brief Parses the current node as a actor parameters.
      *
-	 * Returns a map of IRAttribute parameter names -> values by parsing the parameter
-	 * node of an actor.
-	 *
-     *  @param element : xmlNode representation of IRAttributes element 
-	 *
-	 *  @return  a map of IRAttributes with their value  
+     * Returns a map of IRAttribute parameter names -> values by parsing the parameter
+     * node of an actor.
+     *
+     *  @param element : xmlNode representation of IRAttributes element
+     *
+     *  @return  a map of IRAttributes with their value
      */
 
-	std::map<std::string, Expr*>* parseParameters(TiXmlNode* node);
+    std::map<std::string, Expr*>* parseParameters(TiXmlNode* node);
 
 
-	/*!
-	 *  @brief return a new port.
-	 *
-	 *  If vertexName is not empty, returns a new Port whose name is set to
-	 * portName.
-	 * 
-	 * @param vertexName : the name of a vertex
-	 *
-	 * @param portName : the name of a port
-	 *
-	 * @return a port
-	 */
-	Port* getPort(std::string vertexName, std::string portName);
+    /*!
+     *  @brief return a new port.
+     *
+     *  If vertexName is not empty, returns a new Port whose name is set to
+     * portName.
+     *
+     * @param vertexName : the name of a vertex
+     *
+     * @param portName : the name of a port
+     *
+     * @return a port
+     */
+    Port* getPort(std::string vertexName, std::string portName);
 
 
-	/**
-	 *  @brief get a Vertex from graph..
-	 *
-	 * If vertexName is empty, returns a new Vertex that contains a port from
-	 * the ports map that has the name portName. If vertexName is not empty,
-	 * returns a new Vertex that contains an instance from the instances map.
-	 * 
-	 * @param vertexName : string of vertex
-	 *
-	 * @param portName : string of port
-	 *
-	 * @param ports : a map of input ports or output ports
-	 *
-	 * @return a vertex that contains a port or an instance
-	 */
-	Vertex* getVertex(std::string vertexName, std::string portName, std::string kind, std::map<std::string, Port*>* ports);
+    /**
+     *  @brief get a Vertex from graph..
+     *
+     * If vertexName is empty, returns a new Vertex that contains a port from
+     * the ports map that has the name portName. If vertexName is not empty,
+     * returns a new Vertex that contains an instance from the instances map.
+     *
+     * @param vertexName : string of vertex
+     *
+     * @param portName : string of port
+     *
+     * @param ports : a map of input ports or output ports
+     *
+     * @return a vertex that contains a port or an instance
+     */
+    Vertex* getVertex(std::string vertexName, std::string portName, std::string kind, std::map<std::string, Port*>* ports);
 };
 
 #endif

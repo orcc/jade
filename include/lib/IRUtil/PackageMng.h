@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,167 +49,167 @@
  * @brief This class contains methods for managing package.
  *
  * @author Jerome Gorin
- * 
+ *
  */
 class PackageMng {
 public:
-	/**
+    /**
      * @brief Get folder of an actor
-	 *
-	 * @param actor : the actor to get the folder from
-	 *
-	 * @return the corresponding forlder
-	 *
+     *
+     * @param actor : the actor to get the folder from
+     *
+     * @return the corresponding forlder
+     *
      */
-	static std::string getFolder(Actor* actor);
+    static std::string getFolder(Actor* actor);
 
-	/**
+    /**
      * @brief Get folder from a package
-	 *
-	 * @param package : the name of the package
-	 *
-	 * @return the corresponding folder
-	 *
+     *
+     * @param package : the name of the package
+     *
+     * @return the corresponding folder
+     *
      */
-	static std::string getFolder(std::string package);
+    static std::string getFolder(std::string package);
 
-	/**
+    /**
      * @brief Get first folser from a folder
-	 *
-	 * @param folder : the folder to get the first
-	 *
-	 * @return the corresponding first folder
-	 *
+     *
+     * @param folder : the folder to get the first
+     *
+     * @return the corresponding first folder
+     *
      */
-	static std::string getFirstFolder(std::string folder);
+    static std::string getFirstFolder(std::string folder);
 
-	/**
+    /**
      * @brief Get all packages name from the given actor
-	 *
-	 * @param actor : the Actor to get the package from
-	 *
-	 * @return the corresponding packages name
-	 *
+     *
+     * @param actor : the Actor to get the package from
+     *
+     * @return the corresponding packages name
+     *
      */
-	static std::string getPackagesName(Actor* actor);
+    static std::string getPackagesName(Actor* actor);
 
-	/**
+    /**
      * @brief Get all packages name from the name of an actor
-	 *
-	 * @param name : string of the actor
-	 *
-	 * @return the corresponding packages name
-	 *
+     *
+     * @param name : string of the actor
+     *
+     * @return the corresponding packages name
+     *
      */
-	static std::string getPackagesName(std::string name);
+    static std::string getPackagesName(std::string name);
 
-	/**
+    /**
      * @brief Get a list of package string from the given actor
-	 *
-	 * @param actor : the actor to get the package from
-	 *
-	 * @return the corresponding list of package
-	 *
+     *
+     * @param actor : the actor to get the package from
+     *
+     * @return the corresponding list of package
+     *
      */
-	static std::list<std::string> getPackageListName(Actor* actor);
+    static std::list<std::string> getPackageListName(Actor* actor);
 
-	/**
+    /**
      * @brief Get a list of package string from the name of an actor
-	 *
-	 * @param name : name of the actor
-	 *
-	 * @return the corresponding list of package
-	 *
+     *
+     * @param name : name of the actor
+     *
+     * @return the corresponding list of package
+     *
      */
-	static std::list<std::string> getPackageListName(std::string name);
+    static std::list<std::string> getPackageListName(std::string name);
 
 
-	/**
+    /**
      * @brief Get first package from the given actor
-	 *
-	 * @param actor : the actor to get the first package from
-	 *
-	 * @return the corresponding packages
-	 *
+     *
+     * @param actor : the actor to get the first package from
+     *
+     * @return the corresponding packages
+     *
      */
-	static std::string getFirstPackageName(Actor* actor);
+    static std::string getFirstPackageName(Actor* actor);
 
-	/**
+    /**
      * @brief Get first package from the name of an actor
-	 *
-	 * @param name : name of the actor
-	 *
-	 * @return the corresponding first package
-	 *
+     *
+     * @param name : name of the actor
+     *
+     * @return the corresponding first package
+     *
      */
-	static std::string getFirstPackageName(std::string name);
+    static std::string getFirstPackageName(std::string name);
 
-	/**
+    /**
      * @brief Get the simple name of the given actor
-	 *
-	 * @param actor : the actor to get the simple name from
-	 *
-	 * @return the corresponding simple name
-	 *
+     *
+     * @param actor : the actor to get the simple name from
+     *
+     * @return the corresponding simple name
+     *
      */
-	static std::string getSimpleName(Actor* actor);
+    static std::string getSimpleName(Actor* actor);
 
-	/**
+    /**
      * @brief Get the simple name from the name of an actor
-	 *
-	 * @param name : name of the actor
-	 *
-	 * @return the corresponding simple name
-	 *
+     *
+     * @param name : name of the actor
+     *
+     * @return the corresponding simple name
+     *
      */
-	static std::string getSimpleName(std::string name);
+    static std::string getSimpleName(std::string name);
 
-	/**
+    /**
      * @brief Get package from the given package name
-	 *
-	 *	If the package does not existe, create a map 
-	 *  of package representing the dependance of name
-	 *
-	 * @param name : the required package name
-	 *
-	 * @return the corresponding requiered package
-	 *
+     *
+     *	If the package does not existe, create a map
+     *  of package representing the dependance of name
+     *
+     * @param name : the required package name
+     *
+     * @return the corresponding requiered package
+     *
      */
-	static Package* getPackage(std::string name);
+    static Package* getPackage(std::string name);
 
-	/**
+    /**
      * @brief Set a map of packages
-	 *
-	 *	Create a map of package representing the dependance of a list of actors
-	 *
-	 * @param actors : a map of actor
-	 *
-	 * @return the corresponding requiered package
-	 *
+     *
+     *	Create a map of package representing the dependance of a list of actors
+     *
+     * @param actors : a map of actor
+     *
+     * @return the corresponding requiered package
+     *
      */
-	static std::map<std::string, Package*>* setPackages(std::map<std::string, Actor*>* actors);
+    static std::map<std::string, Package*>* setPackages(std::map<std::string, Actor*>* actors);
 
-	/**
+    /**
      * @brief Set archive of package
-	 *
-	 *	Set archive for all parents of given package
-	 *
-	 * @param package : the package containing the archive
-	 *
+     *
+     *	Set archive for all parents of given package
+     *
+     * @param package : the package containing the archive
+     *
      */
-	static void setArchive(Package* package);
+    static void setArchive(Package* package);
 
-	/**
+    /**
      * @brief Set actor in the required package
-	 *
-	 * @param actor : the actor to set in package
-	 *
+     *
+     * @param actor : the actor to set in package
+     *
      */
-	static void setActor(Actor* actor);
+    static void setActor(Actor* actor);
 
 private:
-	/** Package preloaded */
-	static std::map<std::string, Package*>* packages;
+    /** Package preloaded */
+    static std::map<std::string, Package*>* packages;
 
 };
 

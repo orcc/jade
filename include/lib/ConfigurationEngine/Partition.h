@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009-2011, ARTEMIS SudParis - IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -47,45 +47,45 @@ class Instance;
 
 /**
  * @brief  This class represents a partition of a configuration
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Partition {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new partition.
+     * Creates a new partition.
      */
-	Partition(std::string id){
-	    this->id = id;
-	}
+    Partition(std::string id){
+        this->id = id;
+    }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete the paritition.
+     * Delete the paritition.
      */
-	~Partition();
+    ~Partition();
 
-	/*!
+    /*!
      *  @brief Add a new instance to the partition
      *
-	 * @param instance : instance to add
+     * @param instance : instance to add
      */
-	void addInstance(Instance* instance){instances.push_back(instance);};
+    void addInstance(Instance* instance){instances.push_back(instance);};
 
-	/*!
+    /*!
      *  @brief Add a new instance to the partition
      *
-	 * @param instance : instance to add
+     * @param instance : instance to add
      */
-	std::list<Instance*>* getInstances(){return &instances;};
+    std::list<Instance*>* getInstances(){return &instances;};
 
 private:
-	std::string id;
-	std::list<Instance*> instances;
+    std::string id;
+    std::list<Instance*> instances;
 };
 
 #endif

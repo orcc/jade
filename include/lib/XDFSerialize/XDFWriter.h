@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,7 +41,7 @@
 
 #include <string>
 namespace llvm{
-	class LLVMContext;
+    class LLVMContext;
 }
 
 #include "lib/IRCore/Network.h"
@@ -61,99 +61,99 @@ namespace llvm{
 class XDFWriter {
 
 public:
-	/**
+    /**
      *  @brief Constructor of the class XDFWriter
      *
      *  @param	filename : a file that represents the absolute path of the output directory
-	 *
-	 *  @param network : a network
+     *
+     *  @param network : a network
      */
-	XDFWriter (std::string xdfPath, Network* network);
+    XDFWriter (std::string xdfPath, Network* network);
 
-	 /**
+     /**
      *  @brief Destructor of the class XDFWriter
      */
-	~XDFWriter ();
+    ~XDFWriter ();
 
 
-	/**
+    /**
      *  @brief Start writing of XDF
      */
-	void writeXDF();
+    void writeXDF();
 
 
 private:
 
-	/**
+    /**
      *  @brief Returns an Instance parent that represents the given instance.
-	 *   
-	 *  @param instance : an instance
-	 *
-	 *  @return an instance xml element parent
+     *
+     *  @param instance : an instance
+     *
+     *  @return an instance xml element parent
      */
-	TiXmlElement* writeInstance(Instance* instance);
+    TiXmlElement* writeInstance(Instance* instance);
 
-	/**
+    /**
      *  @brief Returns a Connection parent that represents the given connection.
-	 *   
-	 *  @param connection : a connection
-	 *
-	 *  @return a connection xml element parent
+     *
+     *  @param connection : a connection
+     *
+     *  @return a connection xml element parent
      */
-	TiXmlElement* writeConnection(Connection* connection);
+    TiXmlElement* writeConnection(Connection* connection);
 
-	/**
+    /**
      *  @brief Appends Attribute elements to the given parent parent.
-	 *
-	 *	 Each attribute of the attributes map is transformed to an Attribute xml element parent.
-	 *   
-	 *  @param parent : the parent parent
-	 *
-	 *  @param attributes : a map of attributes
+     *
+     *	 Each attribute of the attributes map is transformed to an Attribute xml element parent.
+     *
+     *  @param parent : the parent parent
+     *
+     *  @param attributes : a map of attributes
      */
-	void writeAttributes(TiXmlElement* parent, std::map<std::string, IRAttribute*>* attributes);
+    void writeAttributes(TiXmlElement* parent, std::map<std::string, IRAttribute*>* attributes);
 
-	/**
+    /**
      *  @brief Appends an Expr parent that represents the given expression to the given parent
-	 *   
-	 *  @param parent : the parent parent to which an Expr parent should be added
-	 *
-	 *  @param expr : an expression
+     *
+     *  @param parent : the parent parent to which an Expr parent should be added
+     *
+     *  @param expr : an expression
      */
-	void writeExpr(TiXmlElement* parent, Expr* expr);
+    void writeExpr(TiXmlElement* parent, Expr* expr);
 
-	/**
+    /**
      *  @brief Returns a Type parent that represents the given type.
-	 *   
-	 *  @param type : a type
-	 *
-	 *  @return a type xml element parent
+     *
+     *  @param type : a type
+     *
+     *  @return a type xml element parent
      */
-	TiXmlElement* writeType(IRType* type);
+    TiXmlElement* writeType(IRType* type);
 
-	/**
+    /**
      *  @brief Returns an Entry parent that represents the given expression entry.
-	 *   
-	 *  @param name : the entry name
-	 *
-	 *  @param expr : the entry value as an expression
-	 *
-	 *	@return an entry xml element parent
+     *
+     *  @param name : the entry name
+     *
+     *  @param expr : the entry value as an expression
+     *
+     *	@return an entry xml element parent
      */
-	TiXmlElement* writeEntry(std::string name, Expr* expr);
+    TiXmlElement* writeEntry(std::string name, Expr* expr);
 
 
-	/** Path of the xdf output file */
-	std::string filename;
+    /** Path of the xdf output file */
+    std::string filename;
 
-	/** network to write */
-	Network* network;
+    /** network to write */
+    Network* network;
 
-	/* TinyXml document container */
-	TiXmlDocument* xdfDoc;
+    /* TinyXml document container */
+    TiXmlDocument* xdfDoc;
 
-	/** Verbose actions taken */
-	bool verbose;
+    /** Verbose actions taken */
+    bool verbose;
 };
 
 #endif

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,49 +43,49 @@
 using namespace std;
 
 Expr* BinOpSeqParser::parse(llvm::LLVMContext &C, list<Expr*>* exprs, list<BinaryOp*>* ops){
-	return createPrecedenceTree(C, exprs, ops, 0, exprs->size() - 1);
+    return createPrecedenceTree(C, exprs, ops, 0, exprs->size() - 1);
 }
 
 int BinOpSeqParser::findPivot(list<BinaryOp*>* ops, int startIndex, int stopIndex){
-	int pivot = startIndex;
-	list<BinaryOp*>::iterator it;
-	
-	it = ops->begin();
-	advance(it, pivot);
-	BinaryOp* bop = *it;
-	int pivotRank = bop->getPrecedence();
-	
-	for (int i = startIndex + 1; i <= stopIndex; i++) {
-		it = ops->begin();
-		advance(it, i);
-		bop = *it;
-		int current = bop->getPrecedence();
-		bool rtl = bop->isRightAssociative();
-		if (pivotRank < current || (current == pivotRank && rtl)) {
-			pivot = i;
-			pivotRank = current;
-		}
-	}
+    int pivot = startIndex;
+    list<BinaryOp*>::iterator it;
 
-	return pivot;
+    it = ops->begin();
+    advance(it, pivot);
+    BinaryOp* bop = *it;
+    int pivotRank = bop->getPrecedence();
+
+    for (int i = startIndex + 1; i <= stopIndex; i++) {
+        it = ops->begin();
+        advance(it, i);
+        bop = *it;
+        int current = bop->getPrecedence();
+        bool rtl = bop->isRightAssociative();
+        if (pivotRank < current || (current == pivotRank && rtl)) {
+            pivot = i;
+            pivotRank = current;
+        }
+    }
+
+    return pivot;
 }
 
 Expr* BinOpSeqParser::createPrecedenceTree(llvm::LLVMContext &C, list<Expr*>* exprs, list<BinaryOp*>* ops, int startIndex, int stopIndex){
-	list<BinaryOp*>::iterator itOp;
-	list<Expr*>::iterator itExpr;
+    list<BinaryOp*>::iterator itOp;
+    list<Expr*>::iterator itExpr;
 
-	if (stopIndex == startIndex) {
-		itExpr = exprs->begin();
-		advance(itExpr, startIndex);
-		return *itExpr;
-	}
+    if (stopIndex == startIndex) {
+        itExpr = exprs->begin();
+        advance(itExpr, startIndex);
+        return *itExpr;
+    }
 
-	int pivot = findPivot(ops, startIndex, stopIndex - 1);
-	itOp = ops->begin();
-	advance(itOp, pivot);
-	BinaryOp* op = *itOp;
-	Expr* e1 = createPrecedenceTree(C, exprs, ops, startIndex, pivot);
-	Expr* e2 = createPrecedenceTree(C, exprs, ops, pivot + 1, stopIndex);
+    int pivot = findPivot(ops, startIndex, stopIndex - 1);
+    itOp = ops->begin();
+    advance(itOp, pivot);
+    BinaryOp* op = *itOp;
+    Expr* e1 = createPrecedenceTree(C, exprs, ops, startIndex, pivot);
+    Expr* e2 = createPrecedenceTree(C, exprs, ops, pivot + 1, stopIndex);
 
-	return new BinaryExpr(C, e1, op, e2);
+    return new BinaryExpr(C, e1, op, e2);
 }

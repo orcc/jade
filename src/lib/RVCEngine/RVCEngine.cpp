@@ -64,7 +64,7 @@ RVCEngine::RVCEngine(llvm::LLVMContext& C,
                              string library,
                              int defaultFifoSize,
                              string system,
-                             string outputDir,
+                     string outputDir,
                              bool noMerging,
                              bool noMultiCore,
                              bool verbose, bool armFix): Context(C) {
@@ -135,9 +135,9 @@ int RVCEngine::unload(Network* network) {
 
 
 int RVCEngine::stop(Network* network){
-    map<Network*, Decoder*>::iterator it;
+//    map<Network*, Decoder*>::iterator it;
 
-    it = decoders.find(network);
+    map<Network*, Decoder*>::iterator it = decoders.find(network);
 
     if (it == decoders.end()){
         cout << "No decoders found for this network.\n";

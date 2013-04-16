@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -47,142 +47,142 @@
 
 /**
  * @brief  This class represents a parser of a scenario.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class ScenarioParser {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new scenario parser.
-	 *
-	 * @param scFile : the scenario file to parse.
+     * Creates a new scenario parser.
+     *
+     * @param scFile : the scenario file to parse.
      */
-	ScenarioParser(std::string scFile);
+    ScenarioParser(std::string scFile);
 
-	/*!
+    /*!
      *  @brief Start the manager
      *
-	 * Start the manager with the given scenario.
-	 *
-	 * @param scFile : the file that contains a scenario.
-	 *
-	 * @return true if scenario finished correctly, otherwise false
+     * Start the manager with the given scenario.
+     *
+     * @param scFile : the file that contains a scenario.
+     *
+     * @return true if scenario finished correctly, otherwise false
      */
-	Scenario* parse();
+    Scenario* parse();
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete the scenario parser.
+     * Delete the scenario parser.
      */
-	~ScenarioParser(){};
+    ~ScenarioParser(){};
 
 private:
-	/*!
+    /*!
      *  @brief Parses the events of a scenario.
-	 *
+     *
      *  @param root : TiXmlElement representation of event elements
      */
-	bool parseEvents(TiXmlElement* root);
+    bool parseEvents(TiXmlElement* root);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Load event.
-	 *
-     *  @param loadEvent : TiXmlElement representation of LoadEvent element 
+     *
+     *  @param loadEvent : TiXmlElement representation of LoadEvent element
      */
-	Event* parseLoadEvent(TiXmlElement* loadEvent);
+    Event* parseLoadEvent(TiXmlElement* loadEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Start event.
-	 *
-     *  @param startEvent : TiXmlElement representation of StartEvent element 
+     *
+     *  @param startEvent : TiXmlElement representation of StartEvent element
      */
-	Event* parseStartEvent(TiXmlElement* startEvent);
+    Event* parseStartEvent(TiXmlElement* startEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Stop event.
-	 *
-     *  @param stopEvent : TiXmlElement representation of StopEvent element 
+     *
+     *  @param stopEvent : TiXmlElement representation of StopEvent element
      */
-	Event* parseStopEvent(TiXmlElement* stopEvent);
+    Event* parseStopEvent(TiXmlElement* stopEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Set event.
-	 *
-     *  @param setEvent : TiXmlElement representation of SetEvent element 
+     *
+     *  @param setEvent : TiXmlElement representation of SetEvent element
      */
-	Event* parseSetEvent(TiXmlElement* setEvent);
+    Event* parseSetEvent(TiXmlElement* setEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Wait event.
-	 *
-     *  @param waitEvent : TiXmlElement representation of WaitEvent element 
+     *
+     *  @param waitEvent : TiXmlElement representation of WaitEvent element
      */
-	Event* parseWaitEvent(TiXmlElement* waitEvent);
+    Event* parseWaitEvent(TiXmlElement* waitEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Pause event.
-	 *
-     *  @param pauseEvent : TiXmlElement representation of PauseEvent element 
+     *
+     *  @param pauseEvent : TiXmlElement representation of PauseEvent element
      */
-	Event* parsePauseEvent(TiXmlElement* pauseEvent);
+    Event* parsePauseEvent(TiXmlElement* pauseEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Verify event.
-	 *
-     *  @param verifyEvent : TiXmlElement representation of VerifyEvent element 
+     *
+     *  @param verifyEvent : TiXmlElement representation of VerifyEvent element
      */
-	Event* parseVerifyEvent(TiXmlElement* verifyEvent);
+    Event* parseVerifyEvent(TiXmlElement* verifyEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Print event.
-	 *
-     *  @param printEvent : TiXmlElement representation of PrintEvent element 
+     *
+     *  @param printEvent : TiXmlElement representation of PrintEvent element
      */
-	Event* parsePrintEvent(TiXmlElement* printEvent);
+    Event* parsePrintEvent(TiXmlElement* printEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a Remove event.
-	 *
-     *  @param removeEvent : TiXmlElement representation of RemoveEvent element 
+     *
+     *  @param removeEvent : TiXmlElement representation of RemoveEvent element
      */
-	Event* parseRemoveEvent(TiXmlElement* removeEvent);
+    Event* parseRemoveEvent(TiXmlElement* removeEvent);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a List event.
-	 *
-     *  @param listEvent : TiXmlElement representation of ListEvent element 
+     *
+     *  @param listEvent : TiXmlElement representation of ListEvent element
      */
-	Event* parseListEvent(TiXmlElement* removeEvent);
+    Event* parseListEvent(TiXmlElement* removeEvent);
 
-	/** Xml elements of Scenario */
-	static const char* JSC_ROOT;
-	static const char* JSC_LOAD;
-	static const char* JSC_START;
-	static const char* JSC_STOP;
-	static const char* JSC_SET;
-	static const char* JSC_WAIT;
-	static const char* JSC_PAUSE;
-	static const char* JSC_PRINT;
-	static const char* JSC_REMOVE;
-	static const char* JSC_VERIFY;
-	static const char* JSC_LIST;
-	static const char* JSC_XDF;
-	static const char* JSC_ID;
-	static const char* JSC_IN;
-	static const char* JSC_TIME;
-	static const char* JSC_THREADED;
-	static const char* JSC_OUT;
+    /** Xml elements of Scenario */
+    static const char* JSC_ROOT;
+    static const char* JSC_LOAD;
+    static const char* JSC_START;
+    static const char* JSC_STOP;
+    static const char* JSC_SET;
+    static const char* JSC_WAIT;
+    static const char* JSC_PAUSE;
+    static const char* JSC_PRINT;
+    static const char* JSC_REMOVE;
+    static const char* JSC_VERIFY;
+    static const char* JSC_LIST;
+    static const char* JSC_XDF;
+    static const char* JSC_ID;
+    static const char* JSC_IN;
+    static const char* JSC_TIME;
+    static const char* JSC_THREADED;
+    static const char* JSC_OUT;
 
 
-	/** File to parse */
-	std::string scFile;
+    /** File to parse */
+    std::string scFile;
 
-	/** Resulting scenario */
-	Scenario* scenario;
+    /** Resulting scenario */
+    Scenario* scenario;
 };
 
 #endif

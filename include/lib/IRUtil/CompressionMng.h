@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,7 +28,7 @@
  */
 
 /**
-@brief Description of the CompressionMng class interface 
+@brief Description of the CompressionMng class interface
 @author Olivier Labois
 @file CompressionMng.h
 @version 1.0
@@ -54,116 +54,116 @@
  * @brief This class contains methods for managing compression.
  *
  * @author Olivier Labois
- * 
+ *
  */
 class CompressionMng {
 public:
-	/**
+    /**
      * @brief Compress the file given in the GZip format
-	 *  
-	 *  The original file is remove
-	 *
-	 * @param file : name of the file
-	 * 
-	 * @param compressLevel : the compress level [1..9], 6 by default.
-	 *
-	 * @return Return output file name
-	 *
+     *
+     *  The original file is remove
+     *
+     * @param file : name of the file
+     *
+     * @param compressLevel : the compress level [1..9], 6 by default.
+     *
+     * @return Return output file name
+     *
      */
-	static std::string compressFile(std::string file, std::string compressLevel = "6");
+    static std::string compressFile(std::string file, std::string compressLevel = "6");
 
-	/**
+    /**
      * @brief Uncompress the GZip file given.
-	 *  
-	 *  The original file is remove
-	 *
-	 * @param file : name of the file
-	 *
-	 * @return Return output file name
-	 *
+     *
+     *  The original file is remove
+     *
+     * @param file : name of the file
+     *
+     * @return Return output file name
+     *
      */
-	static std::string uncompressGZip(std::string file);
+    static std::string uncompressGZip(std::string file);
 
-	/**
+    /**
      * @brief See if the file given is a GZip file.
-	 *
-	 * @param file : name of the file
-	 *
-	 * @return Return true if the file given is a GZip file, otherwise false.
-	 *
+     *
+     * @param file : name of the file
+     *
+     * @return Return true if the file given is a GZip file, otherwise false.
+     *
      */
-	static bool IsGZipFile(std::string file) {
-		llvm::sys::Path GZipFile(file + ".gz");
-		return GZipFile.exists();
-	};
+    static bool IsGZipFile(std::string file) {
+        llvm::sys::Path GZipFile(file + ".gz");
+        return GZipFile.exists();
+    };
 
-	/**
+    /**
      * @brief See if the file name given contain the GZip extension.
-	 *
-	 * @param file : name of the file
-	 *
-	 * @return Return true if the file given is a GZip file name, otherwise false.
-	 *
+     *
+     * @param file : name of the file
+     *
+     * @return Return true if the file given is a GZip file name, otherwise false.
+     *
      */
-	static bool IsGZipName(std::string file) {
-		size_t found = file.find(".gz");
-		return (found != std::string::npos);
-	};
+    static bool IsGZipName(std::string file) {
+        size_t found = file.find(".gz");
+        return (found != std::string::npos);
+    };
 
 
 private:
 
-	/**
+    /**
      * @brief Check if the file exists
-	 *
-	 *  If the file does not exists, program stop with the code 0
-	 *
-	 * @param file : name of the file
-	 *
+     *
+     *  If the file does not exists, program stop with the code 0
+     *
+     * @param file : name of the file
+     *
      */
-	static void checkFile(std::string file);
+    static void checkFile(std::string file);
 
-	/**
+    /**
      * @brief Compress in to out
-	 *
-	 * @param in : datas of the input file
-	 *
-	 * @param out : datas of the output file
-	 *
+     *
+     * @param in : datas of the input file
+     *
+     * @param out : datas of the output file
+     *
      */
-	static void compress(FILE* in, gzFile out);
+    static void compress(FILE* in, gzFile out);
 
-	/**
+    /**
      * @brief Uncompress in to out
-	 *
-	 * @param in : datas of the input file
-	 *
-	 * @param out : datas of the output file
-	 *
+     *
+     * @param in : datas of the input file
+     *
+     * @param out : datas of the output file
+     *
      */
-	static void uncompress(gzFile in, FILE* out);
+    static void uncompress(gzFile in, FILE* out);
 
-	/**
+    /**
      * @brief Shown the messages given and stop program whith the code 1
-	 *
-	 * @param msg : string of the message
-	 *
+     *
+     * @param msg : string of the message
+     *
      */
-	static void error(std::string msg);
+    static void error(std::string msg);
 
-	/**
+    /**
      * @brief Add a file in list of tempory files
-	 *
-	 *	All temporary files are deleted when the tmpFiles destructor is called
-	 *
-	 * @param file : path of file
-	 *
+     *
+     *	All temporary files are deleted when the tmpFiles destructor is called
+     *
+     * @param file : path of file
+     *
      */
-	static void addTmpFile(llvm::sys::Path file);
+    static void addTmpFile(llvm::sys::Path file);
 
-	/** List of temporary files */
-	static std::list<llvm::FileRemover> tmpFiles;
-	
+    /** List of temporary files */
+    static std::list<llvm::FileRemover> tmpFiles;
+
 };
 
 #endif

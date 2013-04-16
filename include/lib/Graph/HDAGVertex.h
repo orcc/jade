@@ -8,7 +8,7 @@ This software is a computer program whose purpose is to execute
 parallel applications.
 
  *********************************************************/
- 
+
 #ifndef HDAG_VERTEX
 #define HDAG_VERTEX
 
@@ -23,195 +23,195 @@ class HDAGEdge;
 
 /**
  * A vertex in a HDAG graph
- * 
+ *
  * @author mpelcat
  */
 
 class HDAGVertex {
 
-	public :
-		/**
-		 The base, i.e. the graph in which current vertex is included
-		*/
-		HDAGGraph* base;
-		
-		/**
-		 Integer solved parameters. Retrieved while solving the edges
-		*/
-		int paramValues[MAX_PARAM];
+    public :
+        /**
+         The base, i.e. the graph in which current vertex is included
+        */
+        HDAGGraph* base;
 
-		/**
-		 The reference DAG graph (if generated from a CSDAG)
-		*/
-		CSDAGVertex* csDagReference;
+        /**
+         Integer solved parameters. Retrieved while solving the edges
+        */
+        int paramValues[MAX_PARAM];
 
-		/**
-		 The vertex top level
-		*/
-		int tLevel;
+        /**
+         The reference DAG graph (if generated from a CSDAG)
+        */
+        CSDAGVertex* csDagReference;
 
-		/**
-		 The vertex implementation slave index
-		*/
-		char slaveIndex;
+        /**
+         The vertex top level
+        */
+        int tLevel;
 
-		/**
-		 The duplication index of the vertex to distinguish it from other vertices created from dagReference.
-		*/
-		int referenceIndex;
+        /**
+         The vertex implementation slave index
+        */
+        char slaveIndex;
 
-		/**
-		 The vertex name
-		*/
-		char name[MAX_VERTEX_NAME_SIZE];
+        /**
+         The duplication index of the vertex to distinguish it from other vertices created from dagReference.
+        */
+        int referenceIndex;
 
-		/**
-		 A table of the vertices following the current vertices in the graph. The table is initialized from
-		 edges information by the precomputeSuccessors method in HDAGGraph
-		*/
-		HDAGVertex* successors[MAX_HDAG_INPUT_EDGES];
-		int nbSuccessors;
-	public : 
+        /**
+         The vertex name
+        */
+        char name[MAX_VERTEX_NAME_SIZE];
 
-		/**
-		 Constructor
-		*/
-		HDAGVertex();
+        /**
+         A table of the vertices following the current vertices in the graph. The table is initialized from
+         edges information by the precomputeSuccessors method in HDAGGraph
+        */
+        HDAGVertex* successors[MAX_HDAG_INPUT_EDGES];
+        int nbSuccessors;
+    public :
 
-		/**
-		 Constructor
-		*/
-		HDAGVertex(char* name){this->setName(name);};
+        /**
+         Constructor
+        */
+        HDAGVertex();
 
-		/**
-		 Destructor
-		*/
-		~HDAGVertex();
+        /**
+         Constructor
+        */
+        HDAGVertex(char* name){this->setName(name);};
 
-		/**
-		 Setting the base, i.e. the graph in which current vertex is included
+        /**
+         Destructor
+        */
+        ~HDAGVertex();
 
-		 @param base: the base
-		*/
-		void setBase(HDAGGraph* graph);
+        /**
+         Setting the base, i.e. the graph in which current vertex is included
 
-		/**
-		 Getting the value of a parameter
+         @param base: the base
+        */
+        void setBase(HDAGGraph* graph);
 
-		 @param paramIndex: the parameter index
-		 @return the parameter value
-		*/
-		int getParamValue(int paramIndex);
+        /**
+         Getting the value of a parameter
 
-		/**
-		 Setting the value of a parameter
+         @param paramIndex: the parameter index
+         @return the parameter value
+        */
+        int getParamValue(int paramIndex);
 
-		 @param paramIndex: the parameter index
-		 @param value: the parameter value
-		*/
-		void setParamValue(int paramIndex, int value);
+        /**
+         Setting the value of a parameter
 
-		/**
-		 Getting the CSDAG vertex that generated the current HDAG vertex
+         @param paramIndex: the parameter index
+         @param value: the parameter value
+        */
+        void setParamValue(int paramIndex, int value);
 
-		 @return the CSDAG reference vertex
-		*/
-		CSDAGVertex* getCsDagReference();
+        /**
+         Getting the CSDAG vertex that generated the current HDAG vertex
 
-		/**
-		 Setting the value of a parameter
+         @return the CSDAG reference vertex
+        */
+        CSDAGVertex* getCsDagReference();
 
-		 @param:vertex the CSDAG reference vertex
-		*/
-		void setCsDagReference(CSDAGVertex* vertex);
+        /**
+         Setting the value of a parameter
 
-		/**
-		 Getting the duplication index of the vertex that distinguishes
-		 it from other vertices created from dagReference.
+         @param:vertex the CSDAG reference vertex
+        */
+        void setCsDagReference(CSDAGVertex* vertex);
 
-		 @return the CSDAG reference index
-		*/
-		int getReferenceIndex();
+        /**
+         Getting the duplication index of the vertex that distinguishes
+         it from other vertices created from dagReference.
 
-		/**
-		 Setting the duplication index of the vertex to distinguish 
-		 it from other vertices created from dagReference.
+         @return the CSDAG reference index
+        */
+        int getReferenceIndex();
 
-		 @param index: the vertex reference index
-		*/
-		void setReferenceIndex(int index);
+        /**
+         Setting the duplication index of the vertex to distinguish
+         it from other vertices created from dagReference.
 
-		/**
-		 Getter of the implementation information giving the slave that will execute the vertex.
+         @param index: the vertex reference index
+        */
+        void setReferenceIndex(int index);
 
-		 @return the slave index
-		*/
-		char getSlaveIndex();
+        /**
+         Getter of the implementation information giving the slave that will execute the vertex.
 
-		/**
-		 Setter of the implementation information giving the slave that will execute the vertex.
+         @return the slave index
+        */
+        char getSlaveIndex();
 
-		 @param slaveIndex: the slave index
-		*/
-		void setSlaveIndex(char slaveIndex);
+        /**
+         Setter of the implementation information giving the slave that will execute the vertex.
 
-		/**
-		 Getter of the vertex top level: the time between the loop execution beginning and the vertex execution beginning.
+         @param slaveIndex: the slave index
+        */
+        void setSlaveIndex(char slaveIndex);
 
-		 @return the t level of the vertex
-		*/
-		int getTLevel();
+        /**
+         Getter of the vertex top level: the time between the loop execution beginning and the vertex execution beginning.
 
-		/**
-		 Setter of the vertex top level: the time between the loop execution beginning and the vertex execution beginning.
+         @return the t level of the vertex
+        */
+        int getTLevel();
 
-		 @param value: the t level of the vertex
-		*/
-		void setTLevel(int value);
+        /**
+         Setter of the vertex top level: the time between the loop execution beginning and the vertex execution beginning.
 
-		/**
-		 Setting the vertex name
+         @param value: the t level of the vertex
+        */
+        void setTLevel(int value);
 
-		 @param name: the name
-		*/
-		void setName(char* name);
+        /**
+         Setting the vertex name
 
-		/**
-		 Getting the vertex name
+         @param name: the name
+        */
+        void setName(char* name);
 
-		 @param name: the name
-		*/
-		char* getName();
+        /**
+         Getting the vertex name
 
-		/**
-		 Removes all the vertices from the successors table
-		*/
-		void flushSuccessors();
+         @param name: the name
+        */
+        char* getName();
 
-		/**
-		 Adds a vertex in the the successors table
+        /**
+         Removes all the vertices from the successors table
+        */
+        void flushSuccessors();
 
-		 @param vertex: the vertex to add
-		*/
-		void addSuccessor(HDAGVertex* vertex);
+        /**
+         Adds a vertex in the the successors table
 
-		/**
-		 Gets a pointer on the successors table and the size of the table
+         @param vertex: the vertex to add
+        */
+        void addSuccessor(HDAGVertex* vertex);
 
-		 @param successorVertices: a pointer to retrieve the table pointer
-		 @return the successors table size
-		*/
-		int getSuccessors(HDAGVertex*** successorVertices);
+        /**
+         Gets a pointer on the successors table and the size of the table
 
-		/**
-		 Sets the condition when to HDAGVertex are considered as equal.
+         @param successorVertices: a pointer to retrieve the table pointer
+         @return the successors table size
+        */
+        int getSuccessors(HDAGVertex*** successorVertices);
 
-		 @param vertex: HDAGVertex to compare with
-		 @return true if the vertex are equivalent
-		*/
-		virtual bool equals(HDAGVertex* vertex){
-			return this == vertex;
-		}
+        /**
+         Sets the condition when to HDAGVertex are considered as equal.
+
+         @param vertex: HDAGVertex to compare with
+         @return true if the vertex are equivalent
+        */
+        virtual bool equals(HDAGVertex* vertex){
+            return this == vertex;
+        }
 };
 
 
@@ -222,7 +222,7 @@ class HDAGVertex {
 */
 INLINE
 void HDAGVertex::setBase(HDAGGraph* graph){
-	this->base = graph;
+    this->base = graph;
 }
 
 /**
@@ -233,7 +233,7 @@ void HDAGVertex::setBase(HDAGGraph* graph){
 */
 INLINE
 int HDAGVertex::getParamValue(int paramIndex){
-	return paramValues[paramIndex];
+    return paramValues[paramIndex];
 }
 
 /**
@@ -244,7 +244,7 @@ int HDAGVertex::getParamValue(int paramIndex){
 */
 INLINE
 void HDAGVertex::setParamValue(int paramIndex, int value){
-	paramValues[paramIndex] = value;
+    paramValues[paramIndex] = value;
 }
 
 /**
@@ -254,7 +254,7 @@ void HDAGVertex::setParamValue(int paramIndex, int value){
 */
 INLINE
 CSDAGVertex* HDAGVertex::getCsDagReference(){
-	return csDagReference;
+    return csDagReference;
 }
 
 /**
@@ -264,7 +264,7 @@ CSDAGVertex* HDAGVertex::getCsDagReference(){
 */
 INLINE
 void HDAGVertex::setCsDagReference(CSDAGVertex* vertex){
-	csDagReference = vertex;
+    csDagReference = vertex;
 }
 
 /**
@@ -275,18 +275,18 @@ void HDAGVertex::setCsDagReference(CSDAGVertex* vertex){
 */
 INLINE
 int HDAGVertex::getReferenceIndex(){
-	return referenceIndex;
+    return referenceIndex;
 }
 
 /**
- Setting the duplication index of the vertex to distinguish 
+ Setting the duplication index of the vertex to distinguish
  it from other vertices created from dagReference.
 
  @param index: the vertex reference index
 */
 INLINE
 void HDAGVertex::setReferenceIndex(int index){
-	referenceIndex = index;
+    referenceIndex = index;
 }
 
 /**
@@ -296,7 +296,7 @@ void HDAGVertex::setReferenceIndex(int index){
 */
 INLINE
 char HDAGVertex::getSlaveIndex(){
-	return slaveIndex;
+    return slaveIndex;
 }
 
 /**
@@ -306,7 +306,7 @@ char HDAGVertex::getSlaveIndex(){
 */
 INLINE
 void HDAGVertex::setSlaveIndex(char index){
-	slaveIndex = index;
+    slaveIndex = index;
 }
 
 /**
@@ -316,7 +316,7 @@ void HDAGVertex::setSlaveIndex(char index){
 */
 INLINE
 int HDAGVertex::getTLevel(){
-	return tLevel;
+    return tLevel;
 }
 
 /**
@@ -326,7 +326,7 @@ int HDAGVertex::getTLevel(){
 */
 INLINE
 void HDAGVertex::setTLevel(int value){
-	tLevel = value;
+    tLevel = value;
 }
 
 /**
@@ -336,7 +336,7 @@ void HDAGVertex::setTLevel(int value){
 */
 INLINE
 void HDAGVertex::setName(char* name){
-	strcpy(this->name,name);
+    strcpy(this->name,name);
 }
 
 /**
@@ -346,7 +346,7 @@ void HDAGVertex::setName(char* name){
 */
 INLINE
 char* HDAGVertex::getName(){
-	return name;
+    return name;
 }
 
 /**
@@ -354,7 +354,7 @@ char* HDAGVertex::getName(){
 */
 INLINE
 void HDAGVertex::flushSuccessors(){
-	nbSuccessors = 0;
+    nbSuccessors = 0;
 }
 
 /**
@@ -365,13 +365,13 @@ void HDAGVertex::flushSuccessors(){
 INLINE
 void HDAGVertex::addSuccessor(HDAGVertex* vertex){
 #ifdef _DEBUG
-	if(nbSuccessors >= MAX_HDAG_INPUT_EDGES){
-		// Adding a successor vertex in a full table
-		exitWithCode(1044);
-	}
+    if(nbSuccessors >= MAX_HDAG_INPUT_EDGES){
+        // Adding a successor vertex in a full table
+        exitWithCode(1044);
+    }
 #endif
-	successors[nbSuccessors] = vertex;
-	nbSuccessors++;
+    successors[nbSuccessors] = vertex;
+    nbSuccessors++;
 }
 
 /**
@@ -382,8 +382,8 @@ void HDAGVertex::addSuccessor(HDAGVertex* vertex){
 */
 INLINE
 int HDAGVertex::getSuccessors(HDAGVertex*** successorVertices){
-	*successorVertices = successors;
-	return nbSuccessors;
+    *successorVertices = successors;
+    return nbSuccessors;
 }
 
 #endif

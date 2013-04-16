@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,104 +49,104 @@
 using namespace llvm;
 using namespace std;
 
- 
+
 
 LLVMParser::LLVMParser(LLVMContext& C, string directory, bool verbose): Context(C){
-	this->directory = directory;
-	this->verbose = verbose;
+    this->directory = directory;
+    this->verbose = verbose;
 }
 
 
 Module* LLVMParser::loadModule(Package* package, string file) {
-	SMDiagnostic Err;
-	Module *Mod;
+    SMDiagnostic Err;
+    Module *Mod;
 
-	//Get filename of the actor
-	sys::Path Filename(directory + package->getDirectory() + "/" + file);
+    //Get filename of the actor
+    sys::Path Filename(directory + package->getDirectory() + "/" + file);
 
-	/*//Load the bitcode
-	if(!Filename.exists()){
-		//Archive case
-		Mod = ParseArchive(package, Filename);
-	}else{*/
-		//Bitecode and Assembly case
-		Mod = ParseIRFile(Filename.c_str(), Err, Context);
-	//}
+    /*//Load the bitcode
+    if(!Filename.exists()){
+        //Archive case
+        Mod = ParseArchive(package, Filename);
+    }else{*/
+        //Bitecode and Assembly case
+        Mod = ParseIRFile(Filename.c_str(), Err, Context);
+    //}
 
-	if (verbose) cout << "Loading '" << Filename.c_str() << "'\n";	
+    if (verbose) cout << "Loading '" << Filename.c_str() << "'\n";
 
-	if (!Mod) {
-		//Error when parsing module
-		cerr << "Error parsing bitcode file '" << file.c_str() << "' at line " << Err.getLineNo() << "\n";
-		cerr << Err.getMessage() << "\n";
-		cerr << Err.getFilename() << "\n";
-		exit(1);
-	}
+    if (!Mod) {
+        //Error when parsing module
+        cerr << "Error parsing bitcode file '" << file.c_str() << "' at line " << Err.getLineNo() << "\n";
+        cerr << Err.getMessage() << "\n";
+        cerr << Err.getFilename() << "\n";
+        exit(1);
+    }
 
-	return Mod;
+    return Mod;
 }
 
 Module* LLVMParser::ParseArchive(Package* package, sys::Path file){
-	if(!package->isArchive()){
-			openArchive(package);
-	}
+    if(!package->isArchive()){
+            openArchive(package);
+    }
 
-	return loadBitcodeInArchive(package, file);
+    return loadBitcodeInArchive(package, file);
 }
 
 Module* LLVMParser::loadBitcodeInArchive(Package* package, sys::Path file) {
-	std::string Error;
-	LLVMContext &Context = getGlobalContext();
+    std::string Error;
+    LLVMContext &Context = getGlobalContext();
 
-	Module* Mod = NULL;
-	Archive* archive = package->getArchive();
-	Archive::iterator itArch;
+    Module* Mod = NULL;
+    Archive* archive = package->getArchive();
+    Archive::iterator itArch;
 
-	//Find and load module
-	for(itArch = archive->begin(); itArch != archive->end(); itArch++){
-		if(itArch->getPath() == file){
-			MemoryBuffer *Buffer = MemoryBuffer::getMemBufferCopy(StringRef(itArch->getData(),
-																			itArch->getSize()),
-																  file.str());       
-			
-			Mod = ParseBitcodeFile(Buffer, Context, &Error);
-			if (Error != "")
-				cerr <<"Error when parse actorfile "<< file.c_str() << "in archive" <<archive->getPath().c_str();
+    //Find and load module
+    for(itArch = archive->begin(); itArch != archive->end(); itArch++){
+        if(itArch->getPath() == file){
+            MemoryBuffer *Buffer = MemoryBuffer::getMemBufferCopy(StringRef(itArch->getData(),
+                                                                            itArch->getSize()),
+                                                                  file.str());
 
-			break;
-		}	
-	}
+            Mod = ParseBitcodeFile(Buffer, Context, &Error);
+            if (Error != "")
+                cerr <<"Error when parse actorfile "<< file.c_str() << "in archive" <<archive->getPath().c_str();
 
-	return Mod;
+            break;
+        }
+    }
+
+    return Mod;
 }
 
 void LLVMParser::openArchive(Package* package){
-	std::string Error;
-	LLVMContext &Context = getGlobalContext();
+    std::string Error;
+    LLVMContext &Context = getGlobalContext();
 
-	//Get archive file name
-	string archiveName = PackageMng::getFirstFolder(package->getDirectory()) + ".a";
-	sys::Path archiveFile(directory + archiveName);
+    //Get archive file name
+    string archiveName = PackageMng::getFirstFolder(package->getDirectory()) + ".a";
+    sys::Path archiveFile(directory + archiveName);
 
-	//If useful, uncompress archive 
-	if(CompressionMng::IsGZipFile(archiveFile.c_str())){
-		string GZipFile = archiveFile.str() + ".gz";
-		CompressionMng::uncompressGZip(GZipFile);
-	}
+    //If useful, uncompress archive
+    if(CompressionMng::IsGZipFile(archiveFile.c_str())){
+        string GZipFile = archiveFile.str() + ".gz";
+        CompressionMng::uncompressGZip(GZipFile);
+    }
 
-	//Check if archive exists
-	if(!archiveFile.exists()){
-		cerr <<"Package system not found";
-		exit(1);
-	}
+    //Check if archive exists
+    if(!archiveFile.exists()){
+        cerr <<"Package system not found";
+        exit(1);
+    }
 
-	//Load archive
-	package->setArchive(Archive::OpenAndLoad(archiveFile, Context, &Error));
-	
-	if (Error != ""){
-		cerr <<"Error when open archive "<< archiveFile.c_str();
-	}
+    //Load archive
+    package->setArchive(Archive::OpenAndLoad(archiveFile, Context, &Error));
 
-	//Set archive on all parents of package
-	PackageMng::setArchive(package);
+    if (Error != ""){
+        cerr <<"Error when open archive "<< archiveFile.c_str();
+    }
+
+    //Set archive on all parents of package
+    PackageMng::setArchive(package);
 }
