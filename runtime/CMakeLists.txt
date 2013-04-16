@@ -14,11 +14,9 @@ add_library (orcc
 	orcc/src/getopt.c
 	orcc/src/source.c
 	orcc/src/writer.c
-	orcc/src/source_no_loop.c
 	orcc/src/orcc_util.c
 	orcc/src/thread.c
 	orcc/src/genetic.c
-	orcc/src/accessFile.c
 	orcc/src/fpsPrint.c
 	${orcc_HDRS}
 )
