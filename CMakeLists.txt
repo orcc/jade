@@ -25,7 +25,7 @@ IF(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
 	if(MSVC)
 		set(LLVM_INCLUDE_DIRS ${LLVM_DIR}/include ${LLVM_INST_DIR}/include)
 		set(LLVM_LIBRARY ${LLVM_INST_DIR}/lib/${CMAKE_CFG_INTDIR})
-		set(LLVM_CPP_FLAGS 
+		set(LLVM_CPP_FLAGS
 			"/D __STDC_CONSTANT_MACROS";
 			"/D _CRT_SECURE_NO_DEPRECATE";
 			"/D _CRT_SECURE_NO_WARNINGS";
@@ -36,7 +36,7 @@ IF(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
 			"-wd4146 -wd4503 -wd4996 -wd4800 -wd4244 -wd4624 -wd4355 -wd4715";
 			"-wd4180 -wd4345 -wd4224 -wd4351"
 		)
-		set(LLVM_LIBRARIES 
+		set(LLVM_LIBRARIES
 			${LLVM_LIBRARY}/LLVMJIT.lib;
 			${LLVM_LIBRARY}/LLVMInterpreter.lib
 			${LLVM_LIBRARY}/LLVMX86CodeGen.lib;
@@ -86,8 +86,8 @@ endif(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
 # Set Jade flags
 set(JADE_MAIN_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(JADE_MAIN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(JADE_TOOLS_DIR ${JADE_MAIN_SRC_DIR}/tools)
 set(JADE_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/doc)
+set(JADE_BIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Generate documentation option
 option(GENERATE_DOCS "Generate documentation using doxygen.")
@@ -97,7 +97,11 @@ if(GENERATE_DOCS)
 endif()
 
 # Set output path
-set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
+if("" STREQUAL "${CMAKE_BUILD_TYPE}")
+	set(EXECUTABLE_OUTPUT_PATH "${JADE_BIN_DIR}/Default")
+else()
+	set(EXECUTABLE_OUTPUT_PATH "${JADE_BIN_DIR}/${CMAKE_BUILD_TYPE}")
+endif()
 
 add_subdirectory(runtime)
 add_subdirectory(src)
