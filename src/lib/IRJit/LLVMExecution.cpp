@@ -145,7 +145,7 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
   }
 
   //Set properties of the EE
-  EE->RegisterJITEventListener(createOProfileJITEventListener());
+  EE->RegisterJITEventListener(JITEventListener::createOProfileJITEventListener());
 
   EE->DisableLazyCompilation(NoLazyCompilation);
   
