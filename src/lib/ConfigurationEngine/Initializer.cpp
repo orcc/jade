@@ -44,7 +44,7 @@
 #include "llvm/Function.h"
 #include "llvm/DerivedTypes.h"
 #include "llvm/GlobalVariable.h"
-#include "llvm/Support/IRBuilder.h"
+#include "llvm/IRBuilder.h"
 
 #include "lib/RVCEngine/Decoder.h"
 #include "lib/IRCore/Network/Instance.h"

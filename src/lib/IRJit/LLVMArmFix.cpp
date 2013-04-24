@@ -60,7 +60,7 @@
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Support/ToolOutputFile.h"
-#include "llvm/Target/TargetData.h"
+#include "llvm/DataLayout.h"
 #include "llvm/Target/TargetMachine.h"
 //------------------------------
 
@@ -311,10 +311,10 @@ tool_output_file* LLVMArmFix::generateNativeCode( sys::Path IntermediateAssembly
     PassManager PM;
 
     // Add the target data from the target machine, if it exists, or the module.
-    if (const TargetData *TD = Target.getTargetData())
-        PM.add(new TargetData(*TD));
+    if (const DataLayout *DL = Target.getDataLayout())
+        PM.add(new DataLayout(*DL));
     else
-        PM.add(new TargetData(module));
+        PM.add(new DataLayout(module));
 
     // Override default to generate verbose assembly.
     Target.setAsmVerbosityDefault(true);

@@ -49,7 +49,7 @@
 #include "llvm/Analysis/Verifier.h"
 #include "llvm/Support/PassNameParser.h"
 #include "llvm/Support/SourceMgr.h"
-#include "llvm/Target/TargetData.h"
+#include "llvm/DataLayout.h"
 #include "llvm/Target/TargetLibraryInfo.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
@@ -111,22 +111,22 @@ void LLVMOptimizer::optimize(int optLevel){
   Passes.add(TLI);
 
 
-  // Add an appropriate TargetData instance for this module.
-  TargetData *TD = 0;
+  // Add an appropriate DataLayout instance for this module.
+  DataLayout *DL = 0;
   const std::string &ModuleDataLayout = module->getDataLayout();
   if (!ModuleDataLayout.empty())
-    TD = new TargetData(ModuleDataLayout);
+    DL = new DataLayout(ModuleDataLayout);
   else if (!DefaultDataLayout.empty())
-    TD = new TargetData(DefaultDataLayout);
+    DL = new DataLayout(DefaultDataLayout);
 
-  if (TD)
-    Passes.add(TD);
+  if (DL)
+    Passes.add(DL);
 
   OwningPtr<FunctionPassManager> FPasses;
   if (optLevel > 0) {
     FPasses.reset(new FunctionPassManager(module));
-    if (TD)
-      FPasses->add(new TargetData(*TD));
+    if (DL)
+      FPasses->add(new DataLayout(*DL));
   }
 
    AddOptimizationPasses(Passes, *FPasses, optLevel);
