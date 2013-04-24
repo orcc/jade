@@ -92,7 +92,7 @@ void Connector::connect(Port* port, Fifo* fifo){
         Type* portStruct = fifo->getGV()->getType();
 
         //Return new variable
-        var =  new GlobalVariable(*module, portStruct, true,  GlobalValue::InternalLinkage, /*init*/0, port->getName(), 0, false);;
+        var =  new GlobalVariable(*module, portStruct, true,  GlobalValue::InternalLinkage, /*init*/0, port->getName());
 
         // Store the generated variable
         port->setFifoVar(var);

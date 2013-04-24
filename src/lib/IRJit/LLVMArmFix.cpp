@@ -99,7 +99,7 @@ void LLVMArmFix::run() {
     CallInst* callInst = CallInst::Create(initFn, Args, "", firstInst);
 
     // Get input file variable from source
-    GlobalVariable* inputFileVar = new GlobalVariable(*module, Type::getInt8PtrTy(Context), false, GlobalValue::ExternalLinkage,0,"input_file", 0, false);
+    GlobalVariable* inputFileVar = new GlobalVariable(*module, Type::getInt8PtrTy(Context), false, GlobalValue::ExternalLinkage,0,"input_file");
 
     // Initialize it to the input file
     Constant* inputChr = FunctionMng::createStdMessage(module, VidFile);

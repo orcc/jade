@@ -110,8 +110,6 @@ void RoundRobinScheduler::createNetworkScheduler(){
 	Module* module = decoder->getModule();
 	LLVMContext &Context = getGlobalContext();
 
-	//Create a global value that stop the scheduler and set it to false
-	stopGV = new GlobalVariable(*module, Type::getInt32Ty(Context), false, GlobalValue::ExternalLinkage,0,"stop", 0, false);
 	
 	// create main scheduler function
 	FunctionType *FT = FunctionType::get(Type::getInt32Ty(getGlobalContext()), false);
@@ -135,6 +133,8 @@ void RoundRobinScheduler::createNetworkScheduler(){
 	schedInst = new LoadInst(stopGV, "", schedulerBB);
 	ICmpInst* test = new ICmpInst(*schedulerBB, ICmpInst::ICMP_EQ, schedInst, one);
 	BranchInst* schedBrInst = BranchInst::Create(BBReturn, schedulerBB, test, schedulerBB);
+    //Create a global value that stop the scheduler and set it to false
+    stopGV = new GlobalVariable(*module, Type::getInt32Ty(Context), false, GlobalValue::ExternalLinkage,0,"stop");
 }
 
 void RoundRobinScheduler::createNetworkInitialize(){

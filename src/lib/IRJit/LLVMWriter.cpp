@@ -67,8 +67,8 @@ GlobalVariable* LLVMWriter::createPortVariable(Port* port){
     GlobalVariable* portVar = port->getFifoVar();
 
     GlobalVariable *newPortVar =  new GlobalVariable(*module, portVar->getType(),
-                          true, portVar->getLinkage(), ConstantPointerNull::get(portVar->getType()),
-                           prefix + portVar->getName(), 0, false);
+                                                     true, portVar->getLinkage(), ConstantPointerNull::get(portVar->getType()),
+                                                     prefix + portVar->getName());
 
     return newPortVar;
 }
@@ -78,14 +78,14 @@ GlobalVariable* LLVMWriter::addVariable(llvm::GlobalVariable* variable){
     const GlobalVariable *SGV = variable;
     Module *Dest = module;
 
-      // No linking to be performed, simply create an identical version of the
-      // symbol over in the dest module... the initializer will be filled in
-      // later by LinkGlobalInits.
-      GlobalVariable *NewDGV =
-        new GlobalVariable(*Dest, SGV->getType()->getElementType(),
-                           SGV->isConstant(), SGV->getLinkage(), /*init*/0,
-                           prefix + SGV->getName(), 0, false,
-                           SGV->getType()->getAddressSpace());
+    // No linking to be performed, simply create an identical version of the
+    // symbol over in the dest module... the initializer will be filled in
+    // later by LinkGlobalInits.
+    GlobalVariable *NewDGV =
+            new GlobalVariable(*Dest, SGV->getType()->getElementType(),
+                               SGV->isConstant(), SGV->getLinkage(), /*init*/0,
+                               prefix + SGV->getName(), 0, GlobalVariable::NotThreadLocal,
+                               SGV->getType()->getAddressSpace());
       // Propagate alignment, visibility and section info.
       CopyGVAttributes(NewDGV, SGV);
 
