@@ -49,6 +49,7 @@
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/Threading.h"
 #include "llvm/Support/TargetSelect.h"
+#include "llvm/Support/CommandLine.h"
 
 #include "lib/XDFSerialize/XDFParser.h"
 #include "lib/XCFSerialize/XCFParser.h"
@@ -70,47 +71,47 @@ using namespace llvm::cl;
 using namespace llvm::sys;
 
 // Jade options
-cl::opt<std::string>
+cl::opt<string>
 XDFFile("xdf", desc("XDF network file"), value_desc("XDF filename"));
 
-cl::opt<std::string>
+cl::opt<string>
 XCFFile("xcf", desc("XCF mapping file"), value_desc("XCF filename"));
 
-cl::opt<std::string>
+cl::opt<string>
 BSDLFile("bsdl", desc("Bitstream description file"), value_desc("BSDL filename"));
 
-cl::opt<std::string>
+cl::opt<string>
 VidFile("i", desc("Encoded video file"), value_desc("Video filename"));
 
-cl::opt<std::string>
+cl::opt<string>
 VTLDir("L", desc("Video Tools Library directory"),
        value_desc("VTL Folder"),
        Required,
        init(""));
 
-cl::opt<std::string>
+cl::opt<string>
 InputDir("I", desc("Stimulus directory"),
        value_desc("Folder of input stimulus"),
        Hidden,
        init(""));
 
-cl::opt<std::string>
+cl::opt<string>
 SystemDir("S", desc("Specifiy a specify location for package System"),
               value_desc("Location of package System"),
               Hidden,
               init(""));
 
-cl::opt<std::string>
+cl::opt<string>
 YuvFile("o", desc("Compare output with a decoded YUV video file"),
               value_desc("YUV filename"),
               init(""));
 
-cl::opt<std::string>
+cl::opt<string>
 ScFile("scenario", desc("Use a decoding scenario"),
               value_desc("decoding scenario"),
               init(""));
 
-cl::opt<std::string>
+cl::opt<string>
 OutputDir("w", desc("Output folder for writing trace/Module/Error files"),
               value_desc("Trace folder"),
               init(""));
@@ -123,11 +124,11 @@ cl::opt<bool>
 nodisplay("nodisplay", desc("Deactivate display"),
                        init(false));
 
-cl::list<std::string>
+cl::list<string>
 debexec("debexec", desc("Display debugging information for the given instances"),
                        cl::value_desc("A list of instance id"));
 
-cl::opt<std::string>
+cl::opt<string>
 MArch("march", desc("Architecture to generate assembly for (see --version)"));
 
 cl::opt<bool>
@@ -143,13 +144,13 @@ NoLazyCompilation("disable-lazy-compilation",
                   desc("Disable JIT lazy compilation"),
                   init(false));
 
-cl::list<std::string>
+cl::list<string>
 MAttrs("mattr", CommaSeparated,
          desc("Target specific IRAttributes (-mattr=help for details)"),
          value_desc("a1,+a2,-a3,..."));
 
 
-cl::opt<std::string>
+cl::opt<string>
 MCPU("mcpu", desc("Target a specific cpu type (-mcpu=help for details)"),
        value_desc("cpu-name"),
        init(""));
@@ -198,7 +199,7 @@ extern "C" {
 }
 
 //Verify if directory is well formed
-void setDirectory(std::string* dir){
+void setDirectory(string* dir){
     if (dir->compare("") != 0){
         size_t found = dir->find_last_of("/\\");
         if(found != dir->length()-1){
