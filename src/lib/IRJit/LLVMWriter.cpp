@@ -192,16 +192,17 @@ void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
         NewFunc->copyAttributesFrom(OldFunc);
     else {
         //Some arguments were deleted with the VMap. Copy arguments one by one
-        for (Function::const_arg_iterator I = OldFunc->arg_begin(),
-             E = OldFunc->arg_end(); I != E; ++I)
-            if (Argument* Anew = dyn_cast<Argument>(VMap[I]))
+        for (Function::const_arg_iterator I = OldFunc->arg_begin() ; I != OldFunc->arg_end() ; ++I){
+            if (Argument* Anew = dyn_cast<Argument>(VMap[I])) {
                 Anew->addAttr( OldFunc->getAttributes()
                                .getParamAttributes(I->getArgNo() + 1));
+            }
+        }
         NewFunc->setAttributes(NewFunc->getAttributes()
-                               .addAttr(0, OldFunc->getAttributes()
+                               .addAttr(NewFunc->getContext(), 0, OldFunc->getAttributes()
                                         .getRetAttributes()));
         NewFunc->setAttributes(NewFunc->getAttributes()
-                               .addAttr(~0, OldFunc->getAttributes()
+                               .addAttr(NewFunc->getContext(), ~0, OldFunc->getAttributes()
                                         .getFnAttributes()));
 
     }

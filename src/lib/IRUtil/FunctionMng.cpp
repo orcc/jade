@@ -40,6 +40,7 @@
 #include "llvm/LLVMContext.h"
 #include "llvm/Instructions.h"
 #include "llvm/Module.h"
+#include "llvm/Attributes.h"
 
 #include "lib/RVCEngine/Decoder.h"
 #include "lib/IRUtil/FunctionMng.h"
@@ -132,15 +133,24 @@ void FunctionMng::createPuts(Module* module, string message, Instruction* instr)
         func_puts->setCallingConv(CallingConv::C);
         AttrListPtr func_puts_PAL;
         {
-            SmallVector<AttributeWithIndex, 4> Attrs;
             AttributeWithIndex PAWI;
+            AttrBuilder attrBuilder;
+
+            SmallVector<AttributeWithIndex, 4> Attrs;
+
             PAWI.Index = 1U;
-            PAWI.Attrs = Attribute::None | Attribute::NoCapture;
+            attrBuilder.addAttribute(Attributes::NoCapture);
+            PAWI.Attrs = Attributes::get(module->getContext(), attrBuilder);
             Attrs.push_back(PAWI);
+
             PAWI.Index = 4294967295U;
-            PAWI.Attrs = Attribute::None | Attribute::NoUnwind;
+            attrBuilder.clear();
+            attrBuilder.addAttribute(Attributes::NoUnwind);
+            PAWI.Attrs = Attributes::get(module->getContext(), attrBuilder);
             Attrs.push_back(PAWI);
-            func_puts_PAL = AttrListPtr::get(Attrs.begin(), Attrs.end());
+
+            ArrayRef<AttributeWithIndex> attrArrayRef(Attrs.begin(), Attrs.end());
+            func_puts_PAL = AttrListPtr::get(module->getContext(), attrArrayRef);
         }
         func_puts->setAttributes(func_puts_PAL);
     }
