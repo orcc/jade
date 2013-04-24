@@ -93,7 +93,7 @@ public:
      *
      *  @return address of the stop variable
      */
-    int* initialize() {return NULL;};
+    int* initialize() {return NULL;}
 
     /**
      *  @brief Generate native code for the current decoder

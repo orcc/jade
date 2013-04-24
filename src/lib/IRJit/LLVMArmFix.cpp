@@ -296,7 +296,6 @@ tool_output_file* LLVMArmFix::generateNativeCode( sys::Path IntermediateAssembly
 
     // Open the file.
     string error;
-    unsigned OpenFlags = 0;
 
     tool_output_file *FDOut = new tool_output_file(IntermediateAssemblyFile.c_str(), error,
                                                    false);

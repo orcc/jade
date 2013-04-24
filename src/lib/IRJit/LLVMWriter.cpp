@@ -86,13 +86,13 @@ GlobalVariable* LLVMWriter::addVariable(llvm::GlobalVariable* variable){
                                SGV->isConstant(), SGV->getLinkage(), /*init*/0,
                                prefix + SGV->getName(), 0, GlobalVariable::NotThreadLocal,
                                SGV->getType()->getAddressSpace());
-      // Propagate alignment, visibility and section info.
-      CopyGVAttributes(NewDGV, SGV);
+    // Propagate alignment, visibility and section info.
+    CopyGVAttributes(NewDGV, SGV);
 
-      // Make sure to remember this mapping.
-      ValueMap[SGV] = NewDGV;
+    // Make sure to remember this mapping.
+    ValueMap[SGV] = NewDGV;
 
-      return NewDGV;
+    return NewDGV;
 }
 
 bool LLVMWriter::LinkGlobalInits(llvm::GlobalVariable* variable){
@@ -101,8 +101,8 @@ bool LLVMWriter::LinkGlobalInits(llvm::GlobalVariable* variable){
     GlobalVariable *GV = cast<GlobalVariable>(ValueMap[variable]);
 
     if (variable->hasInitializer())
-      GV->setInitializer(cast<Constant>(MapValue(variable->getInitializer(),
-                                                 ValueMap)));
+        GV->setInitializer(cast<Constant>(MapValue(variable->getInitializer(),
+                                                   ValueMap)));
     GV->setLinkage(variable->getLinkage());
     GV->setThreadLocal(variable->isThreadLocal());
     GV->setConstant(variable->isConstant());
@@ -115,9 +115,9 @@ bool LLVMWriter::LinkGlobalInits(llvm::GlobalVariable* variable){
 void LLVMWriter::CopyGVAttributes(GlobalValue *DestGV, const GlobalValue *SrcGV) {
 
     // Use the maximum alignment, rather than just copying the alignment of SrcGV.
-  unsigned Alignment = std::max(DestGV->getAlignment(), SrcGV->getAlignment());
-  DestGV->copyAttributesFrom(SrcGV);
-  DestGV->setAlignment(Alignment);
+    unsigned Alignment = std::max(DestGV->getAlignment(), SrcGV->getAlignment());
+    DestGV->copyAttributesFrom(SrcGV);
+    DestGV->setAlignment(Alignment);
 }
 
 Function* LLVMWriter::createFunction(Function* function){
@@ -133,8 +133,8 @@ Function* LLVMWriter::addFunctionProtosInternal(const Function* function){
     std::string Err;
 
     Function *NF =
-      Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
-                       GlobalValue::InternalLinkage,  prefix + SF->getName(), Dest);
+            Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
+                             GlobalValue::InternalLinkage,  prefix + SF->getName(), Dest);
     NF->copyAttributesFrom(SF);
     ValueMap[SF] = NF;
 
@@ -147,8 +147,8 @@ Function* LLVMWriter::addFunctionProtosExternal(const Function* function){
     std::string Err;
 
     Function *NF =
-    Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
-                     GlobalValue::ExternalLinkage, SF->getName(), Dest);
+            Function::Create(cast<FunctionType>(SF->getType()->getElementType()),
+                             GlobalValue::ExternalLinkage, SF->getName(), Dest);
     NF->copyAttributesFrom(SF);
     ValueMap[SF] = NF;
 
@@ -166,7 +166,7 @@ bool LLVMWriter::linkProcedureBody(Function* function){
     if (!function->isDeclaration()) {
         Function::arg_iterator DestI = F->arg_begin();
         for (Function::const_arg_iterator J = function->arg_begin(); J != function->arg_end();
-            ++J) {
+             ++J) {
             DestI->setName(J->getName());
             ValueMap[J] = DestI++;
         }
@@ -183,53 +183,53 @@ bool LLVMWriter::linkProcedureBody(Function* function){
 }
 
 void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
-                             ValueToValueMapTy &VMap,
-                             bool ModuleLevelChanges,
-                             SmallVectorImpl<ReturnInst*> &Returns,
-                             const char *NameSuffix, ClonedCodeInfo *CodeInfo) {
-      // Clone any attributes.
-  if (NewFunc->arg_size() == OldFunc->arg_size())
-    NewFunc->copyAttributesFrom(OldFunc);
-  else {
-    //Some arguments were deleted with the VMap. Copy arguments one by one
-    for (Function::const_arg_iterator I = OldFunc->arg_begin(),
-           E = OldFunc->arg_end(); I != E; ++I)
-      if (Argument* Anew = dyn_cast<Argument>(VMap[I]))
-        Anew->addAttr( OldFunc->getAttributes()
-                       .getParamAttributes(I->getArgNo() + 1));
-    NewFunc->setAttributes(NewFunc->getAttributes()
-                           .addAttr(0, OldFunc->getAttributes()
-                                     .getRetAttributes()));
-    NewFunc->setAttributes(NewFunc->getAttributes()
-                           .addAttr(~0, OldFunc->getAttributes()
-                                     .getFnAttributes()));
+                                  ValueToValueMapTy &VMap,
+                                  bool ModuleLevelChanges,
+                                  SmallVectorImpl<ReturnInst*> &Returns,
+                                  const char *NameSuffix, ClonedCodeInfo *CodeInfo) {
+    // Clone any attributes.
+    if (NewFunc->arg_size() == OldFunc->arg_size())
+        NewFunc->copyAttributesFrom(OldFunc);
+    else {
+        //Some arguments were deleted with the VMap. Copy arguments one by one
+        for (Function::const_arg_iterator I = OldFunc->arg_begin(),
+             E = OldFunc->arg_end(); I != E; ++I)
+            if (Argument* Anew = dyn_cast<Argument>(VMap[I]))
+                Anew->addAttr( OldFunc->getAttributes()
+                               .getParamAttributes(I->getArgNo() + 1));
+        NewFunc->setAttributes(NewFunc->getAttributes()
+                               .addAttr(0, OldFunc->getAttributes()
+                                        .getRetAttributes()));
+        NewFunc->setAttributes(NewFunc->getAttributes()
+                               .addAttr(~0, OldFunc->getAttributes()
+                                        .getFnAttributes()));
 
-  }
+    }
 
-  // Loop over all of the basic blocks in the function, cloning them as
-  // appropriate.  Note that we save BE this way in order to handle cloning of
-  // recursive functions into themselves.
-  //
-  for (Function::const_iterator BI = OldFunc->begin(), BE = OldFunc->end();
-       BI != BE; ++BI) {
-    const BasicBlock &BB = *BI;
+    // Loop over all of the basic blocks in the function, cloning them as
+    // appropriate.  Note that we save BE this way in order to handle cloning of
+    // recursive functions into themselves.
+    //
+    for (Function::const_iterator BI = OldFunc->begin(), BE = OldFunc->end();
+         BI != BE; ++BI) {
+        const BasicBlock &BB = *BI;
 
-    // Create a new basic block and copy instructions into it!
-    BasicBlock *CBB = CloneBasicBlock(&BB, VMap, NameSuffix, NewFunc, CodeInfo);
-    VMap[&BB] = CBB;                       // Add basic block mapping.
+        // Create a new basic block and copy instructions into it!
+        BasicBlock *CBB = CloneBasicBlock(&BB, VMap, NameSuffix, NewFunc, CodeInfo);
+        VMap[&BB] = CBB;                       // Add basic block mapping.
 
-    if (ReturnInst *RI = dyn_cast<ReturnInst>(CBB->getTerminator()))
-      Returns.push_back(RI);
-  }
+        if (ReturnInst *RI = dyn_cast<ReturnInst>(CBB->getTerminator()))
+            Returns.push_back(RI);
+    }
 
-  // Loop over all of the instructions in the function, fixing up operand
-  // references as we go.  This uses VMap to do all the hard work.
-  for (Function::iterator BB = cast<BasicBlock>(VMap[OldFunc->begin()]),
+    // Loop over all of the instructions in the function, fixing up operand
+    // references as we go.  This uses VMap to do all the hard work.
+    for (Function::iterator BB = cast<BasicBlock>(VMap[OldFunc->begin()]),
          BE = NewFunc->end(); BB != BE; ++BB)
-    // Loop over all instructions, fixing each one as we find it...
-    for (BasicBlock::iterator II = BB->begin(); II != BB->end(); ++II)
-      RemapInstruction(II, VMap,
-                       ModuleLevelChanges ? RF_None : RF_NoModuleLevelChanges);
+        // Loop over all instructions, fixing each one as we find it...
+        for (BasicBlock::iterator II = BB->begin(); II != BB->end(); ++II)
+            RemapInstruction(II, VMap,
+                             ModuleLevelChanges ? RF_None : RF_NoModuleLevelChanges);
 }
 
 bool LLVMWriter::addType(string name, StructType* type){
