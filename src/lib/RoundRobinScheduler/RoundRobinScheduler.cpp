@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -71,153 +71,153 @@ using namespace std;
 using namespace llvm;
 
 RoundRobinScheduler::RoundRobinScheduler(llvm::LLVMContext& C, Decoder* decoder, list<Instance*>* instances, bool optimized, bool noMultiCore, bool verbose): Context(C) {
-	this->decoder = decoder;
-	this->instances = instances;
-	this->scheduler = NULL;
-	this->initialize = NULL;
-	this->initInst = NULL;
-	this->schedInst = NULL;
-	this->stopGV = NULL;
-	this->verbose = verbose;
-	this->optimized = optimized;
+    this->decoder = decoder;
+    this->instances = instances;
+    this->scheduler = NULL;
+    this->initialize = NULL;
+    this->initInst = NULL;
+    this->schedInst = NULL;
+    this->stopGV = NULL;
+    this->verbose = verbose;
+    this->optimized = optimized;
 
-	createScheduler();	
+    createScheduler();
 }
 
 void RoundRobinScheduler::createScheduler(){
-	
-	//Create the initialize function
-	createNetworkInitialize();
-	
-	//Create the scheduler function
-	createNetworkScheduler();
 
-	//Add the instance in the scheduler
-	list<Instance*>::iterator it;
-	for (it = instances->begin(); it != instances->end(); it++){
-		addInstance(*it);
-	}
+    //Create the initialize function
+    createNetworkInitialize();
+
+    //Create the scheduler function
+    createNetworkScheduler();
+
+    //Add the instance in the scheduler
+    list<Instance*>::iterator it;
+    for (it = instances->begin(); it != instances->end(); it++){
+        addInstance(*it);
+    }
 }
 
 
 RoundRobinScheduler::~RoundRobinScheduler (){
-	scheduler->eraseFromParent();
+    scheduler->eraseFromParent();
 }
 
 void RoundRobinScheduler::createNetworkScheduler(){
-	map<string, Instance*>::iterator it;
-	
-	Module* module = decoder->getModule();
-	LLVMContext &Context = getGlobalContext();
+    map<string, Instance*>::iterator it;
 
-	
-	// create main scheduler function
-	FunctionType *FT = FunctionType::get(Type::getInt32Ty(getGlobalContext()), false);
-	scheduler = Function::Create(FT,  Function::ExternalLinkage, "main", module);								  
+    Module* module = decoder->getModule();
+    LLVMContext &Context = getGlobalContext();
 
-	// Add a basic block entry to the scheduler.
-	BasicBlock* initializeBB = BasicBlock::Create(Context, "entry", scheduler);
-
-	// Add a basic block to bb to the scheduler.
-	BasicBlock* schedulerBB = BasicBlock::Create(Context, "bb", scheduler);
-	
-	// Create a branch to bb and store it for later insertions
-	BranchInst* brInst = BranchInst::Create(schedulerBB, initializeBB);
-	
-	// Add a basic block return to the scheduler.
-	BasicBlock* BBReturn = BasicBlock::Create(Context, "return", scheduler);
-	ConstantInt* one = ConstantInt::get(Type::getInt32Ty(Context), 1);
-	ReturnInst* returnInst = ReturnInst::Create(Context, one, BBReturn);
-
-	// Load stop value and test if the scheduler must be stop
-	schedInst = new LoadInst(stopGV, "", schedulerBB);
-	ICmpInst* test = new ICmpInst(*schedulerBB, ICmpInst::ICMP_EQ, schedInst, one);
-	BranchInst* schedBrInst = BranchInst::Create(BBReturn, schedulerBB, test, schedulerBB);
     //Create a global value that stop the scheduler and set it to false
     stopGV = new GlobalVariable(*module, Type::getInt32Ty(Context), false, GlobalValue::ExternalLinkage,0,"stop");
+
+    // create main scheduler function
+    FunctionType *FT = FunctionType::get(Type::getInt32Ty(getGlobalContext()), false);
+    scheduler = Function::Create(FT,  Function::ExternalLinkage, "main", module);
+
+    // Add a basic block entry to the scheduler.
+    BasicBlock* initializeBB = BasicBlock::Create(Context, "entry", scheduler);
+
+    // Add a basic block to bb to the scheduler.
+    BasicBlock* schedulerBB = BasicBlock::Create(Context, "bb", scheduler);
+
+    // Create a branch to bb and store it for later insertions
+    BranchInst* brInst = BranchInst::Create(schedulerBB, initializeBB);
+
+    // Add a basic block return to the scheduler.
+    BasicBlock* BBReturn = BasicBlock::Create(Context, "return", scheduler);
+    ConstantInt* one = ConstantInt::get(Type::getInt32Ty(Context), 1);
+    ReturnInst* returnInst = ReturnInst::Create(Context, one, BBReturn);
+
+    // Load stop value and test if the scheduler must be stop
+    schedInst = new LoadInst(stopGV, "", schedulerBB);
+    ICmpInst* test = new ICmpInst(*schedulerBB, ICmpInst::ICMP_EQ, schedInst, one);
+    BranchInst* schedBrInst = BranchInst::Create(BBReturn, schedulerBB, test, schedulerBB);
 }
 
 void RoundRobinScheduler::createNetworkInitialize(){
-	map<string, Instance*>::iterator it;
-	
-	Module* module = decoder->getModule();
-	LLVMContext &Context = getGlobalContext();
-	
-	// create main scheduler function
-	initialize = cast<Function>(module->getOrInsertFunction("initialize", Type::getVoidTy(Context),
-                                          (Type *)0));
-										  
-	if (initialize->empty()){
-		// Add a basic block entry to the scheduler.
-		BasicBlock* initializeBB = BasicBlock::Create(Context, "entry", initialize);
+    map<string, Instance*>::iterator it;
 
-		initInst = ReturnInst::Create(Context, 0, initializeBB);
-	}else{
-		initInst = initialize->getEntryBlock().begin();
-	}
+    Module* module = decoder->getModule();
+    LLVMContext &Context = getGlobalContext();
+
+    // create main scheduler function
+    initialize = cast<Function>(module->getOrInsertFunction("initialize", Type::getVoidTy(Context),
+                                                            (Type *)0));
+
+    if (initialize->empty()){
+        // Add a basic block entry to the scheduler.
+        BasicBlock* initializeBB = BasicBlock::Create(Context, "entry", initialize);
+
+        initInst = ReturnInst::Create(Context, 0, initializeBB);
+    }else{
+        initInst = initialize->getEntryBlock().begin();
+    }
 
 }
 
 void RoundRobinScheduler::createCall(Instance* instance){
-	ActionScheduler* actionScheduler = instance->getActionScheduler();
-	
-	// Call initialize function if present
-	if (actionScheduler->hasInitializeScheduler()){
-		Function* initialize = actionScheduler->getInitializeFunction();
-		CallInst* CallInit = CallInst::Create(initialize, "", initInst);
-		functionCall.insert(pair<Function*, CallInst*>(initialize, CallInit));
-	}
+    ActionScheduler* actionScheduler = instance->getActionScheduler();
+
+    // Call initialize function if present
+    if (actionScheduler->hasInitializeScheduler()){
+        Function* initialize = actionScheduler->getInitializeFunction();
+        CallInst* CallInit = CallInst::Create(initialize, "", initInst);
+        functionCall.insert(pair<Function*, CallInst*>(initialize, CallInit));
+    }
 
 
-	// Call scheduler function of the instance
-	Function* scheduler = actionScheduler->getSchedulerFunction();
-	CallInst* CallSched = CallInst::Create(scheduler, "", schedInst);
-	CallSched->setTailCall();
+    // Call scheduler function of the instance
+    Function* scheduler = actionScheduler->getSchedulerFunction();
+    CallInst* CallSched = CallInst::Create(scheduler, "", schedInst);
+    CallSched->setTailCall();
 
-	// Add debugging information if needed
-	if (instance->isTraceActivate()){
-		TraceMng::createCallTrace(decoder->getModule(), instance, CallSched);
-	}
+    // Add debugging information if needed
+    if (instance->isTraceActivate()){
+        TraceMng::createCallTrace(decoder->getModule(), instance, CallSched);
+    }
 
-	functionCall.insert(pair<Function*, CallInst*>(scheduler, CallSched));
+    functionCall.insert(pair<Function*, CallInst*>(scheduler, CallSched));
 }
 
 void RoundRobinScheduler::addInstance(Instance* instance){
-	// Create an action scheduler for the instance
-	DPNScheduler DPNSchedulerAdder(Context, decoder);
-	CSDFScheduler CSDFSchedulerAdder(Context, decoder);
-	QSDFScheduler QSDFSchedulerAdder(Context, decoder);
-	
-	MoC* moc = instance->getMoC();
+    // Create an action scheduler for the instance
+    DPNScheduler DPNSchedulerAdder(Context, decoder);
+    CSDFScheduler CSDFSchedulerAdder(Context, decoder);
+    QSDFScheduler QSDFSchedulerAdder(Context, decoder);
 
-	if (moc->isQuasiStatic() && optimized){
-		QSDFSchedulerAdder.transform(instance);
-	}else if (moc->isCSDF() && optimized){
-		CSDFSchedulerAdder.transform(instance);
-	}else{
-		DPNSchedulerAdder.transform(instance);
-	}
+    MoC* moc = instance->getMoC();
 
-	// Call the action scheduler
-	createCall(instance);
+    if (moc->isQuasiStatic() && optimized){
+        QSDFSchedulerAdder.transform(instance);
+    }else if (moc->isCSDF() && optimized){
+        CSDFSchedulerAdder.transform(instance);
+    }else{
+        DPNSchedulerAdder.transform(instance);
+    }
+
+    // Call the action scheduler
+    createCall(instance);
 }
 
 void RoundRobinScheduler::removeInstance(Instance* instance){
-	ActionScheduler* actionScheduler = instance->getActionScheduler();
+    ActionScheduler* actionScheduler = instance->getActionScheduler();
 
-	if (actionScheduler->hasInitializeScheduler()){
-		removeCall(actionScheduler->getInitializeFunction());
-	}
+    if (actionScheduler->hasInitializeScheduler()){
+        removeCall(actionScheduler->getInitializeFunction());
+    }
 
-	removeCall(actionScheduler->getSchedulerFunction());
+    removeCall(actionScheduler->getSchedulerFunction());
 
 }
 
 void RoundRobinScheduler::removeCall(llvm::Function* function){
-	map<llvm::Function*, llvm::CallInst*>::iterator it;
-	
-	it = functionCall.find(function);
-	CallInst* call = it->second;
-	call->eraseFromParent();
-	functionCall.erase(it);
+    map<llvm::Function*, llvm::CallInst*>::iterator it;
+
+    it = functionCall.find(function);
+    CallInst* call = it->second;
+    call->eraseFromParent();
+    functionCall.erase(it);
 }
