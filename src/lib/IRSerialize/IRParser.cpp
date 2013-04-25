@@ -526,25 +526,24 @@ Port* IRParser::parsePort(MDNode* node){
 }
 
 Type* IRParser::parseType(MDNode* node){
-	
-	//Get size of the element
-	ConstantInt* typeSize = cast<ConstantInt>(node->getOperand(0));
-	Type* type = (Type*)IntegerType::get(Context, typeSize->getLimitedValue());
-	
-	//if operand 2 is not null, the element is a list
-	Value* listSize = cast<Value>(node->getOperand(1));
-	
-	if (listSize != NULL){
-		for (unsigned i = 1, e = node->getNumOperands(); i != e; ++i){
-			ConstantInt* size = cast<ConstantInt>(node->getOperand(i));
-			type = ArrayType::get(type, size->getLimitedValue());
-		}
-		
-	}
 
-	return type;
+    //Get size of the element
+    ConstantInt* typeSize = cast<ConstantInt>(node->getOperand(0));
+    Type* type = (Type*)IntegerType::get(Context, typeSize->getLimitedValue());
+
+    Value* val = node->getNumOperands() > 1 ? node->getOperand(1) : NULL;
+
+    //if operand 2 is not null, the element is a list
+    if (val != NULL){
+        for (unsigned i = 1 ; i != node->getNumOperands(); ++i){
+            ConstantInt* size = cast<ConstantInt>(val);
+            type = ArrayType::get(type, size->getLimitedValue());
+        }
+
+    }
+
+    return type;
 }
-
 
 FSM* IRParser::parseFSM(llvm::MDNode* node){
 	FSM* fsm = new FSM();
