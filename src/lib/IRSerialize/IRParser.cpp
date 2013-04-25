@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -88,441 +88,439 @@ const string IRConstant::KEY_MOC= "MoC";
 
 
 IRParser::IRParser(llvm::LLVMContext& C, string VTLDir) : Context(C){
-	this->inputs = NULL;
-	this->outputs = NULL;
-	this->parser = 	new LLVMParser(Context, VTLDir);
-	this->VTLDir = VTLDir;
+    this->inputs = NULL;
+    this->outputs = NULL;
+    this->parser = 	new LLVMParser(Context, VTLDir);
+    this->VTLDir = VTLDir;
 }
 
-
 Actor* IRParser::parseActor(string classz){
-	//Get file and package of the actor
-	string file = PackageMng::getSimpleName(classz);
-	string packageName = PackageMng::getPackagesName(classz);
-	Package* package = PackageMng::getPackage(packageName);
-	
-	//Parse the bitcode
-	Module* module = parser->loadModule(package, file);
+    //Get file and package of the actor
+    string file = PackageMng::getSimpleName(classz);
+    string packageName = PackageMng::getPackagesName(classz);
+    Package* package = PackageMng::getPackage(packageName);
 
-	if (module == 0){
-		//Module not found
-		cerr << "Error when parsing bytecode";
-		exit(0);
-	}
+    //Parse the bitcode
+    Module* module = parser->loadModule(package, file);
 
-	//Empty action list
-	actions.clear();
-	untaggedActions.clear();
-	
-	// Parse name
-	NamedMDNode* nameNMD =  module->getNamedMetadata(IRConstant::KEY_NAME);
-	MDNode* nameMD = cast<MDNode>(nameNMD->getOperand(0));
-	MDString* name = cast<MDString>(nameMD->getOperand(0));
-	
-	// Create the new actor
-	actor = new Actor(name->getString(), module, classz);
+    if (module == 0){
+        //Module not found
+        cerr << "Error when parsing bytecode";
+        exit(0);
+    }
 
-	// Parse actor elements
-	inputs = parsePorts(IRConstant::KEY_INPUTS, module);
-	outputs = parsePorts(IRConstant::KEY_OUTPUTS, module);
-	map<string, Variable*>* parameters =  parseParameters(module);
-	map<string, StateVar*>* stateVars = parseStateVars(module);
-	map<string, Procedure*>* procs = parseProcs(module);
-	list<Action*>* initializes = parseActions(IRConstant::KEY_INITIALIZES, module);
-	list<Action*>* actions = parseActions(IRConstant::KEY_ACTIONS, module);
-	ActionScheduler* actionScheduler = parseActionScheduler(module);
-	MoC* moc = parseMoC(module);
+    //Empty action list
+    actions.clear();
+    untaggedActions.clear();
 
-	//Set parameters of the actor
-	actor->setInputs(inputs);
-	actor->setOutputs(outputs);
-	actor->setParameters(parameters);
-	actor->setActions(actions);
-	actor->setStateVars(stateVars);
-	actor->setProcs(procs);
-	actor->setActions(actions);
-	actor->setInitializes(initializes);
-	actor->setActionScheduler(actionScheduler);
-	actor->setMoC(moc);
-	
-	return actor;
+    // Parse name
+    NamedMDNode* nameNMD =  module->getNamedMetadata(IRConstant::KEY_NAME);
+    MDNode* nameMD = cast<MDNode>(nameNMD->getOperand(0));
+    MDString* name = cast<MDString>(nameMD->getOperand(0));
+
+    // Create the new actor
+    actor = new Actor(name->getString(), module, classz);
+
+    // Parse actor elements
+    inputs = parsePorts(IRConstant::KEY_INPUTS, module);
+    outputs = parsePorts(IRConstant::KEY_OUTPUTS, module);
+    map<string, Variable*>* parameters =  parseParameters(module);
+    map<string, StateVar*>* stateVars = parseStateVars(module);
+    map<string, Procedure*>* procs = parseProcs(module);
+    list<Action*>* initializes = parseActions(IRConstant::KEY_INITIALIZES, module);
+    list<Action*>* actions = parseActions(IRConstant::KEY_ACTIONS, module);
+    ActionScheduler* actionScheduler = parseActionScheduler(module);
+    MoC* moc = parseMoC(module);
+
+    //Set parameters of the actor
+    actor->setInputs(inputs);
+    actor->setOutputs(outputs);
+    actor->setParameters(parameters);
+    actor->setActions(actions);
+    actor->setStateVars(stateVars);
+    actor->setProcs(procs);
+    actor->setActions(actions);
+    actor->setInitializes(initializes);
+    actor->setActionScheduler(actionScheduler);
+    actor->setMoC(moc);
+
+    return actor;
 }
 
 MoC* IRParser::parseMoC(Module* module){
-	NamedMDNode* mocKeyMD =  module->getNamedMetadata(IRConstant::KEY_MOC);
-	
-	if (mocKeyMD == NULL) {
-		return new DPNMoC(actor);
-	}
+    NamedMDNode* mocKeyMD =  module->getNamedMetadata(IRConstant::KEY_MOC);
 
-	//Parse MoC type
-	MDNode* node = mocKeyMD->getOperand(0);
-	MDString* name = cast<MDString>(node->getOperand(0));
-	StringRef nameStr = name->getString();
+    if (mocKeyMD == NULL) {
+        return new DPNMoC(actor);
+    }
 
-	if (nameStr == "SDF"){
-		return parseCSDF(cast<MDNode>(node->getOperand(1)));
-	}else if(nameStr == "CSDF"){
-		return parseCSDF(cast<MDNode>(node->getOperand(1)));
-	}else if(nameStr == "QuasiStatic"){
-		return parseQSDF(node);
-	}else if(nameStr == "KPN"){
-		return new KPNMoC(actor);
-	}else if(nameStr == "DPN"){
-		return new DPNMoC(actor);
-	}
-	
-	cout << "Unsupported type of MoC \n";
-	exit(1);
+    //Parse MoC type
+    MDNode* node = mocKeyMD->getOperand(0);
+    MDString* name = cast<MDString>(node->getOperand(0));
+    StringRef nameStr = name->getString();
+
+    if (nameStr == "SDF"){
+        return parseCSDF(cast<MDNode>(node->getOperand(1)));
+    }else if(nameStr == "CSDF"){
+        return parseCSDF(cast<MDNode>(node->getOperand(1)));
+    }else if(nameStr == "QuasiStatic"){
+        return parseQSDF(node);
+    }else if(nameStr == "KPN"){
+        return new KPNMoC(actor);
+    }else if(nameStr == "DPN"){
+        return new DPNMoC(actor);
+    }
+
+    cout << "Unsupported type of MoC \n";
+    exit(1);
 }
 
 CSDFMoC* IRParser::parseCSDF(MDNode* csdfNode){
-	CSDFMoC* csfMoC;
+    CSDFMoC* csfMoC;
 
-	//Get number of phases
-	ConstantInt* value = cast<ConstantInt>(csdfNode->getOperand(0));
-	int phasesNb = value->getValue().getLimitedValue();
+    //Get number of phases
+    ConstantInt* value = cast<ConstantInt>(csdfNode->getOperand(0));
+    int phasesNb = value->getValue().getLimitedValue();
 
-	if (phasesNb == 1){
-		csfMoC = new SDFMoC(actor);
-	}else{
-		csfMoC = new CSDFMoC(actor);
-	}
-	
-	// Parse patterns
-	Pattern* ip = parsePattern(inputs, csdfNode->getOperand(1));
-	Pattern* op = parsePattern(outputs, csdfNode->getOperand(2));
+    if (phasesNb == 1){
+        csfMoC = new SDFMoC(actor);
+    }else{
+        csfMoC = new CSDFMoC(actor);
+    }
 
-	csfMoC->setInputPattern(ip);
-	csfMoC->setOutputPattern(op);
-	csfMoC->setNumberOfPhases(value->getLimitedValue());
-	
-	// Parse actions
-	parseCSDFActions(cast<MDNode>(csdfNode->getOperand(3)), csfMoC);
+    // Parse patterns
+    Pattern* ip = parsePattern(inputs, csdfNode->getOperand(1));
+    Pattern* op = parsePattern(outputs, csdfNode->getOperand(2));
 
-	return csfMoC;
+    csfMoC->setInputPattern(ip);
+    csfMoC->setOutputPattern(op);
+    csfMoC->setNumberOfPhases(value->getLimitedValue());
+
+    // Parse actions
+    parseCSDFActions(cast<MDNode>(csdfNode->getOperand(3)), csfMoC);
+
+    return csfMoC;
 }
 
 void IRParser::parseCSDFActions(MDNode* actionsNode, CSDFMoC* csfMoC){
-	for (unsigned i = 0, e = actionsNode->getNumOperands(); i != e; ++i) {
-		Action* action = getAction(cast<MDNode>(actionsNode->getOperand(i)));
-		csfMoC->addAction(action);
-	}
+    for (unsigned i = 0, e = actionsNode->getNumOperands(); i != e; ++i) {
+        Action* action = getAction(cast<MDNode>(actionsNode->getOperand(i)));
+        csfMoC->addAction(action);
+    }
 }
 
 MoC* IRParser::parseQSDF(MDNode* qsdfNode){
-	QSDFMoC* qsdfMoC = new QSDFMoC(actor);
-	
-	// Parse configurations of the QSDF MoC
-	for (unsigned i = 1, e = qsdfNode->getNumOperands(); i != e; ++i) {
-		pair<Action*, CSDFMoC*> configuration = parseConfiguration(cast<MDNode>(qsdfNode->getOperand(i)));
-		qsdfMoC->addConfiguration(configuration.first, configuration.second);
-	}
+    QSDFMoC* qsdfMoC = new QSDFMoC(actor);
 
-	return qsdfMoC;
+    // Parse configurations of the QSDF MoC
+    for (unsigned i = 1, e = qsdfNode->getNumOperands(); i != e; ++i) {
+        pair<Action*, CSDFMoC*> configuration = parseConfiguration(cast<MDNode>(qsdfNode->getOperand(i)));
+        qsdfMoC->addConfiguration(configuration.first, configuration.second);
+    }
+
+    return qsdfMoC;
 }
 
 pair<Action*, CSDFMoC*> IRParser::parseConfiguration(MDNode* node){
-	Action* action = getAction(cast<MDNode>(node->getOperand(0)));
-	CSDFMoC* csdfMoC = parseCSDF(cast<MDNode>(node->getOperand(1)));
+    Action* action = getAction(cast<MDNode>(node->getOperand(0)));
+    CSDFMoC* csdfMoC = parseCSDF(cast<MDNode>(node->getOperand(1)));
 
-	return pair<Action*, CSDFMoC*>(action, csdfMoC);
+    return pair<Action*, CSDFMoC*>(action, csdfMoC);
 }
 
 Pattern* IRParser::parsePattern(map<std::string, Port*>* ports, Value* value){
-	// No node for pattern
-	if (value == NULL){
-		return new Pattern();
-	}
-	
-	MDNode* patternNode = cast<MDNode>(value);
+    // No node for pattern
+    if (value == NULL){
+        return new Pattern();
+    }
 
-	// Parse pattern property
-	map<Port*, ConstantInt*>* numTokens = parserNumTokens(ports, patternNode->getOperand(0));
-	map<Port*, Variable*>* varMap = parserVarMap(ports, patternNode->getOperand(1));
+    MDNode* patternNode = cast<MDNode>(value);
 
-	return new Pattern(numTokens, varMap);
+    // Parse pattern property
+    map<Port*, ConstantInt*>* numTokens = parserNumTokens(ports, patternNode->getOperand(0));
+    map<Port*, Variable*>* varMap = parserVarMap(ports, patternNode->getOperand(1));
+
+    return new Pattern(numTokens, varMap);
 }
 
 map<Port*, Variable*>* IRParser::parserVarMap(map<std::string, Port*>* ports, Value* value){
-	map<Port*, Variable*>* varTokens = new map<Port*, Variable*>();
+    map<Port*, Variable*>* varTokens = new map<Port*, Variable*>();
 
-	if (value != NULL){
-		map<string, Port*>::iterator it;
-		MDNode* varPortsNode = cast<MDNode>(value);
+    if (value != NULL){
+        map<string, Port*>::iterator it;
+        MDNode* varPortsNode = cast<MDNode>(value);
 
-		for (unsigned i = 0, e = varPortsNode->getNumOperands(); i != e;) {
-			//Find port of the pattern
-			MDNode* portNode = cast<MDNode>(varPortsNode->getOperand(i));
-			MDString* name = cast<MDString>(portNode->getOperand(1));
-			it = ports->find(name->getString());
-			Port* port = it->second;
+        for (unsigned i = 0, e = varPortsNode->getNumOperands(); i != e;) {
+            //Find port of the pattern
+            MDNode* portNode = cast<MDNode>(varPortsNode->getOperand(i));
+            MDString* name = cast<MDString>(portNode->getOperand(1));
+            it = ports->find(name->getString());
+            Port* port = it->second;
 
-			//Link with llvm global variable
-			GlobalVariable* globalVariable = port->getPtrVar()->getGlobalVariable();
-			Variable* variable = new Variable(port->getType(), name->getString(), true, true, globalVariable);
-			varTokens->insert(pair<Port*, Variable*>(it->second, variable));
-			i++;
-		}
-	}
+            //Link with llvm global variable
+            GlobalVariable* globalVariable = port->getPtrVar()->getGlobalVariable();
+            Variable* variable = new Variable(port->getType(), name->getString(), true, true, globalVariable);
+            varTokens->insert(pair<Port*, Variable*>(it->second, variable));
+            i++;
+        }
+    }
 
-	return varTokens;
+    return varTokens;
 }
 
 map<Port*, ConstantInt*>* IRParser::parserNumTokens(map<std::string, Port*>* ports, Value* value){
-	map<Port*, ConstantInt*>* numTokens = new map<Port*, ConstantInt*>();
+    map<Port*, ConstantInt*>* numTokens = new map<Port*, ConstantInt*>();
 
-	if (value != NULL){
-		map<string, Port*>::iterator it;
-		MDNode* numTokensNode = cast<MDNode>(value);
+    if (value != NULL){
+        map<string, Port*>::iterator it;
+        MDNode* numTokensNode = cast<MDNode>(value);
 
-		for (unsigned i = 0, e = numTokensNode->getNumOperands(); i != e;) {
-			//Find port of the pattern
-			MDNode* portNode = cast<MDNode>(numTokensNode->getOperand(i));
-			MDString* name = cast<MDString>(portNode->getOperand(1));
-			it = ports->find(name->getString());
+        for (unsigned i = 0, e = numTokensNode->getNumOperands(); i != e;) {
+            //Find port of the pattern
+            MDNode* portNode = cast<MDNode>(numTokensNode->getOperand(i));
+            MDString* name = cast<MDString>(portNode->getOperand(1));
+            it = ports->find(name->getString());
 
-			//Get number of token consummed/produced by this port
-			ConstantInt* nbTokens = cast<ConstantInt>(numTokensNode->getOperand(++i));
-			numTokens->insert(pair<Port*, ConstantInt*>(it->second, nbTokens));
-			i++;
-		}
-	}
+            //Get number of token consummed/produced by this port
+            ConstantInt* nbTokens = cast<ConstantInt>(numTokensNode->getOperand(++i));
+            numTokens->insert(pair<Port*, ConstantInt*>(it->second, nbTokens));
+            i++;
+        }
+    }
 
-	return numTokens;
+    return numTokens;
 }
 
 map<string, Port*>* IRParser::parsePorts(string key, Module* module){
-	map<string, Port*>* ports = new map<string, Port*>();
-	
-	NamedMDNode* inputsMD =  module->getNamedMetadata(key);
+    map<string, Port*>* ports = new map<string, Port*>();
 
-	if (inputsMD == NULL) {
-		return ports;
-	}
-	
-	 for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
-		 Port* port = parsePort(inputsMD->getOperand(i));
+    NamedMDNode* inputsMD =  module->getNamedMetadata(key);
 
-		 if(key == IRConstant::KEY_INPUTS){
-			 port->setAccess(true, false);
-		 }else {
-			 port->setAccess(false, true);
-		 }
-		 ports->insert(pair<string,Port*>(port->getName(), port));
-	 }
+    if (inputsMD == NULL) {
+        return ports;
+    }
 
-	return ports;
+    for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
+        Port* port = parsePort(inputsMD->getOperand(i));
+
+        if(key == IRConstant::KEY_INPUTS){
+            port->setAccess(true, false);
+        }else {
+            port->setAccess(false, true);
+        }
+        ports->insert(pair<string,Port*>(port->getName(), port));
+    }
+
+    return ports;
 }
 
 map<string, Procedure*>* IRParser::parseProcs(Module* module){
-	map<string, Procedure*>* procedures = new map<string, Procedure*>();
+    map<string, Procedure*>* procedures = new map<string, Procedure*>();
 
-	NamedMDNode* inputsMD =  module->getNamedMetadata(IRConstant::KEY_PROCEDURES);
+    NamedMDNode* inputsMD =  module->getNamedMetadata(IRConstant::KEY_PROCEDURES);
 
-	if (inputsMD != NULL){
-		for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
-			
-			//Parse a procedure
-			Procedure* proc= parseProc(inputsMD->getOperand(i));
-			
-			if (proc != NULL){
-				// Insert procedure in case of success
-				procedures->insert(pair<string, Procedure*>(proc->getName(), proc));
-			}
-		}
-		
-	}
+    if (inputsMD != NULL){
+        for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
 
-	return procedures;
+            //Parse a procedure
+            Procedure* proc= parseProc(inputsMD->getOperand(i));
+
+            if (proc != NULL){
+                // Insert procedure in case of success
+                procedures->insert(pair<string, Procedure*>(proc->getName(), proc));
+            }
+        }
+
+    }
+
+    return procedures;
 }
 
 ActionScheduler* IRParser::parseActionScheduler(Module* module){
-	NamedMDNode* inputsMD =  module->getNamedMetadata(IRConstant::KEY_ACTION_SCHED);
-	
-	MDNode* actionSchedulerMD = cast<MDNode>(inputsMD->getOperand(0));
-	list<Action*>* actions = new list<Action*>();
-	FSM* fsm = NULL;
+    NamedMDNode* inputsMD =  module->getNamedMetadata(IRConstant::KEY_ACTION_SCHED);
 
-	//Get actions outside fsm if present
-	Value* actionsValue = actionSchedulerMD->getOperand(0);
+    MDNode* actionSchedulerMD = cast<MDNode>(inputsMD->getOperand(0));
+    list<Action*>* actions = new list<Action*>();
+    FSM* fsm = NULL;
 
-	if (actionsValue != NULL){
-		MDNode* actionsNode =  cast<MDNode>(actionsValue);
-		for (unsigned i = 0, e = actionsNode->getNumOperands(); i != e; ++i) {
-			actions->push_back(getAction(cast<MDNode>(actionsNode->getOperand(i))));
-		}
-	}
+    //Get actions outside fsm if present
+    Value* actionsValue = actionSchedulerMD->getOperand(0);
 
-	//Get fsm if present
-	Value* fsmValue = actionSchedulerMD->getOperand(1);
+    if (actionsValue != NULL){
+        MDNode* actionsNode =  cast<MDNode>(actionsValue);
+        for (unsigned i = 0, e = actionsNode->getNumOperands(); i != e; ++i) {
+            actions->push_back(getAction(cast<MDNode>(actionsNode->getOperand(i))));
+        }
+    }
 
-	if (fsmValue != NULL){
-		fsm = parseFSM(cast<MDNode>(fsmValue));
-	}
+    //Get fsm if present
+    Value* fsmValue = actionSchedulerMD->getOperand(1);
 
-	return new ActionScheduler(actions, fsm);
+    if (fsmValue != NULL){
+        fsm = parseFSM(cast<MDNode>(fsmValue));
+    }
+
+    return new ActionScheduler(actions, fsm);
 }
 
 map<string, Variable*>* IRParser::parseParameters(Module* module){
-	map<string, Variable*>* parameters = new map<string, Variable*>();
-	
-	NamedMDNode* inputsMD =  module->getNamedMetadata(IRConstant::KEY_PARAMETERS);
-	if (inputsMD != NULL){
-		for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
-			
-			//Parse a parameter
-			MDNode* parameterNode = cast<MDNode>(inputsMD->getOperand(i));
-			MDNode* details = cast<MDNode>(parameterNode->getOperand(0));
-			MDString* nameMD = cast<MDString>(details->getOperand(0));
+    map<string, Variable*>* parameters = new map<string, Variable*>();
 
-			Type* type = parseType(cast<MDNode>(parameterNode->getOperand(1)));
+    NamedMDNode* inputsMD =  module->getNamedMetadata(IRConstant::KEY_PARAMETERS);
+    if (inputsMD != NULL){
+        for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
 
-			GlobalVariable* variable = cast<GlobalVariable>(parameterNode->getOperand(2));
+            //Parse a parameter
+            MDNode* parameterNode = cast<MDNode>(inputsMD->getOperand(i));
+            MDNode* details = cast<MDNode>(parameterNode->getOperand(0));
+            MDString* nameMD = cast<MDString>(details->getOperand(0));
 
-			//Parse create parameter
-			StateVar* parameter = new StateVar(type, nameMD->getString(), false, variable);
+            Type* type = parseType(cast<MDNode>(parameterNode->getOperand(1)));
 
-			parameters->insert(pair<string, Variable*>(nameMD->getString(), parameter));
-		}
-		
-	}
-	return parameters;
+            GlobalVariable* variable = cast<GlobalVariable>(parameterNode->getOperand(2));
+
+            //Parse create parameter
+            StateVar* parameter = new StateVar(type, nameMD->getString(), false, variable);
+
+            parameters->insert(pair<string, Variable*>(nameMD->getString(), parameter));
+        }
+
+    }
+    return parameters;
 }
 
 
 map<string, StateVar*>*  IRParser::parseStateVars(Module* module){
-	map<string, StateVar*>* stateVars = new map<string, StateVar*>();
+    map<string, StateVar*>* stateVars = new map<string, StateVar*>();
 
-	NamedMDNode* stateVarsMD =  module->getNamedMetadata(IRConstant::KEY_STATE_VARS);
-	
-	if (stateVarsMD == NULL) {
-		return stateVars;
-	}
-	
-	for (unsigned i = 0, e = stateVarsMD->getNumOperands(); i != e; ++i) {
-		 StateVar* var = parseStateVar(stateVarsMD->getOperand(i));
-		 stateVars->insert(pair<string, StateVar*>(var->getName(), var));
-	}
+    NamedMDNode* stateVarsMD =  module->getNamedMetadata(IRConstant::KEY_STATE_VARS);
 
-	return stateVars;
+    if (stateVarsMD == NULL) {
+        return stateVars;
+    }
+
+    for (unsigned i = 0, e = stateVarsMD->getNumOperands(); i != e; ++i) {
+        StateVar* var = parseStateVar(stateVarsMD->getOperand(i));
+        stateVars->insert(pair<string, StateVar*>(var->getName(), var));
+    }
+
+    return stateVars;
 }
 
 
 StateVar* IRParser::parseStateVar(MDNode* node){
-	// Parsing VarDef
-	MDNode* varDefMD = cast<MDNode>(node->getOperand(0));
-	
-	MDString* name = cast<MDString>(varDefMD->getOperand(0));
-	ConstantInt* assignable = cast<ConstantInt>(varDefMD->getOperand(1));
+    // Parsing VarDef
+    MDNode* varDefMD = cast<MDNode>(node->getOperand(0));
 
-	//Parse StateVar properties
-	IntegerType* type = (IntegerType*)parseType(cast<MDNode>(node->getOperand(1)));
-	
+    MDString* name = cast<MDString>(varDefMD->getOperand(0));
+    ConstantInt* assignable = cast<ConstantInt>(varDefMD->getOperand(1));
 
-	//Parse initialize
-	Value* MDExpr = node->getOperand(2);
-	Expr* init = NULL;
+    //Parse StateVar properties
+    IntegerType* type = (IntegerType*)parseType(cast<MDNode>(node->getOperand(1)));
 
-	if (MDExpr != NULL){
-		init = parseExpr(cast<MDNode>(MDExpr));
-	}
-	
-	//Link with llvm global variable
-	GlobalVariable* variable = cast<GlobalVariable>(node->getOperand(3));
 
-	return new StateVar(type, name->getString(), assignable->getValue().getBoolValue(), variable, init);
+    //Parse initialize
+    Value* MDExpr = node->getOperand(2);
+    Expr* init = NULL;
+
+    if (MDExpr != NULL){
+        init = parseExpr(cast<MDNode>(MDExpr));
+    }
+
+    //Link with llvm global variable
+    GlobalVariable* variable = cast<GlobalVariable>(node->getOperand(3));
+
+    return new StateVar(type, name->getString(), assignable->getValue().getBoolValue(), variable, init);
 }
 
 Expr* IRParser::parseExpr(MDNode* node){
-	Value* value = node->getOperand(0);
-	
-	//Get type of the value
-	const Type* type = value->getType();
-	if (isa<IntegerType>(type)){
-		return new IntExpr(Context, cast<Constant>(value));
-	}else if (isa<ArrayType>(type)){
-		return new ListExpr(Context, cast<Constant>(value));
-	}else{
-		cout << "Unsupported type of expression \n";
-		exit(1);
-	}
-	
-	return NULL;
+    Value* value = node->getOperand(0);
+
+    //Get type of the value
+    const Type* type = value->getType();
+    if (isa<IntegerType>(type)){
+        return new IntExpr(Context, cast<Constant>(value));
+    }else if (isa<ArrayType>(type)){
+        return new ListExpr(Context, cast<Constant>(value));
+    }else{
+        cout << "Unsupported type of expression \n";
+        exit(1);
+    }
+
+    return NULL;
 }
 
 list<Action*>* IRParser::parseActions(string key, Module* module){
-	list<Action*>* actions = new list<Action*>();
-	
-	NamedMDNode* inputsMD =  module->getNamedMetadata(key);
+    list<Action*>* actions = new list<Action*>();
 
-	if (inputsMD == NULL) {
-		return actions;
-	}
+    NamedMDNode* inputsMD =  module->getNamedMetadata(key);
 
-	for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
-		Action* action = parseAction(inputsMD->getOperand(i));
-		actions->push_back(action);
-	}
+    if (inputsMD == NULL) {
+        return actions;
+    }
 
-	return actions;
+    for (unsigned i = 0, e = inputsMD->getNumOperands(); i != e; ++i) {
+        Action* action = parseAction(inputsMD->getOperand(i));
+        actions->push_back(action);
+    }
+
+    return actions;
 }
 
 
 Action* IRParser::parseAction(MDNode* node){
-	Value* tagValue = node->getOperand(0);
-	ActionTag* tag = new ActionTag();
-	
-	if (tagValue != NULL){
-		MDNode* tagArray = cast<MDNode>(tagValue);
-		for (unsigned i = 0, e = tagArray->getNumOperands(); i != e; ++i) {
-			MDString* tagMD = cast<MDString>(tagArray->getOperand(i));
-			tag->add(tagMD->getString());
-		}
-	}
+    Value* tagValue = node->getOperand(0);
+    ActionTag* tag = new ActionTag();
 
-	Pattern* ip = parsePattern(inputs, node->getOperand(1));
-	Pattern* op = parsePattern(outputs, node->getOperand(2));
-	Pattern* pp = parsePattern(inputs, node->getOperand(3));
+    if (tagValue != NULL){
+        MDNode* tagArray = cast<MDNode>(tagValue);
+        for (unsigned i = 0, e = tagArray->getNumOperands(); i != e; ++i) {
+            MDString* tagMD = cast<MDString>(tagArray->getOperand(i));
+            tag->add(tagMD->getString());
+        }
+    }
 
-	Procedure* scheduler = parseProc(cast<MDNode>(node->getOperand(4)));
-	Procedure* body = parseProc(cast<MDNode>(node->getOperand(5)));
-	Action* action = new Action(tag, ip, op, pp, scheduler, body, actor);
+    Pattern* ip = parsePattern(inputs, node->getOperand(1));
+    Pattern* op = parsePattern(outputs, node->getOperand(2));
+    Pattern* pp = parsePattern(inputs, node->getOperand(3));
 
-	putAction(tag, action);
+    Procedure* scheduler = parseProc(cast<MDNode>(node->getOperand(4)));
+    Procedure* body = parseProc(cast<MDNode>(node->getOperand(5)));
+    Action* action = new Action(tag, ip, op, pp, scheduler, body, actor);
 
-	return action;
+    putAction(tag, action);
+
+    return action;
 }
 
 
 Procedure* IRParser::parseProc(MDNode* node){
-	if (node->getOperand(2) == NULL){
-		//procedure is unused
-		return NULL;
-	}
+    if (node->getOperand(2) == NULL){
+        //procedure is unused
+        return NULL;
+    }
 
-	MDString* name = cast<MDString>(node->getOperand(0));
-	ConstantInt* isExtern = cast<ConstantInt>(node->getOperand(1));
-	Function* function = cast<Function>(node->getOperand(2));
-	return new Procedure(name->getString(), isExtern, function);
+    MDString* name = cast<MDString>(node->getOperand(0));
+    ConstantInt* isExtern = cast<ConstantInt>(node->getOperand(1));
+    Function* function = cast<Function>(node->getOperand(2));
+    return new Procedure(name->getString(), isExtern, function);
 }
 
 Function* IRParser::getBodyFunction(llvm::MDNode* actionNode){
-	MDNode* body = cast<MDNode>(actionNode->getOperand(5));
-	return cast<Function>(body->getOperand(2));
+    MDNode* body = cast<MDNode>(actionNode->getOperand(5));
+    return cast<Function>(body->getOperand(2));
 }
 
 Port* IRParser::parsePort(MDNode* node){
-	//Get port property
-	Type* type = (Type*)parseType(cast<MDNode>(node->getOperand(0)));
-	MDString* name = cast<MDString>(node->getOperand(1));
-	GlobalVariable* var = cast<GlobalVariable>(node->getOperand(2));
-	
-	//Create the new port
-	Port* newPort = new Port(name->getString(), (IntegerType*)type, actor);
-	newPort->setPtrVar(new Variable(type, name->getString(), true, true, var));
+    //Get port property
+    Type* type = (Type*)parseType(cast<MDNode>(node->getOperand(0)));
+    MDString* name = cast<MDString>(node->getOperand(1));
+    GlobalVariable* var = cast<GlobalVariable>(node->getOperand(2));
 
-	return newPort;
+    //Create the new port
+    Port* newPort = new Port(name->getString(), (IntegerType*)type, actor);
+    newPort->setPtrVar(new Variable(type, name->getString(), true, true, var));
+    return newPort;
 }
 
 Type* IRParser::parseType(MDNode* node){
@@ -539,92 +537,91 @@ Type* IRParser::parseType(MDNode* node){
             ConstantInt* size = cast<ConstantInt>(val);
             type = ArrayType::get(type, size->getLimitedValue());
         }
-
     }
 
     return type;
 }
 
 FSM* IRParser::parseFSM(llvm::MDNode* node){
-	FSM* fsm = new FSM();
+    FSM* fsm = new FSM();
 
-	//Parse initial state
-	MDString* initialState = cast<MDString>(node->getOperand(0));
-	
-	//Parse all fsm state
-	MDNode* stateArray = cast<MDNode>(node->getOperand(1));
+    //Parse initial state
+    MDString* initialState = cast<MDString>(node->getOperand(0));
 
-	for (unsigned i = 0, e = stateArray->getNumOperands(); i != e; ++i){
-		MDString* stateMD = cast<MDString>(stateArray->getOperand(i));
-		fsm->addState(stateMD->getString());
-	}
+    //Parse all fsm state
+    MDNode* stateArray = cast<MDNode>(node->getOperand(1));
 
-	// set the initial state after initializing the states
-	fsm->setInitialState(initialState->getString());
+    for (unsigned i = 0, e = stateArray->getNumOperands(); i != e; ++i){
+        MDString* stateMD = cast<MDString>(stateArray->getOperand(i));
+        fsm->addState(stateMD->getString());
+    }
 
-	
-	//Parse transition
-	MDNode* transitionsArray = cast<MDNode>(node->getOperand(2));
-
-	for (unsigned i = 0, e = transitionsArray->getNumOperands(); i != e; ++i){
-		MDNode* transitionArray = cast<MDNode>(transitionsArray->getOperand(i));
-		MDString* source = cast<MDString>(transitionArray->getOperand(0));
+    // set the initial state after initializing the states
+    fsm->setInitialState(initialState->getString());
 
 
-		Value* targetValue = transitionArray->getOperand(1);
-		
-		//In case of "undefined" state, no target are given
-		if (targetValue != NULL){
-			MDNode* targetsArray = cast<MDNode>(targetValue);		
-			for (unsigned j = 0, f = targetsArray->getNumOperands() ; j != f; ++j){
-				MDNode* targetArray = cast<MDNode>(targetsArray->getOperand(j));
+    //Parse transition
+    MDNode* transitionsArray = cast<MDNode>(node->getOperand(2));
 
-				Action* action = getAction(cast<MDNode>(targetArray->getOperand(0)));
-				MDString* target = cast<MDString>(targetArray->getOperand(1));
-			
-				
-				fsm->addTransition(source->getString(), target->getString(), action);
-			}
-		}
-	}
+    for (unsigned i = 0, e = transitionsArray->getNumOperands(); i != e; ++i){
+        MDNode* transitionArray = cast<MDNode>(transitionsArray->getOperand(i));
+        MDString* source = cast<MDString>(transitionArray->getOperand(0));
 
-	return fsm;
+
+        Value* targetValue = transitionArray->getOperand(1);
+
+        //In case of "undefined" state, no target are given
+        if (targetValue != NULL){
+            MDNode* targetsArray = cast<MDNode>(targetValue);
+            for (unsigned j = 0, f = targetsArray->getNumOperands() ; j != f; ++j){
+                MDNode* targetArray = cast<MDNode>(targetsArray->getOperand(j));
+
+                Action* action = getAction(cast<MDNode>(targetArray->getOperand(0)));
+                MDString* target = cast<MDString>(targetArray->getOperand(1));
+
+
+                fsm->addTransition(source->getString(), target->getString(), action);
+            }
+        }
+    }
+
+    return fsm;
 }
 
 Action* IRParser::getAction(llvm::MDNode* node) {
-	Value* idValue = node->getOperand(0);
-	
-	if (idValue == NULL){
-		map<Function*, Action*>::iterator it;
+    Value* idValue = node->getOperand(0);
 
-		// Action has not tag, find it by its function name
-		Function* function = getBodyFunction(node);
-		it = untaggedActions.find(function);	
+    if (idValue == NULL){
+        map<Function*, Action*>::iterator it;
 
-		return it->second;
-	}
-	
-	//Get identifiers of action tag
-	map<std::string, Action*>::iterator it;
-	ActionTag tag;
-	MDNode* idNode = cast<MDNode>(idValue);
-	
-	for (unsigned i = 0, e = idNode->getNumOperands(); i != e; ++i){
-		MDString* tagMD = cast<MDString>(idNode->getOperand(i));
-		tag.add(tagMD->getString());
-	}
-	
-	it = actions.find(tag.getIdentifier());
-	
-	return it->second;
+        // Action has not tag, find it by its function name
+        Function* function = getBodyFunction(node);
+        it = untaggedActions.find(function);
+
+        return it->second;
+    }
+
+    //Get identifiers of action tag
+    map<std::string, Action*>::iterator it;
+    ActionTag tag;
+    MDNode* idNode = cast<MDNode>(idValue);
+
+    for (unsigned i = 0, e = idNode->getNumOperands(); i != e; ++i){
+        MDString* tagMD = cast<MDString>(idNode->getOperand(i));
+        tag.add(tagMD->getString());
+    }
+
+    it = actions.find(tag.getIdentifier());
+
+    return it->second;
 }
 
 void IRParser::putAction(ActionTag* tag, Action* action){
-	if (tag->isEmpty()){
-		Procedure* body = action->getBody();
-		untaggedActions.insert(pair<Function*, Action*>(body->getFunction(), action));
-	} else {
-		actions.insert(pair<std::string, Action*>(tag->getIdentifier(), action));
-	}
+    if (tag->isEmpty()){
+        Procedure* body = action->getBody();
+        untaggedActions.insert(pair<Function*, Action*>(body->getFunction(), action));
+    } else {
+        actions.insert(pair<std::string, Action*>(tag->getIdentifier(), action));
+    }
 
 }
