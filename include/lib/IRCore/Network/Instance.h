@@ -102,7 +102,7 @@ public:
      */
     Instance(std::string id, Actor* actor);
 
-    ~Instance();
+    virtual ~Instance();
 
     /*!
      *  @brief Getter of id

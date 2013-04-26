@@ -86,7 +86,7 @@ class HDAGVertex {
         /**
          Destructor
         */
-        ~HDAGVertex();
+        virtual ~HDAGVertex();
 
         /**
          Setting the base, i.e. the graph in which current vertex is included
