@@ -51,115 +51,115 @@ static unsigned int fileSize;
 static char         useCompare;
 
 static void compareYUV_compareComponent(const int x_size, const int y_size, 
-               const unsigned char *true_img_uchar, const unsigned char *test_img_uchar,
-               unsigned char SizeMbSide, char Component_Type) {
-	int pix_x, pix_y,blk_x,blk_y;
-	int error = 0;
-	int WidthSzInBlk  = x_size / SizeMbSide;
-	int HeightSzInBlk = y_size / SizeMbSide;
+                                        const unsigned char *true_img_uchar, const unsigned char *test_img_uchar,
+                                        unsigned char SizeMbSide, char Component_Type) {
+    int pix_x, pix_y,blk_x,blk_y;
+    int error = 0;
+    int WidthSzInBlk  = x_size / SizeMbSide;
+    int HeightSzInBlk = y_size / SizeMbSide;
 
-	for(blk_y = 0 ; blk_y < HeightSzInBlk ; blk_y++)
-	{
-		for(blk_x = 0 ; blk_x < WidthSzInBlk ; blk_x++)
-		{
-			for (pix_y = 0; pix_y < SizeMbSide; pix_y++)
-			{
-				for (pix_x = 0; pix_x < SizeMbSide; pix_x++)
-				{
-					int Idx_pix = (blk_y * SizeMbSide + pix_y) * x_size + (blk_x * SizeMbSide + pix_x);
+    for(blk_y = 0 ; blk_y < HeightSzInBlk ; blk_y++)
+    {
+        for(blk_x = 0 ; blk_x < WidthSzInBlk ; blk_x++)
+        {
+            for (pix_y = 0; pix_y < SizeMbSide; pix_y++)
+            {
+                for (pix_x = 0; pix_x < SizeMbSide; pix_x++)
+                {
+                    int Idx_pix = (blk_y * SizeMbSide + pix_y) * x_size + (blk_x * SizeMbSide + pix_x);
 
-					if (true_img_uchar[Idx_pix] - test_img_uchar[Idx_pix] != 0)
-					{
-						error++;
-						if (error < 100)
-						{
-							printf("error %3d instead of %3d at position : mb = (%d ; %d) , loc_in_mb = (%d ; %d)\n",
-								test_img_uchar[Idx_pix] , true_img_uchar[Idx_pix], blk_x, blk_y, pix_x, pix_y);
-						}
-					}
-				}
-			}
-		}
-	}
+                    if (true_img_uchar[Idx_pix] - test_img_uchar[Idx_pix] != 0)
+                    {
+                        error++;
+                        if (error < 100)
+                        {
+                            printf("error %3d instead of %3d at position : mb = (%d ; %d) , loc_in_mb = (%d ; %d)\n",
+                                   test_img_uchar[Idx_pix] , true_img_uchar[Idx_pix], blk_x, blk_y, pix_x, pix_y);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	if (error != 0) {
-		printf("%d error(s) in %c Component !!!!!!!!!!!!!\n", error, Component_Type);
-	}
+    if (error != 0) {
+        printf("%d error(s) in %c Component !!!!!!!!!!!!!\n", error, Component_Type);
+    }
 }
 
 void compareYUV_init()
 {
-	struct stat st;
+    struct stat st;
 
-	//Fix me!! Dirty but it's the only way for the moment.
-	if (yuv_file == NULL) {
-		useCompare = 0;
-		return;
-	}
-	useCompare = 1;
-	ptrFile = fopen(yuv_file, "rb");
-	if (ptrFile == NULL) {
-		printf("Cannot open yuv_file concatenated input file '%s' for reading\n", yuv_file);
-		exit(-1);
-	}
+    //Fix me!! Dirty but it's the only way for the moment.
+    if (yuv_file == NULL) {
+        useCompare = 0;
+        return;
+    }
+    useCompare = 1;
+    ptrFile = fopen(yuv_file, "rb");
+    if (ptrFile == NULL) {
+        printf("Cannot open yuv_file concatenated input file '%s' for reading\n", yuv_file);
+        exit(-1);
+    }
 
-	fileSize = fstat(fileno(ptrFile), &st);
+    fileSize = fstat(fileno(ptrFile), &st);
 }
 
 static void compareYUV_readComponent(unsigned char **Component, unsigned short width, unsigned short height, char sizeChanged) {
-	size_t numByteRead;
+    size_t numByteRead;
 
-	if(*Component == NULL) {
-		*Component = malloc(width*height * sizeof(unsigned char));
-	}
-	else {
-		if(sizeChanged) {
-			*Component = realloc(*Component, width*height * sizeof(unsigned char));
-		}
-	}
-	if(*Component == NULL) {
-		fprintf(stderr,"Problem when allocating memory.\n");
-		exit(-5);
-	}
-	numByteRead = fread(*Component, sizeof(unsigned char),  width*height, ptrFile);
-	if(numByteRead != (width*height)) {
-		fprintf(stderr, "Error when using fread\n");
-		exit(-6);
-	}
+    if(*Component == NULL) {
+        *Component = malloc(width*height * sizeof(unsigned char));
+    }
+    else {
+        if(sizeChanged) {
+            *Component = realloc(*Component, width*height * sizeof(unsigned char));
+        }
+    }
+    if(*Component == NULL) {
+        fprintf(stderr,"Problem when allocating memory.\n");
+        exit(-5);
+    }
+    numByteRead = fread(*Component, sizeof(unsigned char),  width*height, ptrFile);
+    if(numByteRead != (width*height)) {
+        fprintf(stderr, "Error when using fread\n");
+        exit(-6);
+    }
 }
 
 void compareYUV_comparePicture(unsigned char *pictureBufferY, unsigned char *pictureBufferU,
                                unsigned char *pictureBufferV, unsigned short pictureWidth,
                                unsigned short pictureHeight) {
-	static unsigned int frameNumber = 0;
-	static int prevXSize = 0;
-	static int prevYSize = 0;
+    static unsigned int frameNumber = 0;
+    static int prevXSize = 0;
+    static int prevYSize = 0;
 
-	static unsigned char *Y = NULL;
-	static unsigned char *U = NULL;
-	static unsigned char *V = NULL;
-	int i;
-	char sizeChanged;
+    static unsigned char *Y = NULL;
+    static unsigned char *U = NULL;
+    static unsigned char *V = NULL;
+    int i;
+    char sizeChanged;
 
-	if(useCompare) {
-		printf("Frame number %d \n", frameNumber);
-		frameNumber++;
+    if(useCompare) {
+        printf("Frame number %d \n", frameNumber);
+        frameNumber++;
 
-		sizeChanged = ((prevXSize*prevYSize) != (pictureWidth*pictureHeight)) ? 1 : 0;
-		compareYUV_readComponent(&Y, pictureWidth,   pictureHeight,   sizeChanged);
-		compareYUV_readComponent(&U, pictureWidth/2, pictureHeight/2, sizeChanged);
-		compareYUV_readComponent(&V, pictureWidth/2, pictureHeight/2, sizeChanged);
+        sizeChanged = ((prevXSize*prevYSize) != (pictureWidth*pictureHeight)) ? 1 : 0;
+        compareYUV_readComponent(&Y, pictureWidth,   pictureHeight,   sizeChanged);
+        compareYUV_readComponent(&U, pictureWidth/2, pictureHeight/2, sizeChanged);
+        compareYUV_readComponent(&V, pictureWidth/2, pictureHeight/2, sizeChanged);
 
-		compareYUV_compareComponent(pictureWidth, pictureHeight, Y, pictureBufferY,16, 'Y');
-		compareYUV_compareComponent(pictureWidth >> 1, pictureHeight >> 1, U, pictureBufferU,8,'U');
-		compareYUV_compareComponent(pictureWidth >> 1, pictureHeight >> 1, V, pictureBufferV,8, 'V');
+        compareYUV_compareComponent(pictureWidth, pictureHeight, Y, pictureBufferY,16, 'Y');
+        compareYUV_compareComponent(pictureWidth >> 1, pictureHeight >> 1, U, pictureBufferU,8,'U');
+        compareYUV_compareComponent(pictureWidth >> 1, pictureHeight >> 1, V, pictureBufferV,8, 'V');
 
-		if(ftell(ptrFile) == fileSize) {
-			rewind(ptrFile);
-			frameNumber = 0;
-			exit(0);
-		}
-		prevXSize = pictureWidth;
-		prevYSize = pictureHeight;
-	}
+        if(ftell(ptrFile) == fileSize) {
+            rewind(ptrFile);
+            frameNumber = 0;
+            exit(0);
+        }
+        prevXSize = pictureWidth;
+        prevYSize = pictureHeight;
+    }
 }
