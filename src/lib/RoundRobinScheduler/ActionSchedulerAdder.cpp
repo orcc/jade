@@ -108,7 +108,7 @@ void ActionSchedulerAdder::createActionScheduler(Instance* instance){
 
     //Create alloca on i and store 0
     AllocaInst* iVar = new AllocaInst(Type::getInt32Ty(Context), "i", entryBB);
-    StoreInst* storeInst = new StoreInst(Zero, iVar, entryBB);
+    new StoreInst(Zero, iVar, entryBB);
 
     // Add a basic block to bb and branch entry to bb.
     bb1 = BasicBlock::Create(Context, "bb", scheduler);
@@ -159,7 +159,7 @@ void ActionSchedulerAdder::createInitialize(Instance* instance){
     for ( it=initializes->begin() ; it != initializes->end(); it++ ){
         //Launch action body
         Procedure* body = (*it)->getBody();
-        CallInst* bodyInst = CallInst::Create(body->getFunction(), "",  BB);
+        CallInst::Create(body->getFunction(), "",  BB);
     }
 
     //Create branch from skip to return
@@ -288,7 +288,7 @@ BasicBlock* ActionSchedulerAdder::checkInputPattern(Pattern* pattern, Function* 
     BasicBlock* tokenBB = BasicBlock::Create(Context, hasTokenBrName, function);
 
     //Finally branch fire to hasToken block if all inputs have tokens
-    BranchInst* brInst = BranchInst::Create(tokenBB, skipBB, value1, BB);
+    BranchInst::Create(tokenBB, skipBB, value1, BB);
     return tokenBB;
 }
 
@@ -334,7 +334,7 @@ BasicBlock* ActionSchedulerAdder::checkOutputPattern(Pattern* pattern, llvm::Fun
     BasicBlock* roomBB = BasicBlock::Create(Context, hasRoomBrName, function);
 
     //Finally branch fire to hasRoom block if all outputs have free room
-    BranchInst* brInst = BranchInst::Create(roomBB, skipBB, value1, BB);
+    BranchInst::Create(roomBB, skipBB, value1, BB);
 
     return roomBB;
 }

@@ -299,8 +299,6 @@ Pattern* IRWriter::writePattern(Pattern* pattern, map<string, Port*>* ports){
     map<Port*, Variable*>* varMap = pattern->getVariableMap();
 
     for (itVar = varMap->begin(); itVar != varMap->end(); itVar++) {
-        Variable* var = itVar->second;
-
         //Get corresponding port in instance
         Port* src = itVar->first;
         itPort = ports->find(src->getName());
@@ -356,12 +354,10 @@ map<string, Procedure*>* IRWriter::writeProcedures(map<string, Procedure*>* proc
 
 ActionScheduler* IRWriter::writeActionScheduler(ActionScheduler* actionScheduler){
     FSM* fsm = NULL;
-    Function* initializeFunction = NULL;
     list<Action*>* instancedActions = new list<Action*>();
 
     //Get actions of action scheduler
     list<Action*>::iterator it;
-    map<string, Action*>::iterator itActionsMap;
     list<Action*>* actions = actionScheduler->getActions();
 
     for (it = actions->begin(); it != actions->end(); it++){
@@ -401,7 +397,6 @@ FSM* IRWriter::writeFSM(FSM* fsm){
         list<FSM::NextStateInfo*>* nextStateInfos = transition->getNextStateInfo();
 
         for (itNextStateInfo = nextStateInfos->begin(); itNextStateInfo != nextStateInfos->end(); itNextStateInfo++){
-            Action* actionState = NULL;
             FSM::State* targetState = (*itNextStateInfo)->getTargetState();
             Action* targetAction = (*itNextStateInfo)->getAction();
 

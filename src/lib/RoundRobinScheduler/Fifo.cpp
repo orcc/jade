@@ -165,8 +165,6 @@ void Fifo::createReads (Procedure* procedure, Pattern* pattern){
 
 
 void Fifo::createPeeks (Procedure* procedure, Pattern* pattern){
-	Function* function = procedure->getFunction();
-	BasicBlock* BB = &function->back();
 	
 	//Get tokens and var
 	map<Port*, ConstantInt*>::iterator it;
@@ -175,14 +173,13 @@ void Fifo::createPeeks (Procedure* procedure, Pattern* pattern){
 
 	for (it = numTokensMap->begin(); it != numTokensMap->end(); it++){
 		Port* port = it->first;
-		ConstantInt* numTokens = it->second;
 		
 		//Create peek
-		Value* value = replaceAccess(port, procedure);
+        replaceAccess(port, procedure);
 	}
 }
 
-Value* Fifo::replaceAccess (Port* port, Procedure* proc){
+Value* Fifo::replaceAccess (Port* port, Procedure* proc) {
 	Function* function = proc->getFunction();
 	ConstantInt* sizeVal = ConstantInt::get(function->getContext(), APInt(32, port->getFifoSize()));
 	ConstantInt* zero = ConstantInt::get(function->getContext(), APInt(32, 0));
@@ -510,7 +507,6 @@ Function* Fifo::initializeOut(llvm::Module* module, Port* port){
 Function* Fifo::closeIn(llvm::Module* module, Port* port){
 	//Usefull constant
 	ConstantInt* zero = ConstantInt::get(module->getContext(), APInt(32, 0));
-	ConstantInt* one = ConstantInt::get(module->getContext(), APInt(32, 1));
 	ConstantInt* three = ConstantInt::get(module->getContext(), APInt(32, 3));
 	
 	//Create read end function
@@ -617,7 +613,6 @@ Function* Fifo::getOrInsertNumTokensFn(llvm::Module* module, llvm::IntegerType* 
 
 		//Usefull constant
 	ConstantInt* zero = ConstantInt::get(module->getContext(), APInt(32, 0));
-	ConstantInt* one = ConstantInt::get(module->getContext(), APInt(32, 1));
 	ConstantInt* three = ConstantInt::get(module->getContext(), APInt(32, 3));
 	ConstantInt* four = ConstantInt::get(module->getContext(), APInt(32, 4));
 

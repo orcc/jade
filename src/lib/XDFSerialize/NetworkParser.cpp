@@ -231,7 +231,7 @@ void NetworkParser::parseConnection(TiXmlElement* connection){
 
     // Get attributes
     map<string, IRAttribute*>* attributes = parseAttributes(connection->FirstChild());
-    Connection* conn = new Connection(graph, source, srcPort, target, dstPort, attributes);
+    new Connection(graph, source, srcPort, target, dstPort, attributes);
 }
 
 map<string, IRAttribute*>* NetworkParser::parseAttributes(TiXmlNode* node){

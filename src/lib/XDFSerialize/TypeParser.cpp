@@ -128,9 +128,7 @@ map<string, Entry*>* TypeParser::parseTypeEntries(TiXmlNode* node){
 }
 
 Expr* TypeParser::parseTypeSize(map<string, Entry*>* entries){
-	LLVMContext &context = getGlobalContext();
-
-	map<string, Entry*>::iterator it;
+    map<string, Entry*>::iterator it;
 
 	it = entries->find("size");
 

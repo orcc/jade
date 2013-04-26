@@ -117,10 +117,6 @@ Function* DPNScheduler::createSchedulerOutsideFSM(Instance* instance){
 	Function* outsideScheduler = cast<Function>(module->getOrInsertFunction(name, Type::getVoidTy(Context),
 										  (Type *)0));
 	
-	//Create values
-	Value *Zero = ConstantInt::get(Type::getInt32Ty(Context), 0);
-	Value *One = ConstantInt::get(Type::getInt32Ty(Context), 1);
-
 	// Add a basic block entry and BB to the outside scheduler.
 	BasicBlock* BBEntry = BasicBlock::Create(Context, "entry", outsideScheduler);
 	BasicBlock* BB1  = BasicBlock::Create(Context, "bb", outsideScheduler);
@@ -166,7 +162,6 @@ BasicBlock* DPNScheduler::createActionTest(Action* action, BasicBlock* BB, Basic
 	skipBrName.append(name);
 	hasRoomBrName.append(name);
 	fireBrName.append(name);
-	Procedure* body = action->getBody();
 
 	// Add a basic block to bb for firing instructions
 	BasicBlock* fireBB = BasicBlock::Create(Context, fireBrName, function);
@@ -181,7 +176,7 @@ BasicBlock* DPNScheduler::createActionTest(Action* action, BasicBlock* BB, Basic
 	//Test firing condition of an action
 	Procedure* scheduler = action->getScheduler();
 	CallInst* schedInst = CallInst::Create(scheduler->getFunction(), "",  BB);
-	BranchInst* branchInst	= BranchInst::Create(fireBB, skipBB, schedInst, BB);
+    BranchInst::Create(fireBB, skipBB, schedInst, BB);
 
 	//Create output pattern
 	fireBB = checkOutputPattern(action->getOutputPattern(), function, retBB, fireBB);
@@ -272,7 +267,7 @@ BasicBlock* DPNScheduler::createSchedulingTestState(list<FSM::NextStateInfo*>* n
 
 	//Store current state in skip basic block and brancg to return basic block
 	ConstantInt* index = ConstantInt::get(Type::getInt32Ty(Context), sourceState->getIndex());
-	StoreInst* storeInst = new StoreInst(index, stateVar, stateBB);
+    new StoreInst(index, stateVar, stateBB);
 	BranchInst::Create(returnBB, stateBB);
 
 	return NULL;
@@ -283,7 +278,7 @@ BasicBlock* DPNScheduler::createActionTestState(FSM::NextStateInfo* nextStateInf
 
 	//Get information about next state
 	Action* action = nextStateInfo->getAction();
-	FSM::State* targetState = nextStateInfo->getTargetState();
+    nextStateInfo->getTargetState();
 
 	//Create a branch for firing next state
 	string fireStateBrName = "fire";
@@ -335,6 +330,5 @@ void DPNScheduler::createActionCallState(FSM::NextStateInfo* nextStateInfo, llvm
 
 	//Create a branch to the next state
 	it = BBTransitions->find(nextState);
-	BranchInst* brInst = BranchInst::Create(it->second, BB);
-
+    BranchInst::Create(it->second, BB);
 }

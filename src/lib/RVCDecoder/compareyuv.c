@@ -138,7 +138,6 @@ void compareYUV_comparePicture(unsigned char *pictureBufferY, unsigned char *pic
     static unsigned char *Y = NULL;
     static unsigned char *U = NULL;
     static unsigned char *V = NULL;
-    int i;
     char sizeChanged;
 
     if(useCompare) {

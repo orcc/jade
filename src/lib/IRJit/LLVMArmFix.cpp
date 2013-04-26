@@ -105,12 +105,10 @@ void LLVMArmFix::run() {
     Constant* inputChr = FunctionMng::createStdMessage(module, VidFile);
     new StoreInst(inputChr, inputFileVar, callInst);
 
-    tool_output_file* file = generateNativeCode(AssemblyFile);
+    generateNativeCode(AssemblyFile);
 
     // Mark the output files for removal.
-    FileRemover AssemblyFileRemover(AssemblyFile.c_str());
     sys::RemoveFileOnSignal(AssemblyFile);
-    FileRemover DecoderFileRemover(DecoderFile.c_str());
     sys::RemoveFileOnSignal(DecoderFile);
 
     // Compile and link assembly file with GCC

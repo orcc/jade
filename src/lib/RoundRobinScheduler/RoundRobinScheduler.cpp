@@ -124,17 +124,17 @@ void RoundRobinScheduler::createNetworkScheduler(){
     BasicBlock* schedulerBB = BasicBlock::Create(Context, "bb", scheduler);
 
     // Create a branch to bb and store it for later insertions
-    BranchInst* brInst = BranchInst::Create(schedulerBB, initializeBB);
+    BranchInst::Create(schedulerBB, initializeBB);
 
     // Add a basic block return to the scheduler.
     BasicBlock* BBReturn = BasicBlock::Create(Context, "return", scheduler);
     ConstantInt* one = ConstantInt::get(Type::getInt32Ty(Context), 1);
-    ReturnInst* returnInst = ReturnInst::Create(Context, one, BBReturn);
+    ReturnInst::Create(Context, one, BBReturn);
 
     // Load stop value and test if the scheduler must be stop
     schedInst = new LoadInst(stopGV, "", schedulerBB);
     ICmpInst* test = new ICmpInst(*schedulerBB, ICmpInst::ICMP_EQ, schedInst, one);
-    BranchInst* schedBrInst = BranchInst::Create(BBReturn, schedulerBB, test, schedulerBB);
+    BranchInst::Create(BBReturn, schedulerBB, test, schedulerBB);
 }
 
 void RoundRobinScheduler::createNetworkInitialize(){
