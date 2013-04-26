@@ -9,6 +9,7 @@ add_library (HDAGGraph
   HDAGGraph.cpp
   HDAGVertex.cpp
   DotWriter.cpp
+  SchedulingError.cpp
   ${Graph_HDRS}
 )
  
