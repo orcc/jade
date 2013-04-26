@@ -187,7 +187,7 @@ StateVar* SuperInstance::getInternalVar(Port* port){
 	}
 
 	return it->second;
-};
+}
 
 CSDFMoC* SuperInstance::createMoC(CSDFMoC* srcMoc, int srcFactor, CSDFMoC* dstMoc, int dstFactor, set<Port*>* in, set<Port*>* out){
 	CSDFMoC* moc = new CSDFMoC(this);

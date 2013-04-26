@@ -81,7 +81,7 @@ class HDAGVertex {
         /**
          Constructor
         */
-        HDAGVertex(char* name){this->setName(name);};
+        HDAGVertex(char* name){this->setName(name);}
 
         /**
          Destructor
