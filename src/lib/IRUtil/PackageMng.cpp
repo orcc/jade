@@ -62,7 +62,7 @@ string PackageMng::getFolder(string package){
 }
 
 string PackageMng::getFirstFolder(string name){
-    int index = name.find('/');
+    size_t index = name.find('/');
 
     if (index == string::npos){
         return name;
@@ -76,7 +76,7 @@ string PackageMng::getPackagesName(Actor* actor){
 }
 
 string PackageMng::getPackagesName(string name){
-    int index = name.rfind('.');
+    size_t index = name.rfind('.');
 
     if (index == string::npos){
         return "";
@@ -93,7 +93,7 @@ list<std::string> PackageMng::getPackageListName(Actor* actor){
 list<std::string> PackageMng::getPackageListName(string name){
     list<string> packageList;
 
-    int index = name.find('.');
+    size_t index = name.find('.');
 
     //Split string separate by a .
     while (index != string::npos){
@@ -113,7 +113,7 @@ string PackageMng::getFirstPackageName(Actor* actor){
 }
 
 string PackageMng::getFirstPackageName(string name){
-    int index = name.find('.');
+    size_t index = name.find('.');
 
     if (index == string::npos){
         return name;
@@ -127,7 +127,7 @@ string PackageMng::getSimpleName(Actor* actor){
 }
 
 string PackageMng::getSimpleName(string name){
-    int index = name.rfind('.');
+    size_t index = name.rfind('.');
 
     if (index == string::npos){
         return "";
