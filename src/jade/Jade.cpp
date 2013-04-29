@@ -72,16 +72,16 @@ using namespace llvm::sys;
 
 // Jade options
 cl::opt<string>
-XDFFile("xdf", desc("XDF network file"), value_desc("XDF filename"));
+XDFFile("xdf", desc("XDF network file"), value_desc("XDF file"));
 
 cl::opt<string>
-XCFFile("xcf", desc("XCF mapping file"), value_desc("XCF filename"));
+XCFFile("xcf", desc("XCF mapping file"), value_desc("XCF file"));
 
 cl::opt<string>
-BSDLFile("bsdl", desc("Bitstream description file"), value_desc("BSDL filename"));
+BSDLFile("bsdl", desc("Bitstream description file"), value_desc("BSDL file"));
 
 cl::opt<string>
-VidFile("i", desc("Encoded video file"), value_desc("Video filename"));
+VidFile("i", desc("Encoded video file"), value_desc("Video file"));
 
 cl::opt<string>
 VTLDir("L", desc("Video Tools Library directory"),
@@ -94,12 +94,6 @@ InputDir("I", desc("Stimulus directory"),
        value_desc("Folder of input stimulus"),
        Hidden,
        init(""));
-
-cl::opt<string>
-SystemDir("S", desc("Specifiy a specify location for package System"),
-              value_desc("Location of package System"),
-              Hidden,
-              init(""));
 
 cl::opt<string>
 YuvFile("o", desc("Compare output with a decoded YUV video file"),
@@ -215,7 +209,6 @@ RVCEngine* engine;
 void setOptions(){
     //Verify if directory is well formed
     OptionMng::setDirectory(&VTLDir);
-    OptionMng::setDirectory(&SystemDir);
     OptionMng::setDirectory(&OutputDir);
     OptionMng::setDirectory(&InputDir);
 
@@ -349,7 +342,7 @@ int main(int argc, char **argv, char **envp) {
     setOptions();
 
     //Loading decoderEngine
-    engine = new RVCEngine(Context, VTLDir, FifoSize, SystemDir, OutputDir, noMerging, disableMultiCore, Verbose, ArmFix);
+    engine = new RVCEngine(Context, VTLDir, FifoSize, OutputDir, noMerging, disableMultiCore, Verbose, ArmFix);
 
     if (Verbose){
         cout << "> Core preparation finished in " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";

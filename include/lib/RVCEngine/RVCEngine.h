@@ -78,7 +78,7 @@ public:
      *
      *  @param C : the LLVM Context used by JIT
      */
-    RVCEngine(llvm::LLVMContext& C, std::string library, int defaultFifoSize, std::string system = "", std::string outputDir="", bool noMerging = false, bool noMultiCore = false, bool verbose = false, bool armFix =false);
+    RVCEngine(llvm::LLVMContext& C, std::string library, int defaultFifoSize, std::string outputDir="", bool noMerging = false, bool noMultiCore = false, bool verbose = false, bool armFix =false);
     ~RVCEngine();
 
     /*!
@@ -193,9 +193,6 @@ private:
 
     /** Library location */
     std::string library;
-
-    /** System package location */
-    std::string systemPackage;
 
     /** Map of decoder loaded in the decoder engine */
     std::map<Network*, Decoder*> decoders;

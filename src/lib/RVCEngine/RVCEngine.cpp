@@ -63,14 +63,12 @@ using namespace llvm;
 RVCEngine::RVCEngine(llvm::LLVMContext& C,
                              string library,
                              int defaultFifoSize,
-                             string system,
-                     string outputDir,
+                             string outputDir,
                              bool noMerging,
                              bool noMultiCore,
                              bool verbose, bool armFix): Context(C) {
     //Set properties
     this->library = library;
-    this->systemPackage = system;
     this->verbose = verbose;
     this->noMerging = noMerging;
     this->outputDir = outputDir;
