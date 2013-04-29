@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -111,75 +111,75 @@ using namespace std;
 
 void rvc_init(char *XDF, char* VTLFolder, int isAVCFile){
 
-	//Initialize context
-	llvm_start_multithreaded();	
-	InitializeNativeTarget();
-	InitializeNativeTargetAsmPrinter();
-	LLVMContext &Context = getGlobalContext();
+    //Initialize context
+    llvm_start_multithreaded();
+    InitializeNativeTarget();
+    InitializeNativeTargetAsmPrinter();
+    LLVMContext &Context = getGlobalContext();
 
 
-	//Parsing XDF
-	XDFParser xdfParser(false);
-	Network* network = xdfParser.parseChar(XDF, Context);
+    //Parsing XDF
+    XDFParser xdfParser(false);
+    Network* network = xdfParser.parseChar(XDF, Context);
 
-	//Create the Configuration from the network
-	Configuration* configuration = new Configuration(network);
+    //Create the Configuration from the network
+    Configuration* configuration = new Configuration(network);
 
-	// Parsing actor and bound it to the configuration
+    // Parsing actor and bound it to the configuration
     RVCEngine engine(Context, VTLFolder, "", false, false, verbose);
-	map<string, Actor*>* requieredActors = engine.parseActors(configuration);
-	configuration->setActors(requieredActors);
+    map<string, Actor*>* requieredActors = engine.parseActors(configuration);
+    configuration->setActors(requieredActors);
 
-	//Create decoder
-	decoder = new Decoder(Context, configuration, verbose);
+    //Create decoder
+    decoder = new Decoder(Context, configuration, verbose);
 
-	// Optimize decoder
-	LLVMOptimizer opt(decoder);
-	opt.optimize(3);
+    // Optimize decoder
+    LLVMOptimizer opt(decoder);
+    opt.optimize(3);
 
-	//Initialize the execution engine
-	LLVMExecution* llvmEE = decoder->getEE();
-	llvmEE->initialize();
+    //Initialize the execution engine
+    LLVMExecution* llvmEE = decoder->getEE();
+    llvmEE->initialize();
 
-	if (isAVCFile){
-		source_isAVCFile();
-	}
+    if (isAVCFile){
+        source_isAVCFile();
+    }
 }
 
 int rvc_decode(unsigned char* nal, int nal_length, char* outBuffer, int newBuffer){
 
-	//Initialize buffer state
-	if(newBuffer){
-		bufferBusy = 0;
-	}
-	
-	//Prepare source and display
-	source_prepare(nal, nal_length);
-	displayYUV_prepare(outBuffer);
+    //Initialize buffer state
+    if(newBuffer){
+        bufferBusy = 0;
+    }
 
-	//Start decoder
-	decoder->getEE()->run();
+    //Prepare source and display
+    source_prepare(nal, nal_length);
+    displayYUV_prepare(outBuffer);
+
+    //Start decoder
+    decoder->getEE()->run();
 
 
-	//Reset reading nal state for the next use
-	if(nalState == NAL_IS_READ){
-		if(safeguardFrameEmpty){
-			nalState = NAL_NOT_READ;
-		}else{
-			nalState = NAL_ALREADY_READ;
-		}
-	}
+    //Reset reading nal state for the next use
+    if(nalState == NAL_IS_READ){
+        if(safeguardFrameEmpty){
+            nalState = NAL_NOT_READ;
+        }else{
+            nalState = NAL_ALREADY_READ;
+        }
+    }
 
-	//Return the number of generated frames
-	if(!safeguardFrameEmpty) return 2;
-	if(bufferBusy) return 1;
-	return 0;
+    //Return the number of generated frames
+    if(!safeguardFrameEmpty) return 2;
+    if(bufferBusy) return 1;
+    return 0;
 }
 
 
 void rvc_close(){
-	llvm_stop_multithreaded();
-	delete decoder;
+    llvm_stop_multithreaded();
+    delete decoder;
 }
 
 #ifdef __cplusplus
