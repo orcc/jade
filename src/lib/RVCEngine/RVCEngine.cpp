@@ -62,7 +62,6 @@ using namespace llvm;
 
 RVCEngine::RVCEngine(llvm::LLVMContext& C,
                              string library,
-                             int defaultFifoSize,
                              string outputDir,
                              bool noMerging,
                              bool noMultiCore,

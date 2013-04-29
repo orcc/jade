@@ -126,7 +126,7 @@ void rvc_init(char *XDF, char* VTLFolder, int isAVCFile){
 	Configuration* configuration = new Configuration(network);
 
 	// Parsing actor and bound it to the configuration
-    RVCEngine engine(Context, VTLFolder, FifoSize, "", false, false, verbose);
+    RVCEngine engine(Context, VTLFolder, "", false, false, verbose);
 	map<string, Actor*>* requieredActors = engine.parseActors(configuration);
 	configuration->setActors(requieredActors);
 
