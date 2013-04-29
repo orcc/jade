@@ -72,7 +72,7 @@ Function* FunctionMng::createPrintf(Module* module, string message, Instruction*
         func_printf = Function::Create(FuncTy_8, GlobalValue::ExternalLinkage, "printf", module); // (external, no body)
         func_printf->setCallingConv(CallingConv::C);
 
-        AttrListPtr func_printf_PAL;
+        AttributeSet func_printf_PAL;
         func_printf->setAttributes(func_printf_PAL);
     }
 
@@ -112,7 +112,7 @@ Function* FunctionMng::createPrintf(Module* module, string message, Instruction*
     CallInst* int32_25 = CallInst::Create(func_printf, params, "", instr);
     int32_25->setCallingConv(CallingConv::C);
     int32_25->setTailCall(false);
-    AttrListPtr int32_25_PAL;
+    AttributeSet int32_25_PAL;
     int32_25->setAttributes(int32_25_PAL);
 
     return func_printf;
@@ -131,27 +131,10 @@ void FunctionMng::createPuts(Module* module, string message, Instruction* instr)
 
         func_puts = Function::Create(FuncTy_6, GlobalValue::ExternalLinkage,"puts", module);
         func_puts->setCallingConv(CallingConv::C);
-        AttrListPtr func_puts_PAL;
-        {
-            AttributeWithIndex PAWI;
-            AttrBuilder attrBuilder;
 
-            SmallVector<AttributeWithIndex, 4> Attrs;
-
-            PAWI.Index = 1U;
-            attrBuilder.addAttribute(Attributes::NoCapture);
-            PAWI.Attrs = Attributes::get(module->getContext(), attrBuilder);
-            Attrs.push_back(PAWI);
-
-            PAWI.Index = 4294967295U;
-            attrBuilder.clear();
-            attrBuilder.addAttribute(Attributes::NoUnwind);
-            PAWI.Attrs = Attributes::get(module->getContext(), attrBuilder);
-            Attrs.push_back(PAWI);
-
-            ArrayRef<AttributeWithIndex> attrArrayRef(Attrs.begin(), Attrs.end());
-            func_puts_PAL = AttrListPtr::get(module->getContext(), attrArrayRef);
-        }
+        AttributeSet func_puts_PAL;
+        func_puts_PAL.addAttribute(module->getContext(), 1U, Attribute::NoCapture);
+        func_puts_PAL.addAttribute(module->getContext(), 4294967295U, Attribute::NoUnwind);
         func_puts->setAttributes(func_puts_PAL);
     }
 
@@ -163,7 +146,7 @@ void FunctionMng::createPuts(Module* module, string message, Instruction* instr)
     CallInst* int32_puts = CallInst::Create(func_puts, messageExpr, "puts", instr);
     int32_puts->setCallingConv(CallingConv::C);
     int32_puts->setTailCall(true);
-    AttrListPtr int32_puts_PAL;
+    AttributeSet int32_puts_PAL;
     int32_puts->setAttributes(int32_puts_PAL);
 }
 

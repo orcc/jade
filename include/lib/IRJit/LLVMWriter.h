@@ -48,8 +48,6 @@ class AbstractFifo;
 class Decoder;
 class Port;
 
-
-
 #include "llvm/IR/Module.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Value.h"

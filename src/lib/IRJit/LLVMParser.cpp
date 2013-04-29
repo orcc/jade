@@ -41,6 +41,8 @@
 #include "llvm/Bitcode/Archive.h"
 #include "llvm/Bitcode/ReaderWriter.h"
 #include "llvm/IRReader/IRReader.h"
+#include "llvm/Support/MemoryBuffer.h"
+#include "llvm/Support/SourceMgr.h"
 
 #include "lib/IRJit//LLVMParser.h"
 #include "lib/IRUtil/PackageMng.h"
@@ -72,8 +74,8 @@ Module* LLVMParser::loadModule(Package* package, string file) {
     if (!Mod) {
         //Error when parsing module
         cerr << "Error parsing bitcode file '" << file.c_str() << "' at line " << Err.getLineNo() << "\n";
-        cerr << Err.getMessage() << "\n";
-        cerr << Err.getFilename() << "\n";
+        cerr << Err.getMessage().str() << "\n";
+        cerr << Err.getFilename().str() << "\n";
         exit(1);
     }
 

@@ -37,10 +37,11 @@
 
 //------------------------------
 #include "lib/RVCEngine/Decoder.h"
-#include "lib/IRJit//LLVMWriter.h"
+#include "lib/IRJit/LLVMWriter.h"
 
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/Instructions.h"
+#include "llvm/IR/Attributes.h"
 #include "llvm/Transforms/Utils/Cloning.h"
 //------------------------------
 
@@ -198,13 +199,8 @@ void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
                                .getParamAttributes(I->getArgNo() + 1));
             }
         }
-        NewFunc->setAttributes(NewFunc->getAttributes()
-                               .addAttr(NewFunc->getContext(), 0, OldFunc->getAttributes()
-                                        .getRetAttributes()));
-        NewFunc->setAttributes(NewFunc->getAttributes()
-                               .addAttr(NewFunc->getContext(), ~0, OldFunc->getAttributes()
-                                        .getFnAttributes()));
-
+        NewFunc->addAttributes(0, OldFunc->getAttributes().getRetAttributes());
+        NewFunc->addAttributes(~0, OldFunc->getAttributes().getFnAttributes());
     }
 
     // Loop over all of the basic blocks in the function, cloning them as
