@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -53,179 +53,179 @@ map<string, Package*>* PackageMng::packages = new map<string, Package*>();
 
 
 string PackageMng::getFolder(Actor* actor){
-	return getFolder(getPackagesName(actor));
+    return getFolder(getPackagesName(actor));
 }
 
 string PackageMng::getFolder(string package){
-	replace( package.begin(), package.end(), '.', '/' );
-	return package;
+    replace( package.begin(), package.end(), '.', '/' );
+    return package;
 }
 
 string PackageMng::getFirstFolder(string name){
-	int index = name.find('/');
+    int index = name.find('/');
 
-	if (index == string::npos){
-		return name;
-	}
+    if (index == string::npos){
+        return name;
+    }
 
-	return name.substr(0, index);
+    return name.substr(0, index);
 }
 
 string PackageMng::getPackagesName(Actor* actor){
-	return getPackagesName(actor->getName());
+    return getPackagesName(actor->getName());
 }
 
 string PackageMng::getPackagesName(string name){
-	int index = name.rfind('.');
+    int index = name.rfind('.');
 
-	if (index == string::npos){
-		return "";
-	}
+    if (index == string::npos){
+        return "";
+    }
 
-	return name.substr(0, index);
+    return name.substr(0, index);
 }
 
 list<std::string> PackageMng::getPackageListName(Actor* actor){
-	string actorPackageName = PackageMng::getPackagesName(actor->getName());
-	return getPackageListName(actorPackageName);
+    string actorPackageName = PackageMng::getPackagesName(actor->getName());
+    return getPackageListName(actorPackageName);
 }
 
 list<std::string> PackageMng::getPackageListName(string name){
-	list<string> packageList;
+    list<string> packageList;
 
-	int index = name.find('.');
+    int index = name.find('.');
 
-	//Split string separate by a .
-	while (index != string::npos){
-		packageList.push_back(name.substr(0, index));
-		name = name.substr(index+1, name.size());
-		index = name.find('.');
-	}
+    //Split string separate by a .
+    while (index != string::npos){
+        packageList.push_back(name.substr(0, index));
+        name = name.substr(index+1, name.size());
+        index = name.find('.');
+    }
 
-	//Insert last package
-	packageList.push_back(name);
+    //Insert last package
+    packageList.push_back(name);
 
-	return packageList;
+    return packageList;
 }
 
 string PackageMng::getFirstPackageName(Actor* actor){
-	return getFirstPackageName(actor->getName());
+    return getFirstPackageName(actor->getName());
 }
 
 string PackageMng::getFirstPackageName(string name){
-	int index = name.find('.');
+    int index = name.find('.');
 
-	if (index == string::npos){
-		return name;
-	}
+    if (index == string::npos){
+        return name;
+    }
 
-	return name.substr(0, index);
+    return name.substr(0, index);
 }
 
 string PackageMng::getSimpleName(Actor* actor){
-	return getSimpleName(actor->getName());
+    return getSimpleName(actor->getName());
 }
 
 string PackageMng::getSimpleName(string name){
-	int index = name.rfind('.');
+    int index = name.rfind('.');
 
-	if (index == string::npos){
-		return "";
-	}
+    if (index == string::npos){
+        return "";
+    }
 
-	return name.substr(index + 1);
+    return name.substr(index + 1);
 }
 
 Package* PackageMng::getPackage(string name){
-	map<string, Package*>::iterator itPack;
-	list<string>::iterator itStrPack;
-	
-	//Get list of packages name to have
-	list<string> packageStrs = getPackageListName(name);
+    map<string, Package*>::iterator itPack;
+    list<string>::iterator itStrPack;
 
-	//Current position of the package
-	map<string, Package*>* packagesPtr = packages;
-	Package* package = NULL;
+    //Get list of packages name to have
+    list<string> packageStrs = getPackageListName(name);
 
-	//Iterate though the current package hierarchy
-	for (itStrPack = packageStrs.begin(); itStrPack != packageStrs.end(); itStrPack++){
-		itPack = packagesPtr->find(*itStrPack);
+    //Current position of the package
+    map<string, Package*>* packagesPtr = packages;
+    Package* package = NULL;
 
-		if (itPack == packagesPtr->end()){
-			//Package does not exist, creates one
-			package = new Package(*itStrPack, package);
-			packagesPtr->insert(pair<string, Package*>(*itStrPack, package));
-		}else{
-			//Package found
-			package = itPack->second;
-		}
+    //Iterate though the current package hierarchy
+    for (itStrPack = packageStrs.begin(); itStrPack != packageStrs.end(); itStrPack++){
+        itPack = packagesPtr->find(*itStrPack);
 
-		//Loop though childs package
-		packagesPtr = package->getChilds();
-	}
-	
-	return package;
+        if (itPack == packagesPtr->end()){
+            //Package does not exist, creates one
+            package = new Package(*itStrPack, package);
+            packagesPtr->insert(pair<string, Package*>(*itStrPack, package));
+        }else{
+            //Package found
+            package = itPack->second;
+        }
+
+        //Loop though childs package
+        packagesPtr = package->getChilds();
+    }
+
+    return package;
 }
 
 map<string, Package*>* PackageMng::setPackages(map<string, Actor*>* actors){
-	map<string, Package*>::iterator itPack;
-	map<string, Actor*>::iterator itAct;
+    map<string, Package*>::iterator itPack;
+    map<string, Actor*>::iterator itAct;
 
-	//Resulting map of package
-	map<string, Package*>* packages = new map<string, Package*>();
+    //Resulting map of package
+    map<string, Package*>* packages = new map<string, Package*>();
 
-	//Iterate though every actors to determine and order their package
-	for (itAct = actors->begin(); itAct != actors->end(); itAct++){
-		list<string>::iterator itStrPack;
-		list<string> packageStrs = PackageMng::getPackageListName(itAct->second);
-		
-		//Current position of the package
-		map<string, Package*>* packagesPtr = packages;
-		Package* package = NULL;
+    //Iterate though every actors to determine and order their package
+    for (itAct = actors->begin(); itAct != actors->end(); itAct++){
+        list<string>::iterator itStrPack;
+        list<string> packageStrs = PackageMng::getPackageListName(itAct->second);
 
-		//Iterate though the current package hierarchy
-		for (itStrPack = packageStrs.begin(); itStrPack != packageStrs.end(); itStrPack++){
-			itPack = packagesPtr->find(*itStrPack);
+        //Current position of the package
+        map<string, Package*>* packagesPtr = packages;
+        Package* package = NULL;
 
-			if (itPack == packagesPtr->end()){
-				//Package does not exist, creates one
-				package = new Package(*itStrPack, package);
-				packagesPtr->insert(pair<string, Package*>(*itStrPack, package));
-			}else{
-				//Package found
-				package = itPack->second;
-			}
+        //Iterate though the current package hierarchy
+        for (itStrPack = packageStrs.begin(); itStrPack != packageStrs.end(); itStrPack++){
+            itPack = packagesPtr->find(*itStrPack);
 
-			//Loop though childs package
-			packagesPtr = package->getChilds();
-		}
-		
-		//Insert current actor into the last package
-		package->insertUnderneath(itAct->second);
-	}
+            if (itPack == packagesPtr->end()){
+                //Package does not exist, creates one
+                package = new Package(*itStrPack, package);
+                packagesPtr->insert(pair<string, Package*>(*itStrPack, package));
+            }else{
+                //Package found
+                package = itPack->second;
+            }
 
-	//Return the resulting map of packages
-	return packages;
+            //Loop though childs package
+            packagesPtr = package->getChilds();
+        }
+
+        //Insert current actor into the last package
+        package->insertUnderneath(itAct->second);
+    }
+
+    //Return the resulting map of packages
+    return packages;
 }
 
 void PackageMng::setArchive(Package* package){
-	Package* parent = package->getParent();
+    Package* parent = package->getParent();
 
-	//Set archive in all parents
-	while(parent){
-		Archive* archive = package->getArchive();
-		parent->setArchive(archive);
+    //Set archive in all parents
+    while(parent){
+        Archive* archive = package->getArchive();
+        parent->setArchive(archive);
 
-		package = parent;
-		parent = package->getParent();
-	}
+        package = parent;
+        parent = package->getParent();
+    }
 }
 
 void PackageMng::setActor(Actor* actor){
-	//Load the required package
-	string actorPackage = PackageMng::getPackagesName(actor->getName());
-	Package* package = PackageMng::getPackage(actorPackage);
+    //Load the required package
+    string actorPackage = PackageMng::getPackagesName(actor->getName());
+    Package* package = PackageMng::getPackage(actorPackage);
 
-	//Keep actor in the package
-	package->insertUnderneath(actor);
+    //Keep actor in the package
+    package->insertUnderneath(actor);
 }
