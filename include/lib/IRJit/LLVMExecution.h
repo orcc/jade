@@ -48,7 +48,7 @@ namespace llvm{
 
 #include <pthread.h>
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 #include "lib/RVCEngine/Decoder.h"
 
 class AbstractFifo;

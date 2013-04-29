@@ -38,7 +38,7 @@
 
 //------------------------------
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/PassNameParser.h"
 #include "llvm/Support/Signals.h"

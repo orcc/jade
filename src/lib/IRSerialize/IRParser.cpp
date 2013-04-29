@@ -39,13 +39,13 @@
 #include <map>
 #include <iostream>
 
-#include "llvm/Constants.h"
-#include "llvm/ValueSymbolTable.h"
-#include "llvm/Metadata.h"
-#include "llvm/DerivedTypes.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/ValueSymbolTable.h"
+#include "llvm/IR/Metadata.h"
+#include "llvm/IR/DerivedTypes.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/CommandLine.h"
-#include "llvm/Module.h"
+#include "llvm/IR/Module.h"
 
 #include "lib/IRCore/Actor/ActionScheduler.h"
 #include "lib/IRCore/Actor/Action.h"

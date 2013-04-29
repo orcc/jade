@@ -43,7 +43,7 @@
 #include "Rational.h"
 #include "CheckPinoRules.h"
 
-#include "llvm/Constants.h"
+#include "llvm/IR/Constants.h"
 
 #include "lib/IRCore/Network.h"
 #include "lib/IRCore/MoC/CSDFMoC.h"

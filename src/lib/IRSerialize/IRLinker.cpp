@@ -38,8 +38,8 @@
 //------------------------------
 #include <iostream>
 
-#include "llvm/Module.h"
-#include "llvm/Constants.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/Constants.h"
 
 
 #include "lib/RVCEngine/Decoder.h"

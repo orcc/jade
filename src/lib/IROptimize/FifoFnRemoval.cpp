@@ -40,7 +40,7 @@
 
 #include "lib/IROptimize/FifoFnRemoval.h"
 
-#include "llvm/Function.h"
+#include "llvm/IR/Function.h"
 
 //------------------------------
 

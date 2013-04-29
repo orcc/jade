@@ -39,7 +39,7 @@
 #include <iostream>
 #include <pthread.h>
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 
 #include "lib/RVCEngine/RVCEngine.h"
 #include "lib/XDFSerialize/XDFParser.h"

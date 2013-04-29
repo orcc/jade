@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "llvm/Function.h"
+#include "llvm/IR/Function.h"
 
 #include "lib/IRCore/Actor/ActionScheduler.h"
 //------------------------------

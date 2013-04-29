@@ -40,11 +40,11 @@
 
 #include "Initializer.h"
 
-#include "llvm/Constants.h"
-#include "llvm/Function.h"
-#include "llvm/DerivedTypes.h"
-#include "llvm/GlobalVariable.h"
-#include "llvm/IRBuilder.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/GlobalVariable.h"
+#include "llvm/IR/IRBuilder.h"
 
 #include "lib/RVCEngine/Decoder.h"
 #include "lib/IRCore/Network/Instance.h"

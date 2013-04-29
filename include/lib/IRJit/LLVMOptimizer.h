@@ -48,7 +48,7 @@ namespace llvm{
 	class Module;
 }
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 //------------------------------
 
 /**

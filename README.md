@@ -1,6 +1,6 @@
 # Jade
 
-**This branch supports build of Jade against LLVM _3.2_ only.**
+**This branch supports build of Jade against LLVM _3.3_ only.**
 
 ## About
 The Just-In-Time Adaptive Decoder Engine (Jade) project is a new dynamic decoder based on the Low Level Virtual Machine (LLVM), fully compliant with MPEG RVC paradigm. The Jade executable can dynamically instantiate several RVC decoder descriptions produced by the Jade backend of Orcc (http://github.com/orcc/orcc).
@@ -21,7 +21,7 @@ The Jade project is structured as follow :
 To compile, Jade depends on:
 - CMake (at least 2.6): http://www.cmake.org
 - SDL (at least 1.2.14): http://www.libsdl.org
-- LLVM 3.2: http://llvm.org
+- LLVM 3.3: http://llvm.org
 
 To compile Jade, use cmake to generate build files corresponding to your environment. You must ensure SDL library and LLVM binary dir are reachable from command line (add it to your PATH environment variable) or use cmake-gui to manually set their location.
 

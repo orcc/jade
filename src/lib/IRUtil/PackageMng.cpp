@@ -36,7 +36,7 @@
 */
 
 //------------------------------
-#include "llvm/Module.h"
+#include "llvm/IR/Module.h"
 #include "llvm/Bitcode/Archive.h"
 
 #include "lib/IRUtil/PackageMng.h"

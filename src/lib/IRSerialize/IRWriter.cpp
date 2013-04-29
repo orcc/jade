@@ -49,7 +49,7 @@
 #include "lib/IRSerialize/IRWriter.h"
 #include "lib/IRUtil/FunctionMng.h"
 
-#include "llvm/Module.h"
+#include "llvm/IR/Module.h"
 
 #include "IRConstant.h"
 //------------------------------

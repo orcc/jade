@@ -42,7 +42,7 @@
 #include "lib/IRCore/Port.h"
 #include "lib/IRSerialize/IRUnwriter.h"
 
-#include "llvm/Module.h"
+#include "llvm/IR/Module.h"
 
 #include "IRConstant.h"
 //------------------------------

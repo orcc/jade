@@ -41,7 +41,7 @@
 
 #include <list>
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 
 #include "lib/IRCore/Expression.h"
 #include "lib/IRCore/Expr/BinaryOp.h"

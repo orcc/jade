@@ -39,8 +39,8 @@
 #ifndef LLVMPARSER_H
 #define LLVMPARSER_H
 
-#include "llvm/Module.h"
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/LLVMContext.h"
 #include "llvm/Support/Signals.h"
 #include "llvm/Bitcode/Archive.h"
 #include "lib/IRCore/Package.h"

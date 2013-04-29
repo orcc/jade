@@ -42,7 +42,7 @@
 
 #include "Instantiator.h"
 
-#include "llvm/DerivedTypes.h"
+#include "llvm/IR/DerivedTypes.h"
 
 #include "lib/ConfigurationEngine/Configuration.h"
 #include "lib/IRCore/Actor.h"

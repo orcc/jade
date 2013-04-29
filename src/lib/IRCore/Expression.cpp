@@ -38,8 +38,8 @@
 //------------------------------
 #include <iostream>
 
-#include "llvm/Constants.h"
-#include "llvm/DerivedTypes.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/DerivedTypes.h"
 
 #include "lib/IRCore/Expr/BoolExpr.h"
 #include "lib/IRCore/Expr/BinaryExpr.h"

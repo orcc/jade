@@ -38,10 +38,10 @@
 //------------------------------
 #include "QSDFScheduler.h"
 
-#include "llvm/DerivedTypes.h"
-#include "llvm/Instructions.h"
-#include "llvm/LLVMContext.h"
-#include "llvm/Module.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Instructions.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
 
 #include "lib/IRCore/Network/Instance.h"
 #include "lib/IRCore/MoC/QSDFMoC.h"

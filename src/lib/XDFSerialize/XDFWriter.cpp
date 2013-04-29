@@ -38,7 +38,7 @@
 //------------------------------
 #include <iostream>
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 
 #include "XDFConstant.h"
 #include "lib/XDFSerialize/XDFWriter.h"

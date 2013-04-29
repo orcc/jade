@@ -49,7 +49,7 @@ class Decoder;
 class LLVMExecution;
 class Port;
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 #include "lib/RoundRobinScheduler/Fifo.h"
 //------------------------------
 

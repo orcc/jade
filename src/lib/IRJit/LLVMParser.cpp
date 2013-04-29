@@ -39,7 +39,8 @@
 #include <iostream>
 
 #include "llvm/Bitcode/Archive.h"
-#include "llvm/Support/IRReader.h"
+#include "llvm/Bitcode/ReaderWriter.h"
+#include "llvm/IRReader/IRReader.h"
 
 #include "lib/IRJit//LLVMParser.h"
 #include "lib/IRUtil/PackageMng.h"

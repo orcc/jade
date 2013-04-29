@@ -39,7 +39,7 @@
 #ifndef TYPEENTRY_H
 #define TYPEENTRY_H
 
-#include "llvm/DerivedTypes.h"
+#include "llvm/IR/DerivedTypes.h"
 #include "lib/IRCore/Entry.h"
 #include "lib/IRCore/IRType.h"
 //------------------------------

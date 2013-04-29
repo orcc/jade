@@ -38,7 +38,7 @@
 //------------------------------
 #include <map>
 
-#include "llvm/Function.h"
+#include "llvm/IR/Function.h"
 
 #include "lib/ConfigurationEngine/Configuration.h"
 #include "lib/IRCore/Network/Instance.h"

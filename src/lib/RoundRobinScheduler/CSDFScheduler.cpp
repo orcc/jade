@@ -39,11 +39,11 @@
 #include <iostream>
 #include "CSDFScheduler.h"
 
-#include "llvm/Constants.h"
-#include "llvm/DerivedTypes.h"
-#include "llvm/Instructions.h"
-#include "llvm/LLVMContext.h"
-#include "llvm/Module.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Instructions.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
 
 #include "lib/RVCEngine/Decoder.h"
 #include "lib/IRCore/MoC/CSDFMoC.h"

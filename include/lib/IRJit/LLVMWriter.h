@@ -50,10 +50,10 @@ class Port;
 
 
 
-#include "llvm/Module.h"
-#include "llvm/DerivedTypes.h"
-#include "llvm/Value.h"
-#include "llvm/Instructions.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Value.h"
+#include "llvm/IR/Instructions.h"
 #include "llvm/Transforms/Utils/ValueMapper.h"
 //------------------------------
 

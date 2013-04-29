@@ -43,7 +43,7 @@ namespace llvm{
     class Constant;
 }
 
-#include "llvm/LLVMContext.h"
+#include "llvm/IR/LLVMContext.h"
 
 #include "lib/IRCore/IRType.h"
 //------------------------------

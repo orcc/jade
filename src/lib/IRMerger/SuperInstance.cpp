@@ -39,9 +39,9 @@
 #include <map>
 #include <list>
 
-#include "llvm/Constants.h"
-#include "llvm/DerivedTypes.h"
-#include "llvm/GlobalVariable.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/GlobalVariable.h"
 
 #include "lib/IRCore/Actor.h"
 #include "lib/IRCore/MoC/SDFMoC.h"

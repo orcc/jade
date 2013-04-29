@@ -38,9 +38,9 @@
 //------------------------------
 #include <iostream>
 
-#include "llvm/Constants.h"
-#include "llvm/DerivedTypes.h"
-#include "llvm/Module.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Module.h"
 
 #include "Connector.h"
 #include "lib/RVCEngine/Decoder.h"
