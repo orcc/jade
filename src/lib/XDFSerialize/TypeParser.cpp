@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -56,7 +56,7 @@ using namespace std;
 using namespace llvm;
 
 TypeParser::TypeParser (llvm::LLVMContext& C) : Context(C){
-	exprParser = new ExprParser(C);
+    exprParser = new ExprParser(C);
 }
 
 TypeParser::~TypeParser (){
@@ -64,86 +64,86 @@ TypeParser::~TypeParser (){
 }
 
 IRType* TypeParser::parseType(TiXmlNode* node){	
-	
-	while(node != NULL){
-		if (TiXmlString(node->Value()) == XDFNetwork::TYPE) {
-			TiXmlElement* eltType = (TiXmlElement*)node;
-			TiXmlString name(eltType->Attribute( XDFNetwork::NAME));
 
-			if (name == XDFNetwork::TYPE_BOOL) {
-				return new BoolType();
-			}else if (name == XDFNetwork::TYPE_INT) {
-				map<string, Entry*> *entries = parseTypeEntries(node->FirstChild());
-				Expr* expr = parseTypeSize(entries);
-				return new IntType(expr->evaluateAsInteger());
-			}else if (name == XDFNetwork::TYPE_LIST) {
-				cerr << "List elements are not supPorted yet";
-				exit(0);
-			}else if (name == XDFNetwork::TYPE_STRING) {
-				cerr << "String elements are not supPorted yet";
-				exit(0);
-			}else if (name == XDFNetwork::TYPE_UINT) {
-				map<string, Entry*> *entries = parseTypeEntries(node->FirstChild());
-				Expr* expr = parseTypeSize(entries);
-				return new UIntType(expr->evaluateAsInteger());
-			}else {
-				cerr << "Unknown Type name: " << name.c_str();
-				exit(0);
-			}
-		}
-		
-		node = node->NextSibling();
-	}
-	return NULL;
+    while(node != NULL){
+        if (TiXmlString(node->Value()) == XDFNetwork::TYPE) {
+            TiXmlElement* eltType = (TiXmlElement*)node;
+            TiXmlString name(eltType->Attribute( XDFNetwork::NAME));
+
+            if (name == XDFNetwork::TYPE_BOOL) {
+                return new BoolType();
+            }else if (name == XDFNetwork::TYPE_INT) {
+                map<string, Entry*> *entries = parseTypeEntries(node->FirstChild());
+                Expr* expr = parseTypeSize(entries);
+                return new IntType(expr->evaluateAsInteger());
+            }else if (name == XDFNetwork::TYPE_LIST) {
+                cerr << "List elements are not supPorted yet";
+                exit(0);
+            }else if (name == XDFNetwork::TYPE_STRING) {
+                cerr << "String elements are not supPorted yet";
+                exit(0);
+            }else if (name == XDFNetwork::TYPE_UINT) {
+                map<string, Entry*> *entries = parseTypeEntries(node->FirstChild());
+                Expr* expr = parseTypeSize(entries);
+                return new UIntType(expr->evaluateAsInteger());
+            }else {
+                cerr << "Unknown Type name: " << name.c_str();
+                exit(0);
+            }
+        }
+
+        node = node->NextSibling();
+    }
+    return NULL;
 }
 
 map<string, Entry*>* TypeParser::parseTypeEntries(TiXmlNode* node){
-	map<string, Entry*> *entries = new map<string, Entry*>;
-	
-	while(node != NULL){
-		if (TiXmlString(node->Value()) == XDFNetwork::ENTRY) {
-			Entry* entry = NULL;
-			TiXmlElement* element = (TiXmlElement*)node;
+    map<string, Entry*> *entries = new map<string, Entry*>;
 
-			TiXmlString name(element->Attribute(XDFNetwork::NAME));
-			TiXmlString kind(element->Attribute(XDFNetwork::KIND));
+    while(node != NULL){
+        if (TiXmlString(node->Value()) == XDFNetwork::ENTRY) {
+            Entry* entry = NULL;
+            TiXmlElement* element = (TiXmlElement*)node;
 
-			if (kind == XDFNetwork::EXPR) {
-				Expr* expression = exprParser->parseExpr(node->FirstChild());
-				entry = new ExprEntry(expression);
-			}else if (kind == XDFNetwork::TYPE) {
-				IRType* type = parseType(node->FirstChild());
-				entry = new TypeEntry(type);
-			}else {
-				fprintf(stderr, "UnsupPorted entry Type: \"%s\"", kind.c_str());
-				exit(0);
-			}
-			
-			entries->insert(pair<string, Entry*>(string(name.c_str()),entry));
-		}
-		node = node->NextSibling();
-	}
-	
-	return entries;
+            TiXmlString name(element->Attribute(XDFNetwork::NAME));
+            TiXmlString kind(element->Attribute(XDFNetwork::KIND));
+
+            if (kind == XDFNetwork::EXPR) {
+                Expr* expression = exprParser->parseExpr(node->FirstChild());
+                entry = new ExprEntry(expression);
+            }else if (kind == XDFNetwork::TYPE) {
+                IRType* type = parseType(node->FirstChild());
+                entry = new TypeEntry(type);
+            }else {
+                fprintf(stderr, "UnsupPorted entry Type: \"%s\"", kind.c_str());
+                exit(0);
+            }
+
+            entries->insert(pair<string, Entry*>(string(name.c_str()),entry));
+        }
+        node = node->NextSibling();
+    }
+
+    return entries;
 }
 
 Expr* TypeParser::parseTypeSize(map<string, Entry*>* entries){
     map<string, Entry*>::iterator it;
 
-	it = entries->find("size");
+    it = entries->find("size");
 
-	if (it == entries->end()){
-		return new IntExpr(Context, INT_SIZE);
-	}
+    if (it == entries->end()){
+        return new IntExpr(Context, INT_SIZE);
+    }
 
-	//Size Attribute found
-	Entry* entry = (*it).second;
+    //Size Attribute found
+    Entry* entry = (*it).second;
 
-	if (entry->isTypeEntry()){
-		fprintf(stderr,"Entry does not contain an Expression");
-		exit(0);
-	}
+    if (entry->isTypeEntry()){
+        fprintf(stderr,"Entry does not contain an Expression");
+        exit(0);
+    }
 
-	return ((ExprEntry*) entry)->getExprEntry();
-	
+    return ((ExprEntry*) entry)->getExprEntry();
+
 }

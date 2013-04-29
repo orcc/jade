@@ -58,22 +58,22 @@ public:
      * Creates a new bool type.
      *
      */
-    BoolType(){};
-    ~BoolType(){};
+    BoolType(){}
+    ~BoolType(){}
 
     /**
      * @brief Returns true if the current Type is BoolType
      *
      * @return True if the Type is BoolType
      */
-    bool isBoolType(){return true;};
+    bool isBoolType(){return true;}
 
     /**
      * @brief Returns the size of this type.
      *
      * @return integer of the size
      */
-    int getSize(){return 32;};
+    int getSize(){return 32;}
 };
 
 #endif

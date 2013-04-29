@@ -58,7 +58,7 @@ public:
      * Creates a new string type.
      *
      */
-    StringType(){};
+    StringType(){}
     ~StringType();
 
     /**
@@ -66,14 +66,14 @@ public:
      *
      * @return True if the Type is BoolType
      */
-    bool isStringType(){return true;};
+    bool isStringType(){return true;}
 
     /**
      * @brief Returns the size of this type.
      *
      * @return integer of the size
      */
-    int getSize(){return 8;};
+    int getSize(){return 8;}
 
 };
 

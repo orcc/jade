@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,7 +40,7 @@
 #define CONNECTOR_H
 
 namespace llvm{
-	class Module;
+class Module;
 }
 
 class Connection;
@@ -59,84 +59,84 @@ class Port;
  * @brief This class connects instance from a network to fifos.
  *
  * @author Jerome Gorin
- * 
+ *
  */
 class Connector {
 public:
 
-	/**
-	 * @brief Constructor of connector.
-	 *
-	 * 
-	 * @param C : the LLVMContext
-	 *
-	 * @param decoder : the Decoder where connections are printed
-	 *
-	 */
-	Connector(llvm::LLVMContext& C, Decoder* decoder);
+    /**
+     * @brief Constructor of connector.
+     *
+     *
+     * @param C : the LLVMContext
+     *
+     * @param decoder : the Decoder where connections are printed
+     *
+     */
+    Connector(llvm::LLVMContext& C, Decoder* decoder);
 
-	~Connector();
+    ~Connector();
 
-	/**
-	 * @brief print connections in the given configuration.
-	 *
-	 * @param configuration : the Configuration where connections are printed.
-	 */
-	void setConnections(Configuration* configuration);
+    /**
+     * @brief print connections in the given configuration.
+     *
+     * @param configuration : the Configuration where connections are printed.
+     */
+    void setConnections(Configuration* configuration);
 
-	/**
-	 * @brief print connections in the given configuration using an execution engine.
-	 *
-	 * @param configuration : the Configuration where connections are printed.
-	 *
-	 * @param executionEngine : the Execution Engine that can retrieve fifo pointer
-	 */
-	void setConnections(Configuration* configuration, LLVMExecution* executionEngine);
+    /**
+     * @brief print connections in the given configuration using an execution engine.
+     *
+     * @param configuration : the Configuration where connections are printed.
+     *
+     * @param executionEngine : the Execution Engine that can retrieve fifo pointer
+     */
+    void setConnections(Configuration* configuration, LLVMExecution* executionEngine);
 
-	/**
-	 * @brief Remove connections
-	 *
-	 * Remove connections from the given configuration.
-	 * 
-	 * @param configuration : the Configuration where connections are removed
-	 */
-	void unsetConnections(Configuration* configuration);
+    /**
+     * @brief Remove connections
+     *
+     * Remove connections from the given configuration.
+     *
+     * @param configuration : the Configuration where connections are removed
+     */
+    void unsetConnections(Configuration* configuration);
 
 
 private:
-	/**
-	 * @brief Print a connection
-	 * 
-	 * @param connection : the Connection to print
-	 */
-	void setConnection(Connection* connection);
+    /**
+     * @brief Print a connection
+     *
+     * @param connection : the Connection to print
+     */
+    void setConnection(Connection* connection);
 
-	/**
-	 * @brief Print a connection
-	 * 
-	 * @param connection : the Connection to print
-	 *
-	 * LLVMExecution* executionEngine
-	 */
-	void setConnection(Connection* connection, LLVMExecution* executionEngine);
+    /**
+     * @brief Print a connection
+     *
+     * @param connection : the Connection to print
+     *
+     * LLVMExecution* executionEngine
+     */
+    void setConnection(Connection* connection, LLVMExecution* executionEngine);
 
-	/**
-	 * @brief Connect a port to a fifo
-	 * 
-	 * @param port : the port to connect
-	 *
-	 * @param fifo : the fifo to connect
-	 */
-	void connect(Port* port, Fifo* fifo);
-	
-	/** LLVM Context */
-	llvm::LLVMContext &Context;
+    /**
+     * @brief Connect a port to a fifo
+     *
+     * @param port : the port to connect
+     *
+     * @param fifo : the fifo to connect
+     */
+    void connect(Port* port, Fifo* fifo);
 
-	/** LLVM Module of the decoder */
-	llvm::Module* module;
+    /** LLVM Context */
+    llvm::LLVMContext &Context;
 
-	/** Decoder to print connection */
-	Decoder* decoder;
+    /** LLVM Module of the decoder */
+    llvm::Module* module;
+
+    /** Decoder to print connection */
+    Decoder* decoder;
 
 };
 

@@ -53,21 +53,21 @@ public:
      * @brief Create a new List event
      */
 	ListEvent() : Event(0) {
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~ListEvent(){};
+    ~ListEvent(){}
 
 	/*!
      * @brief Return true if the Event is a ListEvent
      *
 	 * @return true if Event is a ListEvent otherwise false
      */
-	bool isListEvent(){return true;};
+    bool isListEvent(){return true;}
 };
 
 #endif

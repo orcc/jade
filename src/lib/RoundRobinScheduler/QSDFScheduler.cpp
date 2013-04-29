@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -56,54 +56,54 @@ QSDFScheduler::QSDFScheduler(llvm::LLVMContext& C, Decoder* decoder) : CSDFSched
 }
 
 void QSDFScheduler::createScheduler(Instance* instance, BasicBlock* BB, BasicBlock* incBB, BasicBlock* returnBB, Function* scheduler){
-	list<pair<Action*, CSDFMoC*> >::iterator it;
-	QSDFMoC* qsdMoC = (QSDFMoC*)instance->getMoC();
-	list<pair<Action*, CSDFMoC*> >* configurations = qsdMoC->getConfigurations();
-	
-	for(it = configurations->begin(); it != configurations->end(); it++){
-		BB = createConfigurationTest(it->first, it->second, BB, incBB, returnBB, scheduler);
-	}
+    list<pair<Action*, CSDFMoC*> >::iterator it;
+    QSDFMoC* qsdMoC = (QSDFMoC*)instance->getMoC();
+    list<pair<Action*, CSDFMoC*> >* configurations = qsdMoC->getConfigurations();
 
-	//Create branch from skip to return
-	BranchInst::Create(returnBB, BB);
+    for(it = configurations->begin(); it != configurations->end(); it++){
+        BB = createConfigurationTest(it->first, it->second, BB, incBB, returnBB, scheduler);
+    }
+
+    //Create branch from skip to return
+    BranchInst::Create(returnBB, BB);
 }
 
 BasicBlock*  QSDFScheduler::createConfigurationTest(Action* action, CSDFMoC* csdfMoC, BasicBlock* BB, 
-													BasicBlock* incBB, BasicBlock* returnBB, Function* function){
+                                                    BasicBlock* incBB, BasicBlock* returnBB, Function* function){
 
-	map<Port*, ConstantInt*>::iterator it;
-	string skipBrName = "skip";
-	string hasRoomBrName = "hasroom";
-	string fireBrName = "fire";
-	string returnBrName = "return";
+    map<Port*, ConstantInt*>::iterator it;
+    string skipBrName = "skip";
+    string hasRoomBrName = "hasroom";
+    string fireBrName = "fire";
+    string returnBrName = "return";
 
-	// Add a basic block to bb for firing instructions
-	BasicBlock* fireBB = BasicBlock::Create(Context, fireBrName, function);
+    // Add a basic block to bb for firing instructions
+    BasicBlock* fireBB = BasicBlock::Create(Context, fireBrName, function);
 
-	// Add a basic block to bb for ski instructions
-	BasicBlock* skipBB = BasicBlock::Create(Context, skipBrName, function);
+    // Add a basic block to bb for ski instructions
+    BasicBlock* skipBB = BasicBlock::Create(Context, skipBrName, function);
 
-	//Create check input pattern
-	BB = checkInputPattern(action->getInputPattern(), function, skipBB, BB);
-	
-	//Test firing condition of an action
-	Procedure* scheduler = action->getScheduler();
-	CallInst* schedInst = CallInst::Create(scheduler->getFunction(), "",  BB);
-	BranchInst::Create(fireBB, skipBB, schedInst, BB);
+    //Create check input pattern
+    BB = checkInputPattern(action->getInputPattern(), function, skipBB, BB);
 
-	//Create output pattern
-	fireBB = checkOutputPattern(action->getOutputPattern(), function, returnBB, fireBB);
-	
-	//Create check input pattern of the associated CSDF MoC
-	BB = checkInputPattern(csdfMoC->getInputPattern(), function, skipBB, fireBB);
+    //Test firing condition of an action
+    Procedure* scheduler = action->getScheduler();
+    CallInst* schedInst = CallInst::Create(scheduler->getFunction(), "",  BB);
+    BranchInst::Create(fireBB, skipBB, schedInst, BB);
 
-	//Create output pattern of the associated CSDF MoC
-	fireBB = checkOutputPattern(csdfMoC->getOutputPattern(), function, returnBB, BB);
+    //Create output pattern
+    fireBB = checkOutputPattern(action->getOutputPattern(), function, returnBB, fireBB);
 
-	createActionsCall(csdfMoC, fireBB);
+    //Create check input pattern of the associated CSDF MoC
+    BB = checkInputPattern(csdfMoC->getInputPattern(), function, skipBB, fireBB);
 
-	//Branch fire basic block to BB basic block
-	BranchInst::Create(incBB, fireBB);
-	
-	return skipBB;
+    //Create output pattern of the associated CSDF MoC
+    fireBB = checkOutputPattern(csdfMoC->getOutputPattern(), function, returnBB, BB);
+
+    createActionsCall(csdfMoC, fireBB);
+
+    //Branch fire basic block to BB basic block
+    BranchInst::Create(incBB, fireBB);
+
+    return skipBB;
 }

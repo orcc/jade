@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2011, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,77 +43,77 @@ using namespace std;
 
 
 Port* Entity::getInput(string name){
-	std::map<std::string, Port*>::iterator it;
-	
-	//Look for the given name in input
-	it = inputs->find(name);
+    std::map<std::string, Port*>::iterator it;
 
-	//Port not found
-	if(it == inputs->end()){
-		return NULL;
-	}
+    //Look for the given name in input
+    it = inputs->find(name);
 
-	//Port found
-	return (*it).second;
+    //Port not found
+    if(it == inputs->end()){
+        return NULL;
+    }
+
+    //Port found
+    return (*it).second;
 }
 
 Port* Entity::getOutput(string name){
-	std::map<std::string, Port*>::iterator it;
-	
-	//Look for the given name in output
-	it = outputs->find(name);
+    std::map<std::string, Port*>::iterator it;
 
-	//Port not found
-	if(it == outputs->end()){
-		return NULL;
-	}
+    //Look for the given name in output
+    it = outputs->find(name);
 
-	//Port found
-	return (*it).second;
+    //Port not found
+    if(it == outputs->end()){
+        return NULL;
+    }
+
+    //Port found
+    return (*it).second;
 }
 
 Procedure* Entity::getProcedure(string name){
-	map<string, Procedure*>::iterator it;
-	
-	it = procedures->find(name);
+    map<string, Procedure*>::iterator it;
 
-	if(it == procedures->end()){
-		return NULL;
-	}
+    it = procedures->find(name);
 
-	return (*it).second;
+    if(it == procedures->end()){
+        return NULL;
+    }
+
+    return (*it).second;
 }
 
 Port* Entity::getPort(string name){
-	Port* port = getInput(name);
+    Port* port = getInput(name);
 
-	// Search inside input ports 
-	if (port!= NULL){
-		return port;
-	}
+    // Search inside input ports
+    if (port!= NULL){
+        return port;
+    }
 
-	// Search inside output ports 
-	return getOutput(name);
+    // Search inside output ports
+    return getOutput(name);
 }
 
 Variable* Entity::getParameter(std::string name){
-	std::map<std::string, Variable*>::iterator it;
-	it = parameters->find(name);
+    std::map<std::string, Variable*>::iterator it;
+    it = parameters->find(name);
 
-	if(it == parameters->end()){
-		return NULL;
-	}
+    if(it == parameters->end()){
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 }
 
 StateVar* Entity::getStateVar(std::string name){
-	map<string, StateVar*>::iterator it;
-	it = stateVars->find(name);
+    map<string, StateVar*>::iterator it;
+    it = stateVars->find(name);
 
-	if(it == stateVars->end()){
-		return NULL;
-	}
+    if(it == stateVars->end()){
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 }

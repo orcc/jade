@@ -43,7 +43,7 @@
 #include <list>
 
 namespace llvm{
-    class Constant;
+class Constant;
 }
 
 #include "lib/IRCore/Entity.h"
@@ -110,7 +110,7 @@ public:
      * @return id of the Instance
      *
      */
-    std::string getId(){return id;};
+    std::string getId(){return id;}
 
     /*!
      *  @brief Return true of the instance is a SuperInstance
@@ -118,21 +118,21 @@ public:
      * @return true of the instance is a SuperInstance
      *
      */
-    virtual bool isSuperInstance(){return false;};
+    virtual bool isSuperInstance(){return false;}
 
     /*!
      *  @brief Getter of clasz
      *
      * @return clasz of the Instance
      */
-    std::string getClasz(){return clasz;};
+    std::string getClasz(){return clasz;}
 
     /**
      *  @brief Get the Vertex of the instance
      *
      * @return the vertex of the instance
      */
-    Vertex* getVertex(){return vertex;};
+    Vertex* getVertex(){return vertex;}
 
     /**
      * @brief Get the internal state variable corresponding to a port
@@ -141,28 +141,28 @@ public:
      *
      * @return the corresponding state variables
      */
-    virtual StateVar* getInternalVar(Port* port){return NULL;};
+    virtual StateVar* getInternalVar(Port* port){return NULL;}
 
     /**
      * @brief Returns true if this entity is an instance.
      *
      * @return true if this entity is an instance
      */
-    bool isInstance(){return true;};
+    bool isInstance(){return true;}
 
     /**
      * @brief Get the internal state variables of the instance
      *
      * @return a list of state variable
      */
-    virtual std::map<Port*, StateVar*>* getInternalPorts(){return NULL;};
+    virtual std::map<Port*, StateVar*>* getInternalPorts(){return NULL;}
 
     /**
      * @brief Return true if this instance has internal port
      *
      * @return true if this instance has internal port, otherwise false
      */
-    virtual bool hasInternalPort(){return false;};
+    virtual bool hasInternalPort(){return false;}
 
     /*!
      *  @brief Setter of clasz
@@ -170,7 +170,7 @@ public:
      * @param clasz: the new clasz of the Instance
      *
      */
-    void setClasz(std::string clasz){this->clasz = clasz;};
+    void setClasz(std::string clasz){this->clasz = clasz;}
 
     /*!
      *  @brief Getter of actor
@@ -178,7 +178,7 @@ public:
      * @return Actor of this instance
      *
      */
-    Actor* getActor(){return actor;};
+    Actor* getActor(){return actor;}
 
     /*!
      *  @brief Setter of actor
@@ -196,7 +196,7 @@ public:
      *
      *  @param configuration : the Configuration where instance is refered.
      */
-    void setConfiguration(Configuration* configuration){this->configuration = configuration;};
+    void setConfiguration(Configuration* configuration){this->configuration = configuration;}
 
     /*!
      *  @brief Get the configuration of instance
@@ -205,7 +205,7 @@ public:
      *
      *  @return the Configuration where instance is refered.
      */
-    Configuration* getConfiguration(){return configuration;};
+    Configuration* getConfiguration(){return configuration;}
 
     /**
      *  @brief Getter of paramters
@@ -213,7 +213,7 @@ public:
      * @return a map on the Instance paramter
      *
      */
-    std::map<std::string, Expr*>* getParameterValues(){return parameterValues;};
+    std::map<std::string, Expr*>* getParameterValues(){return parameterValues;}
 
     /**
      *  @brief Set a new input port for the instance
@@ -235,14 +235,14 @@ public:
      */
     void setAsOutput(Port* port);
 
-     /**
+    /**
      * @brief Returns a map of attributes.
      *
      * @return a map of attributes
      */
-    std::map<std::string, IRAttribute*>* getAttributes() {return attributes;};
+    std::map<std::string, IRAttribute*>* getAttributes() {return attributes;}
 
-     /**
+    /**
      * @brief Returns the mapping name.
      *
      * @return the name of the mapping
@@ -254,7 +254,7 @@ public:
      *
      * @param attributes: a map of attributes
      */
-     void setAttributes(std::map<std::string, IRAttribute*>* attributes) {this->attributes = attributes;};
+    void setAttributes(std::map<std::string, IRAttribute*>* attributes) {this->attributes = attributes;}
 
     /**
     *
@@ -270,7 +270,7 @@ public:
     *
     * @name : the new Id of instance
     */
-    void setId(std::string name){this->id = name;};
+    void setId(std::string name){this->id = name;}
 
     /**
     *
@@ -278,7 +278,7 @@ public:
     *
     * @activate : whether or not trace must be activated
     */
-    void setTrace(bool activate){this->enableTrace = activate;};
+    void setTrace(bool activate){this->enableTrace = activate;}
 
     /**
     *
@@ -286,7 +286,7 @@ public:
     *
     * @activate : whether or not trace must be activated
     */
-    bool isTraceActivate(){return enableTrace;};
+    bool isTraceActivate(){return enableTrace;}
 
 protected:
 

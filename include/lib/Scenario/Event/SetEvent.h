@@ -58,28 +58,28 @@ public:
      */
 	SetEvent(int id, std::string xdfFile) : Event(id){
 		this->file = xdfFile;
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~SetEvent(){};
+    ~SetEvent(){}
 
 	/*!
      * @brief Return true if the Event is a SetEvent
      *
 	 * @return true if Event is a SetEvent otherwise false
      */
-	 bool isSetEvent(){return true;};
+     bool isSetEvent(){return true;}
 
 	 /*!
      * @brief Return the network file to load
      *
 	 * @return the network file to load
      */
-	std::string getFile(){return file;};
+    std::string getFile(){return file;}
 private:
 
 	/** File to set */

@@ -77,7 +77,7 @@ map<string, string>* XCFParser::parseXCFDoc(){
         return NULL;
     }
 
-     mapStr = new map<string, string>();
+    mapStr = new map<string, string>();
 
     /* Parse partitions */
     parsePartitioning(root_element);

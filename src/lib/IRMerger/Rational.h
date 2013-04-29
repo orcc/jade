@@ -51,117 +51,117 @@
  */
 class Rational {
 public:
-  // default constructor
+    // default constructor
 
-  /**
+    /**
   *  @brief Default constructor of Rational.
   */
-  Rational() : num(0), den(1) {}
+    Rational() : num(0), den(1) {}
 
-  /**
+    /**
   *  @brief Constructor of Rational with initial value.
   *
   *  @param n : numerator value
   *
   *  @param d : denominator value
   */
-  Rational(long n, long d = 1);
+    Rational(long n, long d = 1);
 
-  /**
+    /**
   *  @brief Copy constructor of Rational.
   *
   *  @param rhs : the Rational to copy
   */
-  Rational(const Rational& rhs) : num(rhs.num), den(rhs.den) {}
+    Rational(const Rational& rhs) : num(rhs.num), den(rhs.den) {}
 
-  /**
+    /**
   *  @brief Destructor of Rational.
   */
-  ~Rational() {}
+    ~Rational() {}
 
-  /**
+    /**
   *  @brief Return the numerator of the rational.
   *
   *  @return the numerator of the Rational
   */
-  long numerator() const { return num; }
+    long numerator() const { return num; }
 
-  /**
+    /**
   *  @brief Return the denominator of the rational.
   *
   *  @return the denominator of the Rational
   */
-  long denominator() const { return den; }
+    long denominator() const { return den; }
 
-  /**
+    /**
   *  @brief Set the value of the rational.
   *
   *  @param rhs : value of the Rational
   */
-  Rational& operator=(const Rational& rhs);
-  Rational& operator=(long rhs);
+    Rational& operator=(const Rational& rhs);
+    Rational& operator=(long rhs);
 
-  // unary operators
-  Rational operator+(void) const { return *this; }
-  Rational operator-(void) const { return Rational(-num, den); }
-  Rational invert(void) const { return Rational(den, num); }
+    // unary operators
+    Rational operator+(void) const { return *this; }
+    Rational operator-(void) const { return Rational(-num, den); }
+    Rational invert(void) const { return Rational(den, num); }
 
-  // binary shortcut operators
-  const Rational& operator+=(const Rational& rhs);
-  const Rational& operator-=(const Rational& rhs);
-  const Rational& operator*=(const Rational& rhs);
-  const Rational& operator/=(const Rational& rhs);
-  const Rational& operator+=(long rhs);
-  const Rational& operator-=(long rhs);
-  const Rational& operator*=(long rhs);
-  const Rational& operator/=(long rhs);
+    // binary shortcut operators
+    const Rational& operator+=(const Rational& rhs);
+    const Rational& operator-=(const Rational& rhs);
+    const Rational& operator*=(const Rational& rhs);
+    const Rational& operator/=(const Rational& rhs);
+    const Rational& operator+=(long rhs);
+    const Rational& operator-=(long rhs);
+    const Rational& operator*=(long rhs);
+    const Rational& operator/=(long rhs);
 
-  // increment/decrement iterators
-  const Rational& operator++();
-  const Rational operator++(int);
-  const Rational& operator--();
-  const Rational operator--(int);
+    // increment/decrement iterators
+    const Rational& operator++();
+    const Rational operator++(int);
+    const Rational& operator--();
+    const Rational operator--(int);
 
 private:
-  // Data
-  long num;  // numerator
-  long den;  // denominator (keep > 0!)
+    // Data
+    long num;  // numerator
+    long den;  // denominator (keep > 0!)
 
-  // auxillary helper function to normalize the rationals
-  long gcd(long, long);
+    // auxillary helper function to normalize the rationals
+    long gcd(long, long);
 };
 
 // assignment operators
 inline Rational& Rational::operator=(const Rational& rhs) {
-  num = rhs.num;
-  den = rhs.den;
-  return *this;
+    num = rhs.num;
+    den = rhs.den;
+    return *this;
 }
 
 inline Rational& Rational::operator=(long rhs) {
-  num = rhs;
-  den = 1;
-  return *this;
+    num = rhs;
+    den = 1;
+    return *this;
 }
 
 // Rational -> double conversion
 inline double toDouble (const Rational& r) {
-  return double(r.numerator())/r.denominator();
+    return double(r.numerator())/r.denominator();
 }
 
 // Rational -> long conversions
 inline long trunc(const Rational& r) {
-  return r.numerator() / r.denominator();
+    return r.numerator() / r.denominator();
 }
 
 inline long floor(const Rational& r) {
-  long q = r.numerator() / r.denominator();
-  return (r.numerator() < 0 && r.denominator() != 1) ? --q : q;
+    long q = r.numerator() / r.denominator();
+    return (r.numerator() < 0 && r.denominator() != 1) ? --q : q;
 }
 
 inline long ceil(const Rational& r) {
-  long q = r.numerator() / r.denominator();
-  return (r.numerator() >= 0 && r.denominator() != 1) ? ++q : q;
+    long q = r.numerator() / r.denominator();
+    return (r.numerator() >= 0 && r.denominator() != 1) ? ++q : q;
 }
 
 // double -> Rational conversion

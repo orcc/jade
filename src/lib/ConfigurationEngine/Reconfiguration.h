@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -46,132 +46,132 @@ class Decoder;
 
 /**
  * @brief  This class represents a reconfiguration of a decoder
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Reconfiguration{
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new scenario of reconfiguration.
-	 *
-	 * @param network : the original network to reconfigure
-	 *
+     * Creates a new scenario of reconfiguration.
+     *
+     * @param network : the original network to reconfigure
+     *
      */
-	Reconfiguration(Decoder* decoder, Configuration* configuration, bool verbose = false);
+    Reconfiguration(Decoder* decoder, Configuration* configuration, bool verbose = false);
 
-	/**
+    /**
      *  @brief Get instance to remove from the decoder
-	 *
-	 *  @return a list of actor to remove
-	 *
+     *
+     *  @return a list of actor to remove
+     *
      */
-	std::list<Instance*>* getToRemove(){return &toRemove;};
+    std::list<Instance*>* getToRemove(){return &toRemove;}
 
-	/**
+    /**
      *  @brief Get instance to add in the decoder
-	 *
-	 *  @return a list of actor to add
-	 *
+     *
+     *  @return a list of actor to add
+     *
      */
-	std::list<Instance*>* getToAdd(){return &toAdd;};
+    std::list<Instance*>* getToAdd(){return &toAdd;}
 
-	/**
+    /**
      *  @brief Get instance to keep in the decoder
-	 *
-	 *  @return a list of actor to keep
-	 *
+     *
+     *  @return a list of actor to keep
+     *
      */
-	std::list<std::pair<Instance*, Instance*> >* getToKeep(){
-		return &toKeep;
-	};
+    std::list<std::pair<Instance*, Instance*> >* getToKeep(){
+        return &toKeep;
+    }
 
 private:
-	
-	/**
+
+    /**
      *  @brief Compare two packages
-	 *
-	 *  Compare two package and returns the actors contained in package ref but not in package cur.
-	 *    intersect defines the intersection between the two packages and can be NULL.
-	 *
-	 *	@param ref : the reference map of package
-	 *
-	 *	@param cur : the map of package to compare
-	 *
-	 *	@param diff : the resulting difference
-	 *
-	 *	@param intersect : the intersection between package, can be NULL.
+     *
+     *  Compare two package and returns the actors contained in package ref but not in package cur.
+     *    intersect defines the intersection between the two packages and can be NULL.
+     *
+     *	@param ref : the reference map of package
+     *
+     *	@param cur : the map of package to compare
+     *
+     *	@param diff : the resulting difference
+     *
+     *	@param intersect : the intersection between package, can be NULL.
      */
-	void comparePackages(std::map<std::string, Package*>* ref, 
-						 std::map<std::string, Package*>* cur, 
-						 std::map<std::string, Actor*>* diff,
-						 std::map<std::string, Actor*>* intersect = NULL);
+    void comparePackages(std::map<std::string, Package*>* ref,
+                         std::map<std::string, Package*>* cur,
+                         std::map<std::string, Actor*>* diff,
+                         std::map<std::string, Actor*>* intersect = NULL);
 
-	/**
+    /**
      *  @brief Compare a list of actors
-	 *
-	 *  Compare two list of actors and returns the actors contained in list ref but not in list cur.
-	 *    intersect defines the intersection between the two lists.
-	 *
-	 *	@param ref : the reference map of package
-	 *
-	 *	@param cur : the map of package to compare
-	 *
-	 *	@param diff : the resulting difference
-	 *
-	 *	@param intersect : the intersection between list, can be NULL.
+     *
+     *  Compare two list of actors and returns the actors contained in list ref but not in list cur.
+     *    intersect defines the intersection between the two lists.
+     *
+     *	@param ref : the reference map of package
+     *
+     *	@param cur : the map of package to compare
+     *
+     *	@param diff : the resulting difference
+     *
+     *	@param intersect : the intersection between list, can be NULL.
      */
-	void compareActors(std::map<std::string, Actor*>* ref, 
-					   std::map<std::string, Actor*>* cur,
-					   std::map<std::string, Actor*>* diff,
-					   std::map<std::string, Actor*>* intersect);
+    void compareActors(std::map<std::string, Actor*>* ref,
+                       std::map<std::string, Actor*>* cur,
+                       std::map<std::string, Actor*>* diff,
+                       std::map<std::string, Actor*>* intersect);
 
-	/**
+    /**
      *  @brief Mark the instance to process
-	 *
-	 *  Store all instance from the actor in the list of instance
-	 *
-	 *	@param actors : map of actors to analyze
-	 *
-	 *	@param instances : list of Instance to store childs of the given actors
-	 *
-	 *	@param configuration : the Configuration to get the instance from
+     *
+     *  Store all instance from the actor in the list of instance
+     *
+     *	@param actors : map of actors to analyze
+     *
+     *	@param instances : list of Instance to store childs of the given actors
+     *
+     *	@param configuration : the Configuration to get the instance from
      */
-	void markInstances(std::map<std::string, Actor*>* actors, 
-					   std::list<Instance*>* instances,
-					   Configuration* configuration);
+    void markInstances(std::map<std::string, Actor*>* actors,
+                       std::list<Instance*>* instances,
+                       Configuration* configuration);
 
-	/**
+    /**
      *  @brief Detect the instance that can be link
-	 *
-	 *  Check instances with the closest property and store them in toKeep.
-	 *
-	 *	@param actors : map of actors to analyze
-	 *
-	 *	@param instance : list of couple similar Instances
+     *
+     *  Check instances with the closest property and store them in toKeep.
+     *
+     *	@param actors : map of actors to analyze
+     *
+     *	@param instance : list of couple similar Instances
      */
-	void detectInstances(std::map<std::string, Actor*>* actors);
+    void detectInstances(std::map<std::string, Actor*>* actors);
 
-	/** Reference configuration*/
-	Configuration* refConfiguration;
-	
-	/** New configuration*/
-	Configuration* curConfiguration;
+    /** Reference configuration*/
+    Configuration* refConfiguration;
 
-	/** Map of marked actors*/
-	std::map<std::string, Actor*> removed;
-	std::map<std::string, Actor*> added;
-	std::map<std::string, Actor*> intersect;
+    /** New configuration*/
+    Configuration* curConfiguration;
 
-	/** List of instance to process*/
-	std::list<Instance*> toRemove;
-	std::list<Instance*> toAdd;
-	std::list<std::pair<Instance*, Instance*> > toKeep;
+    /** Map of marked actors*/
+    std::map<std::string, Actor*> removed;
+    std::map<std::string, Actor*> added;
+    std::map<std::string, Actor*> intersect;
 
-	/** Display messages */
-	bool verbose;
+    /** List of instance to process*/
+    std::list<Instance*> toRemove;
+    std::list<Instance*> toAdd;
+    std::list<std::pair<Instance*, Instance*> > toKeep;
+
+    /** Display messages */
+    bool verbose;
 };
 
 #endif

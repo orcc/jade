@@ -58,28 +58,28 @@ public:
      */
 	PrintEvent(int id, std::string file) : Event(id) {
 		this->file = file;
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~PrintEvent(){};
+    ~PrintEvent(){}
 
 	/*!
      * @brief Return true if the Event is a PrintEvent
      *
 	 * @return true if Event is a PrintEvent otherwise false
      */
-	bool isPrintEvent(){return true;};
+    bool isPrintEvent(){return true;}
 
 	/*!
      * @brief Return the file to print the decoder.
      *
 	 * @return the output file
      */
-	std::string getFile(){return file;};
+    std::string getFile(){return file;}
 
 private:
 	/** File where decoder is printed */

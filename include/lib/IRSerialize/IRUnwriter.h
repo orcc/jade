@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,8 +42,8 @@
 #include <map>
 
 namespace llvm{
-	class ConstantInt;
-	class Module;
+class ConstantInt;
+class Module;
 }
 
 class Connection;
@@ -62,160 +62,160 @@ class LLVMWriter;
  * @brief This class defines a unwriter that removes instances from a decoder.
  *
  * @author Jerome Gorin
- * 
+ *
  */
 class IRUnwriter{
 public:
 
-	/**
-	 * @brief Creates an instance remove for the given decoder.
-	 * 
-	 * @param decoder : Decoder where instances are erased
-	 */
-	IRUnwriter(Decoder* decoder);
-
-	/**
-	 * @brief Unwrite the instance from the given decoder.
-	 * 
-	 * @param instance: the Instance to remove
+    /**
+     * @brief Creates an instance remove for the given decoder.
      *
-	 * @return true if the actor is unwritten, otherwise false
-	 */
-	int remove(Instance* instance);
+     * @param decoder : Decoder where instances are erased
+     */
+    IRUnwriter(Decoder* decoder);
 
-	~IRUnwriter();
+    /**
+     * @brief Unwrite the instance from the given decoder.
+     *
+     * @param instance: the Instance to remove
+     *
+     * @return true if the actor is unwritten, otherwise false
+     */
+    int remove(Instance* instance);
+
+    ~IRUnwriter();
 
 private:
-	/**
-	 * @brief Unwrite a list of ports
-	 *
-	 * Erase a list of ports in the module
-	 *
-	 * @param key : whether ports are input or output ports
-	 *
-	 * @param ports : map of Port to erase
-	 */
-	void unwritePorts(std::string key, std::map<std::string, Port*>* ports);
+    /**
+     * @brief Unwrite a list of ports
+     *
+     * Erase a list of ports in the module
+     *
+     * @param key : whether ports are input or output ports
+     *
+     * @param ports : map of Port to erase
+     */
+    void unwritePorts(std::string key, std::map<std::string, Port*>* ports);
 
-	/**
-	 * @brief Unwrite a port
-	 *
-	 * Erase the given Port from an Instance.
-	 * 
-	 * @param key : whether the ports is an input or output port
-	 *
-	 * @param port : the Port to write
-	 */
-	void unwritePort(std::string key, Port* port);
+    /**
+     * @brief Unwrite a port
+     *
+     * Erase the given Port from an Instance.
+     *
+     * @param key : whether the ports is an input or output port
+     *
+     * @param port : the Port to write
+     */
+    void unwritePort(std::string key, Port* port);
 
-	/**
-	 * @brief Unwrite a list of state variable
-	 *
-	 * Erase a list of statevariable from a decoder.
-	 * 
-	 * @param vars : a list of state variable to erase
-	 */
-	void unwriteStateVariables(std::map<std::string, StateVar*>* vars);
+    /**
+     * @brief Unwrite a list of state variable
+     *
+     * Erase a list of statevariable from a decoder.
+     *
+     * @param vars : a list of state variable to erase
+     */
+    void unwriteStateVariables(std::map<std::string, StateVar*>* vars);
 
-	/**
-	 * @brief Unwrite a variable
-	 *
-	 * Erase the given state variable from the decoder.
-	 * 
-	 * @param var : the state variable to erase
-	 */
-	void unwriteStateVariable(StateVar* var);
+    /**
+     * @brief Unwrite a variable
+     *
+     * Erase the given state variable from the decoder.
+     *
+     * @param var : the state variable to erase
+     */
+    void unwriteStateVariable(StateVar* var);
 
-	/**
-	 * @brief Unwrite a list of variable
-	 *
-	 * Erase a list of variable from a decoder.
-	 * 
-	 * @param vars : the variables to erase
-	 */
-	void unwriteVariables(std::map<std::string, Variable*>* vars);
+    /**
+     * @brief Unwrite a list of variable
+     *
+     * Erase a list of variable from a decoder.
+     *
+     * @param vars : the variables to erase
+     */
+    void unwriteVariables(std::map<std::string, Variable*>* vars);
 
-	/**
-	 * @brief Unwrite a variable
-	 *
-	 * Erase the given variable from the decoder.
-	 * 
-	 * @param var : the variable to erase
-	 */
-	void unwriteVariable(Variable* var);
+    /**
+     * @brief Unwrite a variable
+     *
+     * Erase the given variable from the decoder.
+     *
+     * @param var : the variable to erase
+     */
+    void unwriteVariable(Variable* var);
 
-	/**
-	 * @brief Unwrite an action scheduler
-	 *
-	 * erase the given action scheduler from the decoder.
-	 * 
-	 * @param actionScheduler : the actionScheduler to erase
-	 */
-	void unwriteActionScheduler(ActionScheduler* actionScheduler);
+    /**
+     * @brief Unwrite an action scheduler
+     *
+     * erase the given action scheduler from the decoder.
+     *
+     * @param actionScheduler : the actionScheduler to erase
+     */
+    void unwriteActionScheduler(ActionScheduler* actionScheduler);
 
-	/**
-	 * @brief Unwrite a list of actions
-	 *
-	 * Erase a list of actions from a decoder.
-	 * 
-	 * @param actions : a list of Action to write
-	 */
-	void unwriteActions(std::list<Action*>* actions);
+    /**
+     * @brief Unwrite a list of actions
+     *
+     * Erase a list of actions from a decoder.
+     *
+     * @param actions : a list of Action to write
+     */
+    void unwriteActions(std::list<Action*>* actions);
 
-	/**
-	 * @brief Unwrite an FSM
-	 *
-	 * Erase the given FSM from the decoder.
-	 * 
-	 * @param fsm : the fsm to erase
-	 */
-	void unwriteFSM(FSM* fsm);
+    /**
+     * @brief Unwrite an FSM
+     *
+     * Erase the given FSM from the decoder.
+     *
+     * @param fsm : the fsm to erase
+     */
+    void unwriteFSM(FSM* fsm);
 
-	/**
-	 * @brief Unwrite an action
-	 *
-	 * Erase the given action from a decoder.
-	 * 
-	 * @param action : the action to erase
-	 */
-	void unwriteAction(Action* action);
+    /**
+     * @brief Unwrite an action
+     *
+     * Erase the given action from a decoder.
+     *
+     * @param action : the action to erase
+     */
+    void unwriteAction(Action* action);
 
-	/**
-	 * @brief Unwrite initializes actions
-	 *
-	 * erase the given initializes actions from a decoder.
-	 * 
-	 * @param initializes : the initializes actions to erase
-	 */
-	void unwriteInitializes(std::list<Action*>* initializes);
+    /**
+     * @brief Unwrite initializes actions
+     *
+     * erase the given initializes actions from a decoder.
+     *
+     * @param initializes : the initializes actions to erase
+     */
+    void unwriteInitializes(std::list<Action*>* initializes);
 
-	/**
-	 * @brief Unwrite a procedure
-	 *
-	 * Erase the given procedure from a decoder.
-	 * 
-	 * @param procedure : the procedure to erase
-	 */
-	void unwriteProcedure(Procedure* procedure);
+    /**
+     * @brief Unwrite a procedure
+     *
+     * Erase the given procedure from a decoder.
+     *
+     * @param procedure : the procedure to erase
+     */
+    void unwriteProcedure(Procedure* procedure);
 
-	/**
-	 * @brief Unwrite a list of procedures
-	 *
-	 * Erase the given list of procedure from a decoder.
-	 * 
-	 * @param procs : the procedures to erase
-	 */
-	void unwriteProcedures(std::map<std::string, Procedure*>* procs);
+    /**
+     * @brief Unwrite a list of procedures
+     *
+     * Erase the given list of procedure from a decoder.
+     *
+     * @param procs : the procedures to erase
+     */
+    void unwriteProcedures(std::map<std::string, Procedure*>* procs);
 
-	/**
-	 * @brief Erase the body of a procedure
-	 * 
-	 * @param procs : the procedures to erase body from
-	 */
-	void eraseBodyProcedure(Procedure* procedure);
+    /**
+     * @brief Erase the body of a procedure
+     *
+     * @param procs : the procedures to erase body from
+     */
+    void eraseBodyProcedure(Procedure* procedure);
 
-	/** Decoder where instance is unwrite*/
-	Decoder* decoder;
+    /** Decoder where instance is unwrite*/
+    Decoder* decoder;
 
 };
 

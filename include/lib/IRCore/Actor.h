@@ -51,9 +51,9 @@
 #include "lib/IRCore/MoC.h"
 
 namespace llvm{
-    class Module;
-    class Type;
-    class StructType;
+class Module;
+class Type;
+class StructType;
 }
 
 class ActionScheduler;
@@ -120,9 +120,9 @@ public:
      *
      */
     Actor(std::string name, llvm::Module* module, std::string file, std::map<std::string, Port*>* inputs,
-        std::map<std::string, Port*>* outputs, std::map<std::string, StateVar*>* stateVars,
-        std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
-        std::list<Action*>* initializes, std::list<Action*>* actions, ActionScheduler* actionScheduler);
+          std::map<std::string, Port*>* outputs, std::map<std::string, StateVar*>* stateVars,
+          std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
+          std::list<Action*>* initializes, std::list<Action*>* actions, ActionScheduler* actionScheduler);
 
     /**
      *  @brief Constructor
@@ -150,10 +150,10 @@ public:
      * @param moc : a MoC
      */
     Actor(std::string name, llvm::Module* module, std::string file, std::map<std::string, Port*>* inputs,
-        std::map<std::string, Port*>* outputs, std::map<std::string, StateVar*>* stateVars,
-        std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
-        std::list<Action*>* initializes, std::list<Action*>* actions, ActionScheduler* actionScheduler,
-        MoC* moc);
+          std::map<std::string, Port*>* outputs, std::map<std::string, StateVar*>* stateVars,
+          std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
+          std::list<Action*>* initializes, std::list<Action*>* actions, ActionScheduler* actionScheduler,
+          MoC* moc);
 
     virtual ~Actor();
 
@@ -177,7 +177,7 @@ public:
      *
      * @return true if this entity is actor
      */
-    virtual bool isActor(){return true;};
+    virtual bool isActor(){return true;}
 
 
     /**
@@ -186,7 +186,7 @@ public:
      *  @return the llvm::Module of the Actor
      *
      */
-    llvm::Module* getModule(){return module;};
+    llvm::Module* getModule(){return module;}
 
     /**
      *  @brief Return the Parameter corresponding to the given name
@@ -210,21 +210,21 @@ public:
      *  @return a string of the actor name
      *
      */
-    std::string getName(){return name;};
+    std::string getName(){return name;}
 
     /**
      *  @brief setter of input ports
      *
      *  @param inputs : a map of Port representing inputs of the actor
      */
-    void setInputs(std::map<std::string, Port*>* inputs) {this->inputs = inputs;};
+    void setInputs(std::map<std::string, Port*>* inputs) {this->inputs = inputs;}
 
     /**
      *  @brief setter of output ports
      *
      *  @param outputs : a map of Port representing output of the actor
      */
-    void setOutputs(std::map<std::string, Port*>* outputs) {this->outputs = outputs;};
+    void setOutputs(std::map<std::string, Port*>* outputs) {this->outputs = outputs;}
 
 
     /**
@@ -268,7 +268,7 @@ public:
      *
      * @return ActionScheduler of this actor
      */
-     void setActionScheduler(ActionScheduler* actionScheduler) {
+    void setActionScheduler(ActionScheduler* actionScheduler) {
         this->actionScheduler = actionScheduler;
     }
 
@@ -279,7 +279,7 @@ public:
      *
      * @return a list of Instance
      */
-    std::list<Instance*>* getInstances(){return &instances;};
+    std::list<Instance*>* getInstances(){return &instances;}
 
     /**
      *  @brief Create a port
@@ -312,7 +312,7 @@ public:
      *  @return boolean designing the actor parsing ability
      *
      */
-    virtual bool isParseable(){return true;};
+    virtual bool isParseable(){return true;}
 
 
     /**

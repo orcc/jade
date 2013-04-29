@@ -57,9 +57,9 @@ public:
      */
     ActionTag(){
 
-    };
+    }
 
-    ~ActionTag(){};
+    ~ActionTag(){}
 
     /**
      * @brief Creates a tag.
@@ -121,7 +121,7 @@ public:
      *
      * @return the number of identifiers in this tag
      */
-    int size(){ return identifiers.size();};
+    int size(){ return identifiers.size();}
 
 private:
     std::list<std::string> identifiers;

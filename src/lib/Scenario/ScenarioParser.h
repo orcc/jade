@@ -78,7 +78,7 @@ public:
      *
      * Delete the scenario parser.
      */
-    ~ScenarioParser(){};
+    ~ScenarioParser(){}
 
 private:
     /*!

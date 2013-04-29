@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -48,85 +48,85 @@ using namespace llvm;
 
 
 Actor::Actor(std::string name, llvm::Module* module, std::string file) : Entity(new map<std::string, Port*>() , new map<std::string, Port*>(), NULL, NULL) {
-	this->name = name;
-	this->module = module;
-	this->file = file;
+    this->name = name;
+    this->module = module;
+    this->file = file;
 
-	//Only actors with a file name are put in the package manager
-	if(!this->file.empty()){
-		PackageMng::setActor(this);
-	}
+    //Only actors with a file name are put in the package manager
+    if(!this->file.empty()){
+        PackageMng::setActor(this);
+    }
 }
 
 
 Actor::Actor(string name, Module* module, string file, map<string, Port*>* inputs, 
-		     map<string, Port*>* outputs, map<string, StateVar*>* stateVars,
-			 std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
-			 list<Action*>* initializes, list<Action*>* actions, ActionScheduler* actionScheduler): Entity(inputs, outputs, initializes, actions){
-	this->name = name;
-	this->module = module;
-	this->file = file;
-	this->stateVars = stateVars;
-	this->parameters = parameters;
-	this->procedures = procedures;
-	this->actionScheduler = actionScheduler;
-	
-	//Only actors with a file name are put in the package manager
-	if(!this->file.empty()){
-		PackageMng::setActor(this);
-	}
+             map<string, Port*>* outputs, map<string, StateVar*>* stateVars,
+             std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
+             list<Action*>* initializes, list<Action*>* actions, ActionScheduler* actionScheduler): Entity(inputs, outputs, initializes, actions){
+    this->name = name;
+    this->module = module;
+    this->file = file;
+    this->stateVars = stateVars;
+    this->parameters = parameters;
+    this->procedures = procedures;
+    this->actionScheduler = actionScheduler;
+
+    //Only actors with a file name are put in the package manager
+    if(!this->file.empty()){
+        PackageMng::setActor(this);
+    }
 }
 
 Actor::Actor(string name, Module* module, string file, map<string, Port*>* inputs, 
-		     map<string, Port*>* outputs, map<string, StateVar*>* stateVars,
-			 std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
-			 list<Action*>* initializes, list<Action*>* actions, ActionScheduler* actionScheduler, MoC* moc): Entity(inputs, outputs, initializes, actions) {
-	this->name = name;
-	this->module = module;
-	this->file = file;
-	this->stateVars = stateVars;
-	this->parameters = parameters;
-	this->procedures = procedures;
-	this->actionScheduler = actionScheduler;
-	this->moc = moc;
-	
-	//Only actors with a file name are put in the package manager
-	if(!this->file.empty()){
-		PackageMng::setActor(this);
-	}
+             map<string, Port*>* outputs, map<string, StateVar*>* stateVars,
+             std::map<std::string, Variable*>* parameters, std::map<std::string, Procedure*>* procedures,
+             list<Action*>* initializes, list<Action*>* actions, ActionScheduler* actionScheduler, MoC* moc): Entity(inputs, outputs, initializes, actions) {
+    this->name = name;
+    this->module = module;
+    this->file = file;
+    this->stateVars = stateVars;
+    this->parameters = parameters;
+    this->procedures = procedures;
+    this->actionScheduler = actionScheduler;
+    this->moc = moc;
+
+    //Only actors with a file name are put in the package manager
+    if(!this->file.empty()){
+        PackageMng::setActor(this);
+    }
 }
 Actor::~Actor (){
-	list<Instance*>::iterator it;
+    list<Instance*>::iterator it;
 
-	for (it = instances.begin(); it != instances.end(); it++){		
-		//Avoid recursive call of destructors
-		(*it)->setActor(NULL);
+    for (it = instances.begin(); it != instances.end(); it++){
+        //Avoid recursive call of destructors
+        (*it)->setActor(NULL);
 
-		delete(*it);
-	}
+        delete(*it);
+    }
 }
 
 void Actor::addInstance(Instance* instance){
-	if (instance->getActor() != this){
-		instance->setActor(this);
-	}
-	instances.push_back(instance);
+    if (instance->getActor() != this){
+        instance->setActor(this);
+    }
+    instances.push_back(instance);
 }
 
 void Actor::remInstance(Instance* instance){
-	instances.remove(instance);
+    instances.remove(instance);
 }
 
 
 string Actor::getPackage() {
-	return PackageMng::getPackagesName(this);
+    return PackageMng::getPackagesName(this);
 }
 
 string Actor::getSimpleName() {
-	return PackageMng::getSimpleName(this);
+    return PackageMng::getSimpleName(this);
 }
 
 bool Actor::isNative(){
-	string firstPackage = PackageMng::getFirstPackageName(this);
-	return firstPackage.compare("System")== 0;
+    string firstPackage = PackageMng::getFirstPackageName(this);
+    return firstPackage.compare("System")== 0;
 }

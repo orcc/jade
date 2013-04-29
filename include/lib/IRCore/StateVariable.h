@@ -76,7 +76,7 @@ public:
         : Variable(type, name, true, assignable, variable)
     {
         this->initialValue = NULL;
-    };
+    }
 
     /**
      * @brief create a state variable with an initial value
@@ -100,14 +100,14 @@ public:
         : Variable(type, name, true, assignable, variable)
     {
         this->initialValue = initialValue;
-    };
+    }
 
     /**
      * Returns true if this variable is a state variable.
      *
      * @return true if this variable is global
      */
-    bool isStateVar() {return true;};
+    bool isStateVar() {return true;}
 
     ~StateVar();
 };

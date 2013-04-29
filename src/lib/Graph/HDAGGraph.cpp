@@ -8,11 +8,11 @@ This software is a computer program whose purpose is to execute
 parallel applications.
 
  *********************************************************/
- 
+
 /**
  * A HDAG graph. It contains HDAG vertices and edges. It has a bigger table for vertices and edges than DAG.
  * Each edge production and consumption must be equal. There is no repetition vector for the vertices.
- * 
+ *
  * @author mpelcat
  */
 
@@ -30,9 +30,9 @@ using namespace std;
 */
 HDAGGraph::HDAGGraph()
 {
-	// There is no dynamic allocation of graph members
-	nbVertices = 0;
-	nbEdges = 0;
+    // There is no dynamic allocation of graph members
+    nbVertices = 0;
+    nbEdges = 0;
 }
 
 /**
@@ -52,19 +52,19 @@ HDAGGraph::~HDAGGraph()
  @return the created edge
 */
 HDAGEdge* HDAGGraph::addEdge(HDAGVertex* source, int tokenRate, HDAGVertex* sink){
-	HDAGEdge* edge;
+    HDAGEdge* edge;
 #ifdef _DEBUG
-	if(nbEdges >= MAX_HDAG_EDGES){
-		// Adding an edge while the graph is already full
-		exitWithCode(1001);
-	}
+    if(nbEdges >= MAX_HDAG_EDGES){
+        // Adding an edge while the graph is already full
+        exitWithCode(1001);
+    }
 #endif
-	edge = edges[nbEdges];
-	edge->setSource(source);
-	edge->setTokenRate(tokenRate);
-	edge->setSink(sink);
-	nbEdges++;
-	return edge;
+    edge = edges[nbEdges];
+    edge->setSource(source);
+    edge->setTokenRate(tokenRate);
+    edge->setSink(sink);
+    nbEdges++;
+    return edge;
 }
 
 /**
@@ -78,16 +78,16 @@ HDAGEdge* HDAGGraph::addEdge(HDAGVertex* source, int tokenRate, HDAGVertex* sink
 */
 void HDAGGraph::addEdge(HDAGVertex* source, HDAGVertex* sink, HDAGEdge* edge){
 #ifdef _DEBUG
-	if(nbEdges >= MAX_HDAG_EDGES){
-		// Adding an edge while the graph is already full
-		exitWithCode(1001);
-	}
+    if(nbEdges >= MAX_HDAG_EDGES){
+        // Adding an edge while the graph is already full
+        exitWithCode(1001);
+    }
 #endif
-	edge->setSource(source);
-	edge->setTokenRate(0);
-	edge->setSink(sink);
-	edges[nbEdges] = edge;
-	nbEdges++;
+    edge->setSource(source);
+    edge->setTokenRate(0);
+    edge->setSink(sink);
+    edges[nbEdges] = edge;
+    nbEdges++;
 }
 
 
@@ -95,145 +95,145 @@ void HDAGGraph::addEdge(HDAGVertex* source, HDAGVertex* sink, HDAGEdge* edge){
  Removes the last added edge
 */
 void HDAGGraph::removeLastEdge(){
-	if(nbEdges > 0){
-		nbEdges--;
-	}
-	else{
-		// Removing an edge from an empty graph
-		exitWithCode(1007);
-	}
+    if(nbEdges > 0){
+        nbEdges--;
+    }
+    else{
+        // Removing an edge from an empty graph
+        exitWithCode(1007);
+    }
 }
 
 bool HDAGGraph::removeVertex(HDAGVertex* vertex){
-	int i = 0;
+    int i = 0;
 
-	for(;i<nbVertices; i++){
-		HDAGVertex* currentVertex = vertices[i];
-		
-		if (currentVertex->equals(vertex)){
-			delete vertices[i];
-			break;
-		}
-	}
+    for(;i<nbVertices; i++){
+        HDAGVertex* currentVertex = vertices[i];
 
-	if ( i == nbVertices - 1){
-		//Vertex has not been found
-		return false;
-	}
+        if (currentVertex->equals(vertex)){
+            delete vertices[i];
+            break;
+        }
+    }
 
-	// Fill the current position with the last edge
-	vertices[i] = vertices[--nbVertices];
-	
-	return true;
+    if ( i == nbVertices - 1){
+        //Vertex has not been found
+        return false;
+    }
+
+    // Fill the current position with the last edge
+    vertices[i] = vertices[--nbVertices];
+
+    return true;
 }
 
 /**
  Removes all the edges in this graph that are also contained in the specified edge array.
 */
 bool HDAGGraph::removeAllEdges(HDAGEdge** edges, int nbRemEdges){
-	bool graphChanged = false;
+    bool graphChanged = false;
 
-	for(int i=0; i<nbEdges; i++){
-		graphChanged |= removeEdge(edges[i]);
-	}
-	
-	if (graphChanged){
-		refreshEdges();
-	}
+    for(int i=0; i<nbEdges; i++){
+        graphChanged |= removeEdge(edges[i]);
+    }
 
-	return graphChanged;
+    if (graphChanged){
+        refreshEdges();
+    }
+
+    return graphChanged;
 }
 
 /**
  Refresh edges of the graph. This method MUST be called when edge are changed in the graph.
 */
 void HDAGGraph::refreshEdges(){
-	int newNbEdges = 0;
+    int newNbEdges = 0;
 
-	for(int i=0; i<nbEdges; i++){
-		if (edges[i] != NULL){
-			if(newNbEdges != i){
-				edges[newNbEdges]= edges[i];
-				edges[i] = NULL;
-			}
-			newNbEdges++;
-		}
-	}
-	
-	nbEdges = newNbEdges;
+    for(int i=0; i<nbEdges; i++){
+        if (edges[i] != NULL){
+            if(newNbEdges != i){
+                edges[newNbEdges]= edges[i];
+                edges[i] = NULL;
+            }
+            newNbEdges++;
+        }
+    }
+
+    nbEdges = newNbEdges;
 }
 
 /**
  Removes an edge in the graph.
 */
 bool HDAGGraph::removeEdge(HDAGEdge* edge){
-	int i = 0;
-	for(; i<nbEdges; i++){
-		if (edge == edges[i]){
-			// Edge found
-			break;
-		}
-	}
+    int i = 0;
+    for(; i<nbEdges; i++){
+        if (edge == edges[i]){
+            // Edge found
+            break;
+        }
+    }
 
-	if ( i == nbEdges - 1){
-		//Edge has not been found
-		return false;
-	}
+    if ( i == nbEdges - 1){
+        //Edge has not been found
+        return false;
+    }
 
-	// Fill the current position with the last edge
-	edges[i] = edges[--nbEdges];
+    // Fill the current position with the last edge
+    edges[i] = edges[--nbEdges];
 
-	// edge not found
-	return true;
+    // edge not found
+    return true;
 }
 
 /**
  Returns a set of all edges connecting source vertex to target vertex if such vertices exist in this graph.
 */
 list<HDAGEdge*>* HDAGGraph::getAllEdges(HDAGVertex* sourceVertex, HDAGVertex* targetVertex){
-	edgesContainer.clear();
+    edgesContainer.clear();
 
-	for(int i=0; i<nbEdges; i++){
-		HDAGEdge* curEgde = edges[i];
+    for(int i=0; i<nbEdges; i++){
+        HDAGEdge* curEgde = edges[i];
 
-		if (getEdgeSource(curEgde)->equals(sourceVertex)){
-			if (getEdgeTarget(curEgde)->equals(targetVertex)){
-				// Store current edge
-				edgesContainer.push_back(curEgde);
-			}
-		}
-	}
+        if (getEdgeSource(curEgde)->equals(sourceVertex)){
+            if (getEdgeTarget(curEgde)->equals(targetVertex)){
+                // Store current edge
+                edgesContainer.push_back(curEgde);
+            }
+        }
+    }
 
-	// return edge founds
-	return &edgesContainer;
+    // return edge founds
+    return &edgesContainer;
 }
 
 HDAGVertex* HDAGGraph::getEdgeTarget(HDAGEdge* edge){
-	if (edge->getSink() == NULL)
-		return NULL;
+    if (edge->getSink() == NULL)
+        return NULL;
 
-	for(int i=0; i<nbVertices; i++){
-		HDAGVertex* currentVertex = vertices[i];
-		if(edge->getSink()->equals(currentVertex)){
-			return currentVertex;
-		}
-	}
-	
-	return NULL;
+    for(int i=0; i<nbVertices; i++){
+        HDAGVertex* currentVertex = vertices[i];
+        if(edge->getSink()->equals(currentVertex)){
+            return currentVertex;
+        }
+    }
+
+    return NULL;
 }
 
 HDAGVertex* HDAGGraph::getEdgeSource(HDAGEdge* edge){
-	if (edge->getSource() == NULL)
-		return NULL;
+    if (edge->getSource() == NULL)
+        return NULL;
 
-	for(int i=0; i<nbVertices; i++){
-		HDAGVertex* currentVertex = vertices[i];
-		if(edge->getSource()->equals(currentVertex)){
-			return currentVertex;
-		}
-	}
-	
-	return NULL;
+    for(int i=0; i<nbVertices; i++){
+        HDAGVertex* currentVertex = vertices[i];
+        if(edge->getSource()->equals(currentVertex)){
+            return currentVertex;
+        }
+    }
+
+    return NULL;
 }
 
 
@@ -241,8 +241,8 @@ HDAGVertex* HDAGGraph::getEdgeSource(HDAGEdge* edge){
  Removes all edges and vertices
 */
 void HDAGGraph::flush(){
-	nbVertices = nbEdges = 0;
-	HDAGEdge::firstInSinkOrder = NULL;
+    nbVertices = nbEdges = 0;
+    HDAGEdge::firstInSinkOrder = NULL;
 }
 
 #if 0
@@ -250,41 +250,41 @@ void HDAGGraph::flush(){
  Pivot function for Quick Sort
 */
 int partition(HDAGEdge* edgePointers, int p, int r, char sourceOrSink) {
-  HDAGEdge* x = &edgePointers[r];
-  static HDAGEdge temp;
-  int j = p - 1;
-  for (int i = p; i < r; i++) {
-	  if (((sourceOrSink != 0) && (x->source >= edgePointers[i].source)) ||
-		  ((sourceOrSink == 0) && (x->sink >= edgePointers[i].sink))) {
-      j = j + 1;
-      memcpy(&temp,&edgePointers[j],sizeof(HDAGEdge));
-      memcpy(&edgePointers[j],&edgePointers[i],sizeof(HDAGEdge));
-      memcpy(&edgePointers[i],&temp,sizeof(HDAGEdge));
+    HDAGEdge* x = &edgePointers[r];
+    static HDAGEdge temp;
+    int j = p - 1;
+    for (int i = p; i < r; i++) {
+        if (((sourceOrSink != 0) && (x->source >= edgePointers[i].source)) ||
+                ((sourceOrSink == 0) && (x->sink >= edgePointers[i].sink))) {
+            j = j + 1;
+            memcpy(&temp,&edgePointers[j],sizeof(HDAGEdge));
+            memcpy(&edgePointers[j],&edgePointers[i],sizeof(HDAGEdge));
+            memcpy(&edgePointers[i],&temp,sizeof(HDAGEdge));
+        }
     }
-  }
 
-  memcpy(&edgePointers[r],&edgePointers[j + 1],sizeof(HDAGEdge));
-  memcpy(&edgePointers[j + 1],x,sizeof(HDAGEdge));
+    memcpy(&edgePointers[r],&edgePointers[j + 1],sizeof(HDAGEdge));
+    memcpy(&edgePointers[j + 1],x,sizeof(HDAGEdge));
 
-  return (j + 1);
+    return (j + 1);
 }
 
 /**
- quick Sort recursive algorithm 
+ quick Sort recursive algorithm
 */
 void quickSort(HDAGEdge* edgePointers, int p, int r, char sourceOrSink) {
-  if (p < r) {
-    int q = partition(edgePointers, p, r, sourceOrSink);
-    quickSort(edgePointers, p, q - 1, sourceOrSink);
-    quickSort(edgePointers, q + 1, r, sourceOrSink);
-  }
+    if (p < r) {
+        int q = partition(edgePointers, p, r, sourceOrSink);
+        quickSort(edgePointers, p, q - 1, sourceOrSink);
+        quickSort(edgePointers, q + 1, r, sourceOrSink);
+    }
 }
 
 /**
  quick Sort algorithm used for sorting edges pointers from their source or sink address
 */
 void quickSort(HDAGEdge* edgePointers, int length, char sourceOrSink) {
-  quickSort(edgePointers, 0, length-1, sourceOrSink);
+    quickSort(edgePointers, 0, length-1, sourceOrSink);
 }
 #endif
 
@@ -296,73 +296,73 @@ void quickSort(HDAGEdge* edgePointers, int length, char sourceOrSink) {
  @param startIndex: only the edges after this index are reordered
 */
 void HDAGGraph::sortEdges(int startIndex){
-	/*int length = this->nbEdges - startIndex;
-	if(length>1){
-		quickSort((&edges[startIndex]), length, 0);
-	}*/
-	HDAGEdge* currentNewEdge, *currentOldEdge;
-	HDAGVertex* currentNewSink;
+    /*int length = this->nbEdges - startIndex;
+    if(length>1){
+        quickSort((&edges[startIndex]), length, 0);
+    }*/
+    HDAGEdge* currentNewEdge, *currentOldEdge;
+    HDAGVertex* currentNewSink;
 
-	for(int i=startIndex; i<nbEdges; i++){
-		currentNewEdge = edges[i];
-		
-		// Adding the first edge
-		if(HDAGEdge::firstInSinkOrder == NULL){
-			HDAGEdge::firstInSinkOrder = currentNewEdge;
-			HDAGEdge::lastInSinkOrder = currentNewEdge;
-			currentNewEdge->prevInSinkOrder = NULL;
-			currentNewEdge->nextInSinkOrder = NULL;
-		}
-		else{
-			currentNewSink = currentNewEdge->getSink();
-			
-			/*currentOldEdge = HDAGEdge::firstInSinkOrder;
-			// Going through the already ordered edges
-			// while the edge has a next one and must be before the one we add, we go to the next one
-			while((currentOldEdge->nextInSinkOrder != NULL) && (currentOldEdge->getSink() < currentNewSink)){
-				currentOldEdge = currentOldEdge->nextInSinkOrder;
-			}*/
+    for(int i=startIndex; i<nbEdges; i++){
+        currentNewEdge = edges[i];
 
-			currentOldEdge = HDAGEdge::lastInSinkOrder;
-			// Going through the already ordered edges in reverse order
-			// while the edge has a next one and must be before the one we add, we go to the next one
-			while((currentOldEdge->prevInSinkOrder != NULL) && (currentOldEdge->getSink() > currentNewSink)){
-				currentOldEdge = currentOldEdge->prevInSinkOrder;
-			}
+        // Adding the first edge
+        if(HDAGEdge::firstInSinkOrder == NULL){
+            HDAGEdge::firstInSinkOrder = currentNewEdge;
+            HDAGEdge::lastInSinkOrder = currentNewEdge;
+            currentNewEdge->prevInSinkOrder = NULL;
+            currentNewEdge->nextInSinkOrder = NULL;
+        }
+        else{
+            currentNewSink = currentNewEdge->getSink();
 
-			// The next is null and we need to add the new edge after the old one
-			if(currentOldEdge->getSink() <= currentNewSink){
-				currentNewEdge->prevInSinkOrder = currentOldEdge;
-				currentNewEdge->nextInSinkOrder = NULL;
-				HDAGEdge::lastInSinkOrder = currentNewEdge;
-				currentOldEdge->nextInSinkOrder = currentNewEdge;
-			}
-			else{
-				// We need to add the new edge before the old one
-				currentNewEdge->prevInSinkOrder = currentOldEdge->prevInSinkOrder;
-				if(currentOldEdge->prevInSinkOrder != NULL){
-					currentOldEdge->prevInSinkOrder->nextInSinkOrder = currentNewEdge;
-				}
-				else{
-					//New start vertex
-					HDAGEdge::firstInSinkOrder = currentNewEdge;
-				}
-				currentNewEdge->nextInSinkOrder = currentOldEdge;
-				currentOldEdge->prevInSinkOrder = currentNewEdge;
-			}
-		}
-	}
+            /*currentOldEdge = HDAGEdge::firstInSinkOrder;
+            // Going through the already ordered edges
+            // while the edge has a next one and must be before the one we add, we go to the next one
+            while((currentOldEdge->nextInSinkOrder != NULL) && (currentOldEdge->getSink() < currentNewSink)){
+                currentOldEdge = currentOldEdge->nextInSinkOrder;
+            }*/
+
+            currentOldEdge = HDAGEdge::lastInSinkOrder;
+            // Going through the already ordered edges in reverse order
+            // while the edge has a next one and must be before the one we add, we go to the next one
+            while((currentOldEdge->prevInSinkOrder != NULL) && (currentOldEdge->getSink() > currentNewSink)){
+                currentOldEdge = currentOldEdge->prevInSinkOrder;
+            }
+
+            // The next is null and we need to add the new edge after the old one
+            if(currentOldEdge->getSink() <= currentNewSink){
+                currentNewEdge->prevInSinkOrder = currentOldEdge;
+                currentNewEdge->nextInSinkOrder = NULL;
+                HDAGEdge::lastInSinkOrder = currentNewEdge;
+                currentOldEdge->nextInSinkOrder = currentNewEdge;
+            }
+            else{
+                // We need to add the new edge before the old one
+                currentNewEdge->prevInSinkOrder = currentOldEdge->prevInSinkOrder;
+                if(currentOldEdge->prevInSinkOrder != NULL){
+                    currentOldEdge->prevInSinkOrder->nextInSinkOrder = currentNewEdge;
+                }
+                else{
+                    //New start vertex
+                    HDAGEdge::firstInSinkOrder = currentNewEdge;
+                }
+                currentNewEdge->nextInSinkOrder = currentOldEdge;
+                currentOldEdge->prevInSinkOrder = currentNewEdge;
+            }
+        }
+    }
 }
 
 /**
  Precomputes the successor vertices of all vertices to speed up the access
 */
 void HDAGGraph::precomputeSuccessors(){
-	for(int i=0; i<nbVertices; i++){
-		HDAGVertex* currentVertex = vertices[i];
-		currentVertex->flushSuccessors();
-		precomputeSuccessors(currentVertex);
-	}
+    for(int i=0; i<nbVertices; i++){
+        HDAGVertex* currentVertex = vertices[i];
+        currentVertex->flushSuccessors();
+        precomputeSuccessors(currentVertex);
+    }
 }
 
 /**
@@ -371,11 +371,11 @@ void HDAGGraph::precomputeSuccessors(){
  @param vertex: the current vertex
 */
 void HDAGGraph::precomputeSuccessors(HDAGVertex* vertex){
-	// Retrieving all edges having vertex for source
-	for(int i=0; i<nbEdges; i++){
-		HDAGEdge* currentEdge = edges[i];
-		if(currentEdge->getSource()->equals(vertex)){
-			vertex->addSuccessor(currentEdge->getSink());
-		}
-	}
+    // Retrieving all edges having vertex for source
+    for(int i=0; i<nbEdges; i++){
+        HDAGEdge* currentEdge = edges[i];
+        if(currentEdge->getSource()->equals(vertex)){
+            vertex->addSuccessor(currentEdge->getSink());
+        }
+    }
 }

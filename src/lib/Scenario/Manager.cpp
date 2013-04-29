@@ -48,7 +48,7 @@
 #include "ScenarioParser.h"
 
 extern "C" {
-    extern char* input_file;
+extern char* input_file;
 }
 
 //------------------------------

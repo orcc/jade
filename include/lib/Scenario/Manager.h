@@ -102,7 +102,7 @@ public:
      *
      * Delete the scenario.
      */
-    ~Manager(){};
+    ~Manager(){}
 
 private:
 

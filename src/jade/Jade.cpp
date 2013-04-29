@@ -91,47 +91,47 @@ VTLDir("L", desc("Video Tools Library directory"),
 
 cl::opt<string>
 InputDir("I", desc("Stimulus directory"),
-       value_desc("Folder of input stimulus"),
-       Hidden,
-       init(""));
+         value_desc("Folder of input stimulus"),
+         Hidden,
+         init(""));
 
 cl::opt<string>
 YuvFile("o", desc("Compare output with a decoded YUV video file"),
-              value_desc("YUV filename"),
-              init(""));
+        value_desc("YUV filename"),
+        init(""));
 
 cl::opt<string>
 ScFile("scenario", desc("Use a decoding scenario"),
-              value_desc("decoding scenario"),
-              init(""));
+       value_desc("decoding scenario"),
+       init(""));
 
 cl::opt<string>
 OutputDir("w", desc("Output folder for writing trace/Module/Error files"),
-              value_desc("Trace folder"),
-              init(""));
+          value_desc("Trace folder"),
+          init(""));
 
 cl::opt<bool>
 ForceInterpreter("force-interpreter", desc("Force interpretation: disable JIT"),
-                                      init(false));
+                 init(false));
 
 cl::opt<bool>
 nodisplay("nodisplay", desc("Deactivate display"),
-                       init(false));
+          init(false));
 
 cl::list<string>
 debexec("debexec", desc("Display debugging information for the given instances"),
-                       cl::value_desc("A list of instance id"));
+        cl::value_desc("A list of instance id"));
 
 cl::opt<string>
 MArch("march", desc("Architecture to generate assembly for (see --version)"));
 
 cl::opt<bool>
 DisableCoreFiles("disable-core-files", Hidden,
-                   desc("Disable emission of core files if possible"));
+                 desc("Disable emission of core files if possible"));
 
 cl::opt<bool>
 disableMultiCore("nomulticore", desc("Deactivate multicore support"),
-                       init(false));
+                 init(false));
 
 cl::opt<bool>
 NoLazyCompilation("disable-lazy-compilation",
@@ -140,30 +140,30 @@ NoLazyCompilation("disable-lazy-compilation",
 
 cl::list<string>
 MAttrs("mattr", CommaSeparated,
-         desc("Target specific IRAttributes (-mattr=help for details)"),
-         value_desc("a1,+a2,-a3,..."));
+       desc("Target specific IRAttributes (-mattr=help for details)"),
+       value_desc("a1,+a2,-a3,..."));
 
 
 cl::opt<string>
 MCPU("mcpu", desc("Target a specific cpu type (-mcpu=help for details)"),
-       value_desc("cpu-name"),
-       init(""));
+     value_desc("cpu-name"),
+     init(""));
 
 cl::opt<bool> OptLevelO1("O1", cl::desc("Optimization level 1. Similar to llvm-gcc -O1"));
 
 cl::opt<bool> OptLevelO2("O2",
-           cl::desc("Optimization level 2. Similar to llvm-gcc -O2"));
+                         cl::desc("Optimization level 2. Similar to llvm-gcc -O2"));
 
 cl::opt<bool> OptLevelO3("O3",
-           cl::desc("Optimization level 3. Similar to llvm-gcc -O3"));
+                         cl::desc("Optimization level 3. Similar to llvm-gcc -O3"));
 
 cl::opt<int> FifoSize("default-fifo-size",
-         cl::desc("Defaut size of fifos"),
-         cl::init(512));
+                      cl::desc("Defaut size of fifos"),
+                      cl::init(512));
 
 cl::opt<int> StopAt("stop-at-frame",
-         cl::desc("Stop decoder after a given number of frame decoded."),
-         cl::init(0));
+                    cl::desc("Stop decoder after a given number of frame decoded."),
+                    cl::init(0));
 
 static cl::opt<bool> Verbose("verbose", cl::desc("Print information about actions taken"), cl::init(false));
 
@@ -186,10 +186,10 @@ void clean_exit(int sig){
 
 // Variable from native functions
 extern "C" {
-    extern char* input_file;
-    extern char* yuv_file;
-    extern char* write_file;
-    extern char display_flags;
+extern char* input_file;
+extern char* yuv_file;
+extern char* write_file;
+extern char display_flags;
 }
 
 //Verify if directory is well formed

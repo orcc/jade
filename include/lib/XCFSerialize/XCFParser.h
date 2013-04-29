@@ -64,10 +64,10 @@ public:
      */
     XCFParser (bool verbose = false);
 
-     /**
+    /**
      *  @brief Destructor of the class XDFParser
      */
-    ~XCFParser (){};
+    ~XCFParser (){}
 
     /**
      *  @brief Start Parsing XCF filep

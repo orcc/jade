@@ -99,7 +99,7 @@ private:
      * @return an expression
      */
     static Expr* createPrecedenceTree(llvm::LLVMContext &C, std::list<Expr*>* exprs, std::list<BinaryOp*>* ops,
-            int startIndex, int stopIndex);
+                                      int startIndex, int stopIndex);
 };
 
 #endif

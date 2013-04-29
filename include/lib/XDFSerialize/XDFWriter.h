@@ -41,7 +41,7 @@
 
 #include <string>
 namespace llvm{
-    class LLVMContext;
+class LLVMContext;
 }
 
 #include "lib/IRCore/Network.h"
@@ -70,7 +70,7 @@ public:
      */
     XDFWriter (std::string xdfPath, Network* network);
 
-     /**
+    /**
      *  @brief Destructor of the class XDFWriter
      */
     ~XDFWriter ();

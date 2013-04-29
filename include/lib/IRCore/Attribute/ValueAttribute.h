@@ -40,7 +40,7 @@
 #define VALUEIRATTRIBUTE_H
 
 namespace llvm{
-    class Constant;
+class Constant;
 }
 
 #include "lib/IRCore/IRAttribute.h"
@@ -65,7 +65,7 @@ public:
      *
      * Creates a new type IRAttribute
      */
-    ValueAttribute(Expr* value){this->value = value;};
+    ValueAttribute(Expr* value){this->value = value;}
     ~ValueAttribute();
 
     /**
@@ -73,14 +73,14 @@ public:
      *
      * @return Value of the IRAttribute
      */
-    Expr* getValue(){return value;};
+    Expr* getValue(){return value;}
 
     /**
      * @brief Returns true if this type is a value IRAttribute.
      *
      * @return true if this type is a value IRAttribute
      */
-    bool isValue(){return true;};
+    bool isValue(){return true;}
 
 private:
     Expr* value;

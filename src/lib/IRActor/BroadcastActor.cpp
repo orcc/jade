@@ -61,8 +61,8 @@ using namespace llvm;
 extern cl::opt<int> FifoSize;
 
 BroadcastActor::BroadcastActor(llvm::LLVMContext& C, Decoder* decoder, string name, int numOutputs, IntegerType* type): Actor(name, module, "",
-          new map<string, Port*>(), new map<string, Port*>(), new map<string, StateVar*>(), new map<string, Variable*>(), new map<string, Procedure*>(), new list<Action*> (),
-          new list<Action*> (), NULL) , Context(C)
+                                                                                                                              new map<string, Port*>(), new map<string, Port*>(), new map<string, StateVar*>(), new map<string, Variable*>(), new map<string, Procedure*>(), new list<Action*> (),
+                                                                                                                              new list<Action*> (), NULL) , Context(C)
 {
     this->type = cast<IntegerType>(type);
     this->numOutputs = numOutputs;

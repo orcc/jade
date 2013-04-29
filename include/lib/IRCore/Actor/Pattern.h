@@ -44,7 +44,7 @@
 #include <map>
 
 namespace llvm {
-    class ConstantInt;
+class ConstantInt;
 }
 
 class Port;
@@ -83,7 +83,7 @@ public:
      */
     Pattern();
 
-    ~Pattern(){};
+    ~Pattern(){}
 
     /**
      * @brief Returns true if this pattern is empty.

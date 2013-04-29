@@ -60,7 +60,7 @@ public:
      */
     Partition(std::string id){
         this->id = id;
-    }
+    };
 
     /*!
      *  @brief Destructor
@@ -74,14 +74,14 @@ public:
      *
      * @param instance : instance to add
      */
-    void addInstance(Instance* instance){instances.push_back(instance);};
+    void addInstance(Instance* instance){instances.push_back(instance);}
 
     /*!
      *  @brief Add a new instance to the partition
      *
      * @param instance : instance to add
      */
-    std::list<Instance*>* getInstances(){return &instances;};
+    std::list<Instance*>* getInstances(){return &instances;}
 
 private:
     std::string id;

@@ -77,7 +77,7 @@ public:
      *
      *  @return a map of Instance contained in the configuration.
      */
-    std::map<std::string, Instance*>* getInstances(){return &instances;};
+    std::map<std::string, Instance*>* getInstances(){return &instances;}
 
     /*!
      *  @brief Return a list of Instance of an actor in the configuration.
@@ -107,14 +107,14 @@ public:
      *
      *  @return a map of Actor contained in the network
      */
-    std::list<std::string>* getActorFiles(){return &actorFiles;};
+    std::list<std::string>* getActorFiles(){return &actorFiles;}
 
     /**
      *  @brief Getter of a network
      *
      *  @return network of the scenario
      */
-    Network* getNetwork(){return network;};
+    Network* getNetwork(){return network;}
 
     /**
      *  @brief Update the configuration with the given network
@@ -155,7 +155,7 @@ public:
      */
     std::map<std::string, Actor*>* getActors(){
         return actors;
-    };
+    }
 
     /**
      * @brief Get the package requiered by the decoder
@@ -164,7 +164,7 @@ public:
      *
      * @return the package requiered for the decoder
      */
-    std::map<std::string, Package*>* getPackages() {return packages;};
+    std::map<std::string, Package*>* getPackages() {return packages;}
 
     /**
      *  @brief Get of a specific actor
@@ -175,7 +175,7 @@ public:
      *  @return a list of dedicated actors
      *
      */
-    std::list<Actor*>* getSpecifics(){return &specificActors;};
+    std::list<Actor*>* getSpecifics(){return &specificActors;}
 
     /**
      *  @brief Get partitions of the current configuration
@@ -183,7 +183,7 @@ public:
      *  @return a list of partitions
      *
      */
-    std::map<std::string, Partition*>* getPartitions(){return &partitions;};
+    std::map<std::string, Partition*>* getPartitions(){return &partitions;}
 
     /**
      *  @brief Get partitions of the current configuration
@@ -191,7 +191,7 @@ public:
      *  @return a list of partitions
      *
      */
-    std::list<Instance*>* getUnpartitioned(){return &unpartitioned;};
+    std::list<Instance*>* getUnpartitioned(){return &unpartitioned;}
 
     /**
      *  @brief Get partitions of the current configuration
@@ -201,7 +201,7 @@ public:
      */
     void addUnpartitioned(Instance* instance){
         unpartitioned.push_back(instance);
-    };
+    }
 
     /**
      *  @brief Erase specific actors and instances from the configuration
@@ -212,7 +212,7 @@ public:
     /**
      *  @brief Whether or not merging static actors
      */
-    bool mergeActors(){return noMerging == false;};
+    bool mergeActors(){return noMerging == false;}
 
     /**
      *  @brief Insert a specific actor in the configuration,

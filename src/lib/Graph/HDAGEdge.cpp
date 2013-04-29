@@ -8,12 +8,12 @@ This software is a computer program whose purpose is to execute
 parallel applications.
 
  *********************************************************/
- 
+
 /**
  * An edge in a delay-less HDAG graph (no initial token).
  * The base unit of production and consumption is a char (8 bits).
  * The space reserved for tokens can be filled with a structure.
- * 
+ *
  * @author mpelcat
  */
 #include "lib/Graph/HDAGEdge.h"
@@ -27,8 +27,8 @@ HDAGEdge* HDAGEdge::lastInSinkOrder = NULL;
 */
 HDAGEdge::HDAGEdge()
 {
-	prevInSinkOrder = NULL;
-	nextInSinkOrder = NULL;
+    prevInSinkOrder = NULL;
+    nextInSinkOrder = NULL;
 }
 
 /**

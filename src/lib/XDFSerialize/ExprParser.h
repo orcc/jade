@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -47,9 +47,9 @@
 #include "ParseContinuation.h"
 
 namespace llvm{
-	class Constant;
-	class ConstantInt;
-	class LLVMContext;
+class Constant;
+class ConstantInt;
+class LLVMContext;
 }
 //------------------------------
 
@@ -61,98 +61,98 @@ class ExprParser {
 
 public:
 
-	/*!
+    /*!
      *  @brief Constructor
      *
      *  Constructor of the class ExprParser
      *
      */
-	ExprParser (llvm::LLVMContext& C);
+    ExprParser (llvm::LLVMContext& C);
 
-	/*!
+    /*!
      *  @brief Destructor
      *
      *  Destructor of the class ExprParser
      */
-	~ExprParser ();
-	
-	
-	/*!
+    ~ExprParser ();
+
+
+    /*!
      *  @brief Parses the given TiXmlNode as an Expression.
      *
      *  Parses the given node as an Expression and returns the matching
-	 *  Expression.
-	 *
-	 *  @param node : TiXmlNode representation of an Expression.
-	 *
-	 *  @return  an Expression.
+     *  Expression.
+     *
+     *  @param node : TiXmlNode representation of an Expression.
+     *
+     *  @return  an Expression.
      */
-	Expr* parseExpr(TiXmlNode* node);
+    Expr* parseExpr(TiXmlNode* node);
 
 private:
-	/*!
+    /*!
      *  @brief Parses the given TiXmlNode as an Expression.
      *
      *  Parses the given node as an Expression and returns the matching
-	 *  Expression.
-	 *
-	 *  @param element : TiXmlNode representation of an Expression.
-	 *
-	 *  @return  an Expression.
+     *  Expression.
+     *
+     *  @param element : TiXmlNode representation of an Expression.
+     *
+     *  @return  an Expression.
      */
-	ParseContinuation<Expr*> parseExprCont(TiXmlNode* node);
+    ParseContinuation<Expr*> parseExprCont(TiXmlNode* node);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlElement as a literal.
      *
-	 * Parses the given TiXmlElement as a literal and returns the matching
-	 * Expression.
-	 *
-	 *  @param element : TiXmlElement representation of an Expression.
-	 *
-	 *  @return  an Expression.
+     * Parses the given TiXmlElement as a literal and returns the matching
+     * Expression.
+     *
+     *  @param element : TiXmlElement representation of an Expression.
+     *
+     *  @return  an Expression.
      */
-	Expr* parseExprLiteral(TiXmlElement* elt);
+    Expr* parseExprLiteral(TiXmlElement* elt);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlNode as a binary operation.
      *
-	 * Parses the given element as a sequence of binary
-	 * operations, aka "BinOpSeq". A BinOpSeq is a sequence of expr, op,
-	 * expr, op, expr...
-	 *
-	 *  @param element : TiXmlNode representation of a BinaryExpr.
-	 *
-	 *  @return  an expression.
+     * Parses the given element as a sequence of binary
+     * operations, aka "BinOpSeq". A BinOpSeq is a sequence of expr, op,
+     * expr, op, expr...
+     *
+     *  @param element : TiXmlNode representation of a BinaryExpr.
+     *
+     *  @return  an expression.
      */
-	ParseContinuation<Expr*> parseExprBinOpSeq(TiXmlNode* node);
+    ParseContinuation<Expr*> parseExprBinOpSeq(TiXmlNode* node);
 
-	/*!
+    /*!
      *  @brief Parses the given node as a binary operator.
      *
-	 * Parses the given node as a binary operator and returns a parse
-	 * continuation with the operator parsed.
-	 *
-	 *  @param element : TiXmlNode representation of a Binary Operation.
-	 *
-	 *  @return a parse continuation with the operator parsed
+     * Parses the given node as a binary operator and returns a parse
+     * continuation with the operator parsed.
+     *
+     *  @param element : TiXmlNode representation of a Binary Operation.
+     *
+     *  @return a parse continuation with the operator parsed
      */
-	ParseContinuation<BinaryOp*> parseExprBinaryOp(TiXmlNode* node);
+    ParseContinuation<BinaryOp*> parseExprBinaryOp(TiXmlNode* node);
 
-	/*!
+    /*!
      *  @brief Parses the given TiXmlString as a boolean constant.
      *
-	 * Parses the given TiXmlString as a boolean constant and returns the corresponding 
-	 *  llvm::constantInt value.
-	 *
-	 *  @param value : TiXmlString to parse.
-	 *
-	 *  @return  the corresponding BoolExpr value.
+     * Parses the given TiXmlString as a boolean constant and returns the corresponding
+     *  llvm::constantInt value.
+     *
+     *  @param value : TiXmlString to parse.
+     *
+     *  @return  the corresponding BoolExpr value.
      */
-	Expr* parseBoolean(TiXmlString value);
+    Expr* parseBoolean(TiXmlString value);
 
-	/** LLVM Context */
-	llvm::LLVMContext &Context;
+    /** LLVM Context */
+    llvm::LLVMContext &Context;
 };
 
 #endif

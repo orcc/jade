@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -47,93 +47,93 @@ using namespace std;
 using namespace llvm;
 
 CheckPinoRules::CheckPinoRules(Network* network){
-	this->network = network;
+    this->network = network;
 }
 
 
 bool CheckPinoRules::isValide(Instance* src, Instance* dst){
-	this->dst = dst;
-	this->src = src;
+    this->dst = dst;
+    this->src = src;
 
-	//Check cycle violation
-	if (checkCycle(src)){
-		return false;
-	}
-	
-	//Check cycle violation
-	if (checkCycle(dst)){
-		return false;
-	}
+    //Check cycle violation
+    if (checkCycle(src)){
+        return false;
+    }
 
-	// Check precedence violation
-	if(checkZeroDelay(src, dst)){
-		return false;
-	}
+    //Check cycle violation
+    if (checkCycle(dst)){
+        return false;
+    }
 
-	return true;
+    // Check precedence violation
+    if(checkZeroDelay(src, dst)){
+        return false;
+    }
+
+    return true;
 }
 
 bool CheckPinoRules::checkCycle(Instance* instance){
-	list<Instance*> visited;
-	paths.clear();
-	
-	visited.push_back(instance);
-	findPath(&visited, instance);
+    list<Instance*> visited;
+    paths.clear();
 
-	return paths.size() > 0;
+    visited.push_back(instance);
+    findPath(&visited, instance);
+
+    return paths.size() > 0;
 }
 
 bool CheckPinoRules::checkZeroDelay(Instance* src, Instance* dst){
-	list<Instance*> visited;
-	paths.clear();
-	
-	visited.push_back(src);
-	findPath(&visited, dst);
+    list<Instance*> visited;
+    paths.clear();
 
-	return paths.size() > 1;
+    visited.push_back(src);
+    findPath(&visited, dst);
+
+    return paths.size() > 1;
 }
 
 
 void CheckPinoRules::findPath(list<Instance*>* visited, Instance* end){
-	list<Instance*>::iterator it;
+    list<Instance*>::iterator it;
 
-	// Get last visited element
-	list<Instance*> nodes = network->getSuccessorsOf(visited->back());
+    // Get last visited element
+    list<Instance*> nodes = network->getSuccessorsOf(visited->back());
 
-	// Check path to all successor
-	for (it = nodes.begin(); it != nodes.end(); it++){
-		Instance* node = *it;
+    // Check path to all successor
+    for (it = nodes.begin(); it != nodes.end(); it++){
+        Instance* node = *it;
 
-		if (node == end){
-			// End of search
-			visited->push_back(node);
-			storePath(visited);
-			visited->pop_back();
-		}
+        if (node == end){
+            // End of search
+            visited->push_back(node);
+            storePath(visited);
+            visited->pop_back();
+        }
 
-		if (find(visited->begin(), visited->end(), node) != visited->end()){
-			// Element already visited check other successor
-			continue;
-		}
-	}
+        if (find(visited->begin(), visited->end(), node) != visited->end()){
+            // Element already visited check other successor
+            continue;
+        }
+    }
 
-	// Visit recursion needs to come after visiting adjacent nodes
-	for (it = nodes.begin(); it != nodes.end(); it++){
-		Instance* node = *it;
+    // Visit recursion needs to come after visiting adjacent nodes
+    for (it = nodes.begin(); it != nodes.end(); it++){
+        Instance* node = *it;
 
-		if (find(visited->begin(), visited->end(), node) != visited->end() || node == end || node == src || node == dst){
-			continue;
-		}
-		
-		visited->push_back(node);
-		findPath(visited, end);
-		visited->pop_back();
-	}
+        if (find(visited->begin(), visited->end(), node) != visited->end() || node == end || node == src || node == dst){
+            continue;
+        }
+
+        visited->push_back(node);
+        findPath(visited, end);
+        visited->pop_back();
+    }
 }
 
 void CheckPinoRules::storePath(list<Instance*>* visited){
-	set<Instance*>::iterator it;
-	list<Instance*> path(visited->begin(), visited->end());
+    set<Instance*>::iterator it;
+    list<Instance*> path(visited->begin(), visited->end());
 
-	paths.push_back(path);
+    paths.push_back(path);
 }

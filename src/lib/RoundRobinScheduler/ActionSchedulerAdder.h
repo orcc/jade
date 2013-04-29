@@ -44,14 +44,14 @@
 #include "lib/IRCore/Actor/FSM.h"
 
 namespace llvm{
-    class BasicBlock;
-    class CallInst;
-    class ConstantInt;
-    class Function;
-    class Instruction;
-    class LLVMContext;
-    class Module;
-    class Value;
+class BasicBlock;
+class CallInst;
+class ConstantInt;
+class Function;
+class Instruction;
+class LLVMContext;
+class Module;
+class Value;
 }
 
 class Action;
@@ -84,7 +84,7 @@ public:
      *	@param decoder : the Decoder to insert the round robin scheduler into
      */
     ActionSchedulerAdder(llvm::LLVMContext& C, Decoder* decoder);
-    ~ActionSchedulerAdder(){};
+    ~ActionSchedulerAdder(){}
 
     /**
      *  @brief Start the transformation on an instance

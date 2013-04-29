@@ -42,8 +42,8 @@
 #include <string>
 
 namespace llvm {
-    class Function;
-    class ConstantInt;
+class Function;
+class ConstantInt;
 }
 //------------------------------
 
@@ -68,7 +68,7 @@ public:
      * @param function : the llvm::Function of this procedure.
      */
     Procedure(std::string name, llvm::ConstantInt* external,
-        llvm::Function* function) {
+              llvm::Function* function) {
         this->external = external;
         this->name = name;
         this->function = function;
@@ -83,21 +83,21 @@ public:
      *
      *	@return llvm::Function corresponding to the procedure
      */
-    llvm::Function* getFunction(){return function;};
+    llvm::Function* getFunction(){return function;}
 
     /**
      *  @brief Getter of the function's name
      *
      *	@return name of the function
      */
-    std::string getName(){return name;};
+    std::string getName(){return name;}
 
     /**
      *  @brief Getter of external
      *
      *	@return llvm::ConstantInt about external function
      */
-    llvm::ConstantInt* getExternal(){return external;};
+    llvm::ConstantInt* getExternal(){return external;}
 
     /**
      *  @brief Return true if procedure external

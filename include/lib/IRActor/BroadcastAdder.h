@@ -83,7 +83,7 @@ public:
      *
      *  @return a list of instance created
      */
-    std::list<Instance*>* getBroads(){return &addedBroads;};
+    std::list<Instance*>* getBroads(){return &addedBroads;}
 
     ~BroadcastAdder();
 
@@ -99,7 +99,7 @@ private:
      * @param outMap : a map from each output port P(i) of vertex to a list of outgoing connections from P(i)
      */
     void examineConnections(Vertex* vertex, Connection** connections, int nbEdges,
-        std::map<Port*, std::list<Connection*>*, ltstr>* outMap);
+                            std::map<Port*, std::list<Connection*>*, ltstr>* outMap);
 
     /**
      * @brief Examine a vertex for eventual broadcast.

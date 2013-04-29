@@ -73,8 +73,8 @@ void DotWriter::write(HDAGGraph* graph, char* path, char displayNames){
             sprintf(name,"%s_%d",edge->getSource()->getName(),edge->getSource()->getReferenceIndex());
             sprintf(name2,"%s_%d",edge->getSink()->getName(),edge->getSink()->getReferenceIndex());
             fprintf (pFile, "\t%s->%s [label=\"%d\"];\n",
-                name,name2,
-                edge->getTokenRate());
+                     name,name2,
+                     edge->getTokenRate());
         }
         fprintf (pFile, "}\n");
 
@@ -125,8 +125,8 @@ void DotWriter::write(CSDAGGraph* graph, char* path, char displayNames){
             globalParser.prettyPrint(edge->getConsumption(),shortenedCExpr);
 
             fprintf (pFile, "\t%s->%s [taillabel=\"%s\" headlabel=\"%s\" labeldistance=%d labelangle=50];\n",
-                edge->getSource()->getName(),edge->getSink()->getName(),
-                shortenedPExpr,shortenedCExpr,labelDistance);
+                     edge->getSource()->getName(),edge->getSink()->getName(),
+                     shortenedPExpr,shortenedCExpr,labelDistance);
             labelDistance = 3 + labelDistance%(3*4); // Oscillating the label distance to keep visibility
         }
         fprintf (pFile, "}\n");

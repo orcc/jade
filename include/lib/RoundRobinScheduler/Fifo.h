@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,18 +41,18 @@
 #include <vector>
 
 namespace llvm{
-	class BasicBlock;
-	class Constant;
-	class ConstantInt;
-	class IntegerType;
-	class GlobalVariable;
-	class GetElementPtrInst;
-	class Function;
-	class LLVMContext;
-	class Module;
-	class StructType;
-	class Type;
-	class Value;
+class BasicBlock;
+class Constant;
+class ConstantInt;
+class IntegerType;
+class GlobalVariable;
+class GetElementPtrInst;
+class Function;
+class LLVMContext;
+class Module;
+class StructType;
+class Type;
+class Value;
 }
 
 class Action;
@@ -63,122 +63,122 @@ class Port;
 
 /**
  * @brief  This class defines a fifo.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 
 class Fifo {
-	public:
-		Fifo(llvm::LLVMContext& C, llvm::Module* module, llvm::Type* type, int size);
+public:
+    Fifo(llvm::LLVMContext& C, llvm::Module* module, llvm::Type* type, int size);
 
-		~Fifo();
-	
-	public:
-		static llvm::StructType* getOrInsertFifoStruct(llvm::Module* module, llvm::IntegerType* connectionType);
-		static llvm::Function* getOrInsertRoomFn(llvm::Module* module, llvm::IntegerType* connectionType);
-		static llvm::Function* getOrInsertNumTokensFn(llvm::Module* module, llvm::IntegerType* connectionType);
-		static llvm::Function* initializeIn(llvm::Module* module, Port* port);
-		static llvm::Function* initializeOut(llvm::Module* module, Port* port);
+    ~Fifo();
 
-		static llvm::Function* closeIn(llvm::Module* module, Port* port);
-		static llvm::Function* closeOut(llvm::Module* module, Port* port);
-		llvm::GlobalVariable* getGV(){return fifoGV;}
+public:
+    static llvm::StructType* getOrInsertFifoStruct(llvm::Module* module, llvm::IntegerType* connectionType);
+    static llvm::Function* getOrInsertRoomFn(llvm::Module* module, llvm::IntegerType* connectionType);
+    static llvm::Function* getOrInsertNumTokensFn(llvm::Module* module, llvm::IntegerType* connectionType);
+    static llvm::Function* initializeIn(llvm::Module* module, Port* port);
+    static llvm::Function* initializeOut(llvm::Module* module, Port* port);
 
-	/**
-	 * @brief Creates read/write/peek accesses
-	 *
-	 * @param action : action where accesses are added
-	 */
-	static void createReadWritePeek(Action* action, bool debug = false);
+    static llvm::Function* closeIn(llvm::Module* module, Port* port);
+    static llvm::Function* closeOut(llvm::Module* module, Port* port);
+    llvm::GlobalVariable* getGV(){return fifoGV;}
 
-	/**
-	 * @brief Creates a hasToken test for a Port
-	 * 
-	 * @param port : the Port to test
-	 *
-	 * @param BB : llvm::BasicBlock where test is add
-	 *
-	 * @param incBB : llvm::BasicBlock where test has to branch in case of success
-	 *
-	 * @param returnBB : llvm::BasicBlock where test has to branch in case of return
-	 *
-	 * @param function : llvm::Function where the test is added
-	 */
-	static llvm::Value* createInputTest(Port* port, llvm::ConstantInt* numTokens, llvm::BasicBlock* BB);
+    /**
+     * @brief Creates read/write/peek accesses
+     *
+     * @param action : action where accesses are added
+     */
+    static void createReadWritePeek(Action* action, bool debug = false);
 
-	/**
-	 * @brief Creates a hasRoom test for a Port
-	 * 
-	 * @param port : the Port to test
-	 *
-	 * @param BB : llvm::BasicBlock where test is added
-	 *
-	 * @param incBB : llvm::BasicBlock where test has to branch in case of success
-	 *
-	 * @param returnBB : llvm::BasicBlock where test has to branch in case of return
-	 *
-	 * @param function : llvm::Function where the test is added
-	 */
-	static llvm::Value* createOutputTest(Port* port, llvm::ConstantInt* numTokens, llvm::BasicBlock* BB);
+    /**
+     * @brief Creates a hasToken test for a Port
+     *
+     * @param port : the Port to test
+     *
+     * @param BB : llvm::BasicBlock where test is add
+     *
+     * @param incBB : llvm::BasicBlock where test has to branch in case of success
+     *
+     * @param returnBB : llvm::BasicBlock where test has to branch in case of return
+     *
+     * @param function : llvm::Function where the test is added
+     */
+    static llvm::Value* createInputTest(Port* port, llvm::ConstantInt* numTokens, llvm::BasicBlock* BB);
 
-private:
-
-	/**
-	 * @brief Creates write accesses
-	 *
-	 * @param procedure : procedure where write is added
-	 *
-	 * @parm pattern : the writing pattern
-	 */
-	static void createWrites (Procedure* procedure, Pattern* pattern);
-
-	/**
-	 * @brief Creates read accesses
-	 *
-	 * @param procedure : procedure where read is added
-	 *
-	 * @parm pattern : the read pattern
-	 */
-	static void createReads (Procedure* procedure, Pattern* pattern);
-
-	/**
-	 * @brief Creates peek accesses
-	 *
-	 * @param procedure : procedure where peek is added
-	 *
-	 * @parm pattern : the peek pattern
-	 */
-	static void createPeeks (Procedure* procedure, Pattern* pattern);
-
-	/**
-	 * @brief Port procedure variable
-	 *
-	 * @param port : the port to get the variable from
-	 *
-	 * @parm procedure : the procedure to get var from
-	 */
-	static llvm::Value* replaceAccess (Port* port, Procedure* proc);
-
-	
-	/**
-	 * @brief Trace value in port
-	 *
-	 * @param port : the port to trace
-	 *
-	 * @parm gep : the gep instruction that contains the value
-	 *
-	 * @parm idxs : the gep indexes
-	 */
-	static void createFifoTrace(llvm::Module* module, Port* port, llvm::GetElementPtrInst* gep, std::vector<llvm::Value*> idxs);
+    /**
+     * @brief Creates a hasRoom test for a Port
+     *
+     * @param port : the Port to test
+     *
+     * @param BB : llvm::BasicBlock where test is added
+     *
+     * @param incBB : llvm::BasicBlock where test has to branch in case of success
+     *
+     * @param returnBB : llvm::BasicBlock where test has to branch in case of return
+     *
+     * @param function : llvm::Function where the test is added
+     */
+    static llvm::Value* createOutputTest(Port* port, llvm::ConstantInt* numTokens, llvm::BasicBlock* BB);
 
 private:
-	llvm::GlobalVariable* fifoGV;
-	llvm::GlobalVariable* gv_array;
-	llvm::GlobalVariable* gv_read_inds;
 
-	// Display debugging information
-	static bool debug;
+    /**
+     * @brief Creates write accesses
+     *
+     * @param procedure : procedure where write is added
+     *
+     * @parm pattern : the writing pattern
+     */
+    static void createWrites (Procedure* procedure, Pattern* pattern);
+
+    /**
+     * @brief Creates read accesses
+     *
+     * @param procedure : procedure where read is added
+     *
+     * @parm pattern : the read pattern
+     */
+    static void createReads (Procedure* procedure, Pattern* pattern);
+
+    /**
+     * @brief Creates peek accesses
+     *
+     * @param procedure : procedure where peek is added
+     *
+     * @parm pattern : the peek pattern
+     */
+    static void createPeeks (Procedure* procedure, Pattern* pattern);
+
+    /**
+     * @brief Port procedure variable
+     *
+     * @param port : the port to get the variable from
+     *
+     * @parm procedure : the procedure to get var from
+     */
+    static llvm::Value* replaceAccess (Port* port, Procedure* proc);
+
+
+    /**
+     * @brief Trace value in port
+     *
+     * @param port : the port to trace
+     *
+     * @parm gep : the gep instruction that contains the value
+     *
+     * @parm idxs : the gep indexes
+     */
+    static void createFifoTrace(llvm::Module* module, Port* port, llvm::GetElementPtrInst* gep, std::vector<llvm::Value*> idxs);
+
+private:
+    llvm::GlobalVariable* fifoGV;
+    llvm::GlobalVariable* gv_array;
+    llvm::GlobalVariable* gv_read_inds;
+
+    // Display debugging information
+    static bool debug;
 };
 
 #endif

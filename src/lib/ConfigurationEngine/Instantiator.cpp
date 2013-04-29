@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -56,113 +56,113 @@ using namespace std;
 using namespace llvm;
 
 Instantiator::Instantiator(Configuration* configuration){
-	this->actors = configuration->getActors();
-	this->configuration = configuration;
-	Network* network = configuration->getNetwork();
-	this->graph = network->getGraph();
-	updateInstances();
+    this->actors = configuration->getActors();
+    this->configuration = configuration;
+    Network* network = configuration->getNetwork();
+    this->graph = network->getGraph();
+    updateInstances();
 }
 
 
 void Instantiator::updateInstances(){
-	//Update instances using actors
-	map<string, Instance*>::iterator it;
-	map<string, Instance*>* instances = configuration->getInstances();
-		
-	for (it = instances->begin(); it != instances->end(); it++){
-		updateInstance(it->second);
-	}
+    //Update instances using actors
+    map<string, Instance*>::iterator it;
+    map<string, Instance*>* instances = configuration->getInstances();
 
-	//Update connections using graph
-	int edges = graph->getNbEdges();
-	for (int i = 0; i < edges; i++){
-		updateConnection((Connection*)graph->getEdge(i));
-	}
-	
+    for (it = instances->begin(); it != instances->end(); it++){
+        updateInstance(it->second);
+    }
+
+    //Update connections using graph
+    int edges = graph->getNbEdges();
+    for (int i = 0; i < edges; i++){
+        updateConnection((Connection*)graph->getEdge(i));
+    }
+
 }
 
 void Instantiator::updateInstance(Instance* instance){
-	map<string, Actor*>::iterator it;
+    map<string, Actor*>::iterator it;
 
-	//Look for the actor using instance clasz
-	it = actors->find(instance->getClasz());
+    //Look for the actor using instance clasz
+    it = actors->find(instance->getClasz());
 
-	//Actor does not exist
-	if (it == actors->end()){
-		cerr << "An instance refers to non-existent actor: actor "<< instance->getClasz() << " for instance " << instance->getId();
-		exit(0);
-	}
+    //Actor does not exist
+    if (it == actors->end()){
+        cerr << "An instance refers to non-existent actor: actor "<< instance->getClasz() << " for instance " << instance->getId();
+        exit(0);
+    }
 
-	//Set instance to its corresponding actor
-	instance->setActor(it->second);
+    //Set instance to its corresponding actor
+    instance->setActor(it->second);
 }
 
 void Instantiator::updateConnection(Connection* connection){
-	IntegerType* srcPortType;
-	string sourceString;
-	IntegerType* dstPortType;
-	string targetString;
-	
-	// Get vertex of the connection
-	Vertex* srcVertex = (Vertex*)connection->getSource();
-	Vertex* dstVertex = (Vertex*)connection->getSink();
+    IntegerType* srcPortType;
+    string sourceString;
+    IntegerType* dstPortType;
+    string targetString;
 
-	// Update source
-	if(srcVertex->isInstance()){
-		// Get instance of the connection
-		Instance* source = srcVertex->getInstance();
-		
-		// Get port of the connection 
-		Port* srcPortInst = connection->getSourcePort();
+    // Get vertex of the connection
+    Vertex* srcVertex = (Vertex*)connection->getSource();
+    Vertex* dstVertex = (Vertex*)connection->getSink();
 
-		// Get same port from the actor
-		Actor* actor = source->getActor();
-		Port* srcPort = actor->getOutput(srcPortInst->getName());
+    // Update source
+    if(srcVertex->isInstance()){
+        // Get instance of the connection
+        Instance* source = srcVertex->getInstance();
 
-		if (srcPort == NULL){
-			cerr << "A Connection refers to non-existent source port: " << srcPortInst->getName() << "of instance " << source->getId();
-			exit(0);
-		}
-		
+        // Get port of the connection
+        Port* srcPortInst = connection->getSourcePort();
 
-		// Set port information
-		sourceString = srcPort->getName();
-		srcPortType = srcPort->getType();
-		srcPortInst->setType(srcPortType);
-		source->setAsOutput(srcPortInst);
-	}
+        // Get same port from the actor
+        Actor* actor = source->getActor();
+        Port* srcPort = actor->getOutput(srcPortInst->getName());
 
-	// Update target 
-	if(dstVertex->isInstance()){
-		// Get instance of the connection 
-		Instance* target = dstVertex->getInstance();
-		
-		// Get port of the connection 
-		Port* dstPortInst = connection->getDestinationPort();
+        if (srcPort == NULL){
+            cerr << "A Connection refers to non-existent source port: " << srcPortInst->getName() << "of instance " << source->getId();
+            exit(0);
+        }
 
-		// Get same port from the actor 
-		Actor* actor = target->getActor();
-		Port* dstPort = actor->getInput(dstPortInst->getName());
 
-		if (dstPort == NULL){
-			cerr << "A Connection refers to non-existent destination port: " << dstPort->getName() << " of instance " << target->getId();
-			exit(0);
-		}
+        // Set port information
+        sourceString = srcPort->getName();
+        srcPortType = srcPort->getType();
+        srcPortInst->setType(srcPortType);
+        source->setAsOutput(srcPortInst);
+    }
 
-		targetString = dstPort->getName();
-		dstPortType = dstPort->getType();
+    // Update target
+    if(dstVertex->isInstance()){
+        // Get instance of the connection
+        Instance* target = dstVertex->getInstance();
 
-		// Bound GlobalVariable to port from instance
-		dstPortInst->setType(dstPortType);
-		target->setAsInput(dstPortInst);
-	}
+        // Get port of the connection
+        Port* dstPortInst = connection->getDestinationPort();
 
-	// check port types match
-	IntegerType* srcType = cast<IntegerType>(srcPortType);
-	IntegerType* dstType = cast<IntegerType>(dstPortType);
-	if (srcType->getBitWidth() != dstType->getBitWidth()) {
-		cerr << "A connection refers to an output port " << sourceString.c_str()  << " of size "<< srcType->getBitWidth() << " in instance "<< srcVertex->getName() << " which differs to the target port " << targetString.c_str() << " of size " << dstType->getBitWidth() << " in  "<<dstVertex->getName() << ".\n";
-		exit(0);
-	}
-	
+        // Get same port from the actor
+        Actor* actor = target->getActor();
+        Port* dstPort = actor->getInput(dstPortInst->getName());
+
+        if (dstPort == NULL){
+            cerr << "A Connection refers to non-existent destination port: " << dstPort->getName() << " of instance " << target->getId();
+            exit(0);
+        }
+
+        targetString = dstPort->getName();
+        dstPortType = dstPort->getType();
+
+        // Bound GlobalVariable to port from instance
+        dstPortInst->setType(dstPortType);
+        target->setAsInput(dstPortInst);
+    }
+
+    // check port types match
+    IntegerType* srcType = cast<IntegerType>(srcPortType);
+    IntegerType* dstType = cast<IntegerType>(dstPortType);
+    if (srcType->getBitWidth() != dstType->getBitWidth()) {
+        cerr << "A connection refers to an output port " << sourceString.c_str()  << " of size "<< srcType->getBitWidth() << " in instance "<< srcVertex->getName() << " which differs to the target port " << targetString.c_str() << " of size " << dstType->getBitWidth() << " in  "<<dstVertex->getName() << ".\n";
+        exit(0);
+    }
+
 }

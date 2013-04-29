@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -56,188 +56,188 @@ using namespace std;
 using namespace llvm;
 
 Merger::Merger(LLVMContext& C, Configuration* configuration, bool verbose): Context(C){
-	// Set merger property
-	this->configuration = configuration;
-	this->index = 0;
-	this->network = configuration->getNetwork();
-	this->verbose = verbose;
+    // Set merger property
+    this->configuration = configuration;
+    this->index = 0;
+    this->network = configuration->getNetwork();
+    this->verbose = verbose;
 }
 
 void Merger::transform(){
-	bool hasCondidate = true;
+    bool hasCondidate = true;
 
-	//Initialize pino rule checker
-	CheckPinoRules pinoChecker(network);
+    //Initialize pino rule checker
+    CheckPinoRules pinoChecker(network);
 
-	// Iterate though all vertices until no candidate left
-	while(hasCondidate){
-		list<Instance*>::iterator it;
-		list<Instance*>* instances = network->getInstances();
-		
-		// First compute all successors in the network
-		network->computeSuccessorsMaps();
-		bool recompute = false;
+    // Iterate though all vertices until no candidate left
+    while(hasCondidate){
+        list<Instance*>::iterator it;
+        list<Instance*>* instances = network->getInstances();
 
-		for (it = instances->begin(); it != instances->end(); it++){
-			Instance* src = *it;
-			Actor* srcActor = src->getActor();
+        // First compute all successors in the network
+        network->computeSuccessorsMaps();
+        bool recompute = false;
 
-			if (srcActor->getMoC()->isCSDF()){
-				//Iterate though successors, try to find a static actor
-				list<Instance*>::iterator itDst;
-				list<Instance*> dsts = network->getSuccessorsOf(src);
+        for (it = instances->begin(); it != instances->end(); it++){
+            Instance* src = *it;
+            Actor* srcActor = src->getActor();
 
-				for (itDst = dsts.begin(); itDst !=  dsts.end(); itDst++){
-					Instance* dst = *itDst;
-					Actor* dstActor = dst->getActor();
+            if (srcActor->getMoC()->isCSDF()){
+                //Iterate though successors, try to find a static actor
+                list<Instance*>::iterator itDst;
+                list<Instance*> dsts = network->getSuccessorsOf(src);
 
-					if (dstActor->getMoC()->isCSDF()){
-						if (pinoChecker.isValide(src, dst)){
-							// These two actors can be merged
-							mergeInstance(src, dst);
+                for (itDst = dsts.begin(); itDst !=  dsts.end(); itDst++){
+                    Instance* dst = *itDst;
+                    Actor* dstActor = dst->getActor();
 
-							// Recompute graph
-							recompute = true;
-							break;
-						}
-					}
-				}
-			}
-			
-			if (recompute){
-				break;
-			}
-		}
+                    if (dstActor->getMoC()->isCSDF()){
+                        if (pinoChecker.isValide(src, dst)){
+                            // These two actors can be merged
+                            mergeInstance(src, dst);
 
-		if (index == 28){
-			recompute = false;
-		}
+                            // Recompute graph
+                            recompute = true;
+                            break;
+                        }
+                    }
+                }
+            }
 
-		if (!recompute){
-			// No merging found, end the analysis
-			hasCondidate = false;
-		}
-	}
+            if (recompute){
+                break;
+            }
+        }
 
-	// Update configuration
-	configuration->update();
+        if (index == 28){
+            recompute = false;
+        }
 
-	if (verbose){
-		cout << "--> " << index + 1 << " instances are merged.\n";
-	}
+        if (!recompute){
+            // No merging found, end the analysis
+            hasCondidate = false;
+        }
+    }
+
+    // Update configuration
+    configuration->update();
+
+    if (verbose){
+        cout << "--> " << index + 1 << " instances are merged.\n";
+    }
 }
 
 void Merger::mergeInstance(Instance* src, Instance* dst){
-	// Get all connections between the two instances
-	list<Connection*>* connections = network->getAllConnections(src, dst);
+    // Get all connections between the two instances
+    list<Connection*>* connections = network->getAllConnections(src, dst);
 
-	SuperInstance* superInstance =  getSuperInstance(src, dst, connections);
-	
-	updateConnections(connections, src, dst, superInstance);
+    SuperInstance* superInstance =  getSuperInstance(src, dst, connections);
 
-	network->removeInstance(src);
-	network->removeInstance(dst);
+    updateConnections(connections, src, dst, superInstance);
+
+    network->removeInstance(src);
+    network->removeInstance(dst);
 }
 
 void Merger::updateConnections(list<Connection*>* connections, Instance* src, Instance* dst, SuperInstance* superInstance){
-	// Add the new instance
-	Vertex* vertex = network->addInstance(superInstance);
+    // Add the new instance
+    Vertex* vertex = network->addInstance(superInstance);
 
-	// Remove internal connections
-	list<Connection*>::iterator it;
-	for (it = connections->begin(); it != connections->end(); it++){
-		network->removeConnection(*it);
-	}
+    // Remove internal connections
+    list<Connection*>::iterator it;
+    for (it = connections->begin(); it != connections->end(); it++){
+        network->removeConnection(*it);
+    }
 
-	// Update input connections of source
-	list<Connection*> srcIn = network->getInConnections(src);
-	for (it = srcIn.begin(); it != srcIn.end(); it++){
-		(*it)->setSink(vertex);
-		
-		// Add input port to superinstance
-		superInstance->setAsInput((*it)->getDestinationPort());
-	}
+    // Update input connections of source
+    list<Connection*> srcIn = network->getInConnections(src);
+    for (it = srcIn.begin(); it != srcIn.end(); it++){
+        (*it)->setSink(vertex);
 
-	// Update outputs connections of source
-	list<Connection*> srcOut = network->getOutConnections(src);
-	for (it = srcOut.begin(); it != srcOut.end(); it++){
-		(*it)->setSource(vertex);
+        // Add input port to superinstance
+        superInstance->setAsInput((*it)->getDestinationPort());
+    }
 
-		// Add output port to superinstance
-		superInstance->setAsOutput((*it)->getSourcePort());
-	}
+    // Update outputs connections of source
+    list<Connection*> srcOut = network->getOutConnections(src);
+    for (it = srcOut.begin(); it != srcOut.end(); it++){
+        (*it)->setSource(vertex);
 
-	// Update input connections of destination
-	list<Connection*> dstIn = network->getInConnections(dst);
-	for (it = dstIn.begin(); it != dstIn.end(); it++){
-		(*it)->setSink(vertex);
+        // Add output port to superinstance
+        superInstance->setAsOutput((*it)->getSourcePort());
+    }
 
-		// Add input port to superinstance
-		superInstance->setAsInput((*it)->getDestinationPort());
-	}
+    // Update input connections of destination
+    list<Connection*> dstIn = network->getInConnections(dst);
+    for (it = dstIn.begin(); it != dstIn.end(); it++){
+        (*it)->setSink(vertex);
 
-	// Update output connections of destination
-	list<Connection*> dstOut = network->getOutConnections(dst);
-	for (it = dstOut.begin(); it != dstOut.end(); it++){
-		(*it)->setSource(vertex);
+        // Add input port to superinstance
+        superInstance->setAsInput((*it)->getDestinationPort());
+    }
 
-		// Add output port to superinstance
-		superInstance->setAsOutput((*it)->getSourcePort());
-	}
+    // Update output connections of destination
+    list<Connection*> dstOut = network->getOutConnections(dst);
+    for (it = dstOut.begin(); it != dstOut.end(); it++){
+        (*it)->setSource(vertex);
+
+        // Add output port to superinstance
+        superInstance->setAsOutput((*it)->getSourcePort());
+    }
 
 
 }
 
 SuperInstance*  Merger::getSuperInstance(Instance* src, Instance* dst, list<Connection*>* connections ){
-	// Superinstance name
-	stringstream id;
-	id << "merger";
-	id << index++;
+    // Superinstance name
+    stringstream id;
+    id << "merger";
+    id << index++;
 
-	//Get property of instances
-	Actor* srcAct = src->getActor();
-	MoC* srcMoC = srcAct->getMoC();
-	Actor* dstAct = dst->getActor();
-	MoC* dstMoC = dstAct->getMoC();
-	Pattern* srcPattern = ((CSDFMoC*)srcMoC)->getOutputPattern();
-	Pattern* dstPattern = ((CSDFMoC*)dstMoC)->getInputPattern();
-	
-	map<Port*, Port*>* internPorts = new map<Port*, Port*>();
+    //Get property of instances
+    Actor* srcAct = src->getActor();
+    MoC* srcMoC = srcAct->getMoC();
+    Actor* dstAct = dst->getActor();
+    MoC* dstMoC = dstAct->getMoC();
+    Pattern* srcPattern = ((CSDFMoC*)srcMoC)->getOutputPattern();
+    Pattern* dstPattern = ((CSDFMoC*)dstMoC)->getInputPattern();
 
-	// Calculate rate and set internal ports
-	Rational rate;
-	
-	list<Connection*>::iterator it;
-	for (it = connections->begin(); it != connections->end(); it++){
-		Connection* connection = *it;
-		
-		// Get ports of the connection
-		Port* srcPort = connection->getSourcePort();
-		Port* dstPort = connection->getDestinationPort();
+    map<Port*, Port*>* internPorts = new map<Port*, Port*>();
 
-		// Get corresponding port in actor
-		Port* srcActPort = srcAct->getOutput(srcPort->getName());
-		Port* dstActPort = dstAct->getInput(dstPort->getName());
-		
-		// Verify that rate of the two instances are consistent
-		Rational compareRate = getRational(srcPattern->getNumTokens(srcActPort), dstPattern->getNumTokens(dstActPort));
-		if ( rate == 0){
-			rate = compareRate;
-		}else if (rate != compareRate){
-			// This two instances can't be merged
-			return NULL;
-		}
+    // Calculate rate and set internal ports
+    Rational rate;
 
-		// Set internal ports of each instances
-		srcPort->setInternal(true);
-		dstPort->setInternal(true);
-		internPorts->insert(pair<Port*, Port*>(srcPort, dstPort));
-	}
+    list<Connection*>::iterator it;
+    for (it = connections->begin(); it != connections->end(); it++){
+        Connection* connection = *it;
 
-	
-	return new SuperInstance(Context, id.str() , src, rate.numerator(), dst, rate.denominator(), internPorts);
+        // Get ports of the connection
+        Port* srcPort = connection->getSourcePort();
+        Port* dstPort = connection->getDestinationPort();
+
+        // Get corresponding port in actor
+        Port* srcActPort = srcAct->getOutput(srcPort->getName());
+        Port* dstActPort = dstAct->getInput(dstPort->getName());
+
+        // Verify that rate of the two instances are consistent
+        Rational compareRate = getRational(srcPattern->getNumTokens(srcActPort), dstPattern->getNumTokens(dstActPort));
+        if ( rate == 0){
+            rate = compareRate;
+        }else if (rate != compareRate){
+            // This two instances can't be merged
+            return NULL;
+        }
+
+        // Set internal ports of each instances
+        srcPort->setInternal(true);
+        dstPort->setInternal(true);
+        internPorts->insert(pair<Port*, Port*>(srcPort, dstPort));
+    }
+
+
+    return new SuperInstance(Context, id.str() , src, rate.numerator(), dst, rate.denominator(), internPorts);
 }
 
 Rational Merger::getRational(ConstantInt* srcProd, ConstantInt* dstCons){
-	return Rational(dstCons->getLimitedValue(), srcProd->getLimitedValue());
+    return Rational(dstCons->getLimitedValue(), srcProd->getLimitedValue());
 }

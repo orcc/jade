@@ -50,9 +50,9 @@
 #include "lib/Graph/HDAGEdge.h"
 
 namespace llvm{
-    class Constant;
-    class IntegerType;
-    class GlobalVariable;
+class Constant;
+class IntegerType;
+class GlobalVariable;
 }
 
 class Expr;
@@ -96,7 +96,7 @@ public:
      *  @return source port.
      *
      */
-    Port* getSourcePort(){return srcPort;};
+    Port* getSourcePort(){return srcPort;}
 
     /*!
      *  @brief Getter of the source port
@@ -104,7 +104,7 @@ public:
      *  @return source port.
      *
      */
-    void getSourcePort(Port* source){this->srcPort = source;};
+    void getSourcePort(Port* source){this->srcPort = source;}
 
     /*!
      *  @brief Getter of the destination port
@@ -112,7 +112,7 @@ public:
      *  @return destination port.
      *
      */
-    Port* getDestinationPort(){return tgtPort;};
+    Port* getDestinationPort(){return tgtPort;}
 
 
     /*!
@@ -120,14 +120,14 @@ public:
      *
      *  @param target: the destination Port.
      */
-    void setDestinationPort(Port* target){this->tgtPort = target;};
+    void setDestinationPort(Port* target){this->tgtPort = target;}
 
     /*!
      *  @brief Setter of the source port
      *
      *  @param source: the source Port.
      */
-    void setSourcePort(Port* source){this->srcPort = source;};
+    void setSourcePort(Port* source){this->srcPort = source;}
 
 
     /*!
@@ -136,7 +136,7 @@ public:
      *  @return a map of Attribute.
      *
      */
-    std::map<std::string, IRAttribute*>* getAttributes(){return attributes;};
+    std::map<std::string, IRAttribute*>* getAttributes(){return attributes;}
 
     /*!
      *  @brief Get size of the connection
@@ -152,7 +152,7 @@ public:
      *  @return a llvm::GlobalVariable representing the fifo of the connection
      *
      */
-    Fifo* getFifo(){return fifo;};
+    Fifo* getFifo(){return fifo;}
 
     /*!
      *  @brief Get fifo bound to the connection
@@ -160,15 +160,15 @@ public:
      *  @return a llvm::GlobalVariable representing the fifo of the connection
      *
      */
-    void setFifo(Fifo* fifo){this->fifo = fifo;};
+    void setFifo(Fifo* fifo){this->fifo = fifo;}
 
-     /*!
+    /*!
      *  @brief unset the fifo bound to the connection
      *
      */
-     void unsetFifo();
+    void unsetFifo();
 
-     /**
+    /**
      * @brief  return an attribute
      *
      * Returns the IRAttribute associated with the given name.
@@ -176,7 +176,7 @@ public:
      * @param name : an attribute name
      * @return the attribute associated with the given name, or if not found, NULL
      */
-     IRAttribute* getAttribute(std::string name);
+    IRAttribute* getAttribute(std::string name);
 
 private:
     std::map<std::string, IRAttribute*>* attributes;	/** Map of attributes */
@@ -184,7 +184,7 @@ private:
     Vertex* target;				/** Target vertex */
     Port* srcPort;				/** Source Port */
     Port* tgtPort;				/** Destination Port */
-    Fifo* fifo;			    /** Fifo of the connection */
+    Fifo* fifo;                 /** Fifo of the connection */
     HDAGGraph* parent;          /** Graph of this connection */
 };
 

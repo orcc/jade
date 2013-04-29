@@ -53,16 +53,16 @@ class MoC {
 public:
     MoC(Entity* parent){
         this->parent = parent;
-    };
+    }
 
-    ~MoC(){};
+    ~MoC(){}
 
     /**
      * @brief Returns true if this MoC is CSDF.
      *
      * @return true if this MoC is CSDF
      */
-    virtual bool isCSDF(){return false;};
+    virtual bool isCSDF(){return false;}
 
     /**
      * @brief Returns true if this MoC is DPN.
@@ -72,7 +72,7 @@ public:
      *
      * @return true if this MoC is Dataflow Process Networks
      */
-    virtual bool isDPN(){return false;};
+    virtual bool isDPN(){return false;}
 
     /**
      * @brief  Returns true if this MoC is KPN.
@@ -82,28 +82,28 @@ public:
      *
      * @return true if this MoC is Kahn Process Networks
      */
-    virtual bool isKPN(){return false;};
+    virtual bool isKPN(){return false;}
 
     /**
      * @brief Returns true if this MoC is quasi-static.
      *
      * @return true if this MoC is quasi-static
      */
-    virtual bool isQuasiStatic(){return false;};
+    virtual bool isQuasiStatic(){return false;}
 
     /**
      * @brief Returns true if this MoC is SDF.
      *
      * @return true if this MoC is SDF
      */
-    virtual bool isSDF(){return false;};
+    virtual bool isSDF(){return false;}
 
     /**
      * @brief Returns the parent of the given MoC.
      *
      * @return the parent of the given MoC
      */
-    Entity* getParent(){return parent;};
+    Entity* getParent(){return parent;}
 
 protected:
     Entity* parent;

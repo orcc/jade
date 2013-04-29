@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,7 +40,7 @@
 #define MERGER_H
 
 namespace llvm{
-	class ConstantInt;
+class ConstantInt;
 }
 
 class Configuration;
@@ -52,66 +52,66 @@ class SuperInstance;
 
 /**
  * @brief  This transformation merge static actors of a configuration together
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class Merger {
 public:
-	Merger(llvm::LLVMContext& C, Configuration* configuration, bool verbose = false);
-	~Merger(){};
+    Merger(llvm::LLVMContext& C, Configuration* configuration, bool verbose = false);
+    ~Merger(){}
 
-	void transform();
+    void transform();
 
 private:
-	/**
-	 * @brief Merge two instance in a network
-	 */
-	void mergeInstance(Instance* src, Instance* dst);
+    /**
+     * @brief Merge two instance in a network
+     */
+    void mergeInstance(Instance* src, Instance* dst);
 
-	/**
-	 * @brief Get a SuperInstance of the given instance
-	 *
-	 * @param src : the source Instance
-	 *
-	 * @param dst : the destination Instance
-	 */
-	SuperInstance* getSuperInstance(Instance* src, Instance* dst, std::list<Connection*>* connections );
+    /**
+     * @brief Get a SuperInstance of the given instance
+     *
+     * @param src : the source Instance
+     *
+     * @param dst : the destination Instance
+     */
+    SuperInstance* getSuperInstance(Instance* src, Instance* dst, std::list<Connection*>* connections );
 
-	/**
-	 * @brief Get the Rational of a production/comsuption
-	 * 
-	 * @return Rational of the connection.
-	 */
-	Rational getRational(llvm::ConstantInt* srcProd, llvm::ConstantInt* dstCons);
+    /**
+     * @brief Get the Rational of a production/comsuption
+     *
+     * @return Rational of the connection.
+     */
+    Rational getRational(llvm::ConstantInt* srcProd, llvm::ConstantInt* dstCons);
 
-	/**
-	 * @brief Update connections of the super instance
-	 * 
-	 * @param connections : internal connections of the SuperInstance.
-	 *
-	 * @param src : the instance source.
-	 *
-	 * @param dst : the destination instance.
-	 *
-	 * @param superInstance : the corresponding SuperInstance.
-	 */
-	void updateConnections(std::list<Connection*>* connections, Instance* src, Instance* dst, SuperInstance* superInstance);
+    /**
+     * @brief Update connections of the super instance
+     *
+     * @param connections : internal connections of the SuperInstance.
+     *
+     * @param src : the instance source.
+     *
+     * @param dst : the destination instance.
+     *
+     * @param superInstance : the corresponding SuperInstance.
+     */
+    void updateConnections(std::list<Connection*>* connections, Instance* src, Instance* dst, SuperInstance* superInstance);
 
-	/** Verbose message */
-	bool verbose;
+    /** Verbose message */
+    bool verbose;
 
-	/** Index of merger */
-	int index;
+    /** Index of merger */
+    int index;
 
-	/** Configuration to update */
-	Configuration* configuration;
+    /** Configuration to update */
+    Configuration* configuration;
 
-	/** Network to merge */
-	Network* network;
+    /** Network to merge */
+    Network* network;
 
-	/** LLVM Context */
-	llvm::LLVMContext &Context;
+    /** LLVM Context */
+    llvm::LLVMContext &Context;
 };
 
 #endif

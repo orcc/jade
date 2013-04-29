@@ -38,31 +38,31 @@ static int numPicturesDecoded;
 
 
 static void print_fps_avg(void) {
-	clock_t endTime = clock();
+    clock_t endTime = clock();
 
-	printf("%i images in %f seconds: %f FPS\n", numPicturesDecoded,
-		(float) (endTime - startTime)/ CLOCKS_PER_SEC,
-		CLOCKS_PER_SEC * (float) numPicturesDecoded / (float) (endTime -startTime));
+    printf("%i images in %f seconds: %f FPS\n", numPicturesDecoded,
+           (float) (endTime - startTime)/ CLOCKS_PER_SEC,
+           CLOCKS_PER_SEC * (float) numPicturesDecoded / (float) (endTime -startTime));
 }
 
 void fpsPrintInit() {
-	startTime = clock();
-	relativeStartTime = startTime;
-	numPicturesDecoded = 0;
-	lastNumPic = 0;
-	atexit(print_fps_avg);
+    startTime = clock();
+    relativeStartTime = startTime;
+    numPicturesDecoded = 0;
+    lastNumPic = 0;
+    atexit(print_fps_avg);
 }
 
 void fpsPrintNewPicDecoded(void) {
-	unsigned int endTime;
-	numPicturesDecoded++;
-	endTime = clock();
-	if ((endTime - relativeStartTime) / CLOCKS_PER_SEC >= 5) {
-		printf("%f images/sec\n",
-				CLOCKS_PER_SEC * (float) (numPicturesDecoded - lastNumPic)
-						/ (float) (endTime - relativeStartTime));
+    unsigned int endTime;
+    numPicturesDecoded++;
+    endTime = clock();
+    if ((endTime - relativeStartTime) / CLOCKS_PER_SEC >= 5) {
+        printf("%f images/sec\n",
+               CLOCKS_PER_SEC * (float) (numPicturesDecoded - lastNumPic)
+               / (float) (endTime - relativeStartTime));
 
-		relativeStartTime = endTime;
-		lastNumPic = numPicturesDecoded;
-	}
+        relativeStartTime = endTime;
+        lastNumPic = numPicturesDecoded;
+    }
 }

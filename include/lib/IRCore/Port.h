@@ -44,10 +44,10 @@
 #include <set>
 
 namespace llvm {
-    class IntegerType;
-    class StringRef;
-    class GlobalVariable;
-    class Value;
+class IntegerType;
+class StringRef;
+class GlobalVariable;
+class Value;
 }
 
 #include "lib/IRCore/IRType.h"
@@ -91,7 +91,7 @@ public:
         this->graph = graph;
         this->instance = NULL;
         this->actor = NULL;
-    };
+    }
 
     /**
      * @brief Creates a new port in an actor
@@ -113,7 +113,7 @@ public:
         this->graph = NULL;
         this->instance = NULL;
         this->actor = actor;
-    };
+    }
 
     /**
      * @brief Creates a new port in an instance
@@ -135,14 +135,14 @@ public:
         this->graph = NULL;
         this->instance = instance;
         this->actor = NULL;
-    };
+    }
 
 
     /**
      * @brief Destructor
      *
      */
-    ~Port(){};
+    ~Port(){}
 
 
     /**
@@ -151,35 +151,35 @@ public:
      * @return name of the port
      *
      */
-    std::string getName(){return name;};
+    std::string getName(){return name;}
 
     /**
      * @brief Get the type of the port
      *
      * @return Type of the port
      */
-    llvm::IntegerType* getType(){return type;};
+    llvm::IntegerType* getType(){return type;}
 
     /**
      * @brief Set the type of the port
      *
      * @param type : llvm::Type of the port
      */
-    void setType(llvm::IntegerType* type){this->type = type;};
+    void setType(llvm::IntegerType* type){this->type = type;}
 
     /**
      * @brief Get instance bound to the port
      *
      * @return the instance bound to the port
      */
-    Instance* getInstance(){return instance;};
+    Instance* getInstance(){return instance;}
 
     /**
      * @brief Set instance bound to the port
      *
      * @param instance : the instance bound to the port
      */
-    void setInstance(Instance* instance){this->instance = instance;};
+    void setInstance(Instance* instance){this->instance = instance;}
 
     /**
      * @brief Refers a new connection to this port
@@ -203,21 +203,21 @@ public:
      *
      * @return the corresponding Variable
      */
-    Variable* getPtrVar(){return ptrVar;};
+    Variable* getPtrVar(){return ptrVar;}
 
     /**
      * @brief Set the port as internal
      *
      * @param the corresponding Variable
      */
-    void setInternal(bool intern){this->intern = intern;};
+    void setInternal(bool intern){this->intern = intern;}
 
     /**
      * @brief Set the port as internal
      *
      * @return whether or not this port is internal
      */
-    bool isInternal(){return intern;};
+    bool isInternal(){return intern;}
 
     /**
      * @brief Getter fifo variable
@@ -226,7 +226,7 @@ public:
      *
      * @return corresponding llvm::GlobalVariable
      */
-    llvm::GlobalVariable* getFifoVar(){return fifoVar;};
+    llvm::GlobalVariable* getFifoVar(){return fifoVar;}
 
 
     /**
@@ -236,7 +236,7 @@ public:
      *
      * @param variable : llvm::GlobalVariable that corresponds to the port pointer
      */
-    void setPtrVar(Variable* ptrVar){this->ptrVar = ptrVar;};
+    void setPtrVar(Variable* ptrVar){this->ptrVar = ptrVar;}
 
     /**
      * @brief Setter of the port pointer
@@ -245,7 +245,7 @@ public:
      *
      * @param variable : the Variable that corresponds to the port pointer
      */
-    void setFifoVar(llvm::GlobalVariable* fifoVar){this->fifoVar = fifoVar;};
+    void setFifoVar(llvm::GlobalVariable* fifoVar){this->fifoVar = fifoVar;}
 
     /**
      * @brief Setter of the index pointer
@@ -254,7 +254,7 @@ public:
      *
      * @param variable : llvm::GlobalVariable that corresponds to the index
      */
-    void setIndex(llvm::GlobalVariable* index){this->index = index;};
+    void setIndex(llvm::GlobalVariable* index){this->index = index;}
 
     /**
      * @brief getter of the index pointer
@@ -263,7 +263,7 @@ public:
      *
      * @return llvm::GlobalVariable that corresponds to the index
      */
-    llvm::GlobalVariable* getIndex(){return index;};
+    llvm::GlobalVariable* getIndex(){return index;}
 
     /**
      * @brief Setter of the room/hasToken pointer
@@ -272,7 +272,7 @@ public:
      *
      * @param variable : llvm::GlobalVariable that corresponds to the room or hasToken
      */
-    void setRoomToken(llvm::GlobalVariable* roomToken){this->numTokenFree = roomToken;};
+    void setRoomToken(llvm::GlobalVariable* roomToken){this->numTokenFree = roomToken;}
 
     /**
      * @brief Setter of the room/hasToken pointer
@@ -281,7 +281,7 @@ public:
      *
      * @return llvm::GlobalVariable that corresponds to the room or hasToken
      */
-    llvm::GlobalVariable* getRoomToken(){return numTokenFree;};
+    llvm::GlobalVariable* getRoomToken(){return numTokenFree;}
 
     /**
      * @brief Setter of the id pointer
@@ -290,7 +290,7 @@ public:
      *
      * @param variable : llvm::GlobalVariable that corresponds to the id of the port
      */
-    void setId(llvm::GlobalVariable* id){this->id = id;};
+    void setId(llvm::GlobalVariable* id){this->id = id;}
 
     /**
      * @brief Getter of the id pointer
@@ -315,14 +315,14 @@ public:
      *
      * @return true if the port can be read
      */
-    bool isReadable(){ return read;};
+    bool isReadable(){ return read;}
 
     /**
      * @brief Return true if we can write into the port
      *
      * @return true if the port can be writen
      */
-    bool isWritable(){ return write;};
+    bool isWritable(){ return write;}
 
 
     /**
@@ -332,7 +332,7 @@ public:
      *
      * @return true if the port is connected
      */
-    bool isConnected(){ return !connections.empty();};
+    bool isConnected(){ return !connections.empty();}
 
 protected:
 

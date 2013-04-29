@@ -47,8 +47,8 @@
 #include "lib/TinyXml/TinyXml.h"
 
 namespace llvm{
-    class ConstantInt;
-    class LLVMContext;
+class ConstantInt;
+class LLVMContext;
 }
 
 class Vertex;

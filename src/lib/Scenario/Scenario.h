@@ -56,14 +56,14 @@ public:
      *
      * Creates a new scenario .
      */
-    Scenario(){};
+    Scenario(){}
 
     /**
      *  @brief Destructor
      *
      * Delete the scenario.
      */
-    ~Scenario(){};
+    ~Scenario(){}
 
     /**
      * @brief Add an event to the scenario

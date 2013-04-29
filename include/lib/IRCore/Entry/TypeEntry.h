@@ -60,7 +60,7 @@ public:
 	 * Creates a type entry.
 	 *
      */
-	TypeEntry(IRType* type){this->type = type;};
+    TypeEntry(IRType* type){this->type = type;}
 	~TypeEntry();
 
 	/**
@@ -68,7 +68,7 @@ public:
 	 * 
 	 * @return true if this type is TypeEntry
 	 */
-	bool isTypeEntry(){return true;};
+    bool isTypeEntry(){return true;}
 
 private:
 	IRType* type;

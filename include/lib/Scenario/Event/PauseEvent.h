@@ -57,21 +57,21 @@ public:
 	 * @param threaded : start in threaded mode or not.
      */
 	PauseEvent() : Event(0) {
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~PauseEvent(){};
+    ~PauseEvent(){}
 
 	/*!
      * @brief Return true if the Event is a PauseEvent
      *
 	 * @return true if Event is a PauseEvent otherwise false
      */
-	bool isPauseEvent(){return true;};
+    bool isPauseEvent(){return true;}
 };
 
 #endif

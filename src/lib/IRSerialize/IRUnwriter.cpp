@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -51,7 +51,7 @@ using namespace std;
 using namespace llvm;
 
 IRUnwriter::IRUnwriter(Decoder* decoder){
-	this->decoder = decoder;
+    this->decoder = decoder;
 
 }
 
@@ -60,147 +60,147 @@ IRUnwriter::~IRUnwriter(){
 }
 
 int IRUnwriter::remove(Instance* instance){
-	//Remove instance from the scheduler
-	if (decoder->hasScheduler()){
-		Scheduler* scheduler = decoder->getScheduler();
-		scheduler->removeInstance(instance);
-	}
+    //Remove instance from the scheduler
+    if (decoder->hasScheduler()){
+        Scheduler* scheduler = decoder->getScheduler();
+        scheduler->removeInstance(instance);
+    }
 
-	//Remove all elements of the instance
-	unwriteActionScheduler(instance->getActionScheduler());
-	unwriteActions(instance->getActions());
-	unwriteInitializes(instance->getInitializes());
-	unwriteProcedures(instance->getProcs());
-	unwriteStateVariables(instance->getStateVars());
-	unwriteVariables(instance->getParameters());
-	unwritePorts(IRConstant::KEY_INPUTS, instance->getInputs());
-	unwritePorts(IRConstant::KEY_OUTPUTS, instance->getOutputs());
+    //Remove all elements of the instance
+    unwriteActionScheduler(instance->getActionScheduler());
+    unwriteActions(instance->getActions());
+    unwriteInitializes(instance->getInitializes());
+    unwriteProcedures(instance->getProcs());
+    unwriteStateVariables(instance->getStateVars());
+    unwriteVariables(instance->getParameters());
+    unwritePorts(IRConstant::KEY_INPUTS, instance->getInputs());
+    unwritePorts(IRConstant::KEY_OUTPUTS, instance->getOutputs());
 
-	return 0;
+    return 0;
 }
 
 void IRUnwriter::unwriteActionScheduler(ActionScheduler* actionScheduler){
-	//Remove initialization of action scheduler
-	if (actionScheduler->hasInitializeScheduler()){
-		Function* initialize = actionScheduler->getInitializeFunction();
-		initialize->eraseFromParent();
-	}
+    //Remove initialization of action scheduler
+    if (actionScheduler->hasInitializeScheduler()){
+        Function* initialize = actionScheduler->getInitializeFunction();
+        initialize->eraseFromParent();
+    }
 
-	//Remove action scheduler
-	Function* function = actionScheduler->getSchedulerFunction();
-	function->eraseFromParent();
+    //Remove action scheduler
+    Function* function = actionScheduler->getSchedulerFunction();
+    function->eraseFromParent();
 
-	if (actionScheduler->hasFsm()){
-		unwriteFSM(actionScheduler->getFsm());
-	}
+    if (actionScheduler->hasFsm()){
+        unwriteFSM(actionScheduler->getFsm());
+    }
 }
 
 void IRUnwriter::unwriteFSM(FSM* fsm){
-	
-	//Remove the FSM state var
-	GlobalVariable* state = fsm->getFsmState();
-	state->eraseFromParent();
 
-	if (fsm->hasOutFsmFn()){
-		Function* outFsmFn = fsm->getOutFsmFn();
-		outFsmFn->eraseFromParent();
-	}
+    //Remove the FSM state var
+    GlobalVariable* state = fsm->getFsmState();
+    state->eraseFromParent();
+
+    if (fsm->hasOutFsmFn()){
+        Function* outFsmFn = fsm->getOutFsmFn();
+        outFsmFn->eraseFromParent();
+    }
 }
 
 void IRUnwriter::unwriteStateVariables(map<string, StateVar*>* vars){
-	map<string, StateVar*>::iterator it;
+    map<string, StateVar*>::iterator it;
 
-	for (it = vars->begin(); it != vars->end(); ++it){
+    for (it = vars->begin(); it != vars->end(); ++it){
 
-		//Create and store new variable for the instance
-		unwriteStateVariable(it->second);
-	}
+        //Create and store new variable for the instance
+        unwriteStateVariable(it->second);
+    }
 }
 
 void IRUnwriter::unwriteStateVariable(StateVar* var){
-	GlobalVariable* GV = var->getGlobalVariable();
-	GV->eraseFromParent();
+    GlobalVariable* GV = var->getGlobalVariable();
+    GV->eraseFromParent();
 }
 
 void IRUnwriter::unwriteVariables(map<string, Variable*>* vars){
-	map<string, Variable*>::iterator it;
+    map<string, Variable*>::iterator it;
 
-	for (it = vars->begin(); it != vars->end(); ++it){
-		Variable* var = it->second;
+    for (it = vars->begin(); it != vars->end(); ++it){
+        Variable* var = it->second;
 
-		//Create and store new variable for the instance
-		unwriteVariable(var);
-	}
+        //Create and store new variable for the instance
+        unwriteVariable(var);
+    }
 }
 
 void IRUnwriter::unwriteVariable(Variable* var){
-	GlobalVariable* GV = var->getGlobalVariable();
-	GV->eraseFromParent();
+    GlobalVariable* GV = var->getGlobalVariable();
+    GV->eraseFromParent();
 }
 
 void IRUnwriter::unwritePorts(string key, map<string, Port*>* ports){
-	map<string, Port*>::iterator it;
+    map<string, Port*>::iterator it;
 
-	//Iterate though the given ports
-	for (it = ports->begin(); it != ports->end(); it++){
-		Port* port = it->second;
+    //Iterate though the given ports
+    for (it = ports->begin(); it != ports->end(); it++){
+        Port* port = it->second;
 
-		//Remove the port
-		unwritePort(key, port);
-	}
+        //Remove the port
+        unwritePort(key, port);
+    }
 }
 
 void IRUnwriter::unwriteProcedures(map<string, Procedure*>* procs){
-	map<string, Procedure*>::iterator it;
-	
-	// First erase body of procedures, in case of recursive call
-	for (it = procs->begin(); it != procs->end(); ++it){
-		eraseBodyProcedure(it->second);
-	}
+    map<string, Procedure*>::iterator it;
 
-	//Creation of procedure must be done in two times because function can call other functions
-	for (it = procs->begin(); it != procs->end(); ++it){
-		unwriteProcedure(it->second);
-	}
+    // First erase body of procedures, in case of recursive call
+    for (it = procs->begin(); it != procs->end(); ++it){
+        eraseBodyProcedure(it->second);
+    }
+
+    //Creation of procedure must be done in two times because function can call other functions
+    for (it = procs->begin(); it != procs->end(); ++it){
+        unwriteProcedure(it->second);
+    }
 }
 
 
 void IRUnwriter::unwritePort(string key, Port* port){
-	string name = port->getName();
-	GlobalVariable* fifoVar = port->getFifoVar();
-	GlobalVariable* ptrVar = port->getPtrVar()->getGlobalVariable();
+    string name = port->getName();
+    GlobalVariable* fifoVar = port->getFifoVar();
+    GlobalVariable* ptrVar = port->getPtrVar()->getGlobalVariable();
 
-	fifoVar->eraseFromParent();
-	ptrVar->eraseFromParent();
+    fifoVar->eraseFromParent();
+    ptrVar->eraseFromParent();
 }
 
 void IRUnwriter::unwriteActions(list<Action*>* actions){
-	list<Action*>::iterator it;
+    list<Action*>::iterator it;
 
-	for (it = actions->begin(); it != actions->end(); it++){
-		unwriteAction(*it);
-	}
+    for (it = actions->begin(); it != actions->end(); it++){
+        unwriteAction(*it);
+    }
 }
 void IRUnwriter::unwriteInitializes(list<Action*>* actions){
-	list<Action*>::iterator it;
+    list<Action*>::iterator it;
 
-	for (it = actions->begin(); it != actions->end(); it++){
-		unwriteAction(*it);
-	}
+    for (it = actions->begin(); it != actions->end(); it++){
+        unwriteAction(*it);
+    }
 }
 
 void IRUnwriter::unwriteAction(Action* action){
-		//Write body and scheduler of the action
-		unwriteProcedure(action->getScheduler());
-		unwriteProcedure(action->getBody());
+    //Write body and scheduler of the action
+    unwriteProcedure(action->getScheduler());
+    unwriteProcedure(action->getBody());
 }
 
 void IRUnwriter::eraseBodyProcedure(Procedure* procedure){
-	Function* function = procedure->getFunction();
-	function->deleteBody();
+    Function* function = procedure->getFunction();
+    function->deleteBody();
 }
 
 void IRUnwriter::unwriteProcedure(Procedure* procedure){
-	Function* function = procedure->getFunction();
-	function->eraseFromParent();
+    Function* function = procedure->getFunction();
+    function->eraseFromParent();
 }

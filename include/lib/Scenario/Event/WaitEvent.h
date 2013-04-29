@@ -60,28 +60,28 @@ public:
      */
     WaitEvent(int time) : Event(0) {
         this->time = time;
-    };
+    }
 
     /*!
      *  @brief Destructor
      *
      * Delete an event.
      */
-    ~WaitEvent(){};
+    ~WaitEvent(){}
 
     /*!
      * @brief Return true if the Event is a WaitEvent
      *
      * @return true if Event is a WaitEvent otherwise false
      */
-    bool isWaitEvent(){return true;};
+    bool isWaitEvent(){return true;}
 
     /*!
      * @brief Get time to wait in ms
      *
      * @return time to wait in ms
      */
-    int getTime(){return time;};
+    int getTime(){return time;}
 private:
     /** Start in a threaded mode */
     int time;

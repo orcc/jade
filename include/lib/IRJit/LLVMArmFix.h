@@ -42,10 +42,10 @@
 #include "lib/IRJit/LLVMExecution.h"
 
 namespace llvm{
-    class tool_output_file;
-    namespace sys {
-        class Path;
-    }
+class tool_output_file;
+namespace sys {
+class Path;
+}
 }
 
 //------------------------------

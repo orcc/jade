@@ -40,7 +40,7 @@
 #define PACKAGE_H
 
 namespace llvm{
-    class Archive;
+class Archive;
 }
 
 #include "lib/IRCore/Actor.h"
@@ -69,7 +69,7 @@ public:
         this->name = name;
         this->parent = NULL;
         this->archive = NULL;
-    };
+    }
 
     /*!
      *  @brief Constructor
@@ -82,7 +82,7 @@ public:
      */
     Package(std::string name, Package* parent);
 
-    ~Package(){};
+    ~Package(){}
 
     /*!
      *  @brief Insert an underneath actor.
@@ -93,7 +93,7 @@ public:
      */
     void insertUnderneath(Actor* actor){
         actors.insert(std::pair<std::string, Actor*>(actor->getName(), actor));
-    };
+    }
 
     /*!
      *  @brief Insert an underneath package.
@@ -104,7 +104,7 @@ public:
      */
     void insertUnderneath(Package* package){
         childs.insert(std::pair<std::string, Package*>(package->getName(), package));
-    };
+    }
 
     /*!
      *  @brief Package is represented as an archive.
@@ -115,7 +115,7 @@ public:
      */
     void setArchive(llvm::Archive* archive){
         this->archive = archive;
-    };
+    }
 
     /*!
      *  @brief Get all underneath actors.
@@ -154,7 +154,7 @@ public:
      *  @return name of the package
      *
      */
-    std::string getName(){return name;};
+    std::string getName(){return name;}
 
     /**
      *  @brief Getter of package directory
@@ -164,7 +164,7 @@ public:
      *  @return directory of the package
      *
      */
-    std::string getDirectory(){return directory;};
+    std::string getDirectory(){return directory;}
 
     /**
      *  @brief Getter of parent package
@@ -174,7 +174,7 @@ public:
      *  @return the package containing this package
      *
      */
-    Package* getParent(){return parent;};
+    Package* getParent(){return parent;}
 
     /**
      *  @brief Getter of child package
@@ -184,7 +184,7 @@ public:
      *  @return a list of packages contains in this package
      *
      */
-    std::map<std::string, Package*>* getChilds(){return &childs;};
+    std::map<std::string, Package*>* getChilds(){return &childs;}
 
     /**
      *  @brief Return true if this package is represented as an archive.
@@ -192,7 +192,7 @@ public:
      *  @return true if the package is an archive, otherwise false.
      *
      */
-    bool isArchive(){ return archive;};
+    bool isArchive(){ return archive;}
 
 private:
     /** Name of the package */

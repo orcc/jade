@@ -59,36 +59,36 @@ public:
      *
      * Creates a new abstract IRAttribute
      */
-    IRAttribute(){};
-    ~IRAttribute(){};
+    IRAttribute(){}
+    ~IRAttribute(){}
 
     /**
      * @brief Returns true if this type is custom IRAttribute.
      *
      * @return true if this type is custom IRAttribute
      */
-    virtual bool isCustom(){return false;};
+    virtual bool isCustom(){return false;}
 
     /**
      * @brief Returns true if this type is a string IRAttribute.
      *
      * @return true if this type is a string IRAttribute
      */
-    virtual bool isString(){return false;};
+    virtual bool isString(){return false;}
 
     /**
      * @brief Returns true if this type is a type IRAttribute.
      *
      * @return true if this type is a type IRAttribute
      */
-    virtual bool isType(){return false;};
+    virtual bool isType(){return false;}
 
     /**
      * @brief Returns true if this type is a value IRAttribute.
      *
      * @return true if this type is a value IRAttribute
      */
-    virtual bool isValue(){return false;};
+    virtual bool isValue(){return false;}
 };
 
 #endif

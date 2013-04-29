@@ -40,8 +40,8 @@
 #define SCHEDULER_H
 
 namespace llvm{
-    class Function;
-    class GlobalVariable;
+class Function;
+class GlobalVariable;
 }
 
 #include <string>
@@ -60,7 +60,7 @@ public:
      *
      *	Create a scheduler
      */
-    Scheduler(){};
+    Scheduler(){}
     virtual ~Scheduler(){}
     virtual void execute(std::string stimulus){}
     virtual void stop(pthread_t* thread){}

@@ -68,7 +68,7 @@ public:
      */
     StringExpr(llvm::LLVMContext &C, std::string value): Expr(C){
         this->value = value;
-    };
+    }
 
     ~StringExpr();
 
@@ -77,7 +77,7 @@ public:
      *
      * @return True if the expression is an instance of StringExpr
      */
-    bool isStringExpr(){return true;};
+    bool isStringExpr(){return true;}
 
     /*!
      *  @brief Return ir::Type of the string expression
@@ -85,7 +85,7 @@ public:
      *  @return ir::Type of the string expression.
      *
      */
-    IRType* getIRType(){return new StringType();};
+    IRType* getIRType(){return new StringType();}
 
     /**
      * @brief Returns llvm::Constant corresponding to the llvm value of this expression.
@@ -100,7 +100,7 @@ public:
      *  @return Value
      *
      */
-    std::string getValue(){return value;};
+    std::string getValue(){return value;}
 
 private:
     std::string value;

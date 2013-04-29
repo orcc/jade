@@ -68,7 +68,7 @@ public:
      */
     BoolExpr(llvm::LLVMContext &C, bool value) : Expr(C){
         this->value = value;
-    };
+    }
 
     ~BoolExpr();
 
@@ -78,7 +78,7 @@ public:
      *  @return ir::Type of the integer expression.
      *
      */
-    IRType* getIRType(){return new IntType(32);};
+    IRType* getIRType(){return new IntType(32);}
 
     /*!
      *  @brief Getter of expression value
@@ -86,7 +86,7 @@ public:
      *  @return value of the expression.
      *
      */
-    int getValue(){return value;};
+    int getValue(){return value;}
 
     /**
      * @brief Returns llvm::Constant corresponding to the llvm value of this expression.
@@ -100,7 +100,7 @@ public:
      *
      * @return True if the expression is an instance of BoolExpr
      */
-    bool isBooleanExpr(){return true;};
+    bool isBooleanExpr(){return true;}
 
 private:
     bool value;

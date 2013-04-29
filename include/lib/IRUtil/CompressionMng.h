@@ -107,7 +107,7 @@ public:
     static bool IsGZipName(std::string file) {
         size_t found = file.find(".gz");
         return (found != std::string::npos);
-    };
+    }
 
 
 private:

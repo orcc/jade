@@ -58,28 +58,28 @@ public:
      */
     VerifyEvent(int id, std::string file) : Event(id) {
         this->file = file;
-    };
+    }
 
     /*!
      *  @brief Destructor
      *
      * Delete an event.
      */
-    ~VerifyEvent(){};
+    ~VerifyEvent(){}
 
     /*!
      * @brief Return true if the Event is a VerifyEvent
      *
      * @return true if Event is a VerifyEvent otherwise false
      */
-    bool isVerifyEvent(){return true;};
+    bool isVerifyEvent(){return true;}
 
     /*!
      * @brief Return the error file.
      *
      * @return the error file
      */
-    std::string getFile(){return file;};
+    std::string getFile(){return file;}
 
 private:
     /** File where error are printed */

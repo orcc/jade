@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -52,61 +52,61 @@ using namespace std;
 using namespace llvm;
 
 int Expr::evaluateAsInteger(){
-	if (isIntExpr()){
-		return ((IntExpr*)this)->getValue();
-	}
-	
-	if (isBinaryExpr()){
-		BinaryExpr* binExpr = (BinaryExpr*)this;
-		int e1 = binExpr->getE1()->evaluateAsInteger();
-		int e2 = binExpr->getE1()->evaluateAsInteger();
-		BinaryOp* op = binExpr->getOp();
+    if (isIntExpr()){
+        return ((IntExpr*)this)->getValue();
+    }
 
-		switch(op->getType()){
-			case BinaryOp::TIMES: 
-				return e1*e2;
-				break;
+    if (isBinaryExpr()){
+        BinaryExpr* binExpr = (BinaryExpr*)this;
+        int e1 = binExpr->getE1()->evaluateAsInteger();
+        int e2 = binExpr->getE1()->evaluateAsInteger();
+        BinaryOp* op = binExpr->getOp();
 
-			case BinaryOp::MINUS: 
-				return e1-e2;
-				break;
-			
-			case BinaryOp::PLUS: 
-				return e1+e2;
-				break;
+        switch(op->getType()){
+        case BinaryOp::TIMES:
+            return e1*e2;
+            break;
 
-			default : 
-				cerr << "Unsupported binary expression for evaluation \n";
-				exit(1);
-		}
+        case BinaryOp::MINUS:
+            return e1-e2;
+            break;
 
-	}
-	
-	cerr << "Can't evaluate this expression";
-	exit(0);
+        case BinaryOp::PLUS:
+            return e1+e2;
+            break;
+
+        default :
+            cerr << "Unsupported binary expression for evaluation \n";
+            exit(1);
+        }
+
+    }
+
+    cerr << "Can't evaluate this expression";
+    exit(0);
 }
 
 Constant* BoolExpr::getConstant(){
-	return ConstantInt::get(Type::getInt1Ty(Context), value);
+    return ConstantInt::get(Type::getInt1Ty(Context), value);
 }
 
 Constant* IntExpr::getConstant(){
-	if (constantVal == NULL){
-		constantVal = ConstantInt::get(Type::getInt32Ty(Context), value);
-	}
-	return constantVal;
+    if (constantVal == NULL){
+        constantVal = ConstantInt::get(Type::getInt32Ty(Context), value);
+    }
+    return constantVal;
 }
 
 Constant* ListExpr::getConstant(){
-	return constantArray;
+    return constantArray;
 }
 
 Constant* BinaryExpr::getConstant(){
 
-	return NULL;
+    return NULL;
 }
 
 Constant* StringExpr::getConstant(){
 
-	return NULL;
+    return NULL;
 }

@@ -57,51 +57,51 @@ extern int* stopVar;
 
 
 void displayYUV_prepare(char* Address){
-	outBuffer = Address;
-	display_flag = DISPLAY_READY + DISPLAY_ENABLE;
+    outBuffer = Address;
+    display_flag = DISPLAY_READY + DISPLAY_ENABLE;
 
-	//Set safeguard frame in output buffer
-	if (!safeguardFrameEmpty){
-		memcpy(outBuffer, Frame.pY[0], Frame.Width * Frame.Height); 
-		memcpy(outBuffer + Frame.Width * Frame.Height, Frame.pU[0], Frame.Width * Frame.Height/4);
-		memcpy(outBuffer + 5*Frame.Width * Frame.Height/4, Frame.pV[0], Frame.Width * Frame.Height/4);
+    //Set safeguard frame in output buffer
+    if (!safeguardFrameEmpty){
+        memcpy(outBuffer, Frame.pY[0], Frame.Width * Frame.Height);
+        memcpy(outBuffer + Frame.Width * Frame.Height, Frame.pU[0], Frame.Width * Frame.Height/4);
+        memcpy(outBuffer + 5*Frame.Width * Frame.Height/4, Frame.pV[0], Frame.Width * Frame.Height/4);
 
-		safeguardFrameEmpty = 1;
-		bufferBusy = 1;
-	}
+        safeguardFrameEmpty = 1;
+        bufferBusy = 1;
+    }
 }
 
 void displayYUV_displayPicture(unsigned char *pictureBufferY, unsigned char *pictureBufferU,
-							   unsigned char *pictureBufferV, unsigned short pictureWidth,
-							   unsigned short pictureHeight){
-	
-	//Set generated frame in output buffer
-	if(!bufferBusy){
-		bufferBusy = 1;
+                               unsigned char *pictureBufferV, unsigned short pictureWidth,
+                               unsigned short pictureHeight){
 
-		memcpy(outBuffer, pictureBufferY, pictureWidth * pictureHeight); 
-		memcpy(outBuffer + pictureWidth * pictureHeight, pictureBufferU, pictureWidth * pictureHeight/4);
-		memcpy(outBuffer + 5*pictureWidth * pictureHeight/4, pictureBufferV, pictureWidth * pictureHeight/4);
+    //Set generated frame in output buffer
+    if(!bufferBusy){
+        bufferBusy = 1;
 
-	//Save frame in safeguard buffer and stop scheduler
-	}else{
-		safeguardFrameEmpty = 0;
+        memcpy(outBuffer, pictureBufferY, pictureWidth * pictureHeight);
+        memcpy(outBuffer + pictureWidth * pictureHeight, pictureBufferU, pictureWidth * pictureHeight/4);
+        memcpy(outBuffer + 5*pictureWidth * pictureHeight/4, pictureBufferV, pictureWidth * pictureHeight/4);
 
-		Frame.Width = pictureWidth;
-		Frame.Height = pictureHeight;
+        //Save frame in safeguard buffer and stop scheduler
+    }else{
+        safeguardFrameEmpty = 0;
 
-		*Frame.pY = pictureBufferY;
-		*Frame.pU = pictureBufferU;
-		*Frame.pV = pictureBufferV;
+        Frame.Width = pictureWidth;
+        Frame.Height = pictureHeight;
 
-		display_flag = DISPLAY_ENABLE;
+        *Frame.pY = pictureBufferY;
+        *Frame.pU = pictureBufferU;
+        *Frame.pV = pictureBufferV;
 
-		*stopVar = 1;
-	}
+        display_flag = DISPLAY_ENABLE;
+
+        *stopVar = 1;
+    }
 }
 
 char displayYUV_getFlags(){
-	return display_flag;
+    return display_flag;
 }
 
 void displayYUV_init(){}

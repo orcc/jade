@@ -62,10 +62,10 @@ BroadcastAdder::~BroadcastAdder (){
 
 struct ltstr
 {
-  bool operator()(Port* s1, Port* s2) const
-  {
-      return s1->getName().compare(s2->getName()) < 0;
-  }
+    bool operator()(Port* s1, Port* s2) const
+    {
+        return s1->getName().compare(s2->getName()) < 0;
+    }
 };
 
 
@@ -101,7 +101,7 @@ void BroadcastAdder::examineVertex(Vertex* vertex){
 }
 
 void BroadcastAdder::examineConnections(Vertex* vertex, Connection** connections, int nbEdges,
-                        map<Port*, list<Connection*>*, ltstr>* outMap){
+                                        map<Port*, list<Connection*>*, ltstr>* outMap){
 
     Instance* instance = vertex->getInstance();
     map<Port*, list<Connection*>*, ltstr>::iterator it;
@@ -142,7 +142,7 @@ void BroadcastAdder::examineConnections(Vertex* vertex, Connection** connections
 }
 
 void BroadcastAdder::createIncomingConnection(Connection* connection, Vertex* vertex, Vertex* vertexBCast, Instance* instance){
-     BroadcastActor* actorBCast = (BroadcastActor*)instance->getActor();
+    BroadcastActor* actorBCast = (BroadcastActor*)instance->getActor();
 
     //Set a new connection that connects the broadcast to the graph
     Port* bcastInput = actorBCast->getInput();

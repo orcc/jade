@@ -39,36 +39,36 @@ FILE *F = NULL;
 static int cnt = 0; 
 
 void Writer_init() {
-	
-	if (write_file == NULL) {
-		print_usage();
-		fprintf(stderr, "No write file given!\n");
-		//wait_for_key();
-		exit(1);
-	}
 
-	F = fopen(write_file, "wb");
-	if (F == NULL) {
-		if (write_file == NULL) {
-			write_file = "<null>";
-		}
+    if (write_file == NULL) {
+        print_usage();
+        fprintf(stderr, "No write file given!\n");
+        //wait_for_key();
+        exit(1);
+    }
 
-		fprintf(stderr, "could not open file \"%s\"\n", write_file);
-		//wait_for_key();
-		exit(1);
-	}else{
-		fseek(F,0,SEEK_SET);	
-	}
+    F = fopen(write_file, "wb");
+    if (F == NULL) {
+        if (write_file == NULL) {
+            write_file = "<null>";
+        }
+
+        fprintf(stderr, "could not open file \"%s\"\n", write_file);
+        //wait_for_key();
+        exit(1);
+    }else{
+        fseek(F,0,SEEK_SET);
+    }
 }
 
 void Writer_write(u8 byte){
 
-	fseek(F,sizeof(u8)*cnt,SEEK_SET);
-	fwrite(&byte,sizeof(u8),1,F);
-	cnt++;	
+    fseek(F,sizeof(u8)*cnt,SEEK_SET);
+    fwrite(&byte,sizeof(u8),1,F);
+    cnt++;
 }
 
 void Writer_close(){
-	fclose(F);
-	exit(666);
+    fclose(F);
+    exit(666);
 }

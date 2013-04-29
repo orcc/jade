@@ -29,67 +29,67 @@ parallel applications.
 
 class HDAGGraph {
 
-    private :
-        /**
+private :
+    /**
          number of HDAG vertices
         */
-        int nbVertices;
+    int nbVertices;
 
-        /**
+    /**
          table of HDAG vertices
         */
-        HDAGVertex* vertices[MAX_HDAG_VERTICES];
+    HDAGVertex* vertices[MAX_HDAG_VERTICES];
 
-        /**
+    /**
          number of HDAG edges
         */
-        int nbEdges;
+    int nbEdges;
 
-        /**
+    /**
          table of HDAG edges
         */
-        HDAGEdge* edges[MAX_HDAG_EDGES];
+    HDAGEdge* edges[MAX_HDAG_EDGES];
 
-        /**
+    /**
          Precomputes the successor vertices of a given vertex and stores their pointers in it
 
          @param vertex: the current vertex
         */
-        void precomputeSuccessors(HDAGVertex* vertex);
+    void precomputeSuccessors(HDAGVertex* vertex);
 
-        /**
+    /**
          The graph contains one starting point: the first vertex
         */
-        HDAGVertex* firstVertex;
-    public :
-        /**
+    HDAGVertex* firstVertex;
+public :
+    /**
          Constructor
         */
-        HDAGGraph();
+    HDAGGraph();
 
-        /**
+    /**
          Destructor
         */
-        ~HDAGGraph();
+    ~HDAGGraph();
 
-        /**
+    /**
          Adding a vertex to the graph.
 
          @param the vertex name
          @return the new vertex
         */
-        HDAGVertex* addVertex(char* name);
-        void addVertex(HDAGVertex* vertex);
+    HDAGVertex* addVertex(char* name);
+    void addVertex(HDAGVertex* vertex);
 
-        /**
+    /**
          Adding a vertex to the graph that will correspond to the first actor
 
          @param the vertex name
          @return the new vertex
         */
-        HDAGVertex* addFirstVertex(char* name);
+    HDAGVertex* addFirstVertex(char* name);
 
-        /**
+    /**
          Adding an edge to the graph. Vertices and edges must be added in topological order.
          There is no initial token on edges
 
@@ -98,151 +98,151 @@ class HDAGGraph {
          @param sink: The sink vertex of the edge
          @return the created edge
         */
-        HDAGEdge* addEdge(HDAGVertex* source, int tokenRate, HDAGVertex* sink);
-        void addEdge(HDAGVertex* source, HDAGVertex* sink, HDAGEdge* edge);
+    HDAGEdge* addEdge(HDAGVertex* source, int tokenRate, HDAGVertex* sink);
+    void addEdge(HDAGVertex* source, HDAGVertex* sink, HDAGEdge* edge);
 
-        /**
+    /**
          Removes the given vertex
         */
-        bool removeVertex(HDAGVertex* vertex);
+    bool removeVertex(HDAGVertex* vertex);
 
-        /**
+    /**
          Removes the last added edge
         */
-        void removeLastEdge();
+    void removeLastEdge();
 
-        /**
+    /**
          Removes all the edges in this graph that are also contained in the specified edge array.
         */
-        bool removeAllEdges(HDAGEdge** edges, int nbRemEdges);
+    bool removeAllEdges(HDAGEdge** edges, int nbRemEdges);
 
-        /**
+    /**
          Removes an edge in the graph. refreshEdges() must be called if the edge is found.
         */
-        bool removeEdge(HDAGEdge* edge);
+    bool removeEdge(HDAGEdge* edge);
 
-        /**
+    /**
          Returns a set of all edges connecting source vertex to target vertex if such vertices exist in this graph.
         */
-        std::list<HDAGEdge*>* getAllEdges(HDAGVertex* sourceVertex, HDAGVertex* targetVertex);
+    std::list<HDAGEdge*>* getAllEdges(HDAGVertex* sourceVertex, HDAGVertex* targetVertex);
 
-        /**
+    /**
         Refresh edges of the graph. This method MUST be called when edge are changed in the graph.
         */
-        void refreshEdges();
+    void refreshEdges();
 
-        /**
+    /**
          Returns the target vertex of an edge.
         */
-        HDAGVertex* getEdgeTarget(HDAGEdge* edge);
+    HDAGVertex* getEdgeTarget(HDAGEdge* edge);
 
-        /**
+    /**
          Returns the source vertex of an edge.
         */
-        HDAGVertex* getEdgeSource(HDAGEdge* edge);
+    HDAGVertex* getEdgeSource(HDAGEdge* edge);
 
-        /**
+    /**
          Removes all edges and vertices
         */
-        void flush();
+    void flush();
 
-        /**
+    /**
          Gets the actor at the given index
 
          @param index: index of the actor in the actor list
          @return actor
         */
-        HDAGVertex* getVertex(int index);
+    HDAGVertex* getVertex(int index);
 
-        /**
+    /**
          Gets the hdag vertices that share the given DAG reference
 
          @param ref: the DAG reference
          @param output: the output HDAG vertices
          @return the number of found references
         */
-        int getVerticesFromCSDAGReference(CSDAGVertex* ref, HDAGVertex** output);
+    int getVerticesFromCSDAGReference(CSDAGVertex* ref, HDAGVertex** output);
 
-        /**
+    /**
          Gets the index of the given actor
 
          @param vertex: actor vertex
          @return index of the actor in the actor list
         */
-        int getVertexIndex(HDAGVertex* vertex);
+    int getVertexIndex(HDAGVertex* vertex);
 
-        /**
+    /**
          Gets the index of the given edge
 
          @param edge: edge
          @return index of the edge in the edge list
         */
-        int getEdgeIndex(HDAGEdge* edge);
+    int getEdgeIndex(HDAGEdge* edge);
 
-        /**
+    /**
          Gets the actor number
 
          @return number of vertices
         */
-        int getNbVertices();
+    int getNbVertices();
 
-        /**
+    /**
          Gets the edge at the given index
 
          @param index: index of the edge in the edge list
          @return edge
         */
-        HDAGEdge* getEdge(int index);
+    HDAGEdge* getEdge(int index);
 
-        /**
+    /**
          Gets the edge number
 
          @return number of edges
         */
-        int getNbEdges();
+    int getNbEdges();
 
-        /**
+    /**
          Edge container used to returns information on graph
         */
-        std::list<HDAGEdge*> edgesContainer;
+    std::list<HDAGEdge*> edgesContainer;
 
-        /**
+    /**
          Gets the input edges of a given vertex. Careful!! Slow!
 
          @param vertex: input vertex
          @param output: table to store the edges
          @return the number of input edges
         */
-        int getInputEdges(HDAGVertex* vertex, HDAGEdge** output);
+    int getInputEdges(HDAGVertex* vertex, HDAGEdge** output);
 
-        /**
+    /**
          Gets the output edges of a given vertex. Careful!! Slow!
 
          @param vertex: input vertex
          @param output: table to store the edges
          @return the number of output edges
         */
-        int getOutputEdges(HDAGVertex* vertex, HDAGEdge** output);
+    int getOutputEdges(HDAGVertex* vertex, HDAGEdge** output);
 
-        /**
+    /**
          Gets pointers on the edges of the graph in the order of their source or sink.
          Accelerates getting the input or output edges
 
          @param sourceOrSink: 1 for sorting in source order, 0 for sink order
         */
-        void sortEdges(int startIndex);
+    void sortEdges(int startIndex);
 
-        /**
+    /**
          Precomputes the successor vertices of all vertices to speed up the access
         */
-        void precomputeSuccessors();
+    void precomputeSuccessors();
 
-        /**
+    /**
          Getting the vertex corresponding to the first actor
 
          @return the first vertex
         */
-        HDAGVertex* getFirstVertex();
+    HDAGVertex* getFirstVertex();
 };
 
 /**

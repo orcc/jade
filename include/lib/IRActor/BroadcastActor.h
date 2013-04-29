@@ -42,14 +42,14 @@
 #include "lib/IRCore/Actor.h"
 
 namespace llvm{
-    class LLVMContext;
-    class Function;
-    class IntegerType;
-    class Module;
-    class Type;
-    class BasicBlock;
-    class LoadInst;
-    class Value;
+class LLVMContext;
+class Function;
+class IntegerType;
+class Module;
+class Type;
+class BasicBlock;
+class LoadInst;
+class Value;
 }
 
 class Decoder;
@@ -74,7 +74,7 @@ public:
      *  @return boolean designing the actor parsing ability
      *
      */
-    bool isParseable(){return false;};
+    bool isParseable(){return false;}
 
 
     /**
@@ -85,7 +85,7 @@ public:
      */
     llvm::IntegerType* getType() {
         return type;
-    };
+    }
 
     /**
      *  @brief return input port of the broadcast
@@ -95,9 +95,9 @@ public:
      */
     Port* getInput() {
         return inputs->begin()->second;
-    };
+    }
 
-    bool isBroadcast(){return true;};
+    bool isBroadcast(){return true;}
 
 private:
 

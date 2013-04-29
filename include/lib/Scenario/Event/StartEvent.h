@@ -59,35 +59,35 @@ public:
 	StartEvent(int id, std::string input, bool threaded) : Event(id) {
 		this->input = input;
 		this->threaded = threaded;
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~StartEvent(){};
+    ~StartEvent(){}
 
 	/*!
      * @brief Return true if the Event is a StartEvent
      *
 	 * @return true if Event is a StartEvent otherwise false
      */
-	bool isStartEvent(){return true;};
+    bool isStartEvent(){return true;}
 	
 	/*!
      * @brief Return the input file of the decoder
      *
 	 * @return the input file
      */
-	std::string getInput(){return input;};
+    std::string getInput(){return input;}
 
 	/*!
      * @brief Return true if event is threaded
      *
 	 * @return true if event is threaded
      */
-	bool isThreaded(){return threaded;};
+    bool isThreaded(){return threaded;}
 private:
 	/** Start in a threaded mode */
 	bool threaded;

@@ -62,16 +62,16 @@ public:
      * @brief Creates a new DPN MoC.
      */
     QSDFMoC(Entity* parent) : MoC(parent){
-    };
+    }
 
-    ~QSDFMoC(){};
+    ~QSDFMoC(){}
 
     /**
      * @brief Returns true if this MoC is QCSDF.
      *
      * @return true if this MoC is QCSDF
      */
-    bool isQuasiStatic(){return true;};
+    bool isQuasiStatic(){return true;}
 
     /**
      * @brief Returns true if this MoC is QCSDF.

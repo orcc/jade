@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -63,134 +63,134 @@ ExprParser::~ExprParser (){
 }
 
 Expr* ExprParser::parseExpr(TiXmlNode* node){
-	ParseContinuation<Expr*> cont = parseExprCont(node);
+    ParseContinuation<Expr*> cont = parseExprCont(node);
 
-	Expr* expr = cont.getResult();
+    Expr* expr = cont.getResult();
 
-	if (expr == NULL) {
-		cerr << "Expected an expression element";
-		exit(0);
-	} 
+    if (expr == NULL) {
+        cerr << "Expected an expression element";
+        exit(0);
+    }
 
-	return expr;	
+    return expr;
 }
 
 ParseContinuation<Expr*> ExprParser::parseExprCont(TiXmlNode* node){
-	Expr* expression = NULL;
+    Expr* expression = NULL;
 
-	while(node != NULL){
-		if (TiXmlString(node->Value()) == XDFNetwork::EXPR) {
-			TiXmlElement* elt = (TiXmlElement*)node;
-			TiXmlString kind(elt->Attribute(XDFNetwork::KIND));
+    while(node != NULL){
+        if (TiXmlString(node->Value()) == XDFNetwork::EXPR) {
+            TiXmlElement* elt = (TiXmlElement*)node;
+            TiXmlString kind(elt->Attribute(XDFNetwork::KIND));
 
-			if (kind == XDFNetwork::KIND_BINOPSEQ) {
-				return parseExprBinOpSeq(node->FirstChild());
-			} else if (kind == XDFNetwork::KIND_LITERAL) {
-				expression = parseExprLiteral(elt);
-				break;
-			} else if (kind == XDFNetwork::KIND_LIST) {
-				cerr << "List not supported yet";
-				exit(0);
-			} else if (kind == XDFNetwork::KIND_UNARYOP) {
-				cerr << "UnaryOp not supported yet";
-				exit(0);
-			} else if (kind == XDFNetwork::KIND_VAR) {
-				cerr << "Var not supported yet";
-				exit(0);
-			} else {
-				cerr << "Unsupported expression kind: "<< kind.c_str();
-				exit(0);
-			}
-		}
-		
-		node = node->NextSibling();	
-	}
+            if (kind == XDFNetwork::KIND_BINOPSEQ) {
+                return parseExprBinOpSeq(node->FirstChild());
+            } else if (kind == XDFNetwork::KIND_LITERAL) {
+                expression = parseExprLiteral(elt);
+                break;
+            } else if (kind == XDFNetwork::KIND_LIST) {
+                cerr << "List not supported yet";
+                exit(0);
+            } else if (kind == XDFNetwork::KIND_UNARYOP) {
+                cerr << "UnaryOp not supported yet";
+                exit(0);
+            } else if (kind == XDFNetwork::KIND_VAR) {
+                cerr << "Var not supported yet";
+                exit(0);
+            } else {
+                cerr << "Unsupported expression kind: "<< kind.c_str();
+                exit(0);
+            }
+        }
 
-	return ParseContinuation<Expr*>(node, expression);
+        node = node->NextSibling();
+    }
+
+    return ParseContinuation<Expr*>(node, expression);
 }
 
 Expr* ExprParser::parseExprLiteral(TiXmlElement* elt){
-	TiXmlString kind(elt->Attribute(XDFNetwork::LITERAL_KIND));
-	TiXmlString value(elt->Attribute(XDFNetwork::LITERAL_VALUE));
-	
-	if (kind == XDFNetwork::LITERAL_BOOL) {
-		return parseBoolean(value);	
-	} else if (kind == XDFNetwork::LITERAL_CHAR) {
-		fprintf(stderr,"Characters not supported yet");
-		exit(0);
-	} else if (kind == XDFNetwork::LITERAL_INT) {
-		int integer = atoi (value.c_str());
-		if (integer == 0 && value != "0"){
-			fprintf(stderr,"Expression is not an integer");
-			exit(0);
-		}
-		return new IntExpr(Context, integer);
-	} else if (kind == XDFNetwork::LITERAL_REAL) {
-		fprintf(stderr,"Reals not supported yet");
-		exit(0);
-	} else if (kind == XDFNetwork::LITERAL_STRING) {
-		string String = value.c_str();
-		return new StringExpr(Context, String);
-	} else {
-		fprintf(stderr,"Unsupported expression literal kind: \"%s\"", kind.c_str());
-		exit(0);
-	}
+    TiXmlString kind(elt->Attribute(XDFNetwork::LITERAL_KIND));
+    TiXmlString value(elt->Attribute(XDFNetwork::LITERAL_VALUE));
+
+    if (kind == XDFNetwork::LITERAL_BOOL) {
+        return parseBoolean(value);
+    } else if (kind == XDFNetwork::LITERAL_CHAR) {
+        fprintf(stderr,"Characters not supported yet");
+        exit(0);
+    } else if (kind == XDFNetwork::LITERAL_INT) {
+        int integer = atoi (value.c_str());
+        if (integer == 0 && value != "0"){
+            fprintf(stderr,"Expression is not an integer");
+            exit(0);
+        }
+        return new IntExpr(Context, integer);
+    } else if (kind == XDFNetwork::LITERAL_REAL) {
+        fprintf(stderr,"Reals not supported yet");
+        exit(0);
+    } else if (kind == XDFNetwork::LITERAL_STRING) {
+        string String = value.c_str();
+        return new StringExpr(Context, String);
+    } else {
+        fprintf(stderr,"Unsupported expression literal kind: \"%s\"", kind.c_str());
+        exit(0);
+    }
 }
 
 
 ParseContinuation<Expr*> ExprParser::parseExprBinOpSeq(TiXmlNode* node){
-	list<Expr*> exprs;
-	list<BinaryOp*> ops;
+    list<Expr*> exprs;
+    list<BinaryOp*> ops;
 
-	ParseContinuation<Expr*> contE = parseExprCont(node);
-	exprs.push_back(contE.getResult());
-	node = contE.getNode();
+    ParseContinuation<Expr*> contE = parseExprCont(node);
+    exprs.push_back(contE.getResult());
+    node = contE.getNode();
 
-	while (node != NULL){
-		ParseContinuation<BinaryOp*> contO = parseExprBinaryOp(node);
-		BinaryOp* op = contO.getResult();
-		node = contO.getNode();
+    while (node != NULL){
+        ParseContinuation<BinaryOp*> contO = parseExprBinaryOp(node);
+        BinaryOp* op = contO.getResult();
+        node = contO.getNode();
 
-		if (op != NULL) {
-			ops.push_back(op);
+        if (op != NULL) {
+            ops.push_back(op);
 
-			contE = parseExprCont(node);
-			Expr* expr = contE.getResult();
-			if (expr == NULL) {
-				cerr << "Missing an Expr element in Network.";
-				exit(1);
-			}
+            contE = parseExprCont(node);
+            Expr* expr = contE.getResult();
+            if (expr == NULL) {
+                cerr << "Missing an Expr element in Network.";
+                exit(1);
+            }
 
-			exprs.push_back(expr);
-			node = contE.getNode();
-		}
+            exprs.push_back(expr);
+            node = contE.getNode();
+        }
 
-	}
+    }
 
-	Expr* expr = BinOpSeqParser().parse(Context, &exprs, &ops);
-	return ParseContinuation<Expr*>(node, expr);
+    Expr* expr = BinOpSeqParser().parse(Context, &exprs, &ops);
+    return ParseContinuation<Expr*>(node, expr);
 }
 
 Expr* ExprParser::parseBoolean(TiXmlString value){
-	if (value == "true") {
-		return new BoolExpr(Context, true);
-	}else if (value =="false") {
-		return new BoolExpr(Context, false);
-	}
-	
-	fprintf(stderr,"Expected a boolean value");
-	exit(0);
+    if (value == "true") {
+        return new BoolExpr(Context, true);
+    }else if (value =="false") {
+        return new BoolExpr(Context, false);
+    }
+
+    fprintf(stderr,"Expected a boolean value");
+    exit(0);
 }
 
 ParseContinuation<BinaryOp*> ExprParser::parseExprBinaryOp(TiXmlNode* node){
-	while (node != NULL){
-		if (TiXmlString(node->Value()) == XDFNetwork::EXPR_OP) {
-			TiXmlElement* op = (TiXmlElement*)node;
-			string opName = op->Attribute(XDFNetwork::NAME);
-			return ParseContinuation<BinaryOp*>(node, new BinaryOp(opName));
-		}
-		node = node->NextSibling();
-	}
-	return ParseContinuation<BinaryOp*>(node, NULL);
+    while (node != NULL){
+        if (TiXmlString(node->Value()) == XDFNetwork::EXPR_OP) {
+            TiXmlElement* op = (TiXmlElement*)node;
+            string opName = op->Attribute(XDFNetwork::NAME);
+            return ParseContinuation<BinaryOp*>(node, new BinaryOp(opName));
+        }
+        node = node->NextSibling();
+    }
+    return ParseContinuation<BinaryOp*>(node, NULL);
 }
 

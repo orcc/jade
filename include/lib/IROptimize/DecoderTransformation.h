@@ -58,7 +58,7 @@ public:
 	 * @param decoder
 	 *            a Decoder
 	 */
-	virtual void transform(Decoder* decoder){};
+	virtual void transform(Decoder* decoder){}
 };
 
 #endif

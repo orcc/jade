@@ -81,7 +81,7 @@ public:
         this->outputs = outputs;
         this->graph = graph;
         this->mapping = NULL;
-    };
+    }
 
 
     /*!
@@ -96,7 +96,7 @@ public:
      *
      * @return HDAGGraph representing the network's contents
      */
-    HDAGGraph* getGraph() {	return graph;};
+    HDAGGraph* getGraph() {	return graph;}
 
     /**
      * @brief Return connections of this network
@@ -112,7 +112,7 @@ public:
      *
      * @return the name of the network
      */
-    std::string getName() {	return name;};
+    std::string getName() {	return name;}
 
     /*!
      *  @brief Print network in a dot file.
@@ -135,21 +135,21 @@ public:
      *
      * @return a map of instances and their mapping
      */
-    std::map<std::string, std::string>* getMapping(){return mapping;};
+    std::map<std::string, std::string>* getMapping(){return mapping;}
 
     /**
      * @brief Set the mapping of the network.
      *
      * @param mapping: a map of instances and their mapping
      */
-    void setMapping(std::map<std::string, std::string>* mapping){this->mapping = mapping;};
+    void setMapping(std::map<std::string, std::string>* mapping){this->mapping = mapping;}
 
     /**
      * @brief Returns true if this network has a mapping.
      *
      * @return true if the network has a mapping, otherwise false.
      */
-    bool hasMapping(){return this->mapping != NULL;};
+    bool hasMapping(){return this->mapping != NULL;}
 
     /**
      * @brief Returns a list of instance that are connected the given instance.
@@ -225,7 +225,7 @@ private:
      * @brief Compute a successor of a vertex.
      */
     void computeSuccessor(Vertex* vertex,
-        std::map<std::string, Port*>* inputs, std::map<std::string, Port*>* outputs);
+                          std::map<std::string, Port*>* inputs, std::map<std::string, Port*>* outputs);
 
     /**
      * @brief Returns the vertex corresponding to the instance.

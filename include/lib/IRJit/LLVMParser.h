@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,86 +49,86 @@
 
 /**
  * @brief  This class manages the LLVM infrastructure to parse an actor in LLVM representation
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class LLVMParser {
 public:
-	
-	/**
+
+    /**
      *  @brief Create a new LLVMParser
-	 *
-	 * @param C : the LLVM::Context
-	 *
-	 * @param directory : default directory of the module
-	 *
+     *
+     * @param C : the LLVM::Context
+     *
+     * @param directory : default directory of the module
+     *
      */
-	LLVMParser(llvm::LLVMContext& C, std::string directory, bool verbose = false);
-	
-	/**
+    LLVMParser(llvm::LLVMContext& C, std::string directory, bool verbose = false);
+
+    /**
      *  @brief Load and parse the module file
      *
-	 *  Read the specified file as an LLVM module. 
-	 *
-	 * @param package : the package that contains the actor
-	 *
-	 * @param file : file to parse
-	 *
-	 * @return the corresponding llvm::Module
-	 *
+     *  Read the specified file as an LLVM module.
+     *
+     * @param package : the package that contains the actor
+     *
+     * @param file : file to parse
+     *
+     * @return the corresponding llvm::Module
+     *
      */
-	llvm::Module* loadModule(Package* package, std::string file);
+    llvm::Module* loadModule(Package* package, std::string file);
 
 
 private:
 
-	/**
+    /**
      *  @brief Parse a file in an archive
-	 *
-	 * @param package : package where is the archive
-	 *
-	 * @param file : file to parse
-	 *
-	 * @return the corresponding llvm::Module
-	 *
+     *
+     * @param package : package where is the archive
+     *
+     * @param file : file to parse
+     *
+     * @return the corresponding llvm::Module
+     *
      */
-	llvm::Module* ParseArchive(Package* package, llvm::sys::Path file);
+    llvm::Module* ParseArchive(Package* package, llvm::sys::Path file);
 
-	/**
+    /**
      *  @brief Load and parse the bitcode file in an archive
-	 *
-	 *  Find and read the specified bitcode file of the current 
-	 *  actor and return the corresponding module. 
-	 *
-	 * @param package : package where is the archive
-	 *
-	 * @param file : file to parse
-	 *
-	 * @return the corresponding llvm::Module
-	 *
+     *
+     *  Find and read the specified bitcode file of the current
+     *  actor and return the corresponding module.
+     *
+     * @param package : package where is the archive
+     *
+     * @param file : file to parse
+     *
+     * @return the corresponding llvm::Module
+     *
      */
-	llvm::Module* loadBitcodeInArchive(Package* package, llvm::sys::Path file);
+    llvm::Module* loadBitcodeInArchive(Package* package, llvm::sys::Path file);
 
-	/**
+    /**
      *  @brief Open archive of package given
-	 *
-	 *  Open archive and set it in package and all parents
-	 *
-	 * @param package : package which will be the archive
-	 *
+     *
+     *  Open archive and set it in package and all parents
+     *
+     * @param package : package which will be the archive
+     *
      */
-	void openArchive(Package* package);
+    void openArchive(Package* package);
 
-	/** default directory of the actor */
-	std::string directory;
+    /** default directory of the actor */
+    std::string directory;
 
-	/** LLVM Context */
-	llvm::LLVMContext &Context;
+    /** LLVM Context */
+    llvm::LLVMContext &Context;
 
-	/** Print information about actor taken*/
-	bool verbose;
-	
+    /** Print information about actor taken*/
+    bool verbose;
+
 };
 
 #endif

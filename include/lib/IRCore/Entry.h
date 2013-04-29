@@ -57,22 +57,22 @@ public:
      * Creates an abstract entry.
      *
      */
-    Entry(){};
-    ~Entry(){};
+    Entry(){}
+    ~Entry(){}
 
     /**
      * @brief Returns true if this entry is type of TypeEntry.
      *
      * @return true if this type is TypeEntry
      */
-    virtual bool isTypeEntry(){return false;};
+    virtual bool isTypeEntry(){return false;}
 
     /**
      * @brief Returns true if this entry is type of ExprEntry.
      *
      * @return true if this type is ExprEntry
      */
-    virtual bool isExprEntry(){return false;};
+    virtual bool isExprEntry(){return false;}
 
 };
 

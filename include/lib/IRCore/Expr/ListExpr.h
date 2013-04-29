@@ -67,7 +67,7 @@ public:
      */
     ListExpr(llvm::LLVMContext &C, std::list<Expr*>* value) : Expr(C){
         this->expressions = value;
-    };
+    }
 
     /*!
      *  @brief Constructor
@@ -81,7 +81,7 @@ public:
      */
     ListExpr(llvm::LLVMContext &C, llvm::Constant* values) : Expr(C){
         this->constantArray = values;
-    };
+    }
 
     ~ListExpr();
 
@@ -94,7 +94,7 @@ public:
     IRType* getIRType(){
         //Todo : implement ListType
         return NULL;
-    };
+    }
 
     /*!
      *  @brief Getter of expression value
@@ -102,7 +102,7 @@ public:
      *  @return value of the expression.
      *
      */
-    std::list<Expr*>* getValue(){return expressions;};
+    std::list<Expr*>* getValue(){return expressions;}
 
     /**
      * @brief Returns llvm::Constant corresponding to the llvm value of this expression.
@@ -116,7 +116,7 @@ public:
      *
      * @return True if the expression is an instance of ListExpr
      */
-    bool isListExpr(){return true;};
+    bool isListExpr(){return true;}
 
 private:
     /** Value of IntExpr */

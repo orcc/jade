@@ -63,8 +63,8 @@ public:
      * Creates a new abstract Type
      *
      */
-    IRType(){};
-    ~IRType(){};
+    IRType(){}
+    ~IRType(){}
 
 
     /**
@@ -72,42 +72,42 @@ public:
      *
      * @return true if this type is <tt>bool</tt>
      */
-    virtual bool isBoolType(){return false;};
+    virtual bool isBoolType(){return false;}
 
     /**
      * @brief Returns true if this type is <tt>int</tt>.
      *
      * @return true if this type is <tt>int</tt>
      */
-    virtual bool isIntType(){return false;};
+    virtual bool isIntType(){return false;}
 
     /**
      * @brief Returns true if this type is <tt>List</tt>.
      *
      * @return true if this type is <tt>List</tt>
      */
-    virtual bool isListType(){return false;};
+    virtual bool isListType(){return false;}
 
     /**
      * @brief Returns true if this type is <tt>String</tt>.
      *
      * @return true if this type is <tt>String</tt>
      */
-    virtual bool isStringType(){return false;};
+    virtual bool isStringType(){return false;}
 
     /**
      * @brief Returns true if this type is <tt>uint</tt>.
      *
      * @return true if this type is <tt>uint</tt>
      */
-    virtual bool isUintType(){return false;};
+    virtual bool isUintType(){return false;}
 
     /**
      * @brief Returns true if this type is <tt>void</tt>.
      *
      * @return true if this type is <tt>void</tt>
      */
-    virtual bool isVoidType(){return false;};
+    virtual bool isVoidType(){return false;}
 };
 
 #endif

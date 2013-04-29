@@ -44,7 +44,7 @@
 class Decoder;
 
 namespace llvm{
-    class Instruction;
+class Instruction;
 }
 
 //------------------------------

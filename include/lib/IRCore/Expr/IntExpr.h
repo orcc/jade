@@ -68,7 +68,7 @@ public:
      */
     IntExpr(llvm::LLVMContext &C, int value) : Expr(C){
         this->value = value;
-    };
+    }
 
     /*!
      *  @brief Constructor
@@ -82,7 +82,7 @@ public:
      */
     IntExpr(llvm::LLVMContext &C, llvm::Constant* value) : Expr(C){
         this->constantVal = value;
-    };
+    }
 
     ~IntExpr();
 
@@ -92,7 +92,7 @@ public:
      *  @return IRType of the integer expression.
      *
      */
-    IRType* getIRType(){return new IntType(32);};
+    IRType* getIRType(){return new IntType(32);}
 
 
 
@@ -102,7 +102,7 @@ public:
      *  @return value of the expression.
      *
      */
-    int getValue(){return value;};
+    int getValue(){return value;}
 
     /**
      * @brief Returns llvm::Constant corresponding to the llvm value of this expression.
@@ -116,7 +116,7 @@ public:
      *
      * @return True if the expression is an instance of IntExpr
      */
-    bool isIntExpr(){return true;};
+    bool isIntExpr(){return true;}
 
 private:
     /** Value of IntExpr */

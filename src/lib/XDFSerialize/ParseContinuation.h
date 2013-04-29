@@ -69,13 +69,13 @@ public:
             this->node = node->NextSibling();
         }
         this->result = result;
-    };
+    }
 
     /*!
      *  @brief Destructor of the class NetworkParser
      *
      */
-    ~ParseContinuation (){};
+    ~ParseContinuation (){}
 
     /**
      * @brief Returns the TiXmlNode stored in this continuation.

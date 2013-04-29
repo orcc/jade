@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,74 +43,74 @@ using namespace std;
 using namespace llvm;
 
 Pattern::Pattern(map<Port*, ConstantInt*>* numTokensMap, map<Port*, Variable*>* variableMap){
-	this->numTokensMap = numTokensMap;
-	this->variableMap = variableMap;
+    this->numTokensMap = numTokensMap;
+    this->variableMap = variableMap;
 
-	//Fill ports with num tokens
-	map<Port*, ConstantInt*>::iterator itTokens;
-	for (itTokens = numTokensMap->begin(); itTokens != numTokensMap->end(); itTokens++){
-		checkPortPresence(itTokens->first);
-	}
+    //Fill ports with num tokens
+    map<Port*, ConstantInt*>::iterator itTokens;
+    for (itTokens = numTokensMap->begin(); itTokens != numTokensMap->end(); itTokens++){
+        checkPortPresence(itTokens->first);
+    }
 
-	//Fill ports with variable map
-	map<Port*, Variable*>::iterator itVar;
-	for (itVar = variableMap->begin(); itVar != variableMap->end(); itVar++){
-		checkPortPresence(itVar->first);
-	}
+    //Fill ports with variable map
+    map<Port*, Variable*>::iterator itVar;
+    for (itVar = variableMap->begin(); itVar != variableMap->end(); itVar++){
+        checkPortPresence(itVar->first);
+    }
 }
 
 Pattern::Pattern(){
-	this->numTokensMap = new map<Port*, ConstantInt*>();
-	this->variableMap = new map<Port*, Variable*>();
+    this->numTokensMap = new map<Port*, ConstantInt*>();
+    this->variableMap = new map<Port*, Variable*>();
 }
 
 void Pattern::checkPortPresence(Port* port) {
-	ports.insert(port);
+    ports.insert(port);
 }
 
 void Pattern::clear(){
-	ports.clear();
-	numTokensMap->clear();
-	variableMap->clear();
+    ports.clear();
+    numTokensMap->clear();
+    variableMap->clear();
 }
 
 void Pattern::setNumTokens(Port* port, llvm::ConstantInt* numTokens) {
-	checkPortPresence(port);
-	numTokensMap->insert(pair<Port*, ConstantInt*>(port, numTokens));
+    checkPortPresence(port);
+    numTokensMap->insert(pair<Port*, ConstantInt*>(port, numTokens));
 }
 
 void Pattern::setVariable(Port* port, Variable* variable) {
-		checkPortPresence(port);
-		variableMap->insert(pair<Port*, Variable*>(port, variable));
+    checkPortPresence(port);
+    variableMap->insert(pair<Port*, Variable*>(port, variable));
 }
 
 void Pattern::remove(Port* port) {
-	ports.erase(port);
-	numTokensMap->erase(port);
-	variableMap->erase(port);
+    ports.erase(port);
+    numTokensMap->erase(port);
+    variableMap->erase(port);
 }
 
 ConstantInt* Pattern::getNumTokens(Port* port) {
-	map<Port*, ConstantInt*>::iterator it;
+    map<Port*, ConstantInt*>::iterator it;
 
-	// Looking for the corresponding port in numTokensMap
-	it = numTokensMap->find(port);
-	
-	if (it == numTokensMap->end()){
-		return NULL;
-	}
+    // Looking for the corresponding port in numTokensMap
+    it = numTokensMap->find(port);
 
-	return it->second;
+    if (it == numTokensMap->end()){
+        return NULL;
+    }
+
+    return it->second;
 }
 
 Variable* Pattern::getVariable(Port* port) {
-	map<Port*, Variable*>::iterator it;
+    map<Port*, Variable*>::iterator it;
 
-	it = variableMap->find(port);
+    it = variableMap->find(port);
 
-	if (it == variableMap->end()){
-		return NULL;
-	}
+    if (it == variableMap->end()){
+        return NULL;
+    }
 
-	return it->second;
+    return it->second;
 }

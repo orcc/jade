@@ -61,16 +61,16 @@ public:
      * @brief Creates a new DPN MoC.
      */
     KPNMoC(Entity* parent) : MoC(parent){
-    };
+    }
 
-    ~KPNMoC(){};
+    ~KPNMoC(){}
 
     /**
      * @brief Returns true if this MoC is KPN.
      *
      * @return true if this MoC is KPN
      */
-    bool isKPN(){return true;};
+    bool isKPN(){return true;}
 
 };
 

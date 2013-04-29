@@ -40,9 +40,9 @@
 #define ROUNDROBINSCHEDULER_H
 
 namespace llvm{
-    class CallInst;
-    class Function;
-    class LLVMContext;
+class CallInst;
+class Function;
+class LLVMContext;
 }
 
 class Decoder;
@@ -76,14 +76,14 @@ public:
      *
      *	@return the main llvm::Function of scheduler
      */
-    llvm::Function* getMainFunction(){return scheduler;};
+    llvm::Function* getMainFunction(){return scheduler;}
 
     /**
      *  @brief Return the initialize function of the scheduler
      *
      *	@return the initialize llvm::Function of scheduler
      */
-    llvm::Function* getInitFunction(){return initialize;};
+    llvm::Function* getInitFunction(){return initialize;}
 
     /**
      *  @brief Add an instance in the scheduler
@@ -97,7 +97,7 @@ public:
      *
      *	@return the stop GV
      */
-    llvm::GlobalVariable* getStopGV(){return stopGV;};
+    llvm::GlobalVariable* getStopGV(){return stopGV;}
 
     /**
      *  @brief Remove an instance in the scheduler

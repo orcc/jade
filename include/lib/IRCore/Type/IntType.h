@@ -59,7 +59,7 @@ public:
      *
      * @param size : Expr of the size of this integer type
      */
-    IntType(int size){this->size = size;};
+    IntType(int size){this->size = size;}
     ~IntType();
 
     /**
@@ -67,14 +67,14 @@ public:
      *
      * @return True if the Type is BoolType
      */
-    bool isIntType(){return true;};
+    bool isIntType(){return true;}
 
     /**
      * @brief Returns the size of the intType.
      *
      * @return integer of the size
      */
-    int getSize(){return size;};
+    int getSize(){return size;}
 
 private:
     int size;

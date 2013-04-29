@@ -61,7 +61,7 @@ public:
      *
      * @param size : Expr of the size of this unsigned integer type
      */
-    UIntType(int size){this->size = size;};
+    UIntType(int size){this->size = size;}
     ~UIntType();
 
     /**
@@ -69,14 +69,14 @@ public:
      *
      * @return True if the Type is UIntType
      */
-    bool isUIntType(){return true;};
+    bool isUIntType(){return true;}
 
     /**
      * @brief Returns the size of this type.
      *
      * @return integer of the size
      */
-    int getSize(){return size;};
+    int getSize(){return size;}
 
 private:
     int size;

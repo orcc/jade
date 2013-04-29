@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,57 +44,57 @@
 
 /**
  * @brief  This class defines an action scheduler for a QSDF actor.
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class QSDFScheduler : public CSDFScheduler {
 public:
-	/**
+    /**
      *  @brief Constructor
      *
-	 *	Create a new action scheduler for dynamic actors
-	 *
-	 *	@param C : the llvm::Context
-	 *
-	 *	@param decoder : the Decoder where dynamic action scheduler is inserted
+     *	Create a new action scheduler for dynamic actors
+     *
+     *	@param C : the llvm::Context
+     *
+     *	@param decoder : the Decoder where dynamic action scheduler is inserted
      */
-	QSDFScheduler(llvm::LLVMContext& C, Decoder* decoder);
-	~QSDFScheduler(){};
+    QSDFScheduler(llvm::LLVMContext& C, Decoder* decoder);
+    ~QSDFScheduler(){}
 
 protected:
-	/**
+    /**
      *  @brief Create the scheduler of actions
-	 *
-	 * @param instance: the Instance to add the scheduler
-	 *
-	 * @param BB : llvm::BasicBlock where scheduler is add
-	 *
-	 * @param incBB : llvm::BasicBlock where scheduler has to branch in case of success
-	 *
-	 * @param returnBB : llvm::BasicBlock where scheduler has to branch in case of return
-	 *
-	 * @param function : llvm::Function where the scheduler is added
-	 */
-	void createScheduler(Instance* instance, llvm::BasicBlock* BB, llvm::BasicBlock* incBB, llvm::BasicBlock* returnBB, llvm::Function* scheduler);
+     *
+     * @param instance: the Instance to add the scheduler
+     *
+     * @param BB : llvm::BasicBlock where scheduler is add
+     *
+     * @param incBB : llvm::BasicBlock where scheduler has to branch in case of success
+     *
+     * @param returnBB : llvm::BasicBlock where scheduler has to branch in case of return
+     *
+     * @param function : llvm::Function where the scheduler is added
+     */
+    void createScheduler(Instance* instance, llvm::BasicBlock* BB, llvm::BasicBlock* incBB, llvm::BasicBlock* returnBB, llvm::Function* scheduler);
 
-	/**
-	 * @brief Creates a scheduling test for a qsdf
-	 * 
-	 * @param action : the Action to test
-	 *
- 	 * @param csdfMoC : the csdfMoC to execute
-	 *
-	 * @param BB : llvm::BasicBlock where test is add
-	 *
-	 * @param incBB : llvm::BasicBlock where test has to branch in case of success
-	 *
-	 * @param returnBB : llvm::BasicBlock where test has to branch in case of return
-	 *
-	 * @param function : llvm::Function where the test is added
-	 */
-	llvm::BasicBlock* createConfigurationTest(Action* action, CSDFMoC* csdfMoC, llvm::BasicBlock* BB, 
-										llvm::BasicBlock* incBB, llvm::BasicBlock* returnBB, llvm::Function* function);
+    /**
+     * @brief Creates a scheduling test for a qsdf
+     *
+     * @param action : the Action to test
+     *
+     * @param csdfMoC : the csdfMoC to execute
+     *
+     * @param BB : llvm::BasicBlock where test is add
+     *
+     * @param incBB : llvm::BasicBlock where test has to branch in case of success
+     *
+     * @param returnBB : llvm::BasicBlock where test has to branch in case of return
+     *
+     * @param function : llvm::Function where the test is added
+     */
+    llvm::BasicBlock* createConfigurationTest(Action* action, CSDFMoC* csdfMoC, llvm::BasicBlock* BB,
+                                              llvm::BasicBlock* incBB, llvm::BasicBlock* returnBB, llvm::Function* function);
 
 };
 

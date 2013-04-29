@@ -143,7 +143,7 @@ public:
         }else{
             fprintf(stderr,"Unkow binary");
         }
-    };
+    }
 
     ~BinaryOp();
 
@@ -172,7 +172,7 @@ public:
      *
      * @return a binary operator.
      */
-    OPTYPE getType() {return op;};
+    OPTYPE getType() {return op;}
 
 private:
     OPTYPE op;

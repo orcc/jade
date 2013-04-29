@@ -23,86 +23,86 @@ parallel applications.
  */
 class HDAGEdge {
 
-    private :
-        /**
+private :
+    /**
          token rate (solved and not depending on an expression).
          tokenRate = -1 means that the edge only represents a precedence
         */
-        int tokenRate;
+    int tokenRate;
 
-        /**
+    /**
          Edge source
         */
-        HDAGVertex* source;
-        /**
+    HDAGVertex* source;
+    /**
          Edge sink
         */
-        HDAGVertex* sink;
+    HDAGVertex* sink;
 
-    public :
-        /**
+public :
+    /**
          Constructor
         */
-        HDAGEdge();
+    HDAGEdge();
 
-        /**
+    /**
          Destructor
         */
-        ~HDAGEdge();
+    ~HDAGEdge();
 
-        /**
+    /**
          TokenRate getter
 
          @return production after resolving the expression
         */
-        int getTokenRate();
+    int getTokenRate();
 
-        /**
+    /**
          TokenRate setter
 
          @param integer defining the token rate
         */
-        void setTokenRate(int rate);
+    void setTokenRate(int rate);
 
-        /**
+    /**
          Source getter
 
          @return the source
         */
-        HDAGVertex* getSource();
+    HDAGVertex* getSource();
 
-        /**
+    /**
          Sink getter
 
          @return the Sink
         */
-        HDAGVertex* getSink();
+    HDAGVertex* getSink();
 
-        /**
+    /**
          Source setter
 
          @param vertex: the source
         */
-        void setSource(HDAGVertex* vertex);
+    void setSource(HDAGVertex* vertex);
 
-        /**
+    /**
          Sink setter
 
          @param vertex: the sink
         */
-        void setSink(HDAGVertex* vertex);
+    void setSink(HDAGVertex* vertex);
 
-        // Public for performance sake
+    // Public for performance sake
 
-        /**
+    /**
          In order to fast access the input edges, a linked list of edges is done. The edges
          can then be scanned in the linked list order to get the input edges corresponding
          to the vertices in direct order.
         */
-        static HDAGEdge* firstInSinkOrder;
-        HDAGEdge* prevInSinkOrder;
-        HDAGEdge* nextInSinkOrder;
-        static HDAGEdge* lastInSinkOrder;
+    static HDAGEdge* firstInSinkOrder;
+    HDAGEdge* prevInSinkOrder;
+    HDAGEdge* nextInSinkOrder;
+    static HDAGEdge* lastInSinkOrder;
 };
 
 

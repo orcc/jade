@@ -41,7 +41,7 @@
 
 #include <string>
 namespace llvm{
-    class LLVMContext;
+class LLVMContext;
 }
 
 #include "lib/IRCore/Network.h"
@@ -66,12 +66,12 @@ public:
      */
     XDFParser (bool verbose = false);
 
-     /**
+    /**
      *  @brief Destructor of the class XDFParser
      */
     ~XDFParser ();
 
-   /**
+    /**
      *  @brief Start Parsing XDF file
      *
      *  @param	filename : name of the XDF file to parse

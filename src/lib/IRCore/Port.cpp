@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2011, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,18 +43,18 @@
 using namespace std;
 
 int Port::getFifoSize(){
-	if (connections.empty()){
-		return 0;
-	}
+    if (connections.empty()){
+        return 0;
+    }
 
-	return connections.front()->getSize();
+    return connections.front()->getSize();
 }
 
 void Port::setAccess(bool read, bool write){
-	this->read = read;
-	this->write = write;
+    this->read = read;
+    this->write = write;
 }
 
 void Port::addConnection(Connection* connection){
-	connections.push_back(connection);
+    connections.push_back(connection);
 }

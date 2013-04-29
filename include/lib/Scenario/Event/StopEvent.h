@@ -57,21 +57,21 @@ public:
      * @param threaded : start in threaded mode or not.
      */
     StopEvent(int id) : Event(id) {
-    };
+    }
 
     /*!
      *  @brief Destructor
      *
      * Delete an event.
      */
-    ~StopEvent(){};
+    ~StopEvent(){}
 
     /*!
      * @brief Return true if the Event is a StopEvent
      *
      * @return true if Event is a StopEvent otherwise false
      */
-    bool isStopEvent(){return true;};
+    bool isStopEvent(){return true;}
 };
 
 #endif

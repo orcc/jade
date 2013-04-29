@@ -29,189 +29,189 @@ class HDAGEdge;
 
 class HDAGVertex {
 
-    public :
-        /**
+public :
+    /**
          The base, i.e. the graph in which current vertex is included
         */
-        HDAGGraph* base;
+    HDAGGraph* base;
 
-        /**
+    /**
          Integer solved parameters. Retrieved while solving the edges
         */
-        int paramValues[MAX_PARAM];
+    int paramValues[MAX_PARAM];
 
-        /**
+    /**
          The reference DAG graph (if generated from a CSDAG)
         */
-        CSDAGVertex* csDagReference;
+    CSDAGVertex* csDagReference;
 
-        /**
+    /**
          The vertex top level
         */
-        int tLevel;
+    int tLevel;
 
-        /**
+    /**
          The vertex implementation slave index
         */
-        char slaveIndex;
+    char slaveIndex;
 
-        /**
+    /**
          The duplication index of the vertex to distinguish it from other vertices created from dagReference.
         */
-        int referenceIndex;
+    int referenceIndex;
 
-        /**
+    /**
          The vertex name
         */
-        char name[MAX_VERTEX_NAME_SIZE];
+    char name[MAX_VERTEX_NAME_SIZE];
 
-        /**
+    /**
          A table of the vertices following the current vertices in the graph. The table is initialized from
          edges information by the precomputeSuccessors method in HDAGGraph
         */
-        HDAGVertex* successors[MAX_HDAG_INPUT_EDGES];
-        int nbSuccessors;
-    public :
+    HDAGVertex* successors[MAX_HDAG_INPUT_EDGES];
+    int nbSuccessors;
+public :
 
-        /**
+    /**
          Constructor
         */
-        HDAGVertex();
+    HDAGVertex();
 
-        /**
+    /**
          Constructor
         */
-        HDAGVertex(char* name){this->setName(name);}
+    HDAGVertex(char* name){this->setName(name);}
 
-        /**
+    /**
          Destructor
         */
-        virtual ~HDAGVertex();
+    virtual ~HDAGVertex();
 
-        /**
+    /**
          Setting the base, i.e. the graph in which current vertex is included
 
          @param base: the base
         */
-        void setBase(HDAGGraph* graph);
+    void setBase(HDAGGraph* graph);
 
-        /**
+    /**
          Getting the value of a parameter
 
          @param paramIndex: the parameter index
          @return the parameter value
         */
-        int getParamValue(int paramIndex);
+    int getParamValue(int paramIndex);
 
-        /**
+    /**
          Setting the value of a parameter
 
          @param paramIndex: the parameter index
          @param value: the parameter value
         */
-        void setParamValue(int paramIndex, int value);
+    void setParamValue(int paramIndex, int value);
 
-        /**
+    /**
          Getting the CSDAG vertex that generated the current HDAG vertex
 
          @return the CSDAG reference vertex
         */
-        CSDAGVertex* getCsDagReference();
+    CSDAGVertex* getCsDagReference();
 
-        /**
+    /**
          Setting the value of a parameter
 
          @param:vertex the CSDAG reference vertex
         */
-        void setCsDagReference(CSDAGVertex* vertex);
+    void setCsDagReference(CSDAGVertex* vertex);
 
-        /**
+    /**
          Getting the duplication index of the vertex that distinguishes
          it from other vertices created from dagReference.
 
          @return the CSDAG reference index
         */
-        int getReferenceIndex();
+    int getReferenceIndex();
 
-        /**
+    /**
          Setting the duplication index of the vertex to distinguish
          it from other vertices created from dagReference.
 
          @param index: the vertex reference index
         */
-        void setReferenceIndex(int index);
+    void setReferenceIndex(int index);
 
-        /**
+    /**
          Getter of the implementation information giving the slave that will execute the vertex.
 
          @return the slave index
         */
-        char getSlaveIndex();
+    char getSlaveIndex();
 
-        /**
+    /**
          Setter of the implementation information giving the slave that will execute the vertex.
 
          @param slaveIndex: the slave index
         */
-        void setSlaveIndex(char slaveIndex);
+    void setSlaveIndex(char slaveIndex);
 
-        /**
+    /**
          Getter of the vertex top level: the time between the loop execution beginning and the vertex execution beginning.
 
          @return the t level of the vertex
         */
-        int getTLevel();
+    int getTLevel();
 
-        /**
+    /**
          Setter of the vertex top level: the time between the loop execution beginning and the vertex execution beginning.
 
          @param value: the t level of the vertex
         */
-        void setTLevel(int value);
+    void setTLevel(int value);
 
-        /**
+    /**
          Setting the vertex name
 
          @param name: the name
         */
-        void setName(char* name);
+    void setName(char* name);
 
-        /**
+    /**
          Getting the vertex name
 
          @param name: the name
         */
-        char* getName();
+    char* getName();
 
-        /**
+    /**
          Removes all the vertices from the successors table
         */
-        void flushSuccessors();
+    void flushSuccessors();
 
-        /**
+    /**
          Adds a vertex in the the successors table
 
          @param vertex: the vertex to add
         */
-        void addSuccessor(HDAGVertex* vertex);
+    void addSuccessor(HDAGVertex* vertex);
 
-        /**
+    /**
          Gets a pointer on the successors table and the size of the table
 
          @param successorVertices: a pointer to retrieve the table pointer
          @return the successors table size
         */
-        int getSuccessors(HDAGVertex*** successorVertices);
+    int getSuccessors(HDAGVertex*** successorVertices);
 
-        /**
+    /**
          Sets the condition when to HDAGVertex are considered as equal.
 
          @param vertex: HDAGVertex to compare with
          @return true if the vertex are equivalent
         */
-        virtual bool equals(HDAGVertex* vertex){
-            return this == vertex;
-        }
+    virtual bool equals(HDAGVertex* vertex){
+        return this == vertex;
+    }
 };
 
 

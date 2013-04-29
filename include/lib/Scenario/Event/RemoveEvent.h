@@ -55,21 +55,21 @@ public:
 	 * @param id : the id of the decoder to remove.
      */
 	RemoveEvent(int id) : Event(id) {
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~RemoveEvent(){};
+    ~RemoveEvent(){}
 
 	/*!
      * @brief Return true if the Event is a RemoveEvent
      *
 	 * @return true if Event is a RemoveEvent otherwise false
      */
-	bool isRemoveEvent(){return true;};
+    bool isRemoveEvent(){return true;}
 
 };
 

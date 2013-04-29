@@ -8,7 +8,7 @@ This software is a computer program whose purpose is to execute
 parallel applications.
 
  *********************************************************/
- 
+
 #ifndef DOT_WRITER
 #define DOT_WRITER
 
@@ -19,32 +19,32 @@ parallel applications.
 
 /**
  * Writes a dot file from a graph of a given type
- * 
+ *
  * @author mpelcat
  */
 class DotWriter {
 
-	private :
-	public : 
-		/**
-		 Constructor
-		*/
-		DotWriter();
+private :
+public :
+    /**
+         Constructor
+        */
+    DotWriter();
 
 
-		/**
-		 Destructor
-		*/
-		~DotWriter();
+    /**
+         Destructor
+        */
+    ~DotWriter();
 
 
-		/**
-		 Writes a HDAGGraph in a file
+    /**
+         Writes a HDAGGraph in a file
 
-		 @param graph: written graph
-		 @param path: output file path
-		*/
-		void write(HDAGGraph* graph, char* path, char displayNames);
+         @param graph: written graph
+         @param path: output file path
+        */
+    void write(HDAGGraph* graph, char* path, char displayNames);
 };
 
 #endif

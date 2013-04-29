@@ -44,8 +44,8 @@
 #include <string>
 
 namespace llvm {
-    class Function;
-    class GlobalVariable;
+class Function;
+class GlobalVariable;
 }
 
 class Action;
@@ -71,7 +71,7 @@ public:
         functions = NULL;
         fsm_state = NULL;
         outFsm = NULL;
-    };
+    }
 
     ~FSM();
 
@@ -82,7 +82,7 @@ public:
      */
     void setFunctions(std::list<llvm::Function*>* functions){
         this->functions = functions;
-    };
+    }
 
     /**
      *  @brief Get functions used by the fsm
@@ -101,7 +101,7 @@ public:
      */
     void setFsmState(llvm::GlobalVariable* fsm_state){
         this->fsm_state = fsm_state;
-    };
+    }
 
     /**
      *  @brief Set outside_fsm function used by the fsm
@@ -113,7 +113,7 @@ public:
      */
     void setOutFsmFn(llvm::Function* outFsm){
         this->outFsm = outFsm;
-    };
+    }
 
     /**
      *  @brief Return true if fms has an outside_fsm function
@@ -207,49 +207,49 @@ public:
             this->action = action;
             this->targetState = state;
 
-        };
+        }
 
-        Action* getAction(){return action;};
+        Action* getAction(){return action;}
 
-        State* getTargetState(){return targetState;};
+        State* getTargetState(){return targetState;}
     private:
         Action* action;
 
         State* targetState;
     };
 
-    public:
+public:
 
-        class Transition {
-        public:
-            /**
+    class Transition {
+    public:
+        /**
              * @brief Create a transition
              *
              * Creates a transition from a source state.
              *
              * @param sourceState : source State
              */
-            Transition(State* state)
-            {
-                this->sourceState = state;
-            };
+        Transition(State* state)
+        {
+            this->sourceState = state;
+        }
 
-            State* getSourceState() {
-                return sourceState;
-            }
+        State* getSourceState() {
+            return sourceState;
+        }
 
-            std::list<NextStateInfo*>* getNextStateInfo() {
-                return &nextStateInfo;
-            }
+        std::list<NextStateInfo*>* getNextStateInfo() {
+            return &nextStateInfo;
+        }
 
-        private:
-            /** next state of the transition */
-            std::list<NextStateInfo*> nextStateInfo;
+    private:
+        /** next state of the transition */
+        std::list<NextStateInfo*> nextStateInfo;
 
-            /** source state */
-            State* sourceState;
+        /** source state */
+        State* sourceState;
 
-        };
+    };
 
 public:
     /**
@@ -297,7 +297,7 @@ public:
         }
 
         return (*it).second;
-    };
+    }
 
 
     /**
@@ -330,7 +330,7 @@ public:
      *
      * @return the initial state
      */
-    State* getInitialState() {return initialState;};
+    State* getInitialState() {return initialState;}
 
     /**
      * @breif Returns the map of states.

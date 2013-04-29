@@ -58,28 +58,28 @@ public:
      */
 	LoadEvent(std::string xdfFile, int id) : Event(id){
 		this->file = xdfFile;
-	};
+    }
 
 	/*!
      *  @brief Destructor
      *
 	 * Delete an event.
      */
-	~LoadEvent(){};
+    ~LoadEvent(){}
 
 	/*!
      * @brief Return true if the Event is a LoadEvent
      *
 	 * @return true if Event is a LoadEvent otherwise false
      */
-	bool isLoadEvent(){return true;};
+    bool isLoadEvent(){return true;}
 
 	/*!
      * @brief Return the network file to load
      *
 	 * @return the network file to load
      */
-	std::string getFile(){return file;};
+    std::string getFile(){return file;}
 
 private:
 	std::string file;

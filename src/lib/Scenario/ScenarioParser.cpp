@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -75,141 +75,141 @@ const char* ScenarioParser::JSC_TIME = "time";
 const char* ScenarioParser::JSC_THREADED = "threaded";
 
 ScenarioParser::ScenarioParser(string scFile){
-	this->scFile = scFile;
-	this->scenario = new Scenario();
+    this->scFile = scFile;
+    this->scenario = new Scenario();
 }
 
 Scenario* ScenarioParser::parse(){
-	TiXmlDocument xmlSc(scFile.c_str());
+    TiXmlDocument xmlSc(scFile.c_str());
 
-	/* Parsing XML file error */
-	if (!xmlSc.LoadFile()) {
-		cerr << "Error : the given file does not exist. \n";
-		return NULL;
+    /* Parsing XML file error */
+    if (!xmlSc.LoadFile()) {
+        cerr << "Error : the given file does not exist. \n";
+        return NULL;
     }
 
-	// Get the root element node
-	TiXmlElement* root_element = xmlSc.RootElement();
-	
-	// xml document doesn't start with XDF root
-	if (TiXmlString(root_element->Value()) != JSC_ROOT){
-		cerr << "XML description does not represent a Jade scenario";
-		return NULL;
-	}
-	
-	if(!parseEvents(root_element)){
-		//Parsing error
-		return NULL;
-	}
-	
-	return scenario;
+    // Get the root element node
+    TiXmlElement* root_element = xmlSc.RootElement();
+
+    // xml document doesn't start with XDF root
+    if (TiXmlString(root_element->Value()) != JSC_ROOT){
+        cerr << "XML description does not represent a Jade scenario";
+        return NULL;
+    }
+
+    if(!parseEvents(root_element)){
+        //Parsing error
+        return NULL;
+    }
+
+    return scenario;
 }
 
 bool ScenarioParser::parseEvents(TiXmlElement* root){
-	TiXmlNode* node = root->FirstChild();
+    TiXmlNode* node = root->FirstChild();
 
-	while (node != NULL){
-		if (node->Type() == TiXmlNode::TINYXML_ELEMENT) {
-			TiXmlElement* element = (TiXmlElement*)node;
-			TiXmlString name(node->Value());
-			Event* curEvent = NULL;
+    while (node != NULL){
+        if (node->Type() == TiXmlNode::TINYXML_ELEMENT) {
+            TiXmlElement* element = (TiXmlElement*)node;
+            TiXmlString name(node->Value());
+            Event* curEvent = NULL;
 
-			if (name == JSC_LOAD) {
-				curEvent = parseLoadEvent(element);
-			}else if (name == JSC_START){
-				curEvent = parseStartEvent(element);
-			}else if (name == JSC_STOP){
-				curEvent = parseStopEvent(element);
-			}else if (name == JSC_SET){
-				curEvent = parseSetEvent(element);
-			}else if (name == JSC_WAIT){
-				curEvent = parseWaitEvent(element);
-			}else if (name == JSC_PAUSE){
-				curEvent = parsePauseEvent(element);
-			}else if (name == JSC_PRINT){
-				curEvent = parsePrintEvent(element);
-			}else if (name == JSC_REMOVE){
-				curEvent = parseRemoveEvent(element);
-			}else if (name == JSC_VERIFY){
-				curEvent = parseVerifyEvent(element);
-			}else{
-				cerr << "Invalid node "<< name.c_str() <<"\n";
-				return false;
-			}
+            if (name == JSC_LOAD) {
+                curEvent = parseLoadEvent(element);
+            }else if (name == JSC_START){
+                curEvent = parseStartEvent(element);
+            }else if (name == JSC_STOP){
+                curEvent = parseStopEvent(element);
+            }else if (name == JSC_SET){
+                curEvent = parseSetEvent(element);
+            }else if (name == JSC_WAIT){
+                curEvent = parseWaitEvent(element);
+            }else if (name == JSC_PAUSE){
+                curEvent = parsePauseEvent(element);
+            }else if (name == JSC_PRINT){
+                curEvent = parsePrintEvent(element);
+            }else if (name == JSC_REMOVE){
+                curEvent = parseRemoveEvent(element);
+            }else if (name == JSC_VERIFY){
+                curEvent = parseVerifyEvent(element);
+            }else{
+                cerr << "Invalid node "<< name.c_str() <<"\n";
+                return false;
+            }
 
-			if (curEvent == NULL){
-				cerr << "Failed to parse the "<< name.c_str() <<" event \n";
-				return false;
-			}
+            if (curEvent == NULL){
+                cerr << "Failed to parse the "<< name.c_str() <<" event \n";
+                return false;
+            }
 
-			scenario->addEvent(curEvent);
-		}
-		
-		node = node->NextSibling();
-	}
+            scenario->addEvent(curEvent);
+        }
 
-	//End of parsing
-	return true;
+        node = node->NextSibling();
+    }
+
+    //End of parsing
+    return true;
 }
 
 Event* ScenarioParser::parseLoadEvent(TiXmlElement* loadEvent){
-	const char* xdfFile = loadEvent->Attribute(JSC_XDF);
-	const char* id = loadEvent->Attribute(JSC_ID);
+    const char* xdfFile = loadEvent->Attribute(JSC_XDF);
+    const char* id = loadEvent->Attribute(JSC_ID);
 
-	return new LoadEvent(string(xdfFile), atoi(id));
+    return new LoadEvent(string(xdfFile), atoi(id));
 }
 
 Event* ScenarioParser::parseStartEvent(TiXmlElement* startEvent){
-	const char* id = startEvent->Attribute(JSC_ID);
-	const char* threaded = startEvent->Attribute(JSC_THREADED);
-	const char* input = startEvent->Attribute(JSC_IN);
+    const char* id = startEvent->Attribute(JSC_ID);
+    const char* threaded = startEvent->Attribute(JSC_THREADED);
+    const char* input = startEvent->Attribute(JSC_IN);
 
-	return new StartEvent(atoi(id), string(input), atoi(threaded));
+    return new StartEvent(atoi(id), string(input), atoi(threaded));
 }
 
 Event* ScenarioParser::parseStopEvent(TiXmlElement* startEvent){
-	const char* id = startEvent->Attribute(JSC_ID);
+    const char* id = startEvent->Attribute(JSC_ID);
 
-	return new StopEvent(atoi(id));
+    return new StopEvent(atoi(id));
 }
 
 Event* ScenarioParser::parseSetEvent(TiXmlElement* setEvent){
-	const char* id = setEvent->Attribute(JSC_ID);
-	const char* xdfFile = setEvent->Attribute(JSC_XDF);
+    const char* id = setEvent->Attribute(JSC_ID);
+    const char* xdfFile = setEvent->Attribute(JSC_XDF);
 
-	return new SetEvent(atoi(id), string(xdfFile));
+    return new SetEvent(atoi(id), string(xdfFile));
 }
 
 Event* ScenarioParser::parseWaitEvent(TiXmlElement* waitEvent){
-	const char* time = waitEvent->Attribute(JSC_TIME);
+    const char* time = waitEvent->Attribute(JSC_TIME);
 
-	return new WaitEvent(atoi(time));
+    return new WaitEvent(atoi(time));
 }
 
 Event* ScenarioParser::parsePauseEvent(TiXmlElement* waitEvent){
-	return new PauseEvent();
+    return new PauseEvent();
 }
 
 Event* ScenarioParser::parseVerifyEvent(TiXmlElement* verifyEvent){
-	const char* id = verifyEvent->Attribute(JSC_ID);
-	const char* file = verifyEvent->Attribute(JSC_OUT);
-	
-	return new VerifyEvent(atoi(id), string(file));
+    const char* id = verifyEvent->Attribute(JSC_ID);
+    const char* file = verifyEvent->Attribute(JSC_OUT);
+
+    return new VerifyEvent(atoi(id), string(file));
 }
 
 Event* ScenarioParser::parsePrintEvent(TiXmlElement* verifyEvent){
-	const char* id = verifyEvent->Attribute(JSC_ID);
-	const char* file = verifyEvent->Attribute(JSC_OUT);
-	
-	return new PrintEvent(atoi(id), string(file));
+    const char* id = verifyEvent->Attribute(JSC_ID);
+    const char* file = verifyEvent->Attribute(JSC_OUT);
+
+    return new PrintEvent(atoi(id), string(file));
 }
 
 Event* ScenarioParser::parseRemoveEvent(TiXmlElement* removeEvent){
-	const char* id = removeEvent->Attribute(JSC_ID);
+    const char* id = removeEvent->Attribute(JSC_ID);
 
-	return new RemoveEvent(atoi(id));
+    return new RemoveEvent(atoi(id));
 }
 
 Event* ScenarioParser::parseListEvent(TiXmlElement* removeEvent){
-	return new ListEvent();
+    return new ListEvent();
 }

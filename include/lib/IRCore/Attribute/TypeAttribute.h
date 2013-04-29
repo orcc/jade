@@ -63,7 +63,7 @@ public:
      *
      * @param type : Type of the IRAttribute
      */
-    TypeAttribute(IRType* type){this->type = type;};
+    TypeAttribute(IRType* type){this->type = type;}
     ~TypeAttribute();
 
     /**
@@ -71,14 +71,14 @@ public:
      *
      * @return true if this type is a type IRAttribute
      */
-    bool isType(){return true;};
+    bool isType(){return true;}
 
     /**
      * @brief Getter of type.
      *
      * @return Type of the IRAttribute
      */
-    IRType* getType(){return type;};
+    IRType* getType(){return type;}
 
 private:
     IRType* type;

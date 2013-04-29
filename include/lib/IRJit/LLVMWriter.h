@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,7 +41,7 @@
 #include <map>
 
 namespace llvm{
-	struct ClonedCodeInfo;
+struct ClonedCodeInfo;
 }
 
 class AbstractFifo;
@@ -60,173 +60,173 @@ class Port;
 
 /**
  * @brief  This class manages the LLVM infrastructure to write elements
- * 
+ *
  * @author Jerome Gorin
- * 
+ *
  */
 class LLVMWriter {
 public:
 
-	/**
+    /**
      *  @brief Constructor
      *
-	 *	Initialize the JIT engine
-	 *
+     *	Initialize the JIT engine
+     *
      */
-	LLVMWriter(std::string prefix, Decoder* decoder);
+    LLVMWriter(std::string prefix, Decoder* decoder);
 
-	
-	/**
+
+    /**
      *  @brief Create a new GlobalVariable in the decoder
-	 *
-	 * @param variable : the GlobalVariable to add
-	 *
-	 * @return the created GlobalVariable.
-	 *
+     *
+     * @param variable : the GlobalVariable to add
+     *
+     * @return the created GlobalVariable.
+     *
      */
-	llvm::GlobalVariable* createVariable(llvm::GlobalVariable* variable);
-	
-	/**
+    llvm::GlobalVariable* createVariable(llvm::GlobalVariable* variable);
+
+    /**
      *  @brief Create a new Function in the decoder
-	 *
-	 * @param function : the llvm::Function to add
-	 *
-	 * @return the created llvm::Function.
+     *
+     * @param function : the llvm::Function to add
+     *
+     * @return the created llvm::Function.
      */
-	llvm::Function* createFunction(llvm::Function* function);
+    llvm::Function* createFunction(llvm::Function* function);
 
-	/**
+    /**
      *  @brief Add a new external Function prototype in the decoder
-	 *
-	 * @param function : the llvm::Function to add
-	 *
-	 * @return the created prototype.
+     *
+     * @param function : the llvm::Function to add
+     *
+     * @return the created prototype.
      */
-	llvm::Function* addFunctionProtosExternal(const llvm::Function* function);
-	
-	/**
+    llvm::Function* addFunctionProtosExternal(const llvm::Function* function);
+
+    /**
      *  @brief Add a new internal Function prototype in the decoder
-	 *
-	 * @param function : the llvm::Function to add
-	 *
-	 * @return the created prototype.
+     *
+     * @param function : the llvm::Function to add
+     *
+     * @return the created prototype.
      */
-	llvm::Function* addFunctionProtosInternal(const llvm::Function* function);
-	
-	/**
+    llvm::Function* addFunctionProtosInternal(const llvm::Function* function);
+
+    /**
      *  @brief Link the body of a Function in the decoder
-	 *
-	 * @param function : the llvm::Function to link
-	 *
-	 * @return true if the function is linked otherwise false
+     *
+     * @param function : the llvm::Function to link
+     *
+     * @return true if the function is linked otherwise false
      */
-	bool linkProcedureBody(llvm::Function* function);
+    bool linkProcedureBody(llvm::Function* function);
 
-	/**
+    /**
      *  @brief Add a new GlobalVariable representing a Port in the given decoder
-	 *
-	 * @param port : the Port to add
-	 *
-	 * @return the created GlobalVariable.
-	 *
+     *
+     * @param port : the Port to add
+     *
+     * @return the created GlobalVariable.
+     *
      */
-	llvm::GlobalVariable* createPortVariable(Port* port);
+    llvm::GlobalVariable* createPortVariable(Port* port);
 
-	/**
+    /**
      *  @brief Add a new llvm::Type in the given decoder
      *
-	 *  Insert an entry in the decoder Type table mapping. If there is already an entry 
-	 *   for this name, true is returned and the symbol table of the decoder is not modified. 
-	 *
-	 * @param name : name of the type
-	 *
-	 * @param type : llvm::Type to add
-	 *
-	 * @return True ff there is already an entry for this name, otherwise false.
-	 *
+     *  Insert an entry in the decoder Type table mapping. If there is already an entry
+     *   for this name, true is returned and the symbol table of the decoder is not modified.
+     *
+     * @param name : name of the type
+     *
+     * @param type : llvm::Type to add
+     *
+     * @return True ff there is already an entry for this name, otherwise false.
+     *
      */
-	bool addType(std::string name, llvm::StructType* type);
+    bool addType(std::string name, llvm::StructType* type);
 
-	/**
+    /**
      *  @brief Link two functions in a two separates modules
-	 *
-	 * @param srcFunction : the source function
-	 *
-	 * @param dstFunction : the destination function
-	 *
-	 * @return True ff there is already an entry for this name, otherwise false.
-	 *
+     *
+     * @param srcFunction : the source function
+     *
+     * @param dstFunction : the destination function
+     *
+     * @return True ff there is already an entry for this name, otherwise false.
+     *
      */
-	void linkExternalFunction(llvm::Function* srcFunction, llvm::Function* dstFunction);
+    void linkExternalFunction(llvm::Function* srcFunction, llvm::Function* dstFunction);
 
 private:
 
-	/**
+    /**
      *  @brief Add a new llvm::GlobalVariable in the given decoder
      *
-	 *  Insert the given global variable into the decoder. This global variable
-	 *   can either represent an actor port, state, parameter or internal variable.
-	 *
-	 * @param variable : llvm::GlobalVariable to add
-	 *
-	 * @param decoder : decoder to had the variable
-	 *
-	 * @return True if successfull, otherwise false
+     *  Insert the given global variable into the decoder. This global variable
+     *   can either represent an actor port, state, parameter or internal variable.
+     *
+     * @param variable : llvm::GlobalVariable to add
+     *
+     * @param decoder : decoder to had the variable
+     *
+     * @return True if successfull, otherwise false
      */
-	llvm::GlobalVariable* addVariable(llvm::GlobalVariable* variable);
+    llvm::GlobalVariable* addVariable(llvm::GlobalVariable* variable);
 
-	/**
+    /**
      *  @brief Copy global variable attribute.
      *
-	 * @param SrcGV : the source llvm::GlobalVariable to get attributes from
-	 *
-	 * @param DestGV : the destination llvm::GlobalVariable to write attributes to
+     * @param SrcGV : the source llvm::GlobalVariable to get attributes from
+     *
+     * @param DestGV : the destination llvm::GlobalVariable to write attributes to
      */
-	void CopyGVAttributes(llvm::GlobalValue *DestGV, const llvm::GlobalValue *SrcGV);
-	
-	/**
+    void CopyGVAttributes(llvm::GlobalValue *DestGV, const llvm::GlobalValue *SrcGV);
+
+    /**
      *  @brief Links llvm::GlobalVariable initializer.
      *
-	 * @param variable : the llvm::GlobalVariable to link
-	 *
-	 * @return True if successfull, otherwise false
+     * @param variable : the llvm::GlobalVariable to link
+     *
+     * @return True if successfull, otherwise false
      */
-	bool LinkGlobalInits(llvm::GlobalVariable* variable);
+    bool LinkGlobalInits(llvm::GlobalVariable* variable);
 
-	/**
+    /**
      *  @brief Link the body of a Function in the decoder
-	 *
-	 * @param NewFunc : the new llvm::Function
-	 *
-	 * @param OldFunc : the old llvm::Function
-	 *
-	 * @param VMap : the Value Map
-	 *
-	 * @param ModuleLevelChanges : Whether or not the Module Level has Changed
-	 *
-	 * @param Returns : Return instructions
-	 *
-	 * @param NameSuffix : the suffix name
-	 *
-	 * @param CodeInfo : the llvm::ClonedCodeInfo
+     *
+     * @param NewFunc : the new llvm::Function
+     *
+     * @param OldFunc : the old llvm::Function
+     *
+     * @param VMap : the Value Map
+     *
+     * @param ModuleLevelChanges : Whether or not the Module Level has Changed
+     *
+     * @param Returns : Return instructions
+     *
+     * @param NameSuffix : the suffix name
+     *
+     * @param CodeInfo : the llvm::ClonedCodeInfo
      */
-	void linkFunctionBody(llvm::Function *NewFunc, const llvm::Function *OldFunc,
-		llvm::ValueToValueMapTy &VMap,
-                       bool ModuleLevelChanges,
-					   llvm::SmallVectorImpl<llvm::ReturnInst*> &Returns,
-					   //AbstractConnector* fifo,
-                       const char *NameSuffix = "", 
-					   llvm::ClonedCodeInfo *CodeInfo = 0);
+    void linkFunctionBody(llvm::Function *NewFunc, const llvm::Function *OldFunc,
+                          llvm::ValueToValueMapTy &VMap,
+                          bool ModuleLevelChanges,
+                          llvm::SmallVectorImpl<llvm::ReturnInst*> &Returns,
+                          //AbstractConnector* fifo,
+                          const char *NameSuffix = "",
+                          llvm::ClonedCodeInfo *CodeInfo = 0);
 
-	/** Module to write element into */
-	llvm::Module* module;
+    /** Module to write element into */
+    llvm::Module* module;
 
-	/** Written values*/
-	llvm::ValueToValueMapTy ValueMap;
+    /** Written values*/
+    llvm::ValueToValueMapTy ValueMap;
 
-	Decoder* decoder;
-	std::string prefix;
-	std::map<std::string, llvm::Function*>* fifoFns;
+    Decoder* decoder;
+    std::string prefix;
+    std::map<std::string, llvm::Function*>* fifoFns;
 
 };
 

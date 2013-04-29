@@ -61,11 +61,11 @@ using namespace llvm;
 //extern cl::list<const PassInfo*, bool, PassNameParser> PassList;
 
 RVCEngine::RVCEngine(llvm::LLVMContext& C,
-                             string library,
-                             string outputDir,
-                             bool noMerging,
-                             bool noMultiCore,
-                             bool verbose, bool armFix): Context(C) {
+                     string library,
+                     string outputDir,
+                     bool noMerging,
+                     bool noMultiCore,
+                     bool verbose, bool armFix): Context(C) {
     //Set properties
     this->library = library;
     this->verbose = verbose;
@@ -132,7 +132,7 @@ int RVCEngine::unload(Network* network) {
 
 
 int RVCEngine::stop(Network* network){
-//    map<Network*, Decoder*>::iterator it;
+    //    map<Network*, Decoder*>::iterator it;
 
     map<Network*, Decoder*>::iterator it = decoders.find(network);
 
@@ -275,8 +275,8 @@ map<string, Actor*>* RVCEngine::parseActors(Configuration* Configuration) {
 }
 
 void RVCEngine::doOptimizeDecoder(Decoder* decoder){
-//TODO : add CFGSimplification and mem2reg
-/*	InstanceInternalize internalize;
+    //TODO : add CFGSimplification and mem2reg
+    /*	InstanceInternalize internalize;
     internalize.transform(decoder);
 
     PassManager Passes;

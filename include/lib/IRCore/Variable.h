@@ -42,8 +42,8 @@
 #include <string>
 
 namespace llvm {
-    class Type;
-    class GlobalVariable;
+class Type;
+class GlobalVariable;
 }
 
 class Location;
@@ -75,7 +75,7 @@ public:
         this->global = global;
         this->variable = variable;
         this->assignable = assignable;
-    };
+    }
 
     ~Variable();
 
@@ -131,21 +131,21 @@ public:
      *
      * @return true if this variable is global
      */
-    bool isGlobal() {return global;};
+    bool isGlobal() {return global;}
 
     /**
      * Returns true if this variable is a state variable.
      *
      * @return true if this variable is global
      */
-    virtual bool isStateVar() {return false;};
+    virtual bool isStateVar() {return false;}
 
     /**
      * Returns true if this variable is assignable.
      *
      * @return true if this variable is assignable
      */
-    bool isAssignable() {return assignable;};
+    bool isAssignable() {return assignable;}
 
     /**
      * @brief Returns the initial expression of this variable.

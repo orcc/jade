@@ -45,8 +45,8 @@
 #include <pthread.h>
 
 namespace llvm{
-    class LLVMContext;
-    class Module;
+class LLVMContext;
+class Module;
 }
 
 class AbstractConnector;
@@ -94,7 +94,7 @@ public:
      *  @return llvm::Module bound to this decoder
      *
      */
-    llvm::Module* getModule(){return module;};
+    llvm::Module* getModule(){return module;}
 
     /**
      *  @brief Getter of configuration
@@ -104,7 +104,7 @@ public:
      *  @return configuration used by the decoder
      *
      */
-    Configuration* getConfiguration(){return configuration;};
+    Configuration* getConfiguration(){return configuration;}
 
     /**
      *  @brief Set a new configuration
@@ -114,23 +114,23 @@ public:
      *  @param configuration : the new configuration
      *
      */
-     void setConfiguration(Configuration* newConfiguration);
+    void setConfiguration(Configuration* newConfiguration);
 
 
-     /**
+    /**
      *  @brief Returns the external procedures of the decoder
      *
      *  @return a list of external Procedure in the decoder
      *
      */
-     std::list<Procedure*> getExternalProcs();
+    std::list<Procedure*> getExternalProcs();
 
     /**
      *  @brief Return true if the decoder is currently running
      *
      *  @return true if the decoder is currently running
      */
-    bool isRunning(){return running;};
+    bool isRunning(){return running;}
 
     /**
      *  @brief Getter of scheduler
@@ -139,14 +139,14 @@ public:
      *
      *  @return the scheduler used by the decoder
      */
-     Scheduler* getScheduler(){return scheduler;};
+    Scheduler* getScheduler(){return scheduler;}
 
-     /**
+    /**
      *  @brief Return true if this decoder has already a scheduler defined
      *
      *  @return true if the decoder has a scheduler, otherwise false
      */
-     bool hasScheduler(){return scheduler != NULL;};
+    bool hasScheduler(){return scheduler != NULL;}
 
 
     /**
@@ -171,7 +171,7 @@ public:
      *  @brief Stop the execution of the decoder
      *
      */
-    LLVMExecution* getEE(){return executionEngine;};
+    LLVMExecution* getEE(){return executionEngine;}
 
 
     /**
@@ -179,12 +179,12 @@ public:
      *
      *  @return the partition's schedulers of the decoder
      */
-    std::map<Partition*, Scheduler*>* getSchedParts(){return &procSchedulers;};
+    std::map<Partition*, Scheduler*>* getSchedParts(){return &procSchedulers;}
 
 
-    bool hasPartitions(){return !procSchedulers.empty();};
+    bool hasPartitions(){return !procSchedulers.empty();}
 
-    std::map<std::string, llvm::Function*>* getFifoFn(){return fifoFn;};
+    std::map<std::string, llvm::Function*>* getFifoFn(){return fifoFn;}
 private:
     /**
      *  @brief Static method for launching decoder in a thread

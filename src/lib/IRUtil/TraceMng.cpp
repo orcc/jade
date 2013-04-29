@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -54,119 +54,119 @@ using namespace llvm;
 using namespace std;
 
 void TraceMng::createActionTrace(Module* module, Action* action, Instruction* instruction){
-	// Print action fired
-		stringstream message;
-		
-		message << "\n\n -> firing ";
-		if (!action->getTag()->isEmpty()){
-			message << action->getCalName() << ": ";
-		}
-		
-		message << "action ";
+    // Print action fired
+    stringstream message;
 
-		// Print pattern
-		map<Port*, llvm::ConstantInt*>::iterator it;
+    message << "\n\n -> firing ";
+    if (!action->getTag()->isEmpty()){
+        message << action->getCalName() << ": ";
+    }
 
-		Pattern* input = action->getInputPattern();
-		if (!input->isEmpty()){
-			map<Port*, llvm::ConstantInt*>* inputNumToken = input->getNumTokensMap();
+    message << "action ";
 
-			for (it = inputNumToken->begin(); it != inputNumToken->end(); ){
-							
-				// Print port name
-				Port* port = it->first;
-				ConstantInt* tokens = it->second;
-				message << port->getName() << ":[]";
+    // Print pattern
+    map<Port*, llvm::ConstantInt*>::iterator it;
 
-				if (!tokens->isOne()){
-					// Print port consumption
-					message << " repeat "<< tokens->getValue().getLimitedValue();
+    Pattern* input = action->getInputPattern();
+    if (!input->isEmpty()){
+        map<Port*, llvm::ConstantInt*>* inputNumToken = input->getNumTokensMap();
 
-				}
+        for (it = inputNumToken->begin(); it != inputNumToken->end(); ){
 
-				// Port separation
-				if (++it != inputNumToken->end()){
-					message << ", ";
-				}
-			}
+            // Print port name
+            Port* port = it->first;
+            ConstantInt* tokens = it->second;
+            message << port->getName() << ":[]";
 
-		}
+            if (!tokens->isOne()){
+                // Print port consumption
+                message << " repeat "<< tokens->getValue().getLimitedValue();
 
-		message << "==> ";
+            }
 
-		Pattern* output = action->getOutputPattern();
-		if (!output->isEmpty()){
-			map<Port*, llvm::ConstantInt*>* outputNumToken = output->getNumTokensMap();
+            // Port separation
+            if (++it != inputNumToken->end()){
+                message << ", ";
+            }
+        }
 
-			for (it = outputNumToken->begin(); it != outputNumToken->end();){
-				
-				// Print port name
-				Port* port = it->first;
-				ConstantInt* tokens = it->second;
-				message << port->getName() << ":[]";
+    }
 
-				if (!tokens->isOne()){
-					// Print port production
-					message << " repeat "<< tokens->getValue().getLimitedValue();
+    message << "==> ";
 
-				}
+    Pattern* output = action->getOutputPattern();
+    if (!output->isEmpty()){
+        map<Port*, llvm::ConstantInt*>* outputNumToken = output->getNumTokensMap();
 
-				// Port separation
-				if (++it != outputNumToken->end()){
-					message << ", ";
+        for (it = outputNumToken->begin(); it != outputNumToken->end();){
 
-				}
-			}
+            // Print port name
+            Port* port = it->first;
+            ConstantInt* tokens = it->second;
+            message << port->getName() << ":[]";
 
-		}
-		
-		message << "\n";
-		
-		FunctionMng::createPuts(module, message.str(), instruction);
+            if (!tokens->isOne()){
+                // Print port production
+                message << " repeat "<< tokens->getValue().getLimitedValue();
+
+            }
+
+            // Port separation
+            if (++it != outputNumToken->end()){
+                message << ", ";
+
+            }
+        }
+
+    }
+
+    message << "\n";
+
+    FunctionMng::createPuts(module, message.str(), instruction);
 }
 
 void TraceMng::createStateVarTrace(Module* module, map<std::string, StateVar*>* stateVars, Instruction* instruction){
-	map<std::string, StateVar*>::iterator it;
-	
-	if (stateVars->empty()){
-		return;
-	}
-	
-	FunctionMng::createPuts(module, "State variables snapshot:", instruction);
+    map<std::string, StateVar*>::iterator it;
 
-	for (it = stateVars->begin(); it != stateVars->end(); ++it){
-		StateVar* var = it->second;
-		string name = it->first;
+    if (stateVars->empty()){
+        return;
+    }
 
-		Type* type = var->getType();
+    FunctionMng::createPuts(module, "State variables snapshot:", instruction);
 
-		if (isa<ArrayType>(type)){
-			// TODO
-		}else{
-			// Load value
-			LoadInst* loadInst = new LoadInst(var->getGlobalVariable(), "", instruction);
-			
-			// Create message
-			string message(name);
+    for (it = stateVars->begin(); it != stateVars->end(); ++it){
+        StateVar* var = it->second;
+        string name = it->first;
 
-			message.append(" = %d \n");
-			FunctionMng::createPrintf(module, message, instruction, loadInst);
-		}
+        Type* type = var->getType();
 
-	}
+        if (isa<ArrayType>(type)){
+            // TODO
+        }else{
+            // Load value
+            LoadInst* loadInst = new LoadInst(var->getGlobalVariable(), "", instruction);
 
-	FunctionMng::createPuts(module, "", instruction);
+            // Create message
+            string message(name);
+
+            message.append(" = %d \n");
+            FunctionMng::createPrintf(module, message, instruction, loadInst);
+        }
+
+    }
+
+    FunctionMng::createPuts(module, "", instruction);
 }
 
 void TraceMng::createCallTrace(Module* module, Instance* instance, Instruction* instruction){
-	string message = "************************** enabling ";
-	message.append(instance->getId());
-	message.append(" **************************");
+    string message = "************************** enabling ";
+    message.append(instance->getId());
+    message.append(" **************************");
 
-	FunctionMng::createPuts(module, message, instruction);
+    FunctionMng::createPuts(module, message, instruction);
 
-	createStateVarTrace(module, instance->getStateVars(), instruction);
+    createStateVarTrace(module, instance->getStateVars(), instruction);
 
-	string message2 = "Scheduling actions: \n";
-	FunctionMng::createPuts(module, message2, instruction);
+    string message2 = "Scheduling actions: \n";
+    FunctionMng::createPuts(module, message2, instruction);
 }

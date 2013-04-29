@@ -39,7 +39,7 @@
 #ifndef DECODERENGINE_H
 #define DECODERENGINE_H
 namespace llvm{
-    class LLVMContext;
+class LLVMContext;
 }
 
 class JIT;

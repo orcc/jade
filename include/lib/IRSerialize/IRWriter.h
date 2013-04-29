@@ -42,8 +42,8 @@
 #include <map>
 
 namespace llvm{
-    class ConstantInt;
-    class Module;
+class ConstantInt;
+class Module;
 }
 
 class Decoder;

@@ -60,15 +60,15 @@ class Pattern;
  */
 class CSDFMoC : public MoC {
 public:
-    CSDFMoC(Entity* parent) : MoC(parent){};
-    ~CSDFMoC(){};
+    CSDFMoC(Entity* parent) : MoC(parent){}
+    ~CSDFMoC(){}
 
     /**
      * @brief Returns true if this MoC is CSDF.
      *
      * @return true if this MoC is CSDF
      */
-    bool isCSDF(){return true;};
+    bool isCSDF(){return true;}
 
     /**
      * @brief Add action to the MoC.

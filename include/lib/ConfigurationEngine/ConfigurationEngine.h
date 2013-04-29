@@ -42,8 +42,8 @@
 #include "lib/ConfigurationEngine/Configuration.h"
 
 namespace llvm{
-    class LLVMContext;
-    class Module;
+class LLVMContext;
+class Module;
 }
 
 class Actor;

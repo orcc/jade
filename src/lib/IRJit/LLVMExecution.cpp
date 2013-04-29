@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -76,269 +76,269 @@ extern cl::list<std::string> MAttrs;
 extern cl::opt<std::string> MCPU;
 extern cl::opt<std::string> TargetTriple;
 cl::opt<bool> UseMCJIT(
-    "use-mcjit", cl::desc("Enable use of the MC-based JIT (if available)"),
-    cl::init(false));
+        "use-mcjit", cl::desc("Enable use of the MC-based JIT (if available)"),
+        cl::init(false));
 
 //===----------------------------------------------------------------------===//
 // main Driver function
 //
 LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Context(C)  {
-  std::string ErrorMsg;
+    std::string ErrorMsg;
 
-  this->decoder = decoder;
-  this->verbose = verbose;
-  this->stopVal = 0;
+    this->decoder = decoder;
+    this->verbose = verbose;
+    this->stopVal = 0;
 
-  Module* module = decoder->getModule();
+    Module* module = decoder->getModule();
 
-  // If the user doesn't want core files, disable them.
-  if (DisableCoreFiles)
-    sys::Process::PreventCoreFiles();
-  
-   // If not jitting lazily, load the whole bitcode file eagerly too.
-  if (NoLazyCompilation) {
-    if (module->MaterializeAllPermanently(&ErrorMsg)) {
-      cout << "bitcode didn't read correctly.\n";
-      cout << "Reason: " << ErrorMsg << "\n";
-      exit(1);
+    // If the user doesn't want core files, disable them.
+    if (DisableCoreFiles)
+        sys::Process::PreventCoreFiles();
+
+    // If not jitting lazily, load the whole bitcode file eagerly too.
+    if (NoLazyCompilation) {
+        if (module->MaterializeAllPermanently(&ErrorMsg)) {
+            cout << "bitcode didn't read correctly.\n";
+            cout << "Reason: " << ErrorMsg << "\n";
+            exit(1);
+        }
     }
-  }
-  
-  EngineBuilder builder(module);
-  builder.setMArch(StringRef(MArch));
-  builder.setMCPU(StringRef(MCPU));
-  builder.setMAttrs(MAttrs);
-  builder.setErrorStr(&ErrorMsg);
-  builder.setEngineKind(ForceInterpreter
-                        ? EngineKind::Interpreter
-                        : EngineKind::JIT);
 
-  // If we are supposed to override the target triple, do so now.
-  if (!TargetTriple.empty())
-    module->setTargetTriple(Triple::normalize(TargetTriple));
+    EngineBuilder builder(module);
+    builder.setMArch(StringRef(MArch));
+    builder.setMCPU(StringRef(MCPU));
+    builder.setMAttrs(MAttrs);
+    builder.setErrorStr(&ErrorMsg);
+    builder.setEngineKind(ForceInterpreter
+                          ? EngineKind::Interpreter
+                          : EngineKind::JIT);
+
+    // If we are supposed to override the target triple, do so now.
+    if (!TargetTriple.empty())
+        module->setTargetTriple(Triple::normalize(TargetTriple));
 
     // Enable MCJIT, if desired.
-  if (UseMCJIT)
-    builder.setUseMCJIT(true);
+    if (UseMCJIT)
+        builder.setUseMCJIT(true);
 
-  //TODO : select optimization level
-  char OptLevel = '2';
-  CodeGenOpt::Level OLvl = CodeGenOpt::Default;
-  switch (OptLevel) {
-  default:
-   exit (1);
-  case ' ': break;
-  case '0': OLvl = CodeGenOpt::None; break;
-  case '1': OLvl = CodeGenOpt::Less; break;
-  case '2': OLvl = CodeGenOpt::Default; break;
-  case '3': OLvl = CodeGenOpt::Aggressive; break;
-  }
-  builder.setOptLevel(OLvl);
+    //TODO : select optimization level
+    char OptLevel = '2';
+    CodeGenOpt::Level OLvl = CodeGenOpt::Default;
+    switch (OptLevel) {
+    default:
+        exit (1);
+    case ' ': break;
+    case '0': OLvl = CodeGenOpt::None; break;
+    case '1': OLvl = CodeGenOpt::Less; break;
+    case '2': OLvl = CodeGenOpt::Default; break;
+    case '3': OLvl = CodeGenOpt::Aggressive; break;
+    }
+    builder.setOptLevel(OLvl);
 
-  EE = builder.create();
-  if (!EE) {
-    if (!ErrorMsg.empty())
-      cout << ": error creating EE: " << ErrorMsg << "\n";
-    else
-      cout << ": unknown error creating EE!\n";
-    exit(1);
-  }
+    EE = builder.create();
+    if (!EE) {
+        if (!ErrorMsg.empty())
+            cout << ": error creating EE: " << ErrorMsg << "\n";
+        else
+            cout << ": unknown error creating EE!\n";
+        exit(1);
+    }
 
-  //Set properties of the EE
-  EE->RegisterJITEventListener(JITEventListener::createOProfileJITEventListener());
+    //Set properties of the EE
+    EE->RegisterJITEventListener(JITEventListener::createOProfileJITEventListener());
 
-  EE->DisableLazyCompilation(NoLazyCompilation);
-  
-  // If the program doesn't explicitly call exit, we will need the Exit 
-  // function later on to make an explicit call, so get the function now. 
-  Exit = (Function*) module->getOrInsertFunction("exit", Type::getVoidTy(Context),
-                                                    Type::getInt32Ty(Context),
-                                                    NULL);
+    EE->DisableLazyCompilation(NoLazyCompilation);
+
+    // If the program doesn't explicitly call exit, we will need the Exit
+    // function later on to make an explicit call, so get the function now.
+    Exit = (Function*) module->getOrInsertFunction("exit", Type::getVoidTy(Context),
+                                                   Type::getInt32Ty(Context),
+                                                   NULL);
 }
 
 void* LLVMExecution::getExit() {
-	return EE->getPointerToFunction(Exit);
+    return EE->getPointerToFunction(Exit);
 }
 
 void LLVMExecution::mapProcedure(Procedure* procedure, void *Addr) {
-	Function* function = procedure->getFunction();
-	
-	if (EE->getPointerToGlobalIfAvailable(function) == NULL){
-		EE->addGlobalMapping(function, Addr);
-	}
+    Function* function = procedure->getFunction();
+
+    if (EE->getPointerToGlobalIfAvailable(function) == NULL){
+        EE->addGlobalMapping(function, Addr);
+    }
 }
 
 
 bool LLVMExecution::mapFifo(Port* port, Fifo* fifo) {
-	void **portGV = (void**)EE->getPointerToGlobalIfAvailable(port->getFifoVar());
-	
-	//Port has already been compiled
-	if (portGV != NULL){
-		//Initialize fifo
-		void* fifoGV = EE->getOrEmitGlobalVariable(fifo->getGV());
+    void **portGV = (void**)EE->getPointerToGlobalIfAvailable(port->getFifoVar());
 
-		//Connect to compiled port
-		*portGV = fifoGV;
+    //Port has already been compiled
+    if (portGV != NULL){
+        //Initialize fifo
+        void* fifoGV = EE->getOrEmitGlobalVariable(fifo->getGV());
 
-		return true;
-	}
+        //Connect to compiled port
+        *portGV = fifoGV;
 
-	return false;
-	
+        return true;
+    }
+
+    return false;
+
 }
 
 
 void LLVMExecution::linkExternalProc(list<Procedure*> externs){
-	list<Procedure*>::iterator it;
+    list<Procedure*>::iterator it;
 
-	// Loop over all native procedure to find their equivalences
-	for (it = externs.begin(); it != externs.end(); it++){
-		map<std::string,void*>::iterator itNative;
+    // Loop over all native procedure to find their equivalences
+    for (it = externs.begin(); it != externs.end(); it++){
+        map<std::string,void*>::iterator itNative;
 
-		// Find native function corresponding to native procedure name
-		itNative = nativeMap.find((*it)->getName());
+        // Find native function corresponding to native procedure name
+        itNative = nativeMap.find((*it)->getName());
 
-		if (itNative == nativeMap.end()){
-			cout << "Unknown native function :"<< (*it)->getName();
-			exit(1);
-		}
+        if (itNative == nativeMap.end()){
+            cout << "Unknown native function :"<< (*it)->getName();
+            exit(1);
+        }
 
-		// Link native procedures
-		EE->addGlobalMapping((*it)->getFunction(), itNative->second);
-	}
+        // Link native procedures
+        EE->addGlobalMapping((*it)->getFunction(), itNative->second);
+    }
 
 }
 
 void LLVMExecution::launchPartitions(map<Partition*, Scheduler*>* parts) {
-	// Get scheduler's partition
-	map<Partition*, Scheduler*>::iterator it;
-	
-	for (it = parts->begin(); it != parts->end(); it++){
-		Scheduler* sched = it->second;
-		
-		pthread_t* thread = new pthread_t();
-		threads.push_back(thread);
+    // Get scheduler's partition
+    map<Partition*, Scheduler*>::iterator it;
 
-		procThread* th = new procThread;
-		th->EE = EE;
-		th->func = sched->getMainFunction();
-	
-		pthread_create( thread, NULL, &LLVMExecution::threadProc, th);
-	}
+    for (it = parts->begin(); it != parts->end(); it++){
+        Scheduler* sched = it->second;
+
+        pthread_t* thread = new pthread_t();
+        threads.push_back(thread);
+
+        procThread* th = new procThread;
+        th->EE = EE;
+        th->func = sched->getMainFunction();
+
+        pthread_create( thread, NULL, &LLVMExecution::threadProc, th);
+    }
 }
 
 void LLVMExecution::run() {
-	stopVal = 0;
-	
-	if (decoder->hasPartitions()){
-		// Start partitions
-		launchPartitions(decoder->getSchedParts());
-	}
+    stopVal = 0;
 
-	// Get main scheduler functions
-	Scheduler* scheduler = decoder->getScheduler();
-	Function* func = dyn_cast<Function>(scheduler->getMainFunction());
-	
-	// Run main scheduler
-	std::vector<GenericValue> noargs;
-	GenericValue Result = EE->runFunction(func, noargs);
+    if (decoder->hasPartitions()){
+        // Start partitions
+        launchPartitions(decoder->getSchedParts());
+    }
+
+    // Get main scheduler functions
+    Scheduler* scheduler = decoder->getScheduler();
+    Function* func = dyn_cast<Function>(scheduler->getMainFunction());
+
+    // Run main scheduler
+    std::vector<GenericValue> noargs;
+    GenericValue Result = EE->runFunction(func, noargs);
 }
 
 void* LLVMExecution::threadProc( void* args ){
-	procThread* th = static_cast<procThread*>(args);
-	Function* f = th->func;
-	ExecutionEngine* E = th->EE;
+    procThread* th = static_cast<procThread*>(args);
+    Function* f = th->func;
+    ExecutionEngine* E = th->EE;
 
-	std::vector<GenericValue> noargs;
-	GenericValue Result = E->runFunction(f, noargs);
+    std::vector<GenericValue> noargs;
+    GenericValue Result = E->runFunction(f, noargs);
 
-	return NULL;
+    return NULL;
 }
 
 int* LLVMExecution::initialize(){
-	std::string ErrorMsg;
-	Module* module = decoder->getModule();
-	clock_t timer = clock ();
+    std::string ErrorMsg;
+    Module* module = decoder->getModule();
+    clock_t timer = clock ();
 
-	// Link external procedure of the decoder
-	linkExternalProc(decoder->getExternalProcs());
-	
-	// Set stop condition of the scheduler
-	Scheduler* scheduler = decoder->getScheduler();
-	GlobalVariable* stopGV = scheduler->getStopGV();
-	EE->addGlobalMapping(stopGV, &stopVal);
+    // Link external procedure of the decoder
+    linkExternalProc(decoder->getExternalProcs());
 
-	if (decoder->hasPartitions()){
-		// Get scheduler's partition
-		map<Partition*, Scheduler*>::iterator it;
-		map<Partition*, Scheduler*>* parts = decoder->getSchedParts();
+    // Set stop condition of the scheduler
+    Scheduler* scheduler = decoder->getScheduler();
+    GlobalVariable* stopGV = scheduler->getStopGV();
+    EE->addGlobalMapping(stopGV, &stopVal);
 
-		for (it = parts->begin(); it != parts->end(); it++){
-			int* test = new int();
-			Scheduler* sched = it->second;
+    if (decoder->hasPartitions()){
+        // Get scheduler's partition
+        map<Partition*, Scheduler*>::iterator it;
+        map<Partition*, Scheduler*>* parts = decoder->getSchedParts();
 
-			GlobalVariable* stopGVpart = sched->getStopGV();
-			EE->addGlobalMapping(stopGVpart, &test);
-		}
-	}
+        for (it = parts->begin(); it != parts->end(); it++){
+            int* test = new int();
+            Scheduler* sched = it->second;
 
-	// Run static constructors.
+            GlobalVariable* stopGVpart = sched->getStopGV();
+            EE->addGlobalMapping(stopGVpart, &test);
+        }
+    }
+
+    // Run static constructors.
     EE->runStaticConstructorsDestructors(false);
 
-	// In case of no lazy compilation, compile all
-   if (NoLazyCompilation) {
-		for (Module::iterator I = module->begin(), E = module->end(); I != E; ++I) {
-			Function *Fn = &*I;
-			if (!Fn->isDeclaration())
-				EE->getPointerToFunction(Fn);
-		}
-		cout << "--> No lazy compilation enable, the decoder has been compiled in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms \n";
-	}
+    // In case of no lazy compilation, compile all
+    if (NoLazyCompilation) {
+        for (Module::iterator I = module->begin(), E = module->end(); I != E; ++I) {
+            Function *Fn = &*I;
+            if (!Fn->isDeclaration())
+                EE->getPointerToFunction(Fn);
+        }
+        cout << "--> No lazy compilation enable, the decoder has been compiled in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms \n";
+    }
 
-   	// Initialize the network
-	Function* init = dyn_cast<Function>(scheduler->getInitFunction());
-	std::vector<GenericValue> noargs;
-	EE->runFunction(init, noargs);
+    // Initialize the network
+    Function* init = dyn_cast<Function>(scheduler->getInitFunction());
+    std::vector<GenericValue> noargs;
+    EE->runFunction(init, noargs);
 
-	// Return and set stop variable
-	stopVar = &stopVal;
-	return &stopVal;
+    // Return and set stop variable
+    stopVar = &stopVal;
+    return &stopVal;
 }
 
 void LLVMExecution::runFunction(Function* function) {
-	std::vector<GenericValue> noargs;
-	GenericValue Result = EE->runFunction(function, noargs);
+    std::vector<GenericValue> noargs;
+    GenericValue Result = EE->runFunction(function, noargs);
 }
 
 void LLVMExecution::stop(pthread_t* thread) {
-	Scheduler* scheduler = decoder->getScheduler();
-	int* stop = (int*)EE->getPointerToGlobalIfAvailable(scheduler->getStopGV());
-	*stop = 1;
+    Scheduler* scheduler = decoder->getScheduler();
+    int* stop = (int*)EE->getPointerToGlobalIfAvailable(scheduler->getStopGV());
+    *stop = 1;
 }
 
 void LLVMExecution::recompile(Function* function) {
-	EE->recompileAndRelinkFunction(function);
+    EE->recompileAndRelinkFunction(function);
 }
 
 bool LLVMExecution::isCompiledGV(llvm::GlobalVariable* gv){
-	return EE->getPointerToGlobalIfAvailable(gv) != NULL;
+    return EE->getPointerToGlobalIfAvailable(gv) != NULL;
 }
 
 void* LLVMExecution::getGVPtr(llvm::GlobalVariable* gv){
-	return EE->getPointerToGlobal(gv);
+    return EE->getPointerToGlobal(gv);
 }
 
 void LLVMExecution::clear() {
-	decoder->getModule();
-	EE->runStaticConstructorsDestructors(true);
-	EE->clearAllGlobalMappings();
+    decoder->getModule();
+    EE->runStaticConstructorsDestructors(true);
+    EE->clearAllGlobalMappings();
 }
 
 
 LLVMExecution::~LLVMExecution(){
-	// Run static destructors.
-	EE->runStaticConstructorsDestructors(true);
+    // Run static destructors.
+    EE->runStaticConstructorsDestructors(true);
 
-	delete EE;
-	llvm_shutdown();
+    delete EE;
+    llvm_shutdown();
 }

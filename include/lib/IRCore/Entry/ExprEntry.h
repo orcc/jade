@@ -64,7 +64,7 @@ public:
      * Creates an expression entry.
      *
      */
-    ExprEntry(Expr* expr){this->expr = expr;};
+    ExprEntry(Expr* expr){this->expr = expr;}
     ~ExprEntry();
 
     /**
@@ -72,14 +72,14 @@ public:
      *
      * @return true if this type is ExprEntry
      */
-    bool isExprEntry(){return true;};
+    bool isExprEntry(){return true;}
 
     /**
      * @brief Getter of expr.
      *
      * @return Expr of the Entry
      */
-    Expr* getExprEntry(){return expr;};
+    Expr* getExprEntry(){return expr;}
 
 private:
     Expr* expr;

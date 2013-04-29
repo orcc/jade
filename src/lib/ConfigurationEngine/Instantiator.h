@@ -69,7 +69,7 @@ public:
      */
     Instantiator(Configuration* configuration);
 
-    ~Instantiator(){};
+    ~Instantiator(){}
 
 private:
 

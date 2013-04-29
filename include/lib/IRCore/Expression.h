@@ -40,7 +40,7 @@
 #define EXPRESSION_H
 
 namespace llvm{
-    class Constant;
+class Constant;
 }
 
 #include "llvm/IR/LLVMContext.h"
@@ -70,8 +70,8 @@ public:
      *
      * @param C : llvm::Context of the expression
      */
-    Expr(llvm::LLVMContext &C): Context(C){};
-    ~Expr(){};
+    Expr(llvm::LLVMContext &C): Context(C){}
+    ~Expr(){}
 
     /**
      * @brief Returns IRType corresponding to the type of this expression.
@@ -93,49 +93,49 @@ public:
      *
      * @return True if the expression is an instance of BinaryExpr
      */
-    virtual bool isBinaryExpr(){return false;};
+    virtual bool isBinaryExpr(){return false;}
 
     /**
      * @brief Returns true if the expression is an instance of BooleanExpr
      *
      * @return True if the expression is an instance of BooleanExpr
      */
-    virtual bool isBooleanExpr(){return false;};
+    virtual bool isBooleanExpr(){return false;}
 
     /**
      * @brief Returns true if the expression is an instance of IntExpr
      *
      * @return True if the expression is an instance of IntExpr
      */
-    virtual bool isIntExpr(){return false;};
+    virtual bool isIntExpr(){return false;}
 
     /**
      * @brief Returns true if the expression is an instance of ListExpr
      *
      * @return True if the expression is an instance of ListExpr
      */
-    virtual bool isListExpr(){return false;};
+    virtual bool isListExpr(){return false;}
 
     /**
      * @brief Returns true if the expression is an instance of StringExpr
      *
      * @return True if the expression is an instance of StringExpr
      */
-    virtual bool isStringExpr(){return false;};
+    virtual bool isStringExpr(){return false;}
 
     /**
      * @brief Returns true if the expression is an instance of UnaryExpr
      *
      * @return True if the expression is an instance of UnaryExpr
      */
-    virtual bool isUnaryExpr(){return false;};
+    virtual bool isUnaryExpr(){return false;}
 
     /**
      * @brief Returns true if the expression is an instance of VarExpr
      *
      * @return True if the expression is an instance of VarExpr
      */
-    virtual bool isVarExpr(){return false;};
+    virtual bool isVarExpr(){return false;}
 
     /**
      * @brief evalue this expression as an integer

@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -57,67 +57,67 @@ extern cl::opt<int> FifoSize;
 
 Connection::Connection(HDAGGraph* graph, Vertex* source, Port* srcPort, Vertex* target, Port* tgtPort, std::map<std::string, IRAttribute*>* attributes): HDAGEdge()
 {	
-	this->parent = graph;
-	this->attributes = attributes; 
-	this->srcPort = srcPort;	
-	this->tgtPort = tgtPort;
-	this->fifo = NULL;
-	this->source = source;
-	this->target = target;
+    this->parent = graph;
+    this->attributes = attributes;
+    this->srcPort = srcPort;
+    this->tgtPort = tgtPort;
+    this->fifo = NULL;
+    this->source = source;
+    this->target = target;
 
-	// Update graph
-	graph->addEdge(source, target, this);
+    // Update graph
+    graph->addEdge(source, target, this);
 
-	// Set properties of the ports
-	srcPort->setAccess(false, true);
-	tgtPort->setAccess(true, false);
+    // Set properties of the ports
+    srcPort->setAccess(false, true);
+    tgtPort->setAccess(true, false);
 
-	// Bound connection to the port
-	srcPort->addConnection(this);
-	tgtPort->addConnection(this);
+    // Bound connection to the port
+    srcPort->addConnection(this);
+    tgtPort->addConnection(this);
 }
 
 
 int Connection::getSize(){
-	IRAttribute* attribute = getAttribute("bufferSize");
-	
-	if (attribute == NULL){
-		return FifoSize;
-	}
-	
-	if (attribute->isValue()){
-		Expr* expr = ((ValueAttribute*)attribute)->getValue();
-		return expr->evaluateAsInteger();
-	}
+    IRAttribute* attribute = getAttribute("bufferSize");
 
-	cerr<< "Error when parsing type of a connection";
-	exit(0);
+    if (attribute == NULL){
+        return FifoSize;
+    }
+
+    if (attribute->isValue()){
+        Expr* expr = ((ValueAttribute*)attribute)->getValue();
+        return expr->evaluateAsInteger();
+    }
+
+    cerr<< "Error when parsing type of a connection";
+    exit(0);
 }
 
 IRAttribute* Connection::getAttribute(std::string name){
-	map<string, IRAttribute*>::iterator it;
+    map<string, IRAttribute*>::iterator it;
 
-	it = attributes->find(name);
+    it = attributes->find(name);
 
-	if(it == attributes->end()){
-		return NULL;
-	}
+    if(it == attributes->end()){
+        return NULL;
+    }
 
-	return it->second;
+    return it->second;
 }
 
 void Connection::unsetFifo(){
-	//Get GV of the port
-	GlobalVariable* srcVar = srcPort->getFifoVar();
-	GlobalVariable* dstVar = tgtPort->getFifoVar();
-	
-	//Remove GV initializer
-	srcVar->setInitializer(NULL);
-	dstVar->setInitializer(NULL);
+    //Get GV of the port
+    GlobalVariable* srcVar = srcPort->getFifoVar();
+    GlobalVariable* dstVar = tgtPort->getFifoVar();
 
-	//Delete the fifo
-	if (fifo != NULL){
-		delete fifo;
-		fifo = NULL;
-	}
+    //Remove GV initializer
+    srcVar->setInitializer(NULL);
+    dstVar->setInitializer(NULL);
+
+    //Delete the fifo
+    if (fifo != NULL){
+        delete fifo;
+        fifo = NULL;
+    }
 }

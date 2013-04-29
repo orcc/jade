@@ -42,11 +42,11 @@
 #include "ExprParser.h"
 
 namespace llvm{
-    class LLVMContext;
-    class Constant;
-    class ConstantInt;
-    class IntegerType;
-    class Type;
+class LLVMContext;
+class Constant;
+class ConstantInt;
+class IntegerType;
+class Type;
 }
 //------------------------------
 
