@@ -77,7 +77,7 @@ public:
      *
      *  @param C : the LLVM Context used by JIT
      */
-    RVCEngine(llvm::LLVMContext& C, std::string library, std::string outputDir="", bool noMerging = false, bool noMultiCore = false, bool verbose = false, bool armFix =false);
+    RVCEngine(llvm::LLVMContext& C, std::string library, std::string outputDir="", bool noMerging = false, bool verbose = false, bool armFix =false);
     ~RVCEngine();
 
     /*!
@@ -201,9 +201,6 @@ private:
 
     /** Whether or not merging static actors */
     bool noMerging;
-
-    /** Whether or not activate multicore */
-    bool noMultiCore;
 
     /** Print all actions made by decoder engine*/
     bool verbose;

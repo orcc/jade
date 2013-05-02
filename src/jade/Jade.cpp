@@ -130,10 +130,6 @@ DisableCoreFiles("disable-core-files", Hidden,
                  desc("Disable emission of core files if possible"));
 
 cl::opt<bool>
-disableMultiCore("nomulticore", desc("Deactivate multicore support"),
-                 init(false));
-
-cl::opt<bool>
 NoLazyCompilation("disable-lazy-compilation",
                   desc("Disable JIT lazy compilation"),
                   init(false));
@@ -342,7 +338,7 @@ int main(int argc, char **argv, char **envp) {
     setOptions();
 
     //Loading decoderEngine
-    engine = new RVCEngine(Context, VTLDir, OutputDir, noMerging, disableMultiCore, Verbose, ArmFix);
+    engine = new RVCEngine(Context, VTLDir, OutputDir, noMerging, Verbose, ArmFix);
 
     if (Verbose){
         cout << "> Core preparation finished in " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";

@@ -70,7 +70,7 @@
 using namespace std;
 using namespace llvm;
 
-RoundRobinScheduler::RoundRobinScheduler(llvm::LLVMContext& C, Decoder* decoder, list<Instance*>* instances, bool optimized, bool noMultiCore, bool verbose): Context(C) {
+RoundRobinScheduler::RoundRobinScheduler(llvm::LLVMContext& C, Decoder* decoder, list<Instance*>* instances, bool optimized, bool verbose): Context(C) {
     this->decoder = decoder;
     this->instances = instances;
     this->scheduler = NULL;
