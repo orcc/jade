@@ -289,7 +289,7 @@ void startCmdLine(){
     }
 
     //Load network
-    engine->load(network, 3);
+    engine->load(network);
 
     // Optimizing decoder
     if (optLevel > 0){

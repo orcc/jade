@@ -89,7 +89,7 @@ public:
      *
      *  @param optLevel : the level of optimization to apply
      */
-    int load(Network* network, int optLevel);
+    int load(Network* network);
 
     /*!
      *  @brief Unload the given network

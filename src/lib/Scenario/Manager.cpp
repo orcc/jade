@@ -153,14 +153,14 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
     }
 
     //Loading decoder
-    int id = loadEvent->getId();
-    engine->load(network, id);
+    engine->load(network);
 
     // Optimize decoder
     if (optLevel > 0){
         engine->optimize(network, optLevel);
     }
 
+    int id = loadEvent->getId();
     //Store resulting network
     networks.insert(pair<int, Network*>(id, network));
 

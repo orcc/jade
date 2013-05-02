@@ -80,8 +80,7 @@ RVCEngine::~RVCEngine(){
 
 }
 
-int RVCEngine::load(Network* network, int optLevel) {
-    map<string, Actor*>::iterator it;
+int RVCEngine::load(Network* network) {
     clock_t timer = clock ();
 
     //Create the Configuration from the network
