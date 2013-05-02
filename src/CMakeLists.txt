@@ -21,7 +21,6 @@ add_subdirectory(lib/TinyXml)
 add_subdirectory(lib/XCFSerialize)
 add_subdirectory(lib/XDFSerialize)
 add_subdirectory(lib/ZLib)
-add_subdirectory(lib/RVCDecoder)
 
 # Aplications
 add_subdirectory(jade)

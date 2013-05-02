@@ -58,7 +58,6 @@ class Configuration;
 #include <pthread.h>
 
 #include "lib/RoundRobinScheduler/Fifo.h"
-#include "lib/RVCDecoder/RVCDecoder.h"
 //------------------------------
 
 /**
