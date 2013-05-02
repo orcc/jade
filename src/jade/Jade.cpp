@@ -78,9 +78,6 @@ cl::opt<string>
 XCFFile("xcf", desc("XCF mapping file"), value_desc("XCF file"));
 
 cl::opt<string>
-BSDLFile("bsdl", desc("Bitstream description file"), value_desc("BSDL file"));
-
-cl::opt<string>
 VidFile("i", desc("Encoded video file"), value_desc("Video file"));
 
 cl::opt<string>
@@ -156,10 +153,6 @@ cl::opt<bool> OptLevelO3("O3",
 cl::opt<int> FifoSize("default-fifo-size",
                       cl::desc("Defaut size of fifos"),
                       cl::init(512));
-
-cl::opt<int> StopAt("stop-at-frame",
-                    cl::desc("Stop decoder after a given number of frame decoded."),
-                    cl::init(0));
 
 static cl::opt<bool> Verbose("verbose", cl::desc("Print information about actions taken"), cl::init(false));
 

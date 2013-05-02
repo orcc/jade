@@ -83,8 +83,6 @@ void LLVMOptimizer::optimize(int optLevel){
     initializeInstrumentation(Registry);
     initializeTarget(Registry);
 
-    SMDiagnostic Err;
-
     Module* module = decoder->getModule();
 
     // Allocate a full target machine description only if necessary.
@@ -130,52 +128,52 @@ void LLVMOptimizer::optimize(int optLevel){
 
     AddOptimizationPasses(Passes, *FPasses, optLevel);
 
-    // TODO: Enhance
-    /*
-  // Create a new optimization pass for each one specified on the command line
-  for (unsigned i = 0; i < PassList.size(); ++i) {
-     // Check to see if -std-compile-opts was specified before this option.  If
-    // so, handle it.
-    if (StandardCompileOpts &&
-        StandardCompileOpts.getPosition() < PassList.getPosition(i)) {
-      AddStandardCompilePasses(Passes);
-      StandardCompileOpts = false;
+    /* TODO: Enhance
+
+    // Create a new optimization pass for each one specified on the command line
+    for (unsigned i = 0; i < PassList.size(); ++i) {
+        // Check to see if -std-compile-opts was specified before this option.  If
+        // so, handle it.
+        if (StandardCompileOpts &&
+                StandardCompileOpts.getPosition() < PassList.getPosition(i)) {
+            AddStandardCompilePasses(Passes);
+            StandardCompileOpts = false;
+        }
+
+        if (StandardLinkOpts &&
+                StandardLinkOpts.getPosition() < PassList.getPosition(i)) {
+            AddStandardLinkPasses(Passes);
+            StandardLinkOpts = false;
+        }
+
+        if (OptLevelO1 && OptLevelO1.getPosition() < PassList.getPosition(i)) {
+            AddOptimizationPasses(Passes, *FPasses, 1);
+            OptLevelO1 = false;
+        }
+
+        if (OptLevelO2 && OptLevelO2.getPosition() < PassList.getPosition(i)) {
+            AddOptimizationPasses(Passes, *FPasses, 2);
+            OptLevelO2 = false;
+        }
+
+        if (OptLevelO3 && OptLevelO3.getPosition() < PassList.getPosition(i)) {
+            AddOptimizationPasses(Passes, *FPasses, 3);
+            OptLevelO3 = false;
+        }
     }
 
-    if (StandardLinkOpts &&
-        StandardLinkOpts.getPosition() < PassList.getPosition(i)) {
-      AddStandardLinkPasses(Passes);
-      StandardLinkOpts = false;
+
+    // If -std-compile-opts was specified at the end of the pass list, add them.
+    if (StandardCompileOpts) {
+        AddStandardCompilePasses(Passes);
+        StandardCompileOpts = false;
     }
 
-    if (OptLevelO1 && OptLevelO1.getPosition() < PassList.getPosition(i)) {
-      AddOptimizationPasses(Passes, *FPasses, 1);
-      OptLevelO1 = false;
+    if (StandardLinkOpts) {
+        AddStandardLinkPasses(Passes);
+        StandardLinkOpts = false;
     }
-
-    if (OptLevelO2 && OptLevelO2.getPosition() < PassList.getPosition(i)) {
-      AddOptimizationPasses(Passes, *FPasses, 2);
-      OptLevelO2 = false;
-    }
-
-    if (OptLevelO3 && OptLevelO3.getPosition() < PassList.getPosition(i)) {
-      AddOptimizationPasses(Passes, *FPasses, 3);
-      OptLevelO3 = false;
-    }
-  }
-  
-
-  // If -std-compile-opts was specified at the end of the pass list, add them.
-  if (StandardCompileOpts) {
-    AddStandardCompilePasses(Passes);
-    StandardCompileOpts = false;
-  }
-
-  if (StandardLinkOpts) {
-    AddStandardLinkPasses(Passes);
-    StandardLinkOpts = false;
-  }
-  */
+    */
 
     if (optLevel > 0) {
         FPasses->doInitialization();
