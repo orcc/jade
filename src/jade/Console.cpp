@@ -67,8 +67,11 @@ extern RVCEngine* engine;
 //Console control
 Manager* manager;
 
-void parseConsole(string cmd){
-    if (cmd == "Verify"){
+void parseConsole(string cmd) {
+
+    StringRef cmd_ref(cmd);
+
+    if (0 == cmd_ref.compare_lower("verify")) {
         int id;
         string file;
 
@@ -82,7 +85,7 @@ void parseConsole(string cmd){
 
         manager->startEvent(new VerifyEvent(id, OutputDir + file));
 
-    }else if (cmd == "Set"){
+    } else if (0 == cmd_ref.compare_lower("set")) {
         string file;
         int id;
 
@@ -95,7 +98,7 @@ void parseConsole(string cmd){
         cin >> file;
 
         manager->startEvent(new SetEvent(id, VTLDir + file));
-    }else if (cmd == "Load"){
+    } else if (0 == cmd_ref.compare_lower("load")) {
         string file;
         int id;
 
@@ -109,7 +112,7 @@ void parseConsole(string cmd){
         cin >> id;
 
         manager->startEvent(new LoadEvent(VTLDir + file, id));
-    }else if (cmd == "Print"){
+    } else if (0 == cmd_ref.compare_lower("print")) {
         string output;
         int id;
 
@@ -123,7 +126,7 @@ void parseConsole(string cmd){
 
         manager->startEvent(new PrintEvent(id, OutputDir + output));
 
-    }else if (cmd == "Start"){
+    } else if (0 == cmd_ref.compare_lower("start")) {
         string input;
         int id;
 
@@ -137,8 +140,7 @@ void parseConsole(string cmd){
 
         manager->startEvent(new StartEvent(id, InputDir + input, true));
 
-    }else if (cmd == "Stop"){
-        string input;
+    } else if (0 == cmd_ref.compare_lower("stop")) {
         int id;
 
         //Select network
@@ -146,8 +148,7 @@ void parseConsole(string cmd){
         cin >> id;
 
         manager->startEvent(new StopEvent(id));
-    }else if (cmd == "Remove"){
-        string input;
+    } else if (0 == cmd_ref.compare_lower("remove")) {
         int id;
 
         //Select network
@@ -156,10 +157,10 @@ void parseConsole(string cmd){
 
         manager->startEvent(new RemoveEvent(id));
 
-    }else if (cmd == "V"){
+    } else if (0 == cmd_ref.compare_lower("list")) {
         manager->startEvent(new ListEvent());
 
-    } else if (cmd == "help"){
+    } else if (0 == cmd_ref.compare_lower("help")) {
         cout << "Command line options :\n";
         cout << "List : view a list of the networks loads \n";
         cout << "Load : load a network \n";
@@ -173,10 +174,10 @@ void parseConsole(string cmd){
     }
 }
 
-void startConsole(){
+void startConsole() {
     string cmdLine;
     manager = new Manager(engine);
-    while (cmdLine != "X"){
+    while (cmdLine != "X") {
         cout << "Enter a command (help for documentation) : ";
         cin >> cmdLine;
         parseConsole(cmdLine);
