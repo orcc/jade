@@ -177,7 +177,7 @@ void parseConsole(string cmd) {
 void startConsole() {
     string cmdLine;
     manager = new Manager(engine);
-    while (cmdLine != "X") {
+    while (cmdLine != "X" && cmdLine != "x") {
         cout << "Enter a command (help for documentation) : ";
         cin >> cmdLine;
         parseConsole(cmdLine);
