@@ -1,6 +1,3 @@
-include_directories(${JADE_MAIN_INCLUDE_DIR})
-
-add_definitions(${JADE_CPP_FLAGS})
 
 file(GLOB_RECURSE ZLib_HDRS "${JADE_MAIN_INCLUDE_DIR}/lib/ZLib/*.h")
 

@@ -1,8 +1,4 @@
 
-# Include directories
-include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS} ${SDL_INCLUDE_DIR})
-
-add_definitions(${LLVM_CPP_FLAGS} ${JADE_CPP_FLAGS})
 
 # Add libraries
 add_subdirectory(lib/ConfigurationEngine)
