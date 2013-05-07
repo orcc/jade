@@ -3,35 +3,54 @@ cmake_minimum_required (VERSION 2.6)
 
 project (Jade)
 
-find_program(LLVM_CONFIG llvm-config ${LLVM_INSTDIR}/bin DOC "Path to llvm-config executable")
+include(resources/JadeMacros.cmake)
+
+# Allow users to compile Jade with a non-default LLVM version
+# Must be defined before find_package(LLVM) call
+set(LLVM_INSTDIR_DEFAULT_VALUE "/where/llvm/is/installed")
+set(LLVM_INSTALL_DIR ${LLVM_INSTDIR_DEFAULT_VALUE} CACHE STRING "Force LLVM version to compile against by providing directory where it is installed.")
+if(NOT "${LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
+	if(IS_DIRECTORY "${LLVM_INSTALL_DIR}" AND IS_DIRECTORY "${LLVM_INSTALL_DIR}/share/llvm/cmake")
+		set(LLVM_DIR "${LLVM_INSTALL_DIR}/share/llvm/cmake")
+	endif(IS_DIRECTORY "${LLVM_INSTALL_DIR}" AND IS_DIRECTORY "${LLVM_INSTALL_DIR}/share/llvm/cmake")
+endif(NOT "${LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
+
+# Search for required third party libraries
+find_package(LLVM REQUIRED)
 find_package(SDL REQUIRED)
 find_package(Threads REQUIRED)
 
-# PThread dependencies
-IF(NOT CMAKE_HAVE_PTHREAD_H)
-	set(PTHREAD_DIR CACHE STRING "pthread directory")
-	set(PTHREAD_INCLUDE_DIRS ${PTHREAD_DIR}/include)
-	set(CMAKE_THREAD_LIBS_INIT ${PTHREAD_DIR}/lib/pthreadVCE2.lib)
+if(LLVM_FOUND)
 
-	include_directories(${PTHREAD_INCLUDE_DIRS})
-ENDIF(NOT CMAKE_HAVE_PTHREAD_H)
+	message(STATUS "Found LLVM ${LLVM_VERSION}")
 
-# LLVM dependencies
-IF(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
-	set(LLVM_DIR /where/llvm/lives CACHE STRING "llvm source directory")
-	set(LLVM_INST_DIR /where/llvm/is/installed CACHE STRING "llvm installation directory")
+	# Force Cmake to search for a new llvm-config program if LLVM version has been changed since last build
+	if(DEFINED LLVM_CONFIG_TOOL)
+		execute_process(COMMAND ${LLVM_CONFIG_TOOL} --version OUTPUT_VARIABLE LLVM_CFG_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+		if(NOT "${LLVM_CFG_VERSION}" STREQUAL "${LLVM_VERSION}")
+			unset(LLVM_CONFIG_TOOL CACHE)
+		endif(NOT "${LLVM_CFG_VERSION}" STREQUAL "${LLVM_VERSION}")
+	endif(DEFINED LLVM_CONFIG_TOOL)
 
-else(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
+	# Try to find llvm-config tool, to configure all LLVM related options for Jade build
+	find_file(LLVM_CONFIG_TOOL
+		NAMES "llvm-config${CMAKE_EXECUTABLE_SUFFIX}"
+		PATHS ${LLVM_INSTALL_PREFIX}/bin ${LLVM_TOOLS_BINARY_DIR}
+		NO_DEFAULT_PATH
+		DOC "Path to llvm-config executable"
+	)
 
-    string(REPLACE "/bin/llvm-config" "" LLVM_DIR ${LLVM_CONFIG})
-    set(LLVM_INSTDIR ${LLVM_DIR} CACHE PATH "LLVM installation directory" FORCE)
+	# List LLVM components used in Jade
+	set(COMPONENTS archive jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine)
 
-	EXECUTE_PROCESS(COMMAND ${LLVM_CONFIG} --libs archive jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine OUTPUT_VARIABLE LLVM_LIBRARIES OUTPUT_STRIP_TRAILING_WHITESPACE)
-	EXECUTE_PROCESS(COMMAND ${LLVM_CONFIG} --includedir OUTPUT_VARIABLE LLVM_INCLUDE_DIRS OUTPUT_STRIP_TRAILING_WHITESPACE)
-	EXECUTE_PROCESS(COMMAND ${LLVM_CONFIG} --cppflags OUTPUT_VARIABLE LLVM_CPP_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-	EXECUTE_PROCESS(COMMAND ${LLVM_CONFIG} --ldflags OUTPUT_VARIABLE LLVM_LD_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
+	message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure linker")
 
-endif(LLVM_CONFIG STREQUAL "LLVM_CONFIG-NOTFOUND")
+	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}	OUTPUT_VARIABLE LLVM_LIBRARIES		OUTPUT_STRIP_TRAILING_WHITESPACE)
+	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --includedir 			OUTPUT_VARIABLE LLVM_INCLUDE_DIRS	OUTPUT_STRIP_TRAILING_WHITESPACE)
+	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --cppflags 				OUTPUT_VARIABLE LLVM_CPP_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
+	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --ldflags 				OUTPUT_VARIABLE LLVM_LD_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+endif(LLVM_FOUND)
 
 # Set Jade flags
 set(JADE_MAIN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
