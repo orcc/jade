@@ -13,8 +13,9 @@ The Jade project is structured as follow :
 
 - **src**: source files of the project
 - **include**: shared headers for Jade libraries
-- **doc**: project Doxygen will be generated here
+- **doc**: folder where Doxygen doc will be generated
 - **runtime**: external libraries used to build Jade
+- **resources**: some cmake files used to configure and debug build
 
 ## Compile
 
@@ -30,9 +31,24 @@ Here is an example for a build from Unix/Linux command line:
 mkdir build && cd build
 cmake ..
 make
+sudo make install
 ```
 
-Once Jade is built, you will find the resulting binary under `bin/<BUILD_TYPE>` directory.
+You can uninstall Jade with the following command:
+```sh
+cd build
+sudo make uninstall
+```
+
+## CMake options
+
+You can configure some parts of the build by setting some variables when calling cmake tool. To do this, use cmake-gui to set variables in a graphic window, or use the command line options: ```cmake <src_folder> -DVAR1=<value> -DVAR2=<value> ...```
+
+Supported variables are:
+ - **GENERATE_DOCS**: set to 1 to generate Jade documentation (Doxygen is required)
+ - **BUILD_GPAC_RVC_DECODER**: set to 1 to build RVCDecoder dynamic library, to build Gpac module 'rvc_dec'
+ - **LLVM_INSTALL_DIR**: set the LLVM directory you want to use to compile Jade against
+ - **CMAKE_PREFIX_PATH**: set the path you want to install Jade when using ```make install``` or equivalent target
 
 ## Use Jade
 
