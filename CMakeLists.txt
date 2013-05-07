@@ -1,5 +1,5 @@
 # CMake top level project file
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
 
 project (Jade)
 
@@ -19,6 +19,11 @@ endif(NOT "${LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
 find_package(LLVM REQUIRED)
 find_package(SDL REQUIRED)
 find_package(Threads REQUIRED)
+
+# Generate documentation option
+option(GENERATE_DOCS "Generate documentation using doxygen.")
+# Generate documentation option
+option(BUILD_GPAC_RVC_DECODER "Generate RVCDecodcr library needed to compile Gpac rvc_decoder module")
 
 if(LLVM_FOUND)
 
@@ -57,22 +62,18 @@ set(JADE_MAIN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(JADE_DOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/doc)
 set(JADE_BIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-# Generate documentation option
-option(GENERATE_DOCS "Generate documentation using doxygen.")
-if(GENERATE_DOCS)
-	add_subdirectory(doc)
-endif()
-
 # Set output path depending on build type set in environment
 if("" STREQUAL "${CMAKE_BUILD_TYPE}")
-	set(EXECUTABLE_OUTPUT_PATH "${JADE_BIN_DIR}/Default")
+	set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/Default")
 else()
-	set(EXECUTABLE_OUTPUT_PATH "${JADE_BIN_DIR}/${CMAKE_BUILD_TYPE}")
+	set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/${CMAKE_BUILD_TYPE}")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
-add_definitions(${LLVM_CPP_FLAGS})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CPP_FLAGS} -fno-rtti -fPIC")
 include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS})
 
+if(GENERATE_DOCS)
+	add_subdirectory(doc)
+endif(GENERATE_DOCS)
 add_subdirectory(runtime)
 add_subdirectory(src)

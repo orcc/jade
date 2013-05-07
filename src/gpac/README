@@ -1,0 +1,14 @@
+This folder contain source to build Gpac module "rvc_decoder" (http://gpac.wp.mines-telecom.fr/).
+
+"rvc_dec" folder contain source for gpac module. It has been included in gpac source code, and is stored here to keep track modifications.
+"RVCDecoder" folder contains C++ source code for RVCDecoder dynamic library, needed to compile rvc_dec gpac module.
+
+If you need to build RVCDecoder library, simply tell cmake to build it. Use the same method you use to build Jade, but simply set "BUILD_GPAC_RVC_DECODER" option to 1. This can be achieved with cmake-gui, or with a command line option:
+
+[from your build dir]
+cmake <jade source directory> -DBUILD_GPAC_RVC_DECODER=1
+make
+sudo make install
+
+You can also uninstall Jade and RVCDecoder library by running from the same folder:
+sudo make uninstall

@@ -18,5 +18,9 @@ add_subdirectory(lib/XCFSerialize)
 add_subdirectory(lib/XDFSerialize)
 add_subdirectory(lib/ZLib)
 
+if(BUILD_GPAC_RVC_DECODER)
+	add_subdirectory(gpac/RVCDecoder)
+endif(BUILD_GPAC_RVC_DECODER)
+
 # Aplications
 add_subdirectory(jade)

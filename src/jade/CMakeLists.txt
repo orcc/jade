@@ -1,4 +1,6 @@
 
+set(EXECUTABLE_OUTPUT_PATH ${JADE_OUTPUT_PATH})
+
 add_executable(Jade
 	Jade.cpp
 	Console.cpp
@@ -30,6 +32,6 @@ target_link_libraries(Jade
 	${CMAKE_THREAD_LIBS_INIT}
 )
 
-INSTALL(TARGETS Jade
+install(TARGETS Jade
 	RUNTIME DESTINATION bin
 )
