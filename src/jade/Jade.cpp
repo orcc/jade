@@ -370,7 +370,7 @@ int main(int argc, char **argv, char **envp) {
         if (Verbose){
             cout << "> Starting scenario mode :\n";
         }
-        Manager manager(engine, Verify, Verbose);
+        Manager manager(engine, optLevel, Verify, Verbose);
         manager.start(ScFile);
 
         if (Verbose){
