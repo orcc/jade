@@ -161,14 +161,16 @@ void Initializer::initializeBoolExpr(GlobalVariable* var, BoolExpr* expr){
 }
 
 void Initializer::initializeListExpr(GlobalVariable* var, ListExpr* expr){
-    ConstantArray* constantArray = cast<ConstantArray>(expr->getConstant());
+    Constant* cst = expr->getConstant();
+
     const PointerType* ptrType = cast<PointerType>(var->getType());
     const ArrayType* arraytype = cast<ArrayType>(ptrType->getElementType());
 
     uint64_t numElements = arraytype->getNumElements();
 
-    for (uint64_t elt = 0; elt < numElements; elt++){
-        Constant* Elt = constantArray->getOperand(elt);
+    for (uint64_t i = 0; i < numElements; ++i){
+        Constant* Elt = cst->getAggregateElement(i);
+
 
         if (Elt == NULL){
             cout<< "Initialization error of array. \n";
@@ -177,7 +179,7 @@ void Initializer::initializeListExpr(GlobalVariable* var, ListExpr* expr){
 
         Value *Idxs[2];
         Idxs[0] = ConstantInt::get(Context, APInt(32, 0));
-        Idxs[1] = ConstantInt::get(Context, APInt(32, elt));
+        Idxs[1] = ConstantInt::get(Context, APInt(32, i));
 
         GetElementPtrInst* getInst = GetElementPtrInst::Create(var, Idxs, "", entryBB);
 
