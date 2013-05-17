@@ -170,6 +170,16 @@ void IRUnwriter::unwritePort(string key, Port* port){
 	GlobalVariable* fifoVar = port->getFifoVar();
 	GlobalVariable* ptrVar = port->getPtrVar()->getGlobalVariable();
 
+
+    for(Value::use_iterator it = fifoVar->use_begin() ; it != fifoVar->use_end() ; ++it) {
+        // (*it) is a User instance
+        (*it)->replaceUsesOfWith(fifoVar, NULL);
+    }
+    for(Value::use_iterator it = ptrVar->use_begin() ; it != ptrVar->use_end() ; ++it) {
+        // (*it) is a User instance
+        (*it)->replaceUsesOfWith(ptrVar, NULL);
+    }
+
 	fifoVar->eraseFromParent();
 	ptrVar->eraseFromParent();
 }
