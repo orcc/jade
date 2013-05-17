@@ -203,8 +203,14 @@ void LLVMExecution::linkExternalProc(list<Procedure*> externs){
 			exit(1);
 		}
 
-		// Link native procedures
-		EE->addGlobalMapping((*it)->getFunction(), itNative->second);
+        // FIXME: Should be better to ensure globalMapping is done only once for
+        // all, and not from LLVMExecution::initialize function, which is used each
+        // time the decoder is reconfigured
+        if( !EE->getPointerToGlobalIfAvailable((*it)->getFunction())) {
+            // Link native procedures
+            EE->addGlobalMapping((*it)->getFunction(), itNative->second);
+        }
+
 	}
 
 }
@@ -265,8 +271,10 @@ int* LLVMExecution::initialize(){
 	
 	// Set stop condition of the scheduler
 	Scheduler* scheduler = decoder->getScheduler();
+
 	GlobalVariable* stopGV = scheduler->getStopGV();
-	EE->addGlobalMapping(stopGV, &stopVal);
+    if(!EE->getPointerToGlobalIfAvailable(stopGV))
+        EE->addGlobalMapping(stopGV, &stopVal);
 
 	if (decoder->hasPartitions()){
 		// Get scheduler's partition
@@ -278,7 +286,8 @@ int* LLVMExecution::initialize(){
 			Scheduler* sched = it->second;
 
 			GlobalVariable* stopGVpart = sched->getStopGV();
-			EE->addGlobalMapping(stopGVpart, &test);
+            if(!EE->getPointerToGlobalIfAvailable(stopGVpart))
+                EE->addGlobalMapping(stopGVpart, &test);
 		}
 	}
 
@@ -329,7 +338,6 @@ void* LLVMExecution::getGVPtr(llvm::GlobalVariable* gv){
 }
 
 void LLVMExecution::clear() {
-	decoder->getModule();
 	EE->runStaticConstructorsDestructors(true);
 	EE->clearAllGlobalMappings();
 }
