@@ -105,9 +105,8 @@ list<Procedure*> Decoder::getExternalProcs(){
     list<Procedure*> externs;
 
     // Look across all instances for external procedures
-    map<std::string, Instance*>::iterator it;
     map<std::string, Instance*>* instances = configuration->getInstances();
-    for (it = instances->begin(); it != instances->end(); it++){
+    for (map<std::string, Instance*>::iterator it = instances->begin(); it != instances->end(); it++){
         Instance* instance = it->second;
 
         // Look accross all procs for external property
