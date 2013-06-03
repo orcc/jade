@@ -96,10 +96,11 @@ void IRUnwriter::unwriteActionScheduler(ActionScheduler* actionScheduler){
 }
 
 void IRUnwriter::unwriteFSM(FSM* fsm){
-	
+
 	//Remove the FSM state var
 	GlobalVariable* state = fsm->getFsmState();
-	state->eraseFromParent();
+	if(state)
+		state->eraseFromParent();
 
 	if (fsm->hasOutFsmFn()){
 		Function* outFsmFn = fsm->getOutFsmFn();
