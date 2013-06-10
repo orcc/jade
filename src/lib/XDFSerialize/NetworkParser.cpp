@@ -77,7 +77,7 @@ Network* NetworkParser::parseNetworkFile (string filename){
 
     // Parsing XML file error
     if (!xdfDoc->LoadFile()) {
-        cerr << "Error : the given file does not exist. \n";
+        cerr << "Error : the given network file does not exist. \n";
         exit(1);
     }
 

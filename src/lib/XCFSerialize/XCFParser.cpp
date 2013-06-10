@@ -59,7 +59,7 @@ map<string, string>* XCFParser::parseFile (string filename){
 
     /* Parsing XML file error */
     if (!xcfDoc->LoadFile()) {
-        cerr << "Error : the given file does not exist. \n";
+        cerr << "Error : the given xcf file does not exist. \n";
         return NULL;
     }
 

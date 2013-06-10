@@ -84,7 +84,7 @@ Scenario* ScenarioParser::parse(){
 
     /* Parsing XML file error */
     if (!xmlSc.LoadFile()) {
-        cerr << "Error : the given file does not exist. \n";
+        cerr << "Error : the given scenario file does not exist. \n";
         return NULL;
     }
 
