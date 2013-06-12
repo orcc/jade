@@ -54,6 +54,9 @@ extern int getopt(int nargc, char * const *nargv, const char *ostr);
 //Nb Loops
 unsigned int nbLoops = 1; // -1: infinite loop.
 
+// Nb frames to display
+int nbFrames = -1;
+
 // input file
 char *input_file;
 
@@ -146,6 +149,9 @@ void init_orcc(int argc, char *argv[]) {
 			break;
 		case 'l':
 			nbLoops = strtoul(optarg, NULL, 10);
+			break;
+		case 'f':
+			nbFrames = strtoul(optarg, NULL, 10);
 			break;
 		case 'm':
 			mapping_file = strdup(optarg);
