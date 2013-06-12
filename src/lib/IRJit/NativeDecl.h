@@ -52,6 +52,7 @@ extern "C"{
 		unsigned char *pictureBufferU, unsigned char *pictureBufferV,
 		unsigned short pictureWidth, unsigned short pictureHeight);
 	extern char displayYUV_getFlags();
+	extern int displayYUV_getNbFrames();
 
 
 	//External functions for compare
@@ -76,13 +77,12 @@ extern "C"{
 	extern void Writer_init();
 	extern void Writer_write(unsigned char byte);
 	extern void Writer_close();
-	
+
 	//Extern functions for fpsPrint
 	extern void fpsPrintInit();
 	extern void fpsPrintNewPicDecoded(void);
 
 	extern int* stopVar;
-
 }
 
 std::map<std::string, void*> createNativeMap()
@@ -94,6 +94,7 @@ std::map<std::string, void*> createNativeMap()
 	native["displayYUV_init"] = (void*)displayYUV_init;
 	native["displayYUV_displayPicture"] = (void*)displayYUV_displayPicture;
 	native["displayYUV_getFlags"] = (void*)displayYUV_getFlags;
+	native["displayYUV_getNbFrames"] = (void*)displayYUV_getNbFrames;
 	
 	native["compareYUV_init"] = (void*)compareYUV_init;
 	native["compareYUV_comparePicture"] = (void*)compareYUV_comparePicture;
