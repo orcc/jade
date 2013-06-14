@@ -33,9 +33,6 @@
 //Nb Loops
 extern unsigned int nbLoops;
 
-// Number of frames to display before closing application
-extern int nbFrames;
-
 // input file
 extern char *input_file;
 

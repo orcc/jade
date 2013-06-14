@@ -90,8 +90,6 @@ void displayYUV_displayPicture(unsigned char *pictureBufferY,
 	rect.w = pictureWidth;
 	rect.h = pictureHeight;
 
-	
-
 	if ((pictureHeight != lastHeight) || (pictureWidth != lastWidth)) {
 		displayYUV_setSize(pictureWidth, pictureHeight);
 		lastHeight = pictureHeight;
@@ -270,5 +268,5 @@ void displayYUV_getEvent() {
  * @return The
  */
 int displayYUV_getNbFrames() {
-	return nbFrames;
+	return -1;
 }
