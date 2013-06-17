@@ -21,3 +21,8 @@ add_library (orcc
 	${orcc_HDRS}
 )
 
+INSTALL(TARGETS orcc
+	ARCHIVE DESTINATION lib
+)
+INSTALL(FILES ${orcc_HDRS} DESTINATION include/orcc
+)
