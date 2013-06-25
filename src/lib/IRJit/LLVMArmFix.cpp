@@ -71,6 +71,7 @@ extern cl::opt<std::string> MArch;
 extern cl::list<std::string> MAttrs;
 extern cl::opt<std::string> MCPU;
 extern cl::opt<std::string> VidFile;
+extern cl::opt<llvm::FloatABI::ABIType> UserDefinedFloatABI;
 
 extern char **environnement;
 
@@ -285,6 +286,7 @@ tool_output_file* LLVMArmFix::generateNativeCode( sys::Path IntermediateAssembly
     }
 
     TargetOptions options;
+    options.FloatABIType = UserDefinedFloatABI;
     std::auto_ptr<TargetMachine>
             target(TheTarget->createTargetMachine(targetTriple.getTriple(),
                                                   MCPU, FeaturesStr,

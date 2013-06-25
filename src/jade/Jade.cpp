@@ -50,6 +50,7 @@
 #include "llvm/Support/Threading.h"
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Support/CommandLine.h"
+#include "llvm/Target/TargetOptions.h"
 
 #include "lib/XDFSerialize/XDFParser.h"
 #include "lib/XCFSerialize/XCFParser.h"
@@ -121,6 +122,19 @@ debexec("debexec", desc("Display debugging information for the given instances")
 
 cl::opt<string>
 MArch("march", desc("Architecture to generate assembly for (see --version)"));
+
+cl::opt<llvm::FloatABI::ABIType>
+UserDefinedFloatABI("float-abi",
+  cl::desc("Choose float ABI type"),
+  cl::init(FloatABI::Default),
+  cl::values(
+    clEnumValN(FloatABI::Default, "default",
+               "Target default float ABI type"),
+    clEnumValN(FloatABI::Soft, "soft",
+               "Soft float ABI"),
+    clEnumValN(FloatABI::Hard, "hard",
+               "Hard float ABI (uses FP registers)"),
+    clEnumValEnd));
 
 cl::opt<bool>
 DisableCoreFiles("disable-core-files", Hidden,
