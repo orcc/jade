@@ -7,13 +7,14 @@ include(resources/JadeMacros.cmake)
 
 # Allow users to compile Jade with a non-default LLVM version
 # Must be defined before find_package(LLVM) call
-set(LLVM_INSTDIR_DEFAULT_VALUE "/where/llvm/is/installed")
-set(LLVM_INSTALL_DIR ${LLVM_INSTDIR_DEFAULT_VALUE} CACHE STRING "Force LLVM version to compile against by providing directory where it is installed.")
-if(NOT "${LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
-	if(IS_DIRECTORY "${LLVM_INSTALL_DIR}" AND IS_DIRECTORY "${LLVM_INSTALL_DIR}/share/llvm/cmake")
-		set(LLVM_DIR "${LLVM_INSTALL_DIR}/share/llvm/cmake")
-	endif(IS_DIRECTORY "${LLVM_INSTALL_DIR}" AND IS_DIRECTORY "${LLVM_INSTALL_DIR}/share/llvm/cmake")
-endif(NOT "${LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
+set(LLVM_INSTDIR_DEFAULT_VALUE "/path/to/llvm/folder")
+set(FORCE_LLVM_INSTALL_DIR ${LLVM_INSTDIR_DEFAULT_VALUE} CACHE PATH "Force LLVM version to compile against by providing directory where it is installed.")
+
+if(NOT "${FORCE_LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
+	if(IS_DIRECTORY "${FORCE_LLVM_INSTALL_DIR}" AND IS_DIRECTORY "${FORCE_LLVM_INSTALL_DIR}/share/llvm/cmake")
+        set(LLVM_DIR9999 "${FORCE_LLVM_INSTALL_DIR}/share/llvm/cmake")
+	endif()
+endif()
 
 # Search for required third party libraries
 find_package(LLVM REQUIRED)
@@ -34,8 +35,8 @@ if(LLVM_FOUND)
 		execute_process(COMMAND ${LLVM_CONFIG_TOOL} --version OUTPUT_VARIABLE LLVM_CFG_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
 		if(NOT "${LLVM_CFG_VERSION}" STREQUAL "${LLVM_VERSION}")
 			unset(LLVM_CONFIG_TOOL CACHE)
-		endif(NOT "${LLVM_CFG_VERSION}" STREQUAL "${LLVM_VERSION}")
-	endif(DEFINED LLVM_CONFIG_TOOL)
+        endif()
+    endif()
 
 	# Try to find llvm-config tool, to configure all LLVM related options for Jade build
 	find_file(LLVM_CONFIG_TOOL
