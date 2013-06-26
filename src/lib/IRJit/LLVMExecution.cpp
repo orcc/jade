@@ -78,6 +78,7 @@ extern cl::opt<std::string> TargetTriple;
 cl::opt<bool> UseMCJIT(
         "use-mcjit", cl::desc("Enable use of the MC-based JIT (if available)"),
         cl::init(false));
+extern cl::opt<llvm::FloatABI::ABIType> UserDefinedFloatABI;
 
 //===----------------------------------------------------------------------===//
 // main Driver function
@@ -112,6 +113,11 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
     builder.setEngineKind(ForceInterpreter
                           ? EngineKind::Interpreter
                           : EngineKind::JIT);
+
+    // Configure float ABI for target
+    TargetOptions TrgtOptions;
+    TrgtOptions.FloatABIType = UserDefinedFloatABI;
+    builder.setTargetOptions(TrgtOptions);
 
     // If we are supposed to override the target triple, do so now.
     if (!TargetTriple.empty())
@@ -184,7 +190,6 @@ bool LLVMExecution::mapFifo(Port* port, Fifo* fifo) {
     }
 
     return false;
-
 }
 
 
@@ -245,8 +250,7 @@ void LLVMExecution::run() {
     Function* func = dyn_cast<Function>(scheduler->getMainFunction());
 
     // Run main scheduler
-    std::vector<GenericValue> noargs;
-    GenericValue Result = EE->runFunction(func, noargs);
+    EE->runFunction(func, vector<GenericValue>());
 }
 
 void* LLVMExecution::threadProc( void* args ){
