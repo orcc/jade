@@ -325,7 +325,9 @@ void LLVMExecution::runFunction(Function* function) {
 void LLVMExecution::stop(pthread_t* thread) {
     Scheduler* scheduler = decoder->getScheduler();
     int* stop = (int*)EE->getPointerToGlobalIfAvailable(scheduler->getStopGV());
-    *stop = 1;
+    if(stop) {
+        *stop = 1;
+    }
 }
 
 void LLVMExecution::recompile(Function* function) {
