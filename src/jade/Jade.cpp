@@ -268,8 +268,8 @@ void startCmdLine(){
     LLVMContext &Context = getGlobalContext();
 
     for (unsigned int i =0 ; i < PassList.size(); i++ ){
-        cout << "Pass added: "<< PassList[i]->getPassName() << "\n";
-        cout << "Argument name :" << PassList[i]->getPassArgument() << "\n";
+        cout << "Pass added: "<< PassList[i]->getPassName() << endl;
+        cout << "Argument name :" << PassList[i]->getPassArgument() << endl;
     }
 
     clock_t timer = clock ();
@@ -320,7 +320,7 @@ void startCmdLine(){
     engine->run(network);
 
 
-    cout << "End of Jade:" << (clock () - timer) * 1000 / CLOCKS_PER_SEC;
+    cout << "End of Jade:" << (clock () - timer) * 1000 / CLOCKS_PER_SEC << endl;
 }
 
 int main(int argc, char **argv, char **envp) {
