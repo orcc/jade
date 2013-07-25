@@ -138,7 +138,7 @@ void parseConsole(string cmd) {
         cout << "Select an input stimulus : ";
         cin >> input;
 
-        manager->startEvent(new StartEvent(id, InputDir + input, true));
+        manager->startEvent(new StartEvent(id, InputDir + input, NULL));
 
     } else if (0 == cmd_ref.compare_lower("stop")) {
         int id;

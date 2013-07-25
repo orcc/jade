@@ -72,7 +72,7 @@ const char* ScenarioParser::JSC_IN = "input";
 const char* ScenarioParser::JSC_OUT = "output";
 const char* ScenarioParser::JSC_ID = "id";
 const char* ScenarioParser::JSC_TIME = "time";
-const char* ScenarioParser::JSC_THREADED = "threaded";
+const char* ScenarioParser::JSC_MAPPING = "mapping";
 
 ScenarioParser::ScenarioParser(string scFile){
     this->scFile = scFile;
@@ -161,10 +161,10 @@ Event* ScenarioParser::parseLoadEvent(TiXmlElement* loadEvent){
 
 Event* ScenarioParser::parseStartEvent(TiXmlElement* startEvent){
     const char* id = startEvent->Attribute(JSC_ID);
-    const char* threaded = startEvent->Attribute(JSC_THREADED);
+    const char* mapping = startEvent->Attribute(JSC_MAPPING);
     const char* input = startEvent->Attribute(JSC_IN);
 
-    return new StartEvent(atoi(id), string(input), atoi(threaded));
+    return new StartEvent(atoi(id), string(input), string(mapping));
 }
 
 Event* ScenarioParser::parseStopEvent(TiXmlElement* startEvent){

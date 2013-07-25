@@ -56,9 +56,9 @@ public:
 	 *
 	 * @param threaded : start in threaded mode or not.
      */
-	StartEvent(int id, std::string input, bool threaded) : Event(id) {
+    StartEvent(int id, std::string input, std::string mappingFile) : Event(id) {
 		this->input = input;
-		this->threaded = threaded;
+        this->mapping = mappingFile;
     }
 
 	/*!
@@ -87,10 +87,12 @@ public:
      *
 	 * @return true if event is threaded
      */
-    bool isThreaded(){return threaded;}
+    std::string mappingFile(){
+        return mapping;
+    }
 private:
 	/** Start in a threaded mode */
-	bool threaded;
+    std::string mapping;
 
 	/** Input file */
 	std::string input;
