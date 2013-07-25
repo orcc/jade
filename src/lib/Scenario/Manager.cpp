@@ -42,6 +42,7 @@
 
 #include "lib/RVCEngine/RVCEngine.h"
 #include "lib/XDFSerialize/XDFParser.h"
+#include "lib/XCFSerialize/XCFParser.h"
 #include "lib/Scenario/Manager.h"
 
 #include "ScenarioParser.h"
@@ -174,7 +175,7 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
     return true;
 }
 
-bool Manager::runStartEvent(StartEvent* startEvent){
+bool Manager::runStartEvent(StartEvent* startEvent) {
     clock_t timer = clock ();
     if (verbose){
         cout << "-> Execute start event :\n";
@@ -191,6 +192,16 @@ bool Manager::runStartEvent(StartEvent* startEvent){
     //Set input file
     string input = startEvent->getInput();
     input_file = (char*)input.c_str();
+
+    string mappingFile = startEvent->mappingFile();
+    if(!mappingFile.empty()) {
+
+        std::cout << "Parsing file " << mappingFile << ". \n";
+
+        XCFParser xcfParser(verbose);
+        map<string, string>* mapping = xcfParser.parseFile(mappingFile);
+        netPtr->second->setMapping(mapping);
+    }
 
     //Execute network
     engine->run(netPtr->second);
