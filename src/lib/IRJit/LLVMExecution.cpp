@@ -259,7 +259,7 @@ void* LLVMExecution::threadProc( void* args ){
     ExecutionEngine* E = th->EE;
 
     std::vector<GenericValue> noargs;
-    GenericValue Result = E->runFunction(f, noargs);
+    E->runFunction(f, noargs);
 
     return NULL;
 }
