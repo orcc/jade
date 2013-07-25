@@ -114,7 +114,7 @@ public:
      *
      *  @param thread : the thread where network is execute
      */
-    int run(Network* network, pthread_t* thread = NULL);
+    int run(Network* network);
 
     /*!
      *  @brief Reconfigure a network into another network

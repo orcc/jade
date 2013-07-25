@@ -56,9 +56,9 @@ public:
      *
      * @param threaded : start in threaded mode or not.
      */
-    StartEvent(int id, std::string input, bool threaded) : Event(id) {
-        this->input = input;
-        this->threaded = threaded;
+    StartEvent(int id, std::string input, std::string mappingFile) : Event(id) {
+		this->input = input;
+        this->mapping = mappingFile;
     }
 
     /*!
@@ -74,7 +74,7 @@ public:
      * @return true if Event is a StartEvent otherwise false
      */
     bool isStartEvent(){return true;}
-    
+
     /*!
      * @brief Return the input file of the decoder
      *
@@ -87,10 +87,12 @@ public:
      *
      * @return true if event is threaded
      */
-    bool isThreaded(){return threaded;}
+    std::string mappingFile(){
+        return mapping;
+    }
 private:
     /** Start in a threaded mode */
-    bool threaded;
+    std::string mapping;
 
     /** Input file */
     std::string input;

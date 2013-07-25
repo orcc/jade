@@ -174,7 +174,7 @@ private:
     static const char* JSC_ID;
     static const char* JSC_IN;
     static const char* JSC_TIME;
-    static const char* JSC_THREADED;
+    static const char* JSC_MAPPING;
     static const char* JSC_OUT;
 
 

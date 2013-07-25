@@ -60,7 +60,6 @@ Decoder::Decoder(LLVMContext& C, Configuration* configuration, bool verbose, boo
     //Set property of the decoder
     this->configuration = configuration;
     this->verbose = verbose;
-    this->thread = NULL;
     this->executionEngine = NULL;
     this->fifoFn = NULL;
     this->running = false;
@@ -166,17 +165,4 @@ void Decoder::stop(){
 
     ConfigurationEngine engine(Context);
     engine.reinit(this);
-}
-
-void Decoder::runInThread(pthread_t* thread){
-    this->thread = thread;
-
-    //Lock display mutex until the first image arrive
-    pthread_create( thread, NULL, &Decoder::threadRun, this );
-}
-
-void* Decoder::threadRun( void* args ){
-    Decoder* decoder = static_cast<Decoder*>(args);
-    decoder->run();
-    return NULL;
 }
