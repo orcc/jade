@@ -156,12 +156,6 @@ public:
     void run();
 
     /**
-     *  @brief Run the decoder in a specific thread with infinite loop
-     *
-     */
-    void runInThread(pthread_t* thread);
-
-    /**
      *  @brief Stop the execution of the decoder
      *
      */
@@ -186,11 +180,6 @@ public:
 
     std::map<std::string, llvm::Function*>* getFifoFn(){return fifoFn;}
 private:
-    /**
-     *  @brief Static method for launching decoder in a thread
-     *
-     */
-    static void* threadRun( void* args );
 
     /** Module containing the final decoder */
     llvm::Module* module;
@@ -212,9 +201,6 @@ private:
 
     /** Common fifo functions */
     std::map<std::string, llvm::Function*>* fifoFn;
-
-    /** Current thread used by the decoder */
-    pthread_t* thread;
 
     /** Decoder is currently running */
     bool running;

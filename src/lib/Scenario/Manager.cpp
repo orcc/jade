@@ -37,7 +37,6 @@
 
 //------------------------------
 #include <iostream>
-#include <pthread.h>
 
 #include "llvm/IR/LLVMContext.h"
 
@@ -189,18 +188,12 @@ bool Manager::runStartEvent(StartEvent* startEvent){
         return false;
     }
 
-    //Start a thread if needed
-    pthread_t* thread = NULL;
-    if(startEvent->isThreaded()){
-        thread = new pthread_t();
-    }
-
     //Set input file
     string input = startEvent->getInput();
     input_file = (char*)input.c_str();
 
     //Execute network
-    engine->run(netPtr->second, thread);
+    engine->run(netPtr->second);
 
     if (verbose){
         cout << "-> Decoder started in :"<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
