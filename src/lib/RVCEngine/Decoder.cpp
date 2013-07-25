@@ -160,7 +160,7 @@ void Decoder::run(){
 }
 
 void Decoder::stop(){
-    executionEngine->stop(thread);
+    executionEngine->stop();
 
     running = false;
 

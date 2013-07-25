@@ -322,7 +322,7 @@ void LLVMExecution::runFunction(Function* function) {
     GenericValue Result = EE->runFunction(function, noargs);
 }
 
-void LLVMExecution::stop(pthread_t* thread) {
+void LLVMExecution::stop() {
     Scheduler* scheduler = decoder->getScheduler();
     int* stop = (int*)EE->getPointerToGlobalIfAvailable(scheduler->getStopGV());
     if(stop) {
