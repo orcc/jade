@@ -49,40 +49,40 @@
  */
 class LoadEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new Load event
      *
-	 * @param xdfFile : the xdf file.
-	 *
-	 * @param id : the id of the generated decoder.
+     * @param xdfFile : the xdf file.
+     *
+     * @param id : the id of the generated decoder.
      */
-	LoadEvent(std::string xdfFile, int id) : Event(id){
-		this->file = xdfFile;
+    LoadEvent(std::string xdfFile, int id) : Event(id){
+        this->file = xdfFile;
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~LoadEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a LoadEvent
      *
-	 * @return true if Event is a LoadEvent otherwise false
+     * @return true if Event is a LoadEvent otherwise false
      */
     bool isLoadEvent(){return true;}
 
-	/*!
+    /*!
      * @brief Return the network file to load
      *
-	 * @return the network file to load
+     * @return the network file to load
      */
     std::string getFile(){return file;}
 
 private:
-	std::string file;
+    std::string file;
 };
 
 #endif

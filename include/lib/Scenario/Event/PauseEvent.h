@@ -49,27 +49,27 @@
  */
 class PauseEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new Start event
      *
-	 * @param id : the id of the generated decoder.
-	 *
-	 * @param threaded : start in threaded mode or not.
+     * @param id : the id of the generated decoder.
+     *
+     * @param threaded : start in threaded mode or not.
      */
-	PauseEvent() : Event(0) {
+    PauseEvent() : Event(0) {
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~PauseEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a PauseEvent
      *
-	 * @return true if Event is a PauseEvent otherwise false
+     * @return true if Event is a PauseEvent otherwise false
      */
     bool isPauseEvent(){return true;}
 };

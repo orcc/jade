@@ -49,23 +49,23 @@
  */
 class ListEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new List event
      */
-	ListEvent() : Event(0) {
+    ListEvent() : Event(0) {
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~ListEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a ListEvent
      *
-	 * @return true if Event is a ListEvent otherwise false
+     * @return true if Event is a ListEvent otherwise false
      */
     bool isListEvent(){return true;}
 };

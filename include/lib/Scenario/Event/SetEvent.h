@@ -49,41 +49,41 @@
  */
 class SetEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new set event
      *
-	 * @param xdfFile : the xdf file.
-	 *
-	 * @param id : the id of the decoder to be set.
+     * @param xdfFile : the xdf file.
+     *
+     * @param id : the id of the decoder to be set.
      */
-	SetEvent(int id, std::string xdfFile) : Event(id){
-		this->file = xdfFile;
+    SetEvent(int id, std::string xdfFile) : Event(id){
+        this->file = xdfFile;
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~SetEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a SetEvent
      *
-	 * @return true if Event is a SetEvent otherwise false
+     * @return true if Event is a SetEvent otherwise false
      */
      bool isSetEvent(){return true;}
 
-	 /*!
+     /*!
      * @brief Return the network file to load
      *
-	 * @return the network file to load
+     * @return the network file to load
      */
     std::string getFile(){return file;}
 private:
 
-	/** File to set */
-	std::string file;
+    /** File to set */
+    std::string file;
 };
 
 #endif

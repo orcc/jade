@@ -77,7 +77,7 @@ public:
     /**
      * @brief Return true if the scenario finished
      *
-     *	Return true if all elements of the scenario has been consumed
+     * Return true if all elements of the scenario has been consumed
      *
      * @return true if the scenario is finished otherwise false
      */

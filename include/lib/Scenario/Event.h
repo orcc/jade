@@ -48,104 +48,104 @@
  */
 class Event {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a new event .
+     * Creates a new event .
      */
-	Event(int id){
-		this->id = id;
+    Event(int id){
+        this->id = id;
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~Event(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a LoadEvent
      *
-	 * @return true if Event is a LoadEvent otherwise false
+     * @return true if Event is a LoadEvent otherwise false
      */
     virtual bool isLoadEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a StartEvent
      *
-	 * @return true if Event is a StartEvent otherwise false
+     * @return true if Event is a StartEvent otherwise false
      */
     virtual bool isStartEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a StopEvent
      *
-	 * @return true if Event is a StopEvent otherwise false
+     * @return true if Event is a StopEvent otherwise false
      */
     virtual bool isStopEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a SetEvent
      *
-	 * @return true if Event is a SetEvent otherwise false
+     * @return true if Event is a SetEvent otherwise false
      */
     virtual bool isSetEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a WaitEvent
      *
-	 * @return true if Event is a WaitEvent otherwise false
+     * @return true if Event is a WaitEvent otherwise false
      */
     virtual bool isWaitEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a PauseEvent
      *
-	 * @return true if Event is a PauseEvent otherwise false
+     * @return true if Event is a PauseEvent otherwise false
      */
     virtual bool isPauseEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a VerifyEvent
      *
-	 * @return true if Event is a VerifyEvent otherwise false
+     * @return true if Event is a VerifyEvent otherwise false
      */
     virtual bool isVerifyEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a PrintEvent
      *
-	 * @return true if Event is a PrintEvent otherwise false
+     * @return true if Event is a PrintEvent otherwise false
      */
     virtual bool isPrintEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a RemoveEvent
      *
-	 * @return true if Event is a RemoveEvent otherwise false
+     * @return true if Event is a RemoveEvent otherwise false
      */
     virtual bool isRemoveEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a ListEvent
      *
-	 * @return true if Event is a ListEvent otherwise false
+     * @return true if Event is a ListEvent otherwise false
      */
     virtual bool isListEvent(){return false;}
 
-	/*!
+    /*!
      * @brief Return the id of the decoder
-	 *
-	 *  Return the id of the decoder this event is pointing on
      *
-	 * @return integer id of the decoder
+     *  Return the id of the decoder this event is pointing on
+     *
+     * @return integer id of the decoder
      */
     int getId(){return id;}
 
 protected:
-	/** id of the decoder */
-	int id;
+    /** id of the decoder */
+    int id;
 };
 
 #endif

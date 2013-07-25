@@ -49,51 +49,51 @@
  */
 class StartEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new Start event
      *
-	 * @param id : the id of the generated decoder.
-	 *
-	 * @param threaded : start in threaded mode or not.
+     * @param id : the id of the generated decoder.
+     *
+     * @param threaded : start in threaded mode or not.
      */
-	StartEvent(int id, std::string input, bool threaded) : Event(id) {
-		this->input = input;
-		this->threaded = threaded;
+    StartEvent(int id, std::string input, bool threaded) : Event(id) {
+        this->input = input;
+        this->threaded = threaded;
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~StartEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a StartEvent
      *
-	 * @return true if Event is a StartEvent otherwise false
+     * @return true if Event is a StartEvent otherwise false
      */
     bool isStartEvent(){return true;}
-	
-	/*!
+    
+    /*!
      * @brief Return the input file of the decoder
      *
-	 * @return the input file
+     * @return the input file
      */
     std::string getInput(){return input;}
 
-	/*!
+    /*!
      * @brief Return true if event is threaded
      *
-	 * @return true if event is threaded
+     * @return true if event is threaded
      */
     bool isThreaded(){return threaded;}
 private:
-	/** Start in a threaded mode */
-	bool threaded;
+    /** Start in a threaded mode */
+    bool threaded;
 
-	/** Input file */
-	std::string input;
+    /** Input file */
+    std::string input;
 };
 
 #endif

@@ -49,41 +49,41 @@
  */
 class PrintEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new Print event
      *
-	 * @param id : the id of the decoder to print.
-	 *
-	 * @param file : the file where decoder is printed.
+     * @param id : the id of the decoder to print.
+     *
+     * @param file : the file where decoder is printed.
      */
-	PrintEvent(int id, std::string file) : Event(id) {
-		this->file = file;
+    PrintEvent(int id, std::string file) : Event(id) {
+        this->file = file;
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~PrintEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a PrintEvent
      *
-	 * @return true if Event is a PrintEvent otherwise false
+     * @return true if Event is a PrintEvent otherwise false
      */
     bool isPrintEvent(){return true;}
 
-	/*!
+    /*!
      * @brief Return the file to print the decoder.
      *
-	 * @return the output file
+     * @return the output file
      */
     std::string getFile(){return file;}
 
 private:
-	/** File where decoder is printed */
-	std::string file;
+    /** File where decoder is printed */
+    std::string file;
 };
 
 #endif

@@ -49,25 +49,25 @@
  */
 class RemoveEvent : public Event {
 public:
-	/*!
+    /*!
      * @brief Create a new remove event
      *
-	 * @param id : the id of the decoder to remove.
+     * @param id : the id of the decoder to remove.
      */
-	RemoveEvent(int id) : Event(id) {
+    RemoveEvent(int id) : Event(id) {
     }
 
-	/*!
+    /*!
      *  @brief Destructor
      *
-	 * Delete an event.
+     * Delete an event.
      */
     ~RemoveEvent(){}
 
-	/*!
+    /*!
      * @brief Return true if the Event is a RemoveEvent
      *
-	 * @return true if Event is a RemoveEvent otherwise false
+     * @return true if Event is a RemoveEvent otherwise false
      */
     bool isRemoveEvent(){return true;}
 
