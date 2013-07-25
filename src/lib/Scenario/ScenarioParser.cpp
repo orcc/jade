@@ -164,7 +164,7 @@ Event* ScenarioParser::parseStartEvent(TiXmlElement* startEvent){
     const char* mapping = startEvent->Attribute(JSC_MAPPING);
     const char* input = startEvent->Attribute(JSC_IN);
 
-    return new StartEvent(atoi(id), string(input), string(mapping));
+    return new StartEvent(atoi(id), string(input), mapping != NULL ? string(mapping) : string());
 }
 
 Event* ScenarioParser::parseStopEvent(TiXmlElement* startEvent){
