@@ -33,6 +33,7 @@
 #include <time.h>
 
 #include "orcc_util.h"
+#include "fpsPrint.h"
 
 // from APR
 /* Ignore Microsoft's interpretation of secure development
@@ -106,6 +107,8 @@ unsigned int source_getNbLoop(void)
 
 void source_exit(int exitCode)
 {
+    print_fps_avg();
+
     //Stop scheduler
     *stopVar = 1;
 }

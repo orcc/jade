@@ -32,13 +32,15 @@
 #include <SDL.h>
 #include <time.h>
 
+#include "fpsPrint.h"
+
 static unsigned int startTime;
 static unsigned int relativeStartTime;
 static int lastNumPic;
 static int numPicturesDecoded;
 
 
-static void print_fps_avg(void) {
+void print_fps_avg(void) {
     unsigned int endTime = SDL_GetTicks();
 
     printf("%i images in %f seconds: %f FPS\n", numPicturesDecoded,
@@ -51,7 +53,6 @@ void fpsPrintInit() {
     relativeStartTime = startTime;
     numPicturesDecoded = 0;
     lastNumPic = 0;
-    atexit(print_fps_avg);
 }
 
 void fpsPrintNewPicDecoded(void) {
