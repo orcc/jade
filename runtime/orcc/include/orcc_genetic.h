@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2010, IRISA
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IRISA nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,40 +30,40 @@
 #define GENETIC_H
 
 struct monitor_s {
-	struct sync_s *sync;
-	struct genetic_s *genetic_info;
+    struct sync_s *sync;
+    struct genetic_s *genetic_info;
 };
 
 struct genetic_s {
-	int population_size;
-	int generation_nb;
-	double keep_ratio;
-	double crossover_ratio;
-	struct actor_s **actors;
-	struct scheduler_s *schedulers;
-	int actors_nb;
-	int threads_nb;
-	int use_ring_topology;
-	struct actor_s ***groups_of_actors;
-	int *groups_size;
-	int groups_nb;
-	double groups_ratio;
+    int population_size;
+    int generation_nb;
+    double keep_ratio;
+    double crossover_ratio;
+    struct actor_s **actors;
+    struct scheduler_s *schedulers;
+    int actors_nb;
+    int threads_nb;
+    int use_ring_topology;
+    struct actor_s ***groups_of_actors;
+    int *groups_size;
+    int groups_nb;
+    double groups_ratio;
 };
 
 typedef struct gene_s {
-	struct actor_s *actor;
-	int mapped_core;
+    struct actor_s *actor;
+    int mapped_core;
 } gene;
 
 typedef struct individual_s {
-	gene **genes;
-	float fps;
-	float old_fps;
+    gene **genes;
+    float fps;
+    float old_fps;
 } individual;
 
 typedef struct population_s {
-	int generation_nb;
-	individual **individuals;
+    int generation_nb;
+    individual **individuals;
 } population;
 
 /**
@@ -75,16 +75,16 @@ void *monitor(void *data);
  * Initialize the given genetic structure.
  */
 void genetic_init(struct genetic_s *genetic_info, int population_size,
-		int generation_nb, double keep_ratio, double crossover_ratio,
-		struct actor_s **actors, struct scheduler_s *schedulers, int actors_nb,
-		int threads_nb, int use_ring_topology, int groups_nb,
-		double groups_ratio);
+        int generation_nb, double keep_ratio, double crossover_ratio,
+        struct actor_s **actors, struct scheduler_s *schedulers, int actors_nb,
+        int threads_nb, int use_ring_topology, int groups_nb,
+        double groups_ratio);
 
 /**
  * Initialize the given monitor structure.
  */
 void monitor_init(struct monitor_s *monitoring, struct sync_s *sync,
-		struct genetic_s *genetic_info);
+        struct genetic_s *genetic_info);
 
 /**
  * Allocate and read a parameter-sized table to clean processor cache.

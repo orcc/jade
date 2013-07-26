@@ -39,31 +39,31 @@ static int numPicturesDecoded;
 
 
 static void print_fps_avg(void) {
-	unsigned int endTime = SDL_GetTicks();
+    unsigned int endTime = SDL_GetTicks();
 
-	printf("%i images in %f seconds: %f FPS\n", numPicturesDecoded,
-		(float) (endTime - startTime)/ 1000.0f,
-		1000.0f * (float) numPicturesDecoded / (float) (endTime -startTime));
+    printf("%i images in %f seconds: %f FPS\n", numPicturesDecoded,
+        (float) (endTime - startTime)/ 1000.0f,
+        1000.0f * (float) numPicturesDecoded / (float) (endTime -startTime));
 }
 
 void fpsPrintInit() {
-	startTime = SDL_GetTicks();
-	relativeStartTime = startTime;
-	numPicturesDecoded = 0;
-	lastNumPic = 0;
-	atexit(print_fps_avg);
+    startTime = SDL_GetTicks();
+    relativeStartTime = startTime;
+    numPicturesDecoded = 0;
+    lastNumPic = 0;
+    atexit(print_fps_avg);
 }
 
 void fpsPrintNewPicDecoded(void) {
-	unsigned int endTime;
-	numPicturesDecoded++;
-	endTime = SDL_GetTicks();
-	if ((endTime - relativeStartTime) / 1000.0f >= 5) {
-		printf("%f images/sec\n",
-				1000.0f * (float) (numPicturesDecoded - lastNumPic)
-						/ (float) (endTime - relativeStartTime));
+    unsigned int endTime;
+    numPicturesDecoded++;
+    endTime = SDL_GetTicks();
+    if ((endTime - relativeStartTime) / 1000.0f >= 5) {
+        printf("%f images/sec\n",
+                1000.0f * (float) (numPicturesDecoded - lastNumPic)
+                        / (float) (endTime - relativeStartTime));
 
-		relativeStartTime = endTime;
-		lastNumPic = numPicturesDecoded;
-	}
+        relativeStartTime = endTime;
+        lastNumPic = numPicturesDecoded;
+    }
 }

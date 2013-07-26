@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009-2010, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -29,12 +29,12 @@
 
 /** lock free fifo ring buffer structure */
 struct FIFO_S(T) {
-	unsigned int size; /** size of the ringbuffer */
-	T *contents; /** the memory containing the ringbuffer */
-	
-	unsigned int readers_nb; /** the number of fifo's readers */
-	unsigned int* read_inds; /** the current position of the reader */
-	unsigned int write_ind; /** the current position of the writer */
+    unsigned int size; /** size of the ringbuffer */
+    T *contents; /** the memory containing the ringbuffer */
+
+    unsigned int readers_nb; /** the number of fifo's readers */
+    unsigned int* read_inds; /** the current position of the reader */
+    unsigned int write_ind; /** the current position of the writer */
 };
 
 #include "orcc_generic_fifo.inl"

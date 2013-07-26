@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,7 +31,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <time.h>
-
 
 #include "orcc_util.h"
 
@@ -62,131 +61,129 @@ int* stopVar;
 unsigned int loopsCount;
 
 void printSpeed(void) {
-	double executionTime;
-	double speed;
+    double executionTime;
+    double speed;
 
-	executionTime = (double)(clock() - startTime)/CLOCKS_PER_SEC;
-	speed = nbByteRead / executionTime;
-	speed /= 1024;
-	printf("Speed : %f Kib/s\n",speed);
+    executionTime = (double)(clock() - startTime)/CLOCKS_PER_SEC;
+    speed = nbByteRead / executionTime;
+    speed /= 1024;
+    printf("Speed : %f Kib/s\n",speed);
 }
 
 // Called before any *_scheduler function.
 void source_init() {
-	stop = 0;
-	nb = 0;
+    stop = 0;
+    nb = 0;
 
-	if (input_file == NULL) {
-		print_usage();
-		fprintf(stderr, "No input file given!\n");
-		wait_for_key();
-		exit(1);
-	}
+    if (input_file == NULL) {
+        print_usage();
+        fprintf(stderr, "No input file given!\n");
+        wait_for_key();
+        exit(1);
+    }
 
-	file = fopen(input_file, "rb");
-	if (file == NULL) {
-		if (input_file == NULL) {
-			input_file = "<null>";
-		}
+    file = fopen(input_file, "rb");
+    if (file == NULL) {
+        if (input_file == NULL) {
+            input_file = "<null>";
+        }
 
-		fprintf(stderr, "could not open file \"%s\"\n", input_file);
-		wait_for_key();
-		exit(1);
-	}
-	if(PRINT_SPEED) {
-		atexit(printSpeed);
-	}
-	startTime = clock();
-	loopsCount = nbLoops;
+        fprintf(stderr, "could not open file \"%s\"\n", input_file);
+        wait_for_key();
+        exit(1);
+    }
+    if(PRINT_SPEED) {
+        atexit(printSpeed);
+    }
+    startTime = clock();
+    loopsCount = nbLoops;
 }
 
 unsigned int source_getNbLoop(void)
 {
-	return nbLoops;
+    return nbLoops;
 }
 
 void source_exit(int exitCode)
 {
-	//Stop scheduler
-	*stopVar = 1;
+    //Stop scheduler
+    *stopVar = 1;
 }
 
-int source_sizeOfFile() { 
-	struct stat st; 
-	fstat(fileno(file), &st); 
-	return st.st_size; 
+int source_sizeOfFile() {
+    struct stat st;
+    fstat(fileno(file), &st);
+    return st.st_size;
 }
 
 int source_is_stopped() {
-	return stop;
+    return stop;
 }
 
 void source_active_genetic() {
-	genetic = 1;
+    genetic = 1;
 }
 
 void source_rewind() {
-	if(file != NULL) {
-		rewind(file);
-		if (genetic){
-			if(nb < LOOP_NUMBER) {
-				nb++;
-			}
-			else{
-				stop = 1;
-			}
-		}
-	}
+    if(file != NULL) {
+        rewind(file);
+        if (genetic){
+            if(nb < LOOP_NUMBER) {
+                nb++;
+            }
+            else{
+                stop = 1;
+            }
+        }
+    }
 }
 
 void source_close() {
-	if(file != NULL) {
-		int n = fclose(file);
-	}
+    if(file != NULL) {
+        int n = fclose(file);
+    }
 }
 
 unsigned int source_readByte(){
-	unsigned char buf[1];
-	int n = fread(&buf, 1, 1, file);
+    unsigned char buf[1];
+    int n = fread(&buf, 1, 1, file);
 
-	if (n < 1) {
-		if (feof(file)) {
-			printf("warning\n");
-			rewind(file);
-			if (!genetic || (genetic && nb < LOOP_NUMBER)) {
-				n = fread(&buf, 1, 1, file);
-				nb++;
-			}
-			else{
-				n = fclose(file);
-				stop = 1;
-			}
-		}
-		else {
-			fprintf(stderr,"Problem when reading input file.\n");
-		}
-	}
-	nbByteRead += 8;
-	return buf[0];
+    if (n < 1) {
+        if (feof(file)) {
+            printf("warning\n");
+            rewind(file);
+            if (!genetic || (genetic && nb < LOOP_NUMBER)) {
+                n = fread(&buf, 1, 1, file);
+                nb++;
+            }
+            else{
+                n = fclose(file);
+                stop = 1;
+            }
+        }
+        else {
+            fprintf(stderr,"Problem when reading input file.\n");
+        }
+    }
+    nbByteRead += 8;
+    return buf[0];
 }
 
 
 void source_readNBytes(unsigned char *outTable, unsigned int nbTokenToRead){
-	int n = fread(outTable, 1, nbTokenToRead, file);
+    int n = fread(outTable, 1, nbTokenToRead, file);
 
-	if(n < nbTokenToRead) {
-		fprintf(stderr,"Problem when reading input file.\n");
-		exit(-4);
-	}
-	nbByteRead += nbTokenToRead * 8;
+    if(n < nbTokenToRead) {
+        fprintf(stderr,"Problem when reading input file.\n");
+        exit(-4);
+    }
+    nbByteRead += nbTokenToRead * 8;
 }
 
 void source_decrementNbLoops(){
-	--loopsCount;
+    --loopsCount;
 }
 
 int source_isMaxLoopsReached(){
-	return nbLoops != DEFAULT_INFINITE_LOOP && loopsCount <= 0;
+    return nbLoops != DEFAULT_INFINITE_LOOP && loopsCount <= 0;
 }
-
-

@@ -32,51 +32,51 @@
 #include <stdlib.h>
 
 DECL unsigned int FIFO_HAS_TOKENS(T)(struct FIFO_S(T) *fifo, unsigned int reader_id, unsigned int n) {
-	return fifo->write_ind - fifo->read_inds[reader_id] >= n;
+    return fifo->write_ind - fifo->read_inds[reader_id] >= n;
 }
 
 DECL unsigned int FIFO_GET_NUM_TOKENS(T)(struct FIFO_S(T) *fifo, unsigned int reader_id) {
-	return fifo->write_ind - fifo->read_inds[reader_id];
+    return fifo->write_ind - fifo->read_inds[reader_id];
 }
 
 DECL unsigned int FIFO_HAS_ROOM(T)(struct FIFO_S(T) *fifo, unsigned int num_readers, unsigned int n) {
-	unsigned int i;
-	for(i = 0; i < num_readers; i++) {
-		if (fifo->size + 1 - (fifo->write_ind - fifo->read_inds[i]) <= n) {
-			return 0;
-		}
-	}
+    unsigned int i;
+    for(i = 0; i < num_readers; i++) {
+        if (fifo->size + 1 - (fifo->write_ind - fifo->read_inds[i]) <= n) {
+            return 0;
+        }
+    }
 
-	return 1;
+    return 1;
 }
 
 DECL unsigned int FIFO_GET_ROOM(T)(struct FIFO_S(T) *fifo, unsigned int num_readers) {
-	unsigned int i;
-	unsigned int max_num_tokens = 0;
+    unsigned int i;
+    unsigned int max_num_tokens = 0;
 
-	for (i = 0; i < num_readers; i++) {
-		unsigned int num_tokens = fifo->write_ind - fifo->read_inds[i];
-		max_num_tokens = max_num_tokens > num_tokens ? max_num_tokens : num_tokens;
-	}
+    for (i = 0; i < num_readers; i++) {
+        unsigned int num_tokens = fifo->write_ind - fifo->read_inds[i];
+        max_num_tokens = max_num_tokens > num_tokens ? max_num_tokens : num_tokens;
+    }
 
-	return fifo->size - max_num_tokens;
+    return fifo->size - max_num_tokens;
 }
 
 DECL void FIFO_CLEAR(T)(struct FIFO_S(T) *fifo) {
-	unsigned int i;
-	fifo->write_ind = 0;
-	for (i = 0; i < fifo->readers_nb; i++) {
-		fifo->read_inds[i] = 0;
-	}
+    unsigned int i;
+    fifo->write_ind = 0;
+    for (i = 0; i < fifo->readers_nb; i++) {
+        fifo->read_inds[i] = 0;
+    }
 }
 
 DECL T FIFO_READ(T)(struct FIFO_S(T) *fifo, unsigned int reader_id) {
-	T value = fifo->contents[fifo->read_inds[reader_id] & (fifo->size - 1)];
-	fifo->read_inds[reader_id]++;
-	return value;
+    T value = fifo->contents[fifo->read_inds[reader_id] & (fifo->size - 1)];
+    fifo->read_inds[reader_id]++;
+    return value;
 }
 
 DECL void FIFO_WRITE(T)(struct FIFO_S(T) *fifo, T value) {
-	fifo->contents[fifo->write_ind & (fifo->size - 1)] = value;
-	fifo->write_ind++;
+    fifo->contents[fifo->write_ind & (fifo->size - 1)] = value;
+    fifo->write_ind++;
 }

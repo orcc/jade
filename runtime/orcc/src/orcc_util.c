@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
@@ -13,7 +13,7 @@
  *   * Neither the name of the IETR/INSA of Rennes nor the names of its
  *     contributors may be used to endorse or promote products derived from this
  *     software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,14 +41,14 @@
 #define HAS_TERMIOS 0
 
 #ifdef _WIN32
-	#include <conio.h>
+    #include <conio.h>
 #else
-	#if HAS_TERMIOS
-		#include <termios.h>
-	#endif
+    #if HAS_TERMIOS
+        #include <termios.h>
+    #endif
 #endif
 
-extern char	*optarg;
+extern char *optarg;
 extern int getopt(int nargc, char * const *nargv, const char *ostr);
 
 //Nb Loops
@@ -78,92 +78,92 @@ int compareErrors = 0;
 // Pause function
 void wait_for_key() {
 #ifdef _WIN32
-	printf("Press a key to continue\n");
-	_getch();
+    printf("Press a key to continue\n");
+    _getch();
 #else
-	#if HAS_TERMIOS
-		// the user has termios.h
-		struct termios oldT, newT;
-		char c;
+    #if HAS_TERMIOS
+        // the user has termios.h
+        struct termios oldT, newT;
+        char c;
 
-		printf("Press a key to continue\n");
+        printf("Press a key to continue\n");
 
-		// save current terminal mode
-		ioctl(0, TCGETS, &oldT);
+        // save current terminal mode
+        ioctl(0, TCGETS, &oldT);
 
-		// echo off, echo newline off, canonical mode off, 
-		// extended input processing off, signal chars off
-		newT.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
+        // echo off, echo newline off, canonical mode off,
+        // extended input processing off, signal chars off
+        newT.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
 
-		ioctl(0, TCSETS, &newT); // set new terminal mode
-		read(0, &c, 1); // read 1 char at a time from stdin
-		ioctl(0, TCSETS, &oldT); // restore previous terminal mode
-	#else
-		// just revert to standard getc
-		printf("Press Enter to continue\n");
-		getc(stdin);
-	#endif
+        ioctl(0, TCSETS, &newT); // set new terminal mode
+        read(0, &c, 1); // read 1 char at a time from stdin
+        ioctl(0, TCSETS, &oldT); // restore previous terminal mode
+    #else
+        // just revert to standard getc
+        printf("Press Enter to continue\n");
+        getc(stdin);
+    #endif
 #endif
 }
 
 // print APR error and exit
 void print_and_exit(const char *msg) {
-	wait_for_key();
-	exit(1);
+    wait_for_key();
+    exit(1);
 }
 
 static const char *usage = "%s: -i <file> [-o <file>] [-w <file>] [-l <number of loop iterations>]\n";
 static char *program;
 
 void print_usage() {
-	printf(usage, program);
+    printf(usage, program);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // initializes APR and parses options
 void init_orcc(int argc, char *argv[]) {
-	// every command line option must be followed by ':' if it takes an
-	// argument, and '::' if this argument is optional
-	const char *ostr = "g:i:l:m:no:w:";
-	int c;
+    // every command line option must be followed by ':' if it takes an
+    // argument, and '::' if this argument is optional
+    const char *ostr = "g:i:l:m:no:w:";
+    int c;
 
-	program = argv[0];
-	
-	c = getopt(argc, argv, ostr);
-	while (c != -1) {
-		switch (c) {
-		case '?': // BADCH
-			fprintf(stderr, "unknown argument\n");
-			exit(1);
-		case ':': // BADARG
-			fprintf(stderr, "missing argument\n");
-			exit(1);
-		case 'g':
-			output_genetic = strdup(optarg);
-			break;
-		case 'i':
-			input_file = strdup(optarg);
-			break;
-		case 'l':
-			nbLoops = strtoul(optarg, NULL, 10);
-			break;
-		case 'm':
-			mapping_file = strdup(optarg);
-			break;
-		case 'n':
-			display_flags = DISPLAY_DISABLE;
-			break;
-		case 'o':
-			yuv_file = strdup(optarg);
-			break;
-		case 'w':
-			write_file = strdup(optarg);
-			break;
-		default:
-			fprintf(stderr, "skipping option -%c\n", c);
-			break;
-		}
+    program = argv[0];
 
-		c = getopt(argc, argv, ostr);
-	}
+    c = getopt(argc, argv, ostr);
+    while (c != -1) {
+        switch (c) {
+        case '?': // BADCH
+            fprintf(stderr, "unknown argument\n");
+            exit(1);
+        case ':': // BADARG
+            fprintf(stderr, "missing argument\n");
+            exit(1);
+        case 'g':
+            output_genetic = strdup(optarg);
+            break;
+        case 'i':
+            input_file = strdup(optarg);
+            break;
+        case 'l':
+            nbLoops = strtoul(optarg, NULL, 10);
+            break;
+        case 'm':
+            mapping_file = strdup(optarg);
+            break;
+        case 'n':
+            display_flags = DISPLAY_DISABLE;
+            break;
+        case 'o':
+            yuv_file = strdup(optarg);
+            break;
+        case 'w':
+            write_file = strdup(optarg);
+            break;
+        default:
+            fprintf(stderr, "skipping option -%c\n", c);
+            break;
+        }
+
+        c = getopt(argc, argv, ostr);
+    }
 }

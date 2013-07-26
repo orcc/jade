@@ -49,65 +49,65 @@ static FILE        *cmpFile ;
 
 // Called before any *_scheduler function.
 void compare_init() {
-	if (yuv_file == NULL) {
-		print_usage();
-		fprintf(stderr, "No compare file given!\n");
-		wait_for_key();
-		exit(1);
-	}
-	if (cmpFile == NULL) {
-		cmpFile = fopen(yuv_file, "rb");
-	}
-	if (cmpFile == NULL) {
-		if (yuv_file == NULL) {
-			yuv_file = "<null>";
-		}
-		fprintf(stderr, "could not open file \"%s\"\n", yuv_file);
-		wait_for_key();
-		exit(1);
-	}
+    if (yuv_file == NULL) {
+        print_usage();
+        fprintf(stderr, "No compare file given!\n");
+        wait_for_key();
+        exit(1);
+    }
+    if (cmpFile == NULL) {
+        cmpFile = fopen(yuv_file, "rb");
+    }
+    if (cmpFile == NULL) {
+        if (yuv_file == NULL) {
+            yuv_file = "<null>";
+        }
+        fprintf(stderr, "could not open file \"%s\"\n", yuv_file);
+        wait_for_key();
+        exit(1);
+    }
 }
 
 void compare_close() {
-	if(cmpFile != NULL) {
-		int n = fclose(cmpFile);
-	}
+    if(cmpFile != NULL) {
+        int n = fclose(cmpFile);
+    }
 }
 
 void compare_byte(unsigned char in){
-	unsigned char buf[1];
-	int n = fread(&buf, 1, 1, cmpFile);
-	if (n < 1) {
-		fprintf(stderr,"Problem when reading compare file.\n");
-		compare_close();
-		exit(-4);
-	}
-	if( buf[0] != in ) {
-		fprintf(stderr,"Compare Error.\n");
-		wait_for_key();
-		compare_close();
-		exit(-5);
-	}
+    unsigned char buf[1];
+    int n = fread(&buf, 1, 1, cmpFile);
+    if (n < 1) {
+        fprintf(stderr,"Problem when reading compare file.\n");
+        compare_close();
+        exit(-4);
+    }
+    if( buf[0] != in ) {
+        fprintf(stderr,"Compare Error.\n");
+        wait_for_key();
+        compare_close();
+        exit(-5);
+    }
 }
 
 void compare_NBytes(unsigned char * inTable, unsigned short nbTokenToRead){
-	unsigned char *outTable = (unsigned char *) malloc(nbTokenToRead);
-	int n = fread(outTable, 1, nbTokenToRead, cmpFile);
-	if(n < nbTokenToRead) {
-		fprintf(stderr,"Problem when reading compare file.\n");
-		wait_for_key();
-		compare_close();
-		exit(-5);
-	}
-	while(n>0) {
-		if( outTable[n-1] != inTable[n-1] ) {
-			fprintf(stderr,"Compare Error.\n");
-			wait_for_key();
-			exit(-5);
-		}
-		n--;
-	}
-	free(outTable);
+    unsigned char *outTable = (unsigned char *) malloc(nbTokenToRead);
+    int n = fread(outTable, 1, nbTokenToRead, cmpFile);
+    if(n < nbTokenToRead) {
+        fprintf(stderr,"Problem when reading compare file.\n");
+        wait_for_key();
+        compare_close();
+        exit(-5);
+    }
+    while(n>0) {
+        if( outTable[n-1] != inTable[n-1] ) {
+            fprintf(stderr,"Compare Error.\n");
+            wait_for_key();
+            exit(-5);
+        }
+        n--;
+    }
+    free(outTable);
 }
 
 void compare_NBytesNext(unsigned char * inTable, unsigned short nbTokenToRead, unsigned short display){
@@ -125,7 +125,7 @@ void compare_NBytesNext(unsigned char * inTable, unsigned short nbTokenToRead, u
     noEqual = 0;
     while(n>0) {
       if( outTable[n-1] != inTable[n-1] ) {
-	noEqual = 1;
+    noEqual = 1;
       }
       n--;
     }
