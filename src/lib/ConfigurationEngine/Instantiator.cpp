@@ -89,7 +89,7 @@ void Instantiator::updateInstance(Instance* instance){
 
     //Actor does not exist
     if (it == actors->end()){
-        cerr << "An instance refers to non-existent actor: actor "<< instance->getClasz() << " for instance " << instance->getId();
+        cerr << "An instance refers to non-existent actor: actor "<< instance->getClasz() << " for instance " << instance->getId() << endl;
         exit(0);
     }
 
@@ -120,7 +120,7 @@ void Instantiator::updateConnection(Connection* connection){
         Port* srcPort = actor->getOutput(srcPortInst->getName());
 
         if (srcPort == NULL){
-            cerr << "A Connection refers to non-existent source port: " << srcPortInst->getName() << "of instance " << source->getId();
+            cerr << "A Connection refers to non-existent source port: " << srcPortInst->getName() << " of instance " << source->getId() << endl;
             exit(0);
         }
 
@@ -145,7 +145,7 @@ void Instantiator::updateConnection(Connection* connection){
         Port* dstPort = actor->getInput(dstPortInst->getName());
 
         if (dstPort == NULL){
-            cerr << "A Connection refers to non-existent destination port: " << dstPort->getName() << " of instance " << target->getId();
+            cerr << "A Connection refers to non-existent destination port: " << dstPort->getName() << " of instance " << target->getId() << endl;
             exit(0);
         }
 
