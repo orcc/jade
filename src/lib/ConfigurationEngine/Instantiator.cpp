@@ -90,7 +90,7 @@ void Instantiator::updateInstance(Instance* instance){
     //Actor does not exist
     if (it == actors->end()){
         cerr << "An instance refers to non-existent actor: actor "<< instance->getClasz() << " for instance " << instance->getId() << endl;
-        exit(0);
+        exit(1);
     }
 
     //Set instance to its corresponding actor
@@ -121,7 +121,7 @@ void Instantiator::updateConnection(Connection* connection){
 
         if (srcPort == NULL){
             cerr << "A Connection refers to non-existent source port: " << srcPortInst->getName() << " of instance " << source->getId() << endl;
-            exit(0);
+            exit(1);
         }
 
 
@@ -146,7 +146,7 @@ void Instantiator::updateConnection(Connection* connection){
 
         if (dstPort == NULL){
             cerr << "A Connection refers to non-existent destination port: " << dstPort->getName() << " of instance " << target->getId() << endl;
-            exit(0);
+            exit(1);
         }
 
         targetString = dstPort->getName();
@@ -162,7 +162,7 @@ void Instantiator::updateConnection(Connection* connection){
     IntegerType* dstType = cast<IntegerType>(dstPortType);
     if (srcType->getBitWidth() != dstType->getBitWidth()) {
         cerr << "A connection refers to an output port " << sourceString.c_str()  << " of size "<< srcType->getBitWidth() << " in instance "<< srcVertex->getName() << " which differs to the target port " << targetString.c_str() << " of size " << dstType->getBitWidth() << " in  "<<dstVertex->getName() << ".\n";
-        exit(0);
+        exit(1);
     }
 
 }

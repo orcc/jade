@@ -78,17 +78,17 @@ IRType* TypeParser::parseType(TiXmlNode* node){
                 return new IntType(expr->evaluateAsInteger());
             }else if (name == XDFNetwork::TYPE_LIST) {
                 cerr << "List elements are not supPorted yet";
-                exit(0);
+                exit(1);
             }else if (name == XDFNetwork::TYPE_STRING) {
                 cerr << "String elements are not supPorted yet";
-                exit(0);
+                exit(1);
             }else if (name == XDFNetwork::TYPE_UINT) {
                 map<string, Entry*> *entries = parseTypeEntries(node->FirstChild());
                 Expr* expr = parseTypeSize(entries);
                 return new UIntType(expr->evaluateAsInteger());
             }else {
                 cerr << "Unknown Type name: " << name.c_str();
-                exit(0);
+                exit(1);
             }
         }
 

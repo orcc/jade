@@ -106,7 +106,7 @@ Actor* IRParser::parseActor(string classz){
     if (module == 0){
         //Module not found
         cerr << "Error when parsing bytecode";
-        exit(0);
+        exit(1);
     }
 
     //Empty action list

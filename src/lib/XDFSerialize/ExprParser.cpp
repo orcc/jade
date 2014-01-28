@@ -69,7 +69,7 @@ Expr* ExprParser::parseExpr(TiXmlNode* node){
 
     if (expr == NULL) {
         cerr << "Expected an expression element";
-        exit(0);
+        exit(1);
     }
 
     return expr;
@@ -90,16 +90,16 @@ ParseContinuation<Expr*> ExprParser::parseExprCont(TiXmlNode* node){
                 break;
             } else if (kind == XDFNetwork::KIND_LIST) {
                 cerr << "List not supported yet";
-                exit(0);
+                exit(1);
             } else if (kind == XDFNetwork::KIND_UNARYOP) {
                 cerr << "UnaryOp not supported yet";
-                exit(0);
+                exit(1);
             } else if (kind == XDFNetwork::KIND_VAR) {
                 cerr << "Var not supported yet";
-                exit(0);
+                exit(1);
             } else {
                 cerr << "Unsupported expression kind: "<< kind.c_str();
-                exit(0);
+                exit(1);
             }
         }
 

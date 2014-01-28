@@ -83,7 +83,7 @@ int Expr::evaluateAsInteger(){
     }
 
     cerr << "Can't evaluate this expression";
-    exit(0);
+    exit(1);
 }
 
 Constant* BoolExpr::getConstant(){

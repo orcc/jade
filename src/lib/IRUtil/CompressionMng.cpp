@@ -108,7 +108,7 @@ void CompressionMng::checkFile(string file){
     if(!llvm::sys::fs::exists(file)){
         // File doesn't exist
         cout << "File " << file << " does not exists or be create.'" << endl;
-        exit(0);
+        exit(1);
     }
 }
 

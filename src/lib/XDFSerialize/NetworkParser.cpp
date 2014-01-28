@@ -132,7 +132,7 @@ Instance* NetworkParser::parseInstance(TiXmlElement* instance){
 
     if (id.empty()) {
         cerr << "An Instance element must have a valid \"id\" attribute";
-        exit(0);
+        exit(1);
     }
 
     // instance class
@@ -150,7 +150,7 @@ Instance* NetworkParser::parseInstance(TiXmlElement* instance){
 
     if (clasz.empty()) {
         cerr << "An Instance element must have a valid \"Class\" child.";
-        exit(0);
+        exit(1);
     }
 
     // Get parameters
@@ -172,7 +172,7 @@ map<string, Expr*> *NetworkParser::parseParameters(TiXmlNode* node){
 
             if (name == "") {
                 cerr <<"A Parameter element must have a valid \"name\" attribute";
-                exit(0);
+                exit(1);
             }
             Expr* expression = exprParser->parseExpr(node->FirstChild());
             parameters->insert(pair<string, Expr*>(string(name.c_str()), expression));
@@ -247,13 +247,13 @@ map<string, IRAttribute*>* NetworkParser::parseAttributes(TiXmlNode* node){
 
             if (kind == XDFNetwork::KIND_CUSTOM) {
                 cerr << "Custom elements are not supported yet";
-                exit(0);
+                exit(1);
             }else if (kind == XDFNetwork::KIND_FLAG) {
                 cerr << "Flag elements are not supported yet";
-                exit(0);
+                exit(1);
             }else if (kind == XDFNetwork::KIND_STRING) {
                 cerr << "String elements are not supported yet";
-                exit(0);
+                exit(1);
             }else if (kind == XDFNetwork::KIND_TYPE) {
                 IRType* type = typeParser->parseType(attribute->FirstChild());
                 attr = new TypeAttribute(type);
@@ -262,7 +262,7 @@ map<string, IRAttribute*>* NetworkParser::parseAttributes(TiXmlNode* node){
                 attr = new ValueAttribute(expression);
             }else {
                 cerr << "unsupported attribute kind: " << kind.c_str() ;
-                exit(0);
+                exit(1);
             }
 
             attributes->insert(pair<string, IRAttribute*>(string(attrName.c_str()), attr));
