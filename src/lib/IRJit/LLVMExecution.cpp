@@ -100,7 +100,7 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
     if (NoLazyCompilation) {
         if (module->MaterializeAllPermanently(&ErrorMsg)) {
             cout << "bitcode didn't read correctly." << endl;
-            cout << "Reason: " << ErrorMsg << endl;
+            cerr << "Reason: " << ErrorMsg << endl;
             exit(1);
         }
     }
@@ -146,7 +146,7 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
         if (!ErrorMsg.empty())
             cout << ": error creating EE: " << ErrorMsg << endl;
         else
-            cout << ": unknown error creating EE!" << endl;
+            cerr << ": unknown error creating EE!" << endl;
         exit(1);
     }
 
@@ -204,7 +204,7 @@ void LLVMExecution::linkExternalProc(list<Procedure*> externs){
         itNative = nativeMap.find((*it)->getName());
 
         if (itNative == nativeMap.end()){
-            cout << "Unknown native function :"<< (*it)->getName() << endl;
+            cerr << "Unknown native function :"<< (*it)->getName() << endl;
             exit(1);
         }
 

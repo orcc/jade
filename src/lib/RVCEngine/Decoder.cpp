@@ -129,7 +129,7 @@ void Decoder::setConfiguration(Configuration* newConfiguration){
     clock_t start = clock ();
     /*if (running){
         //Decoder is currently running
-        cout << "Can't set a configuration, the decoder is currently running.";
+        cerr << "Can't set a configuration, the decoder is currently running.";
         exit(1);
     }*/
 

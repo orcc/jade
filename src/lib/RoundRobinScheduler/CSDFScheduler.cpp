@@ -88,7 +88,7 @@ void CSDFScheduler::createStateVars(SuperInstance* instance){
         ConstantInt* dstPat = output->getNumTokens(src);
 
         if (srcPat->getLimitedValue() != dstPat->getLimitedValue()){
-            cout << "Found a consumption/production error between port " << src->getName() << " and port " << dst->getName();
+            cerr << "Found a consumption/production error between port " << src->getName() << " and port " << dst->getName();
             exit(1);
         }
 

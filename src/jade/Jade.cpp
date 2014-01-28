@@ -375,7 +375,7 @@ int main(int argc, char **argv, char **envp) {
         }
     } else {
         if ((VidFile == "") || (VTLDir == "") || (XDFFile == "")){
-            cout << "An input stimulus (-i), a VTL directory (-L) and an XDF Network (-xdf) is mandatory to start Jade in command line mode." << endl;
+            cerr << "An input stimulus (-i), a VTL directory (-L) and an XDF Network (-xdf) is mandatory to start Jade in command line mode." << endl;
             exit(1);
         }
 
