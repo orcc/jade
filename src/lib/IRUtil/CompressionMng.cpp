@@ -107,7 +107,7 @@ string CompressionMng::uncompressGZip(string file){
 void CompressionMng::checkFile(string file){
     if(!llvm::sys::fs::exists(file)){
         // File doesn't exist
-        cout << "File " << file << " does not exists or be create.'\n";
+        cout << "File " << file << " does not exists or be create.'" << endl;
         exit(0);
     }
 }

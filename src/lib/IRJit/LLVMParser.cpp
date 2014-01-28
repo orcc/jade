@@ -69,7 +69,7 @@ Module* LLVMParser::loadModule(Package* package, string file) {
 
     Mod = ParseIRFile(Filename.c_str(), Err, Context);
 
-    if (verbose) cout << "Loading '" << Filename.c_str() << "'\n";
+    if (verbose) cout << "Loading '" << Filename.c_str() << "'" << endl;
 
     if (!Mod) {
         //Error when parsing module

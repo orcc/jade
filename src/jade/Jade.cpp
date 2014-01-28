@@ -275,16 +275,16 @@ void startCmdLine(){
     clock_t timer = clock ();
 
     //Parsing XDF file
-    std::cout << "Parsing file " << XDFFile.getValue() << ". \n";
+    std::cout << "Parsing file " << XDFFile.getValue() << "." << endl;
 
     XDFParser xdfParser(Verbose);
     Network* network = xdfParser.parseFile(XDFFile, Context);
 
-    cout << "Network parsed in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms, start engine :\n";
+    cout << "Network parsed in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms, start engine :" << endl;
 
     //Parsing XCF file if needed
     if(XCFFile != ""){
-        std::cout << "Parsing file " << XCFFile.getValue() << ". \n";
+        std::cout << "Parsing file " << XCFFile.getValue() << "." << endl;
 
         XCFParser xcfParser(Verbose);
         map<string, string>* mapping = xcfParser.parseFile(XCFFile);
@@ -335,7 +335,7 @@ int main(int argc, char **argv, char **envp) {
     (void) signal(SIGINT, clean_exit);
 
     if (Verbose){
-        cout << "> Preparing core of Jade :\n";
+        cout << "> Preparing core of Jade :" << endl;
     }
 
     //Initialize context
@@ -348,34 +348,34 @@ int main(int argc, char **argv, char **envp) {
     engine = new RVCEngine(Context, VTLDir, OutputDir, noMerging, Verbose, ArmFix);
 
     if (Verbose){
-        cout << "> Core preparation finished in " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "> Core preparation finished in " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
 
     if (Console){
 
         if (Verbose){
-            cout << "> Starting console mode :\n";
+            cout << "> Starting console mode :" << endl;
         }
         //Enter in console mode
         startConsole();
 
         if (Verbose){
-            cout << "> Exiting console mode.\n";
+            cout << "> Exiting console mode." << endl;
         }
     } else if (ScFile != ""){
         //Scenario mode
         if (Verbose){
-            cout << "> Starting scenario mode :\n";
+            cout << "> Starting scenario mode :" << endl;
         }
         Manager manager(engine, optLevel, Verify, Verbose);
         manager.start(ScFile);
 
         if (Verbose){
-            cout << "> Exiting scenario mode.\n";
+            cout << "> Exiting scenario mode." << endl;
         }
     } else {
         if ((VidFile == "") || (VTLDir == "") || (XDFFile == "")){
-            cout << "An input stimulus (-i), a VTL directory (-L) and an XDF Network (-xdf) is mandatory to start Jade in command line mode.\n";
+            cout << "An input stimulus (-i), a VTL directory (-L) and an XDF Network (-xdf) is mandatory to start Jade in command line mode." << endl;
             exit(1);
         }
 

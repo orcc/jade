@@ -171,7 +171,7 @@ MoC* IRParser::parseMoC(Module* module){
         return new DPNMoC(actor);
     }
 
-    cout << "Unsupported type of MoC \n";
+    cerr << "Unsupported type of MoC" << endl;
     exit(1);
 }
 
@@ -418,7 +418,6 @@ StateVar* IRParser::parseStateVar(MDNode* node){
     //Parse StateVar properties
     IntegerType* type = (IntegerType*)parseType(cast<MDNode>(node->getOperand(1)));
 
-
     //Parse initialize
     Value* MDExpr = node->getOperand(2);
     Expr* init = NULL;
@@ -440,10 +439,10 @@ Expr* IRParser::parseExpr(MDNode* node){
     const Type* type = value->getType();
     if (isa<IntegerType>(type)){
         return new IntExpr(Context, cast<Constant>(value));
-    }else if (isa<ArrayType>(type)){
+    } else if (isa<ArrayType>(type)) {
         return new ListExpr(Context, cast<Constant>(value));
-    }else{
-        cout << "Unsupported type of expression \n";
+    } else {
+        cerr << "Unsupported type of expression" << endl;
         exit(1);
     }
 

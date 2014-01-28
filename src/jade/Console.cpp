@@ -161,16 +161,16 @@ void parseConsole(string cmd) {
         manager->startEvent(new ListEvent());
 
     } else if (0 == cmd_ref.compare_lower("help")) {
-        cout << "Command line options :\n";
-        cout << "List : view a list of the networks loads \n";
-        cout << "Load : load a network \n";
-        cout << "Print : print a network \n";
-        cout << "Remove : remove a network \n";
-        cout << "Set : change a network to another\n";
-        cout << "Start : start a network \n";
-        cout << "Stop : stop a network \n";
-        cout << "Verify : verify a network\n";
-        cout << "X : exit console \n";
+        cout << "Command line options :" << endl;
+        cout << "List : view a list of the networks loads" << endl;
+        cout << "Load : load a network" << endl;
+        cout << "Print : print a network" << endl;
+        cout << "Remove : remove a network" << endl;
+        cout << "Set : change a network to another" << endl;
+        cout << "Start : start a network" << endl;
+        cout << "Stop : stop a network" << endl;
+        cout << "Verify : verify a network" << endl;
+        cout << "X : exit console" << endl;
     }
 }
 

@@ -87,8 +87,8 @@ void LLVMUtility::verify(string file, Decoder* decoder){
         //Preparing output
         output.open(OutFile.c_str());
         output << Err;
-        cout << "Error found in the current decoder, output " << OutFile << " error file \n";
+        cerr << "Error found in the current decoder, output " << OutFile << " error file" << endl;
     } else {
-        cout << "Generated decoder is ok. \n";
+        cout << "Generated decoder is ok." << endl;
     }
 }

@@ -91,8 +91,8 @@ int RVCEngine::load(Network* network) {
     configuration->setActors(requieredActors);
 
     if (verbose){
-        cout << "---> The given configuration requiered " << requieredActors->size() << " actors for "<<configuration->getInstances()->size() << " instances.\n";
-        cout << "--> Modules parsed in : "<<(clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "---> The given configuration requiered " << requieredActors->size() << " actors for "<<configuration->getInstances()->size() << " instances." << endl;
+        cout << "--> Modules parsed in : "<<(clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
         timer = clock ();
     }
 
@@ -100,7 +100,7 @@ int RVCEngine::load(Network* network) {
     Decoder* decoder = new Decoder(Context, configuration, verbose, armFix);
 
     if (verbose){
-        cout << "--> Decoder created in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "--> Decoder created in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
         timer = clock ();
     }
 
@@ -118,7 +118,7 @@ int RVCEngine::unload(Network* network) {
     it = decoders.find(network);
 
     if (it == decoders.end()){
-        cout << "No decoders load for this network.\n";
+        cout << "No decoders load for this network." << endl;
         return 1;
     }
 
@@ -134,7 +134,7 @@ int RVCEngine::stop(Network* network){
     map<Network*, Decoder*>::iterator it = decoders.find(network);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network.\n";
+        cout << "No decoders found for this network." << endl;
         return 1;
     }
 
@@ -151,7 +151,7 @@ int RVCEngine::verify(Network* network, std::string errorFile){
     it = decoders.find(network);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network.\n";
+        cout << "No decoders found for this network." << endl;
         return 1;
     }
 
@@ -159,7 +159,7 @@ int RVCEngine::verify(Network* network, std::string errorFile){
     utility.verify(errorFile, it->second);
 
     if (verbose){
-        cout << "--> Decoder verified in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "--> Decoder verified in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
     return 0;
 }
@@ -170,7 +170,7 @@ int RVCEngine::run(Network* network){
     it = decoders.find(network);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network.\n";
+        cout << "No decoders found for this network." << endl;
         return 1;
     }
 
@@ -188,16 +188,16 @@ int RVCEngine::optimize(Network* network, int optLevel){
     it = decoders.find(network);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network.\n";
+        cout << "No decoders found for this network." << endl;
         return 1;
     }
 
-    cout << "-> Start optimization of : " << network->getName().c_str() << "\n";
+    cout << "-> Start optimization of : " << network->getName().c_str() << "" << endl;
 
     LLVMOptimizer opt(it->second);
     opt.optimize(optLevel);
 
-    cout << "--> Decoder optimized in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+    cout << "--> Decoder optimized in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     return 0;
 }
 
@@ -207,7 +207,7 @@ int RVCEngine::reconfigure(Network* oldNetwork, Network* newNetwork){
     it = decoders.find(oldNetwork);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network.\n";
+        cout << "No decoders found for this network." << endl;
         return 1;
     }
 
@@ -285,7 +285,7 @@ int RVCEngine::print(Network* network, string outputFile){
     it = decoders.find(network);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network.\n";
+        cout << "No decoders found for this network." << endl;
         return 1;
     }
 

@@ -106,7 +106,7 @@ void ConfigurationEngine::reconfigure(Decoder* decoder, Configuration* configura
     list<Instance*>* removes = reconfiguration.getToRemove();
 
     if (verbose){
-        cout << "Detected " << removes->size() << " useless instance, remove them from current decoder. \n";
+        cout << "Detected " << removes->size() << " useless instance, remove them from current decoder." << endl;
     }
 
     for (it = removes->begin(); it != removes->end(); it++){
@@ -128,7 +128,7 @@ void ConfigurationEngine::reconfigure(Decoder* decoder, Configuration* configura
     list<Instance*>* adds = reconfiguration.getToAdd();
 
     if (verbose){
-        cout << "Detected " << adds->size() << " instance to add. \n";
+        cout << "Detected " << adds->size() << " instance to add." << endl;
     }
 
     for (it = adds->begin(); it != adds->end(); it++){
@@ -140,7 +140,7 @@ void ConfigurationEngine::reconfigure(Decoder* decoder, Configuration* configura
     list<pair<Instance*, Instance*> >* keeps = reconfiguration.getToKeep();
 
     if (verbose){
-        cout << "Detected " << keeps->size() << " instance to keep, create links. \n";
+        cout << "Detected " << keeps->size() << " instance to keep, create links." << endl;
     }
 
     IRLinker linker(decoder);

@@ -99,8 +99,8 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
     // If not jitting lazily, load the whole bitcode file eagerly too.
     if (NoLazyCompilation) {
         if (module->MaterializeAllPermanently(&ErrorMsg)) {
-            cout << "bitcode didn't read correctly.\n";
-            cout << "Reason: " << ErrorMsg << "\n";
+            cout << "bitcode didn't read correctly." << endl;
+            cout << "Reason: " << ErrorMsg << endl;
             exit(1);
         }
     }
@@ -144,9 +144,9 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
     EE = builder.create();
     if (!EE) {
         if (!ErrorMsg.empty())
-            cout << ": error creating EE: " << ErrorMsg << "\n";
+            cout << ": error creating EE: " << ErrorMsg << endl;
         else
-            cout << ": unknown error creating EE!\n";
+            cout << ": unknown error creating EE!" << endl;
         exit(1);
     }
 
@@ -204,7 +204,7 @@ void LLVMExecution::linkExternalProc(list<Procedure*> externs){
         itNative = nativeMap.find((*it)->getName());
 
         if (itNative == nativeMap.end()){
-            cout << "Unknown native function :"<< (*it)->getName();
+            cout << "Unknown native function :"<< (*it)->getName() << endl;
             exit(1);
         }
 
@@ -304,7 +304,7 @@ int* LLVMExecution::initialize(){
             if (!Fn->isDeclaration())
                 EE->getPointerToFunction(Fn);
         }
-        cout << "--> No lazy compilation enable, the decoder has been compiled in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms \n";
+        cout << "--> No lazy compilation enable, the decoder has been compiled in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms" << endl;
     }
 
     // Initialize the network

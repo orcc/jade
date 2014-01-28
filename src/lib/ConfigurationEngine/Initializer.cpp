@@ -147,7 +147,7 @@ void Initializer::initializeVariable(Variable* var){
     }else if (initVal->isListExpr()){
         initializeListExpr(var->getGlobalVariable(), (ListExpr*)initVal);
     }else{
-        cout<< "Initialize only support initialization of integer. \n";
+        cout << "Initialize only support initialization of integer." << endl;
         exit(1);
     }
 }
@@ -173,7 +173,7 @@ void Initializer::initializeListExpr(GlobalVariable* var, ListExpr* expr){
 
 
         if (Elt == NULL){
-            cout<< "Initialization error of array. \n";
+            cout << "Initialization error of array." << endl;
             exit(1);
         }
 

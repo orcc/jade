@@ -137,7 +137,7 @@ void Decoder::setConfiguration(Configuration* newConfiguration){
     ConfigurationEngine engine(Context, verbose);
     engine.reconfigure(this, newConfiguration);
     if (verbose){
-        cout<< "---> Reconfiguring times of engines takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "---> Reconfiguring times of engines takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
         start = clock();
     }
 
@@ -148,7 +148,7 @@ void Decoder::setConfiguration(Configuration* newConfiguration){
     executionEngine->recompile(scheduler->getMainFunction());
 
     if (verbose){
-        cout<< "---> Scheduling recompilation takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "---> Scheduling recompilation takes " << (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
 }
 

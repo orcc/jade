@@ -178,7 +178,7 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
             Function* init = Fifo::initializeIn(module, input);
             CallInst::Create(init, "", entryBB->getTerminator());
         }else{
-            cout << "Warning! Input port " << it->first << " of instance " << instance->getId() << " is not connected in the network. \n";
+            cout << "Warning! Input port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
         }
     }
 
@@ -191,7 +191,7 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
             Function* init = Fifo::initializeOut(module, it->second);
             CallInst::Create(init, "", entryBB->getTerminator());
         }else{
-            cout << "Warning! Output port " << it->first << " of instance " << instance->getId() << "is not connected in the network. \n";
+            cout << "Warning! Output port " << it->first << " of instance " << instance->getId() << "is not connected in the network." << endl;
         }
     }
 

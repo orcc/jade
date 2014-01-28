@@ -66,7 +66,7 @@ Manager::Manager(RVCEngine* engine, int optLevel, bool verify, bool verbose){
 bool Manager::start(std::string scFile){
     clock_t start = clock ();
     if (verbose){
-        cout << "-> Parsing scenario file : "<<scFile.c_str() <<" \n";
+        cout << "-> Parsing scenario file : "<<scFile.c_str() <<"" << endl;
     }
 
     // Parse the scenario file
@@ -79,8 +79,8 @@ bool Manager::start(std::string scFile){
     }
 
     if (verbose){
-        cout << "-> Scenario parsing finished in "<< (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-        cout << "-> Start scenario :\n";
+        cout << "-> Scenario parsing finished in "<< (clock () - start) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
+        cout << "-> Start scenario :" << endl;
     }
 
     while (!scenario->end()){
@@ -133,8 +133,8 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
     clock_t timer2 = clock ();
 
     if (verbose){
-        cout << "-> Execute load event :\n";
-        cout << "--> Parsing network :\n";
+        cout << "-> Execute load event :" << endl;
+        cout << "--> Parsing network :" << endl;
     }
     //Load network
     LLVMContext &Context = getGlobalContext();
@@ -147,8 +147,8 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
     }
 
     if (verbose){
-        cout << "--> Parsing network finished in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC << "ms.\n";
-        cout << "--> Loading decoder :\n";
+        cout << "--> Parsing network finished in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+        cout << "--> Loading decoder :" << endl;
         timer1 = clock ();
     }
 
@@ -169,8 +169,8 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
     }
 
     if (verbose){
-        cout << "--> Load decoder finished in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC << "ms.\n";
-        cout << "-> Load event executed in :" << (clock () - timer2) * 1000 / CLOCKS_PER_SEC <<"\n";
+        cout << "--> Load decoder finished in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+        cout << "-> Load event executed in :" << (clock () - timer2) * 1000 / CLOCKS_PER_SEC <<"" << endl;
     }
     return true;
 }
@@ -178,7 +178,7 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
 bool Manager::runStartEvent(StartEvent* startEvent) {
     clock_t timer = clock ();
     if (verbose){
-        cout << "-> Execute start event :\n";
+        cout << "-> Execute start event :" << endl;
     }
 
     //Get network
@@ -196,7 +196,7 @@ bool Manager::runStartEvent(StartEvent* startEvent) {
     string mappingFile = startEvent->mappingFile();
     if(!mappingFile.empty()) {
 
-        std::cout << "Parsing file " << mappingFile << ". \n";
+        std::cout << "Parsing file " << mappingFile << "." << endl;
 
         XCFParser xcfParser(verbose);
         map<string, string>* mapping = xcfParser.parseFile(mappingFile);
@@ -207,7 +207,7 @@ bool Manager::runStartEvent(StartEvent* startEvent) {
     engine->run(netPtr->second);
 
     if (verbose){
-        cout << "-> Decoder started in :"<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "-> Decoder started in :"<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
 
     return true;
@@ -215,13 +215,13 @@ bool Manager::runStartEvent(StartEvent* startEvent) {
 
 bool Manager::runWaitEvent(WaitEvent* waitEvent){
     if (verbose){
-        cout << "-> Execute wait event :\n";
+        cout << "-> Execute wait event :" << endl;
     }
     //sys::Sleep(waitEvent->getTime());
-    cout << "-> Wait is deprecated.\n";
+    cout << "-> Wait is deprecated." << endl;
 
     if (verbose){
-        cout << "-> Wait is event.\n";
+        cout << "-> Wait is event." << endl;
     }
     return true;
 }
@@ -229,7 +229,7 @@ bool Manager::runWaitEvent(WaitEvent* waitEvent){
 bool Manager::runVerifyEvent(VerifyEvent* verifyEvent){
     clock_t timer = clock ();
     if (verbose){
-        cout << "-> Execute verify event :\n";
+        cout << "-> Execute verify event :" << endl;
     }
 
     //Get network
@@ -243,7 +243,7 @@ bool Manager::runVerifyEvent(VerifyEvent* verifyEvent){
     engine->verify(netPtr->second, verifyEvent->getFile());
 
     if (verbose){
-        cout << "-> Decoder verified in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "-> Decoder verified in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
     return true;
 }
@@ -251,7 +251,7 @@ bool Manager::runVerifyEvent(VerifyEvent* verifyEvent){
 bool Manager::runPrintEvent(PrintEvent* printEvent){
     clock_t timer = clock ();
     if (verbose){
-        cout << "-> Execute print event :\n";
+        cout << "-> Execute print event :" << endl;
     }
     //Get network
     netPtr = networks.find(printEvent->getId());
@@ -264,22 +264,22 @@ bool Manager::runPrintEvent(PrintEvent* printEvent){
     engine->print(netPtr->second, printEvent->getFile());
 
     if (verbose){
-        cout << "-> Decoder printed in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "-> Decoder printed in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
     return true;
 }
 
 bool Manager::runPauseEvent(PauseEvent* waitEvent){
     if (verbose){
-        cout << "-> Execute pause event :\n";
+        cout << "-> Execute pause event :" << endl;
     }
 
     std::string crs;
-    cout << "Scenario pause, press any key to continue. \n";
+    cout << "Scenario pause, press any key to continue." << endl;
     cin >> crs;
 
     if (verbose){
-        cout << "-> End of pause event.\n";
+        cout << "-> End of pause event." << endl;
     }
     return true;
 }
@@ -287,7 +287,7 @@ bool Manager::runPauseEvent(PauseEvent* waitEvent){
 bool Manager::runStopEvent(StopEvent* stopEvent){
     clock_t timer = clock ();
     if (verbose){
-        cout << "-> Execute stop event :\n";
+        cout << "-> Execute stop event :" << endl;
     }
 
     //Get network
@@ -302,7 +302,7 @@ bool Manager::runStopEvent(StopEvent* stopEvent){
     engine->stop(netPtr->second);
 
     if (verbose){
-        cout << "-> Decoder stopped in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
+        cout << "-> Decoder stopped in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
     }
 
     return true;
@@ -312,19 +312,19 @@ bool Manager::runSetEvent(SetEvent* setEvent){
     clock_t timer1 = clock ();
     clock_t timer2 = clock ();
     if (verbose){
-        cout << "-> Execute set event :\n";
+        cout << "-> Execute set event :" << endl;
     }
 
     //Get the network
     int id = setEvent->getId();
     netPtr = networks.find(id);
     if(netPtr == networks.end()){
-        cout << "Event error ! No network loads at the given id.\n";
+        cout << "Event error ! No network loads at the given id." << endl;
         return false;
     }
 
     if (verbose){
-        cout << "--> Start parsing network :\n";
+        cout << "--> Start parsing network :" << endl;
     }
 
     //Load network
@@ -333,13 +333,13 @@ bool Manager::runSetEvent(SetEvent* setEvent){
     Network* network = xdfParser.parseFile(setEvent->getFile(), Context);
 
     if (network == NULL){
-        cout << "No network load. \n";
+        cout << "No network load." << endl;
         return false;
     }
 
     if (verbose){
-        cout << "--> Network parsed in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-        cout << "--> Reconfiguring decoder :\n";
+        cout << "--> Network parsed in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
+        cout << "--> Reconfiguring decoder :" << endl;
         timer1 = clock();
     }
 
@@ -347,8 +347,8 @@ bool Manager::runSetEvent(SetEvent* setEvent){
     engine->reconfigure(netPtr->second, network);
 
     if (verbose){
-        cout << "--> Decoder reconfigured in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC <<" ms.\n";
-        cout << "--> Executed set event in "<< (clock () - timer2) * 1000 / CLOCKS_PER_SEC  << " ms.\n";
+        cout << "--> Decoder reconfigured in : "<< (clock () - timer1) * 1000 / CLOCKS_PER_SEC <<" ms." << endl;
+        cout << "--> Executed set event in "<< (clock () - timer2) * 1000 / CLOCKS_PER_SEC  << " ms." << endl;
     }
 
     //Set the new network
@@ -361,7 +361,7 @@ bool Manager::runSetEvent(SetEvent* setEvent){
 bool Manager::runRemoveEvent(RemoveEvent* removeEvent){
     clock_t timer = clock ();
     if (verbose){
-        cout << "-> Execute remove event :\n";
+        cout << "-> Execute remove event :" << endl;
     }
 
     //Get the network
@@ -369,7 +369,7 @@ bool Manager::runRemoveEvent(RemoveEvent* removeEvent){
     netPtr = networks.find(id);
 
     if(netPtr == networks.end()){
-        cout << "Event error ! No network loads at the given id.\n";
+        cout << "Event error ! No network loads at the given id." << endl;
         return false;
     }
 
@@ -379,7 +379,7 @@ bool Manager::runRemoveEvent(RemoveEvent* removeEvent){
     delete netPtr->second;
 
     if (verbose){
-        cout << "-> Remove event executed in :"<< (clock () - timer) * 1000 / CLOCKS_PER_SEC  << " ms.\n";
+        cout << "-> Remove event executed in :"<< (clock () - timer) * 1000 / CLOCKS_PER_SEC  << " ms." << endl;
     }
 
     return true;
@@ -387,7 +387,7 @@ bool Manager::runRemoveEvent(RemoveEvent* removeEvent){
 
 bool Manager::runListEvent(ListEvent* listEvent){
     if (verbose){
-        cout << "-> Execute list event :\n";
+        cout << "-> Execute list event :" << endl;
     }
 
     map<int, Network*>::iterator it;
@@ -395,7 +395,7 @@ bool Manager::runListEvent(ListEvent* listEvent){
 
     for (it = networks.begin(); it != networks.end(); it++){
         Network* network = it->second;
-        cout << it->first << " : " << network->getName() << "\n";
+        cout << it->first << " : " << network->getName() << "" << endl;
     }
 
     return true;

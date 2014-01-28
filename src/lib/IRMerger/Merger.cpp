@@ -123,7 +123,7 @@ void Merger::transform(){
     configuration->update();
 
     if (verbose){
-        cout << "--> " << index + 1 << " instances are merged.\n";
+        cout << "--> " << index + 1 << " instances are merged." << endl;
     }
 }
 
