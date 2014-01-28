@@ -77,7 +77,7 @@ Network* NetworkParser::parseNetworkFile (string filename){
 
     // Parsing XML file error
     if (!xdfDoc->LoadFile()) {
-        cerr << "Error : the given network file does not exist. \n";
+        cerr << "Error : the given network file does not exist." << endl;
         exit(1);
     }
 
@@ -207,7 +207,7 @@ void  NetworkParser::parseBody(TiXmlElement* root){
                 cerr << "Port elements are not supported yet";
                 exit(1);
             }else {
-                cerr << "Invalid node "<< name.c_str() <<"\n";
+                cerr << "Invalid node "<< name.c_str() << endl;
                 exit(1);
             }
         }

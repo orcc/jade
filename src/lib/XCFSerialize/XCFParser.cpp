@@ -59,7 +59,7 @@ map<string, string>* XCFParser::parseFile (string filename){
 
     /* Parsing XML file error */
     if (!xcfDoc->LoadFile()) {
-        cerr << "Error : the given xcf file does not exist. \n";
+        cerr << "Error : the given xcf file does not exist." << endl;
         return NULL;
     }
 
@@ -99,7 +99,7 @@ void XCFParser::parsePartitioning(TiXmlElement* root){
             }else if (name == XCFMapping::PARTITION) {
                 parsePartition(element);
             }else {
-                cerr << "Invalid node "<< name.c_str() <<"\n";
+                cerr << "Invalid node "<< name.c_str() << endl;
                 exit(1);
             }
 
@@ -120,7 +120,7 @@ void XCFParser::parsePartition(TiXmlElement* partition){
                 TiXmlString instanceId (element->Attribute(XCFMapping::INSTANCE_ID));
                 mapStr->insert(pair<string,string>(instanceId.c_str(), partitionId.c_str()));
             }else {
-                cerr << "Invalid node "<< name.c_str() <<"\n";
+                cerr << "Invalid node "<< name.c_str() << endl;
                 exit(1);
             }
         }

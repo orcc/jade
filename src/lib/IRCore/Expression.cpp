@@ -76,7 +76,7 @@ int Expr::evaluateAsInteger(){
             break;
 
         default :
-            cerr << "Unsupported binary expression for evaluation \n";
+            cerr << "Unsupported binary expression for evaluation" << endl;
             exit(1);
         }
 

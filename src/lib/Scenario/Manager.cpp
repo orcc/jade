@@ -142,7 +142,7 @@ bool Manager::runLoadEvent(LoadEvent* loadEvent){
     Network* network = xdfParser.parseFile(loadEvent->getFile(), Context);
 
     if (network == NULL){
-        cerr << "Event error ! No network load. \n";
+        cerr << "Event error ! No network load." << endl;
         return false;
     }
 
@@ -294,7 +294,7 @@ bool Manager::runStopEvent(StopEvent* stopEvent){
     netPtr = networks.find(stopEvent->getId());
 
     if(netPtr == networks.end()){
-        cerr << "Event error ! No network loads at the given id.\n";
+        cerr << "Event error ! No network loads at the given id." << endl;
         return false;
     }
 

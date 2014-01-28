@@ -84,7 +84,7 @@ Scenario* ScenarioParser::parse(){
 
     /* Parsing XML file error */
     if (!xmlSc.LoadFile()) {
-        cerr << "Error : the given scenario file does not exist. \n";
+        cerr << "Error : the given scenario file does not exist." << endl;
         return NULL;
     }
 
@@ -133,12 +133,12 @@ bool ScenarioParser::parseEvents(TiXmlElement* root){
             }else if (name == JSC_VERIFY){
                 curEvent = parseVerifyEvent(element);
             }else{
-                cerr << "Invalid node "<< name.c_str() <<"\n";
+                cerr << "Invalid node "<< name.c_str() << endl;
                 return false;
             }
 
             if (curEvent == NULL){
-                cerr << "Failed to parse the "<< name.c_str() <<" event \n";
+                cerr << "Failed to parse the "<< name.c_str() <<" event" << endl;
                 return false;
             }
 
