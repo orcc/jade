@@ -47,19 +47,19 @@ You can configure some parts of the build by setting some variables when calling
 Supported variables are:
  - **GENERATE_DOCS**: set to 1 to generate Jade documentation (Doxygen is required)
  - **BUILD_GPAC_RVC_DECODER**: set to 1 to build RVCDecoder dynamic library, to build Gpac module 'rvc_dec'
- - **LLVM_INSTALL_DIR**: set the LLVM directory you want to use to compile Jade against
+ - **FORCE_LLVM_INSTALL_DIR**: set the LLVM directory you want to use to compile Jade against. If not set, cmake will try to automatically detect an LLVM install on your machine.
  - **CMAKE_PREFIX_PATH**: set the path you want to install Jade when using ```make install``` or equivalent target
 
 ## Use Jade
 
-Jade provides different interfaces for managing the execution of XDF networks. The console or scenario modes give the ability to test its reconfiguration ability by changing on-the-fly the network execution.  
+Jade provides different interfaces for managing the execution of XDF networks. The console or scenario modes give the ability to test its reconfiguration ability by changing on-the-fly the network execution.
 Jade encompasses several options to tunes the performances depending on the executing platform. Use `--help` to get a full lists of options managed by Jade.
 
 Jade can run on three differents modes.
 
 ### Command line
 
-This is the default mode, Jade is launched with a specified VTL, an XDF network and an input stimulus. It execute the given design and stop. 
+This is the default mode, Jade is launched with a specified VTL, an XDF network and an input stimulus. It execute the given design and stop.
 Run Jade with the following options:
  - `-xdf <Top_network.xdf>`: Full path of your design's top network
  - `-L <VTL_folder>`: Full path of VTL folder your generated with Orcc
@@ -105,4 +105,4 @@ Here is a list of commands you can use in both console and scenario mode.
  - **Wait**: Put Jade in wait mode during a given period (in second).
  - **Print**: Print a decoder representation in a given file.
  - **Remove**: Remove a given decoder.
- - **Verify**: Verify the coherence of a given decoder. 
+ - **Verify**: Verify the coherence of a given decoder.
