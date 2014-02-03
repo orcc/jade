@@ -40,14 +40,22 @@ cd build
 sudo make uninstall
 ```
 
-## CMake options
+## Link against LLVM
 
-You can configure some parts of the build by setting some variables when calling cmake tool. To do this, use cmake-gui to set variables in a graphic window, or use the command line options: ```cmake <src_folder> -DVAR1=<value> -DVAR2=<value> ...```
+When running CMake, [find_program()](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:find_program "CMake doc on find_program()") command will be used to search for the binary llvm-config. If this binary is reachable from your $PATH or another environment variable, CMake will find it by itself. This executable is used to configure the whole build and the flags used to compile Jade against LLVM.
+
+### CMake don't find llvm-config automatically
+You can help CMake to find llvm-config by setting CMAKE_MODULE_PATH with the full path of a LLVM bin directory (ex: ```cmake -DCMAKE_MODULE_PATH=/opt/llvm/3.3/bin ..```), or you can set LLVM_CONFIG_TOOL variable (see below)
+
+### I want to change the LLVM installation to use
+You can force an LLVM version tu use by simply set LLVM_CONFIG_TOOL variable with the full path of a llvm-config binary (ex: ```cmake -DLLVM_CONFIG_TOOL=/opt/llvm/3.3/bin/llvm-config ..```)
+
+## CMake options
+You can configure some parts of the build by setting variables when calling CMake tool. To do this, use cmake-gui to set variables in a graphic window, or use the command line options: ```cmake <src_folder> -DVAR1=<value> -DVAR2=<value> ...```
 
 Supported variables are:
  - **GENERATE_DOCS**: set to 1 to generate Jade documentation (Doxygen is required)
  - **BUILD_GPAC_RVC_DECODER**: set to 1 to build RVCDecoder dynamic library, to build Gpac module 'rvc_dec'
- - **FORCE_LLVM_INSTALL_DIR**: set the LLVM directory you want to use to compile Jade against. If not set, cmake will try to automatically detect an LLVM install on your machine.
  - **CMAKE_PREFIX_PATH**: set the path you want to install Jade when using ```make install``` or equivalent target
 
 ## Use Jade
