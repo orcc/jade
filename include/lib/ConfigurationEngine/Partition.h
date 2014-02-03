@@ -70,6 +70,12 @@ public:
     ~Partition();
 
     /*!
+     * \brief The id of the partition
+     * \return A reference to the id
+     */
+    std::string & getId(){return id;}
+
+    /*!
      *  @brief Add a new instance to the partition
      *
      * @param instance : instance to add
