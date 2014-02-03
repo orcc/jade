@@ -62,7 +62,7 @@ void LLVMUtility::printModule(string file, Decoder* decoder){
     OutFile.insert(0,OutputDir);
 
     //Preparing output
-    std::auto_ptr<raw_fd_ostream> Out(new raw_fd_ostream(OutFile.c_str(), ErrorInfo, raw_fd_ostream::F_Binary));
+    std::auto_ptr<raw_fd_ostream> Out(new raw_fd_ostream(OutFile.c_str(), ErrorInfo, sys::fs::F_Binary));
 
     if (!ErrorInfo.empty()) {
         std::cout << ErrorInfo << '\n';
