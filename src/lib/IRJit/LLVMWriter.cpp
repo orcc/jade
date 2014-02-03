@@ -230,5 +230,5 @@ void LLVMWriter::linkFunctionBody(Function *NewFunc, const Function *OldFunc,
 }
 
 bool LLVMWriter::addType(string name, StructType* type){
-    return StructType::create(name, type);
+    return StructType::create(name, type, NULL);
 }
