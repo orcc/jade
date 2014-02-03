@@ -38,7 +38,7 @@
 //------------------------------
 #include <iostream>
 
-#include "llvm/Bitcode/Archive.h"
+#include "llvm/Object/Archive.h"
 #include "llvm/Bitcode/ReaderWriter.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/MemoryBuffer.h"

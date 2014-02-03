@@ -42,7 +42,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/Support/Signals.h"
-#include "llvm/Bitcode/Archive.h"
+#include "llvm/Object/Archive.h"
 #include "lib/IRCore/Package.h"
 //------------------------------
 
