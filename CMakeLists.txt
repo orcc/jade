@@ -5,19 +5,7 @@ project (Jade)
 
 include(resources/JadeMacros.cmake)
 
-# Allow users to compile Jade with a non-default LLVM version
-# Must be defined before find_package(LLVM) call
-set(LLVM_INSTDIR_DEFAULT_VALUE "/path/to/llvm/folder")
-set(FORCE_LLVM_INSTALL_DIR ${LLVM_INSTDIR_DEFAULT_VALUE} CACHE PATH "Force LLVM version to compile against by providing directory where it is installed.")
-
-if(NOT "${FORCE_LLVM_INSTALL_DIR}" STREQUAL "${LLVM_INSTDIR_DEFAULT_VALUE}")
-	if(IS_DIRECTORY "${FORCE_LLVM_INSTALL_DIR}" AND IS_DIRECTORY "${FORCE_LLVM_INSTALL_DIR}/share/llvm/cmake")
-        set(LLVM_DIR "${FORCE_LLVM_INSTALL_DIR}/share/llvm/cmake")
-	endif()
-endif()
-
 # Search for required third party libraries
-find_package(LLVM REQUIRED)
 find_package(SDL REQUIRED)
 find_package(Threads REQUIRED)
 
@@ -26,37 +14,29 @@ option(GENERATE_DOCS "Generate documentation using doxygen.")
 # Generate documentation option
 option(BUILD_GPAC_RVC_DECODER "Generate RVCDecodcr library needed to compile Gpac rvc_decoder module")
 
-if(LLVM_FOUND)
+# Try to find llvm-config tool, to configure all LLVM related options for Jade build
+# We don't use find_package(LLVM) here because if users compiled LLVM with autotools (configure / make) instead
+# of CMake (cmake / make) the share/llvm/cmake path is missing in install directory.
+find_program(LLVM_CONFIG_TOOL llvm-config
+	DOC "Path to llvm-config executable"
+)
+if(${LLVM_CONFIG_TOOL} STREQUAL "LLVM_CONFIG_TOOL-NOTFOUND")
+	message(FATAL_ERROR "The llvm-config has not been found on your system. Please set manually LLVM_CONFIG_TOOL variable with the full path of llvm-config you want to use.\nYou also can fill CMAKE_MODULE_PATH with the path of an LLVM bin directory.")
+endif()
 
-	message(STATUS "Found LLVM ${LLVM_VERSION}")
+# List LLVM components used in Jade
+set(COMPONENTS archive jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine)
 
-	# Force Cmake to search for a new llvm-config program if LLVM version has been changed since last build
-	if(DEFINED LLVM_CONFIG_TOOL)
-		execute_process(COMMAND ${LLVM_CONFIG_TOOL} --version OUTPUT_VARIABLE LLVM_CFG_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
-		if(NOT "${LLVM_CFG_VERSION}" STREQUAL "${LLVM_VERSION}")
-			unset(LLVM_CONFIG_TOOL CACHE)
-        endif()
-    endif()
+message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure link information")
 
-	# Try to find llvm-config tool, to configure all LLVM related options for Jade build
-	find_file(LLVM_CONFIG_TOOL
-		NAMES "llvm-config${CMAKE_EXECUTABLE_SUFFIX}"
-		PATHS ${LLVM_INSTALL_PREFIX}/bin ${LLVM_TOOLS_BINARY_DIR}
-		NO_DEFAULT_PATH
-		DOC "Path to llvm-config executable"
-	)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --version 				OUTPUT_VARIABLE LLVM_CFG_VERSION	OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}	OUTPUT_VARIABLE LLVM_LIBRARIES		OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --bindir				OUTPUT_VARIABLE LLVM_BIN_DIR		OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --includedir 			OUTPUT_VARIABLE LLVM_INCLUDE_DIRS	OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --cppflags 				OUTPUT_VARIABLE LLVM_CPP_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --ldflags 				OUTPUT_VARIABLE LLVM_LD_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-	# List LLVM components used in Jade
-	set(COMPONENTS archive jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine)
-
-	message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure linker")
-
-	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}	OUTPUT_VARIABLE LLVM_LIBRARIES		OUTPUT_STRIP_TRAILING_WHITESPACE)
-	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --includedir 			OUTPUT_VARIABLE LLVM_INCLUDE_DIRS	OUTPUT_STRIP_TRAILING_WHITESPACE)
-	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --cppflags 				OUTPUT_VARIABLE LLVM_CPP_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
-	execute_process(COMMAND ${LLVM_CONFIG_TOOL} --ldflags 				OUTPUT_VARIABLE LLVM_LD_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-endif(LLVM_FOUND)
+message(STATUS "LLVM version ${LLVM_CFG_VERSION} found in folder ${LLVM_BIN_DIR}")
 
 # Set Jade flags
 set(JADE_MAIN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -70,12 +50,15 @@ else()
 	set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/${CMAKE_BUILD_TYPE}")
 endif()
 
+# Configure build flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CPP_FLAGS} -fno-rtti -fPIC")
+
 include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS})
 
 if(GENERATE_DOCS)
 	add_subdirectory(doc)
-endif(GENERATE_DOCS)
+endif()
+
 add_subdirectory(runtime)
 add_subdirectory(src)
 
@@ -85,5 +68,4 @@ configure_file(
     "${CMAKE_CURRENT_BINARY_DIR}/JadeUninstall.cmake"
     IMMEDIATE @ONLY
 )
-add_custom_target(uninstall
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/JadeUninstall.cmake)
+add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/JadeUninstall.cmake)
