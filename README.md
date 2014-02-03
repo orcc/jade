@@ -1,6 +1,6 @@
 # Jade
 
-**This branch supports build of Jade against LLVM _3.3_ only.**
+**This branch supports build of Jade against LLVM _3.4_ only.**
 
 ## About
 The Just-In-Time Adaptive Decoder Engine (Jade) project is a new dynamic decoder based on the Low Level Virtual Machine (LLVM), fully compliant with MPEG RVC paradigm. The Jade executable can dynamically instantiate several RVC decoder descriptions produced by the Jade backend of Orcc (http://github.com/orcc/orcc).
@@ -22,7 +22,7 @@ The Jade project is structured as follow :
 To compile, Jade depends on:
 - CMake (at least 2.6): http://www.cmake.org
 - SDL (at least 1.2.14): http://www.libsdl.org
-- LLVM 3.3: http://llvm.org
+- LLVM 3.4: http://llvm.org
 
 To compile Jade, use cmake to generate build files corresponding to your environment. You must ensure SDL library and LLVM binary dir are reachable from command line (add it to your PATH environment variable) or use cmake-gui to manually set their location.
 
@@ -45,10 +45,10 @@ sudo make uninstall
 When running CMake, [find_program()](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:find_program "CMake doc on find_program()") command will be used to search for the binary llvm-config. If this binary is reachable from your $PATH or another environment variable, CMake will find it by itself. This executable is used to configure the whole build and the flags used to compile Jade against LLVM.
 
 ### CMake don't find llvm-config automatically
-You can help CMake to find llvm-config by setting CMAKE_MODULE_PATH with the full path of a LLVM bin directory (ex: ```cmake -DCMAKE_MODULE_PATH=/opt/llvm/3.3/bin ..```), or you can set LLVM_CONFIG_TOOL variable (see below)
+You can help CMake to find llvm-config by setting CMAKE_MODULE_PATH with the full path of a LLVM bin directory (ex: ```cmake -DCMAKE_MODULE_PATH=/opt/llvm/3.4/bin ..```), or you can set LLVM_CONFIG_TOOL variable (see below)
 
 ### I want to change the LLVM installation to use
-You can force an LLVM version tu use by simply set LLVM_CONFIG_TOOL variable with the full path of a llvm-config binary (ex: ```cmake -DLLVM_CONFIG_TOOL=/opt/llvm/3.3/bin/llvm-config ..```)
+You can force an LLVM version tu use by simply set LLVM_CONFIG_TOOL variable with the full path of a llvm-config binary (ex: ```cmake -DLLVM_CONFIG_TOOL=/opt/llvm/3.4/bin/llvm-config ..```)
 
 ## CMake options
 You can configure some parts of the build by setting variables when calling CMake tool. To do this, use cmake-gui to set variables in a graphic window, or use the command line options: ```cmake <src_folder> -DVAR1=<value> -DVAR2=<value> ...```
