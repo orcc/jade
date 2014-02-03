@@ -60,10 +60,10 @@ public:
      */
     Partition(std::string id){
         this->id = id;
-    };
+    }
 
     /*!
-     *  @brief Destructor
+     * @brief Destructor
      *
      * Delete the paritition.
      */

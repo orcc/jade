@@ -88,9 +88,9 @@ Decoder::Decoder(LLVMContext& C, Configuration* configuration, bool verbose, boo
     }
 
     //Create execution engine
-    if (armFix){
+    if (armFix) {
         executionEngine = new LLVMArmFix(Context, this, verbose);
-    }else{
+    } else {
         executionEngine = new LLVMExecution(Context, this, verbose);
     }
 }
