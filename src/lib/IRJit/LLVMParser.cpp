@@ -52,8 +52,6 @@
 using namespace llvm;
 using namespace std;
 
-
-
 LLVMParser::LLVMParser(LLVMContext& C, string directory, bool verbose): Context(C){
     this->directory = directory;
     this->verbose = verbose;
@@ -65,15 +63,15 @@ Module* LLVMParser::loadModule(Package* package, string file) {
     Module *Mod;
 
     //Get filename of the actor
-    sys::Path Filename(directory + package->getDirectory() + "/" + file);
+    string Filename(directory + package->getDirectory() + "/" + file);
 
-    Mod = ParseIRFile(Filename.c_str(), Err, Context);
+    Mod = ParseIRFile(Filename, Err, Context);
 
-    if (verbose) cout << "Loading '" << Filename.c_str() << "'" << endl;
+    if (verbose) cout << "Loading '" << Filename << "'" << endl;
 
     if (!Mod) {
         //Error when parsing module
-        cerr << "Error parsing bitcode file '" << file.c_str() << "' at line " << Err.getLineNo() << endl;
+        cerr << "Error parsing bitcode file '" << file << "' at line " << Err.getLineNo() << endl;
         cerr << Err.getMessage().str() << endl;
         cerr << Err.getFilename().str() << endl;
         exit(1);
@@ -82,7 +80,7 @@ Module* LLVMParser::loadModule(Package* package, string file) {
     return Mod;
 }
 
-Module* LLVMParser::ParseArchive(Package* package, sys::Path file){
+Module* LLVMParser::ParseArchive(Package* package, string file){
     if(!package->isArchive()){
         openArchive(package);
     }
@@ -90,7 +88,7 @@ Module* LLVMParser::ParseArchive(Package* package, sys::Path file){
     return loadBitcodeInArchive(package, file);
 }
 
-Module* LLVMParser::loadBitcodeInArchive(Package* package, sys::Path file) {
+Module* LLVMParser::loadBitcodeInArchive(Package* package, string file) {
     std::string Error;
     LLVMContext &Context = getGlobalContext();
 
@@ -101,14 +99,12 @@ Module* LLVMParser::loadBitcodeInArchive(Package* package, sys::Path file) {
     //Find and load module
     for(itArch = archive->begin(); itArch != archive->end(); itArch++){
         if(itArch->getPath() == file){
-            MemoryBuffer *Buffer = MemoryBuffer::getMemBufferCopy(StringRef(itArch->getData(),
-                                                                            itArch->getSize()),
-                                                                  file.str());
+            MemoryBuffer *Buffer = MemoryBuffer::getMemBufferCopy(StringRef(itArch->getData(), itArch->getSize()), file);
 
             Mod = ParseBitcodeFile(Buffer, Context, &Error);
-            if (Error != "")
-                cerr <<"Error when parse actorfile "<< file.c_str() << "in archive" <<archive->getPath().c_str();
-
+            if (Error != "") {
+                cerr << "Error when parsing actorfile "<< file << " in archive " << archive->getPath().c_str() << endl;
+            }
             break;
         }
     }
@@ -136,7 +132,7 @@ void LLVMParser::openArchive(Package* package){
     }
 
     //Load archive
-    package->setArchive(Archive::OpenAndLoad(llvm::sys::Path(archivePath), Context, &Error));
+    package->setArchive(Archive::OpenAndLoad(archivePath, Context, &Error));
 
     if (Error != ""){
         cerr <<"Error when open archive "<< archivePath.c_str();

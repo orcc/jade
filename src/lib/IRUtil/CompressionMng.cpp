@@ -90,7 +90,7 @@ string CompressionMng::uncompressGZip(string file){
 
     //Create output file
     file.erase(file.end()-3, file.end()); //Erase ".gz"
-    sys::Path outFile(file);
+    string outFile(file);
 
     out = fopen(outFile.c_str(), "wb");
     CompressionMng::checkFile(outFile.c_str());
@@ -163,7 +163,7 @@ void CompressionMng::error(string msg){
     exit(1);
 }
 
-void CompressionMng::addTmpFile(sys::Path file){
+void CompressionMng::addTmpFile(string file){
     CompressionMng::tmpFiles.push_back(FileRemover());
-    CompressionMng::tmpFiles.back().setFile(file.str());
+    CompressionMng::tmpFiles.back().setFile(file);
 }

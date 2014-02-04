@@ -158,7 +158,7 @@ private:
      * @param file : path of file
      *
      */
-    static void addTmpFile(llvm::sys::Path file);
+    static void addTmpFile(std::string file);
 
     /** List of temporary files */
     static std::list<llvm::FileRemover> tmpFiles;

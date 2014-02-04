@@ -81,8 +81,8 @@ LLVMArmFix::LLVMArmFix(LLVMContext& C, Decoder* decoder, bool verbose): LLVMExec
 
 void LLVMArmFix::run() {
     // Intermediate files to generate
-    sys::Path AssemblyFile ("tmpAssembly.s");
-    sys::Path DecoderFile ("tempDecoder");
+    string AssemblyFile("tmpAssembly.s");
+    string DecoderFile("tempDecoder");
 
     // Get first intruction of @main
     Module* module = decoder->getModule();
@@ -171,11 +171,11 @@ void LLVMArmFix::RemoveEnv(const char * name, char ** const envp) {
     return;
 }
 
-void LLVMArmFix::compileAndLink(sys::Path IntermediateAssemblyFile, sys::Path IntermediateDecoderFile) {
+void LLVMArmFix::compileAndLink(string IntermediateAssemblyFile, string IntermediateDecoderFile) {
     string ErrMsg;
-    sys::Path gcc = sys::Program::FindProgramByName("gcc");
+    string gcc = sys::Program::FindProgramByName("gcc");
 
-    if (gcc.isEmpty()){
+    if (gcc.empty()){
         errs() << "Can't find Gcc compiler, exiting without linking module \n";
         exit(1);
     }
@@ -234,7 +234,7 @@ void LLVMArmFix::PrintCommand(const std::vector<const char*> &args) {
     errs() << "\n";
 }
 
-tool_output_file* LLVMArmFix::generateNativeCode( sys::Path IntermediateAssemblyFile) {
+tool_output_file* LLVMArmFix::generateNativeCode(string IntermediateAssemblyFile) {
     Module* module = decoder->getModule();
 
     Triple targetTriple(module->getTargetTriple());
@@ -297,14 +297,12 @@ tool_output_file* LLVMArmFix::generateNativeCode( sys::Path IntermediateAssembly
     // Open the file.
     string error;
 
-    tool_output_file *FDOut = new tool_output_file(IntermediateAssemblyFile.c_str(), error,
-                                                   false);
+    tool_output_file *FDOut = new tool_output_file(IntermediateAssemblyFile.c_str(), error);
     if (!error.empty()) {
         errs() << error << '\n';
         delete FDOut;
         exit(1);
     }
-
 
     // Build up all of the passes that we want to do to the module.
     PassManager PM;
@@ -322,14 +320,11 @@ tool_output_file* LLVMArmFix::generateNativeCode( sys::Path IntermediateAssembly
 
     // Ask the target to add backend passes as necessary.
     if (Target.addPassesToEmitFile(PM, FOS, TargetMachine::CGFT_AssemblyFile, CodeGenOpt::Default)) {
-        errs() << ": target does not support generation of this"
-               << " file type!\n";
+        errs() << ": target does not support generation of this file type!\n";
         exit(1);
     }
 
-
     PM.run(*module);
-
 
     return FDOut;
 

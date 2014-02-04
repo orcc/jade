@@ -46,7 +46,6 @@
 #include "lib/IRCore/Package.h"
 //------------------------------
 
-
 /**
  * @brief  This class manages the LLVM infrastructure to parse an actor in LLVM representation
  *
@@ -93,7 +92,7 @@ private:
      * @return the corresponding llvm::Module
      *
      */
-    llvm::Module* ParseArchive(Package* package, llvm::sys::Path file);
+    llvm::Module* ParseArchive(Package* package, std::string file);
 
     /**
      *  @brief Load and parse the bitcode file in an archive
@@ -108,7 +107,7 @@ private:
      * @return the corresponding llvm::Module
      *
      */
-    llvm::Module* loadBitcodeInArchive(Package* package, llvm::sys::Path file);
+    llvm::Module *loadBitcodeInArchive(Package* package, std::string file);
 
     /**
      *  @brief Open archive of package given

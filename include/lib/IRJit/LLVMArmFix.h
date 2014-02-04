@@ -42,10 +42,7 @@
 #include "lib/IRJit/LLVMExecution.h"
 
 namespace llvm{
-class tool_output_file;
-namespace sys {
-class Path;
-}
+    class tool_output_file;
 }
 
 //------------------------------
@@ -99,13 +96,13 @@ public:
      *  @brief Generate native code for the current decoder
      *
      */
-    llvm::tool_output_file* generateNativeCode(llvm::sys::Path IntermediateAssemblyFile);
+    llvm::tool_output_file* generateNativeCode(std::string IntermediateAssemblyFile);
 
     /**
      *  @brief Link the output file and generate binary code
      *
      */
-    void compileAndLink(llvm::sys::Path IntermediateAssemblyFile, llvm::sys::Path IntermediateDecoderFile);
+    void compileAndLink(std::string IntermediateAssemblyFile, std::string IntermediateDecoderFile);
 
 private:
     /**
