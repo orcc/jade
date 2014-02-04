@@ -35,7 +35,7 @@ endif()
 message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure link information")
 
 # List LLVM components used in Jade
-set(COMPONENTS archive jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine)
+set(COMPONENTS jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine support)
 
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}	OUTPUT_VARIABLE LLVM_LIBRARIES		OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --bindir				OUTPUT_VARIABLE LLVM_BIN_DIR		OUTPUT_STRIP_TRAILING_WHITESPACE)
