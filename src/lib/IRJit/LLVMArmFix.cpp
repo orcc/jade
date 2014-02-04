@@ -116,8 +116,7 @@ void LLVMArmFix::run() {
     compileAndLink(AssemblyFile, DecoderFile);
 
     // Launch decoder
-    sys::Program::ExecuteAndWait(
-                DecoderFile, 0, 0, 0, 0, 0, 0);
+    sys::ExecuteAndWait(DecoderFile, 0, 0, 0, 0, 0, 0);
 }
 
 char ** LLVMArmFix::CopyEnv(char ** const envp) {
@@ -173,7 +172,7 @@ void LLVMArmFix::RemoveEnv(const char * name, char ** const envp) {
 
 void LLVMArmFix::compileAndLink(string IntermediateAssemblyFile, string IntermediateDecoderFile) {
     string ErrMsg;
-    string gcc = sys::Program::FindProgramByName("gcc");
+    string gcc = sys::FindProgramByName("gcc");
 
     if (gcc.empty()){
         errs() << "Can't find Gcc compiler, exiting without linking module \n";
@@ -222,7 +221,7 @@ void LLVMArmFix::compileAndLink(string IntermediateAssemblyFile, string Intermed
     }
 
     // Run the compiler to assembly and link together the program.
-    sys::Program::ExecuteAndWait(gcc, &Args[0], const_cast<const char **>(clean_env), 0, 0, 0, &ErrMsg);
+    sys::ExecuteAndWait(gcc, &Args[0], const_cast<const char **>(clean_env), 0, 0, 0, &ErrMsg);
     delete [] clean_env;
 }
 
