@@ -94,7 +94,7 @@ An example of a scenario is given below, which start the proprietary MPEG-4 Simp
 <?xml version="1.0" encoding="UTF-8"?>
 <JSC>
 	<Load id="1" xdf="/path/to/Top_E___.xdf"/>
-	<Start input="/path/to/sequences/MPEG4/SIMPLE/P-VOP/hit001.m4v" id="1" mapping="/path/to/Top_E___.xdf"/>
+	<Start input="/path/to/sequences/MPEG4/SIMPLE/P-VOP/hit001.m4v" id="1" mapping="/path/to/Top_E___.xcf"/>
 	<Pause/>
 	<Stop id="1"/>
 	<Set xdf="/path/to/Top_mpeg4_part2_SP_decoder.xdf" id="1"/>
