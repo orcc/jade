@@ -192,7 +192,7 @@ int RVCEngine::optimize(Network* network, int optLevel){
         return 1;
     }
 
-    cout << "-> Start optimization of : " << network->getName().c_str() << "" << endl;
+    cout << "-> Start optimization of : " << network->getName() << endl;
 
     LLVMOptimizer opt(it->second);
     opt.optimize(optLevel);
@@ -207,7 +207,7 @@ int RVCEngine::reconfigure(Network* oldNetwork, Network* newNetwork){
     it = decoders.find(oldNetwork);
 
     if (it == decoders.end()){
-        cout << "No decoders found for this network." << endl;
+        cerr << "No decoders found for this network." << endl;
         return 1;
     }
 

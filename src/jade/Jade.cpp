@@ -272,7 +272,7 @@ void startCmdLine(){
         cout << "Argument name :" << PassList[i]->getPassArgument() << endl;
     }
 
-    clock_t timer = clock ();
+    clock_t timer = clock();
 
     //Parsing XDF file
     std::cout << "Parsing file " << XDFFile.getValue() << "." << endl;
@@ -280,10 +280,10 @@ void startCmdLine(){
     XDFParser xdfParser(Verbose);
     Network* network = xdfParser.parseFile(XDFFile, Context);
 
-    cout << "Network parsed in : "<< (clock () - timer) * 1000 / CLOCKS_PER_SEC << " ms, start engine :" << endl;
+    cout << "Network parsed in : "<< (clock() - timer) * 1000 / CLOCKS_PER_SEC << " ms, start engine" << endl;
 
     //Parsing XCF file if needed
-    if(XCFFile != ""){
+    if(XCFFile != "") {
         std::cout << "Parsing file " << XCFFile.getValue() << "." << endl;
 
         XCFParser xcfParser(Verbose);
@@ -319,8 +319,12 @@ void startCmdLine(){
     //Run network
     engine->run(network);
 
-
-    cout << "End of Jade:" << (clock () - timer) * 1000 / CLOCKS_PER_SEC << endl;
+    cout << "End of Jade" << endl;
+    cout << "Total time: " << (clock() - timer) * 1000 / CLOCKS_PER_SEC << " ms" << endl;
+    if(XCFFile != "") {
+        cout << "Note: This execution time is calculated from CPU clock. When more than 1 thread were run, "
+                "the value displayed is higher than the real execution time." << endl;
+    }
 }
 
 int main(int argc, char **argv, char **envp) {

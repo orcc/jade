@@ -66,7 +66,7 @@ Manager::Manager(RVCEngine* engine, int optLevel, bool verify, bool verbose){
 bool Manager::start(std::string scFile){
     clock_t start = clock ();
     if (verbose){
-        cout << "-> Parsing scenario file : "<<scFile.c_str() <<"" << endl;
+        cout << "-> Parsing scenario file : " << scFile << endl;
     }
 
     // Parse the scenario file
@@ -74,7 +74,7 @@ bool Manager::start(std::string scFile){
     Scenario* scenario = parser.parse();
 
     if (scenario == NULL){
-        cout << "Error of scenario parsing ";
+        cerr << "Error of scenario parsing" << endl;
         return false;
     }
 
