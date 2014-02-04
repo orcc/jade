@@ -37,7 +37,6 @@
 
 //------------------------------
 #include "llvm/IR/Module.h"
-#include "llvm/Object/Archive.h"
 
 #include "lib/IRUtil/PackageMng.h"
 
@@ -206,19 +205,6 @@ map<string, Package*>* PackageMng::setPackages(map<string, Actor*>* actors){
 
     //Return the resulting map of packages
     return packages;
-}
-
-void PackageMng::setArchive(Package* package){
-    Package* parent = package->getParent();
-
-    //Set archive in all parents
-    while(parent){
-        Archive* archive = package->getArchive();
-        parent->setArchive(archive);
-
-        package = parent;
-        parent = package->getParent();
-    }
 }
 
 void PackageMng::setActor(Actor* actor){

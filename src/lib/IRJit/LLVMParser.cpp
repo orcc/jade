@@ -38,7 +38,6 @@
 //------------------------------
 #include <iostream>
 
-#include "llvm/Object/Archive.h"
 #include "llvm/Bitcode/ReaderWriter.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/MemoryBuffer.h"
@@ -46,7 +45,6 @@
 
 #include "lib/IRJit//LLVMParser.h"
 #include "lib/IRUtil/PackageMng.h"
-#include "lib/IRUtil/CompressionMng.h"
 //------------------------------
 
 using namespace llvm;
@@ -78,66 +76,4 @@ Module* LLVMParser::loadModule(Package* package, string file) {
     }
 
     return Mod;
-}
-
-Module* LLVMParser::ParseArchive(Package* package, string file){
-    if(!package->isArchive()){
-        openArchive(package);
-    }
-
-    return loadBitcodeInArchive(package, file);
-}
-
-Module* LLVMParser::loadBitcodeInArchive(Package* package, string file) {
-    std::string Error;
-    LLVMContext &Context = getGlobalContext();
-
-    Module* Mod = NULL;
-    Archive* archive = package->getArchive();
-    Archive::iterator itArch;
-
-    //Find and load module
-    for(itArch = archive->begin(); itArch != archive->end(); itArch++){
-        if(itArch->getPath() == file){
-            MemoryBuffer *Buffer = MemoryBuffer::getMemBufferCopy(StringRef(itArch->getData(), itArch->getSize()), file);
-
-            Mod = ParseBitcodeFile(Buffer, Context, &Error);
-            if (Error != "") {
-                cerr << "Error when parsing actorfile "<< file << " in archive " << archive->getPath().c_str() << endl;
-            }
-            break;
-        }
-    }
-
-    return Mod;
-}
-
-void LLVMParser::openArchive(Package* package){
-    std::string Error;
-    LLVMContext &Context = getGlobalContext();
-
-    //Get archive file name
-    string archiveName = PackageMng::getFirstFolder(package->getDirectory()) + ".a";
-    string archivePath(directory + archiveName);
-
-    //If useful, uncompress archive
-    if(CompressionMng::IsGZipFile(archivePath)){
-        CompressionMng::uncompressGZip(archivePath + ".gz");
-    }
-
-    //Check if archive exists
-    if(!llvm::sys::fs::exists(archivePath)){
-        cerr <<"Package system not found";
-        exit(1);
-    }
-
-    //Load archive
-    package->setArchive(Archive::OpenAndLoad(archivePath, Context, &Error));
-
-    if (Error != ""){
-        cerr <<"Error when open archive "<< archivePath.c_str();
-    }
-
-    //Set archive on all parents of package
-    PackageMng::setArchive(package);
 }

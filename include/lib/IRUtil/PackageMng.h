@@ -190,16 +190,6 @@ public:
     static std::map<std::string, Package*>* setPackages(std::map<std::string, Actor*>* actors);
 
     /**
-     * @brief Set archive of package
-     *
-     *	Set archive for all parents of given package
-     *
-     * @param package : the package containing the archive
-     *
-     */
-    static void setArchive(Package* package);
-
-    /**
      * @brief Set actor in the required package
      *
      * @param actor : the actor to set in package

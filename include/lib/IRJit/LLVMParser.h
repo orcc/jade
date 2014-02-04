@@ -42,7 +42,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/Support/Signals.h"
-#include "llvm/Object/Archive.h"
+
 #include "lib/IRCore/Package.h"
 //------------------------------
 
@@ -78,46 +78,6 @@ public:
      *
      */
     llvm::Module* loadModule(Package* package, std::string file);
-
-
-private:
-
-    /**
-     *  @brief Parse a file in an archive
-     *
-     * @param package : package where is the archive
-     *
-     * @param file : file to parse
-     *
-     * @return the corresponding llvm::Module
-     *
-     */
-    llvm::Module* ParseArchive(Package* package, std::string file);
-
-    /**
-     *  @brief Load and parse the bitcode file in an archive
-     *
-     *  Find and read the specified bitcode file of the current
-     *  actor and return the corresponding module.
-     *
-     * @param package : package where is the archive
-     *
-     * @param file : file to parse
-     *
-     * @return the corresponding llvm::Module
-     *
-     */
-    llvm::Module *loadBitcodeInArchive(Package* package, std::string file);
-
-    /**
-     *  @brief Open archive of package given
-     *
-     *  Open archive and set it in package and all parents
-     *
-     * @param package : package which will be the archive
-     *
-     */
-    void openArchive(Package* package);
 
     /** default directory of the actor */
     std::string directory;

@@ -38,7 +38,6 @@
 //------------------------------
 #include "NetworkParser.h"
 #include "lib/XDFSerialize/XDFParser.h"
-#include "lib/IRUtil/CompressionMng.h"
 //------------------------------
 
 using namespace std;
@@ -49,11 +48,6 @@ XDFParser::XDFParser (bool verbose){
 }
 
 Network* XDFParser::parseFile (string filename, llvm::LLVMContext& C){
-    //Uncompress XDF if it is compressed
-    if(CompressionMng::IsGZipName(filename)){
-        filename = CompressionMng::uncompressGZip(filename);
-    }
-
     NetworkParser networkParser(C);
     return networkParser.parseNetworkFile(filename);
 }

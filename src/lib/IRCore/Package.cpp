@@ -45,14 +45,12 @@ using namespace std;
 
 Package::Package(std::string name, Package* parent){
     this->name = name;
-    if(parent){
+    if(parent) {
         this->parent = parent;
         this->directory = parent->getDirectory() + "/" + name;
-        this->archive = parent->getArchive();
-    }else{
+    } else {
         this->parent = NULL;
         this->directory = name;
-        this->archive = NULL;
     }
 }
 

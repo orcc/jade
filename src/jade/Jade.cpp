@@ -57,7 +57,6 @@
 #include "lib/RVCEngine/RVCEngine.h"
 #include "lib/Scenario/Manager.h"
 #include "lib/IRUtil/OptionMng.h"
-#include "lib/IRUtil/CompressionMng.h"
 //------------------------------
 
 #define DISPLAY_DISABLE 0

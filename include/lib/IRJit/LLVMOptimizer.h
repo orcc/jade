@@ -85,8 +85,7 @@ public:
     void optimize(int optLevel);
 private:
 
-    void AddOptimizationPasses(llvm::PassManagerBase &MPM, llvm::FunctionPassManager &FPM,
-                               unsigned OptLevel);
+    void AddOptimizationPasses(llvm::PassManagerBase &MPM, llvm::FunctionPassManager &FPM, unsigned OptLevel);
     Decoder* decoder;
 };
 

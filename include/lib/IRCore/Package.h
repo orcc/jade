@@ -39,10 +39,6 @@
 #ifndef PACKAGE_H
 #define PACKAGE_H
 
-namespace llvm{
-class Archive;
-}
-
 #include "lib/IRCore/Actor.h"
 
 //------------------------------
@@ -68,7 +64,6 @@ public:
     Package(std::string name){
         this->name = name;
         this->parent = NULL;
-        this->archive = NULL;
     }
 
     /*!
@@ -107,17 +102,6 @@ public:
     }
 
     /*!
-     *  @brief Package is represented as an archive.
-     *
-     *  Insert an archive of this package
-     *
-     *  @param actor : archive contains by the package
-     */
-    void setArchive(llvm::Archive* archive){
-        this->archive = archive;
-    }
-
-    /*!
      *  @brief Get all underneath actors.
      *
      *  Get all actors contained in this package and its child package.
@@ -135,16 +119,6 @@ public:
      *
      */
     std::map<std::string, Actor*>* getUnderneathActors(){return &actors;}
-
-    /**
-     *  @brief Get archive contained in this package
-     *
-     *  Get archive contained in this package
-     *
-     *  @return the archive contains in this package
-     *
-     */
-    llvm::Archive* getArchive(){return archive;}
 
     /**
      *  @brief Getter of package name
@@ -186,23 +160,12 @@ public:
      */
     std::map<std::string, Package*>* getChilds(){return &childs;}
 
-    /**
-     *  @brief Return true if this package is represented as an archive.
-     *
-     *  @return true if the package is an archive, otherwise false.
-     *
-     */
-    bool isArchive(){ return archive;}
-
 private:
     /** Name of the package */
     std::string name;
 
     /** Indicate the directory of the package*/
     std::string directory;
-
-    /** Indicate the archive of the package*/
-    llvm::Archive* archive;
 
     /** List of actors contains in this package */
     std::map<std::string, Actor*> actors;

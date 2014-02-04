@@ -39,7 +39,7 @@
 #include <iostream>
 
 #include "lib/RVCEngine/Decoder.h"
-#include "lib/IRJit//LLVMOptimizer.h"
+#include "lib/IRJit/LLVMOptimizer.h"
 
 #include "llvm/LinkAllPasses.h"
 #include "llvm/IR/Module.h"
@@ -193,8 +193,7 @@ void LLVMOptimizer::optimize(int optLevel){
 /// duplicates llvm-gcc behaviour.
 ///
 /// OptLevel - Optimization Level
-void LLVMOptimizer::AddOptimizationPasses(PassManagerBase &MPM,FunctionPassManager &FPM,
-                                          unsigned OptLevel) {
+void LLVMOptimizer::AddOptimizationPasses(PassManagerBase &MPM, FunctionPassManager &FPM, unsigned OptLevel) {
     PassManagerBuilder Builder;
     Builder.OptLevel = OptLevel;
 
