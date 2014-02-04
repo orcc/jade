@@ -63,7 +63,6 @@ bool StandardCompileOpts = false;
 bool StandardLinkOpts = true;
 bool DisableInline = false;
 bool UnitAtATime = false;
-bool DisableSimplifyLibCalls = false;
 bool DisableInternalize = false;
 
 cl::opt<std::string>
@@ -96,17 +95,13 @@ void LLVMOptimizer::optimize(int optLevel){
 
     // Add an appropriate TargetLibraryInfo pass for the module's triple.
     TargetLibraryInfo *TLI;
-    if (TargetTriple != ""){
+    if (TargetTriple != "") {
         TLI = new TargetLibraryInfo(Triple(TargetTriple));
-    }else{
+    } else {
         TLI = new TargetLibraryInfo(Triple(module->getTargetTriple()));
     }
 
-    // The -disable-simplify-libcalls flag actually disables all builtin optzns.
-    if (DisableSimplifyLibCalls)
-        TLI->disableAllFunctions();
     Passes.add(TLI);
-
 
     // Add an appropriate DataLayout instance for this module.
     DataLayout *DL = 0;
@@ -209,7 +204,6 @@ void LLVMOptimizer::AddOptimizationPasses(PassManagerBase &MPM, FunctionPassMana
     }
     Builder.DisableUnitAtATime = !UnitAtATime;
     Builder.DisableUnrollLoops = OptLevel == 0;
-    Builder.DisableSimplifyLibCalls = DisableSimplifyLibCalls;
 
     Builder.populateFunctionPassManager(FPM);
     Builder.populateModulePassManager(MPM);

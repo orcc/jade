@@ -39,16 +39,15 @@
 #ifndef LLVMOPTIMIZER_H
 #define LLVMOPTIMIZER_H
 
-namespace llvm{
-class Pass;
-class PassManagerBase;
-class FunctionPassManager;
-class Function;
-class ExecutionEngine;
-class Module;
+#include "llvm/IR/LLVMContext.h"
+
+namespace llvm {
+    namespace legacy {
+        class PassManagerBase;
+        class FunctionPassManager;
+    }
 }
 
-#include "llvm/IR/LLVMContext.h"
 //------------------------------
 
 /**
@@ -85,7 +84,7 @@ public:
     void optimize(int optLevel);
 private:
 
-    void AddOptimizationPasses(llvm::PassManagerBase &MPM, llvm::FunctionPassManager &FPM, unsigned OptLevel);
+    void AddOptimizationPasses(llvm::legacy::PassManagerBase &MPM, llvm::legacy::FunctionPassManager &FPM, unsigned OptLevel);
     Decoder* decoder;
 };
 
