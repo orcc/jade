@@ -23,8 +23,7 @@ target_link_libraries(Jade
 	IRUtil
 	IRCore
 	HDAGGraph
-	TinyXml
-	ZLib
+    TinyXml
 	orcc
 	${SDL_LIBRARY}
 	${LLVM_LIBRARIES}

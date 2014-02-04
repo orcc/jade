@@ -16,7 +16,6 @@ add_subdirectory(lib/Scenario)
 add_subdirectory(lib/TinyXml)
 add_subdirectory(lib/XCFSerialize)
 add_subdirectory(lib/XDFSerialize)
-add_subdirectory(lib/ZLib)
 
 if(BUILD_GPAC_RVC_DECODER)
 	add_subdirectory(gpac/RVCDecoder)

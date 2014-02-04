@@ -32,7 +32,6 @@ target_link_libraries(RVCDecoder
 	IRCore
 	HDAGGraph
 	TinyXml
-	ZLib
 	${LLVM_LIBRARIES}
 	${LLVM_LD_FLAGS}
 	${CMAKE_THREAD_LIBS_INIT}
