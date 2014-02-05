@@ -56,7 +56,7 @@ You can configure some parts of the build by setting variables when calling CMak
 Supported variables are:
  - **GENERATE_DOCS**: set to 1 to generate Jade documentation (Doxygen is required)
  - **BUILD_GPAC_RVC_DECODER**: set to 1 to build RVCDecoder dynamic library, to build Gpac module 'rvc_dec'
- - **CMAKE_PREFIX_PATH**: set the path you want to install Jade when using ```make install``` or equivalent target
+ - **CMAKE_INSTALL_PREFIX**: set the path you want to install Jade when using ```make install``` or equivalent target
 
 ## Use Jade
 
