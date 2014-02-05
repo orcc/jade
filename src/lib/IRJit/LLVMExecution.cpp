@@ -204,7 +204,7 @@ void LLVMExecution::linkExternalProc(list<Procedure*> externs){
         itNative = nativeMap.find((*it)->getName());
 
         if (itNative == nativeMap.end()){
-            cerr << "Unknown native function :"<< (*it)->getName() << endl;
+            cerr << "Unknown native function: " << (*it)->getName() << endl;
             exit(1);
         }
 
