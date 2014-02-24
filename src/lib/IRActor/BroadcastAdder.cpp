@@ -70,7 +70,7 @@ struct ltstr
 
 
 //maximum number of edge that can be connected to a vertex
-#define MAX_EDGE  500
+#define MAX_EDGE 500
 
 void BroadcastAdder::examineVertex(Vertex* vertex){
     Connection* connections[MAX_EDGE];

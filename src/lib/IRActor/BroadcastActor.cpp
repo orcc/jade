@@ -66,7 +66,6 @@ BroadcastActor::BroadcastActor(llvm::LLVMContext& C, Decoder* decoder, string na
 {
     this->type = cast<IntegerType>(type);
     this->numOutputs = numOutputs;
-    this->fifo = fifo;
     this->decoder = decoder;
     this->actionScheduler = new ActionScheduler(new list<Action*>(), NULL);
 

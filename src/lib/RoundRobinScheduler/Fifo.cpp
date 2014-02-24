@@ -126,7 +126,6 @@ void Fifo::createWrites (Procedure* procedure, Pattern* pattern){
 
     //Get tokens and var
     map<Port*, ConstantInt*>::iterator it;
-    map<Port*, Variable*>::iterator itVar;
     map<Port*, ConstantInt*>* numTokensMap = pattern->getNumTokensMap();
 
     for (it = numTokensMap->begin(); it != numTokensMap->end(); it++){
@@ -168,7 +167,6 @@ void Fifo::createPeeks (Procedure* procedure, Pattern* pattern){
 
     //Get tokens and var
     map<Port*, ConstantInt*>::iterator it;
-    map<Port*, Variable*>::iterator itVar;
     map<Port*, ConstantInt*>* numTokensMap = pattern->getNumTokensMap();
 
     for (it = numTokensMap->begin(); it != numTokensMap->end(); it++){
@@ -191,7 +189,7 @@ Value* Fifo::replaceAccess (Port* port, Procedure* proc) {
         Use *U = &UI.getUse();
         Instruction *I = cast<Instruction>(U->getUser());
         BasicBlock* BB = I->getParent();
-        if ((BB->getParent() == function)&& (isa<LoadInst>(I))){
+        if ((BB->getParent() == function) && (isa<LoadInst>(I))) {
             LoadInst* loadInst = cast<LoadInst>(I);
 
             //Get bitcast instruction on load
@@ -235,7 +233,7 @@ Value* Fifo::replaceAccess (Port* port, Procedure* proc) {
                             GEPInst->replaceAllUsesWith(newGEPInst);
 
                             // Add debugging information if needed
-                            if (debug){
+                            if (debug) {
                                 // Get fifo index
                                 vector<Value*> idxs;
                                 User::op_iterator I = GEPInst->idx_begin();
@@ -264,6 +262,7 @@ Value* Fifo::replaceAccess (Port* port, Procedure* proc) {
 
 
     }
+    return 0;
 }
 
 void Fifo::createFifoTrace(Module* module, Port* port, GetElementPtrInst* gep, vector<Value*> idxs){

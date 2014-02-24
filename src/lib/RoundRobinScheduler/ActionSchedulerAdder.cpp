@@ -174,11 +174,11 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
     for (it = inputs->begin(); it != inputs->end(); it++){
         Port* input = it->second;
 
-        if (input->isConnected()){
+        if (input->isConnected()) {
             Function* init = Fifo::initializeIn(module, input);
             CallInst::Create(init, "", entryBB->getTerminator());
-        }else{
-            cout << "Warning! Input port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
+        } else {
+            cerr << "Warning! Input port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
         }
     }
 
@@ -187,11 +187,11 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
     for (it = outputs->begin(); it != outputs->end(); it++){
         Port* output = it->second;
 
-        if (output->isConnected()){
+        if (output->isConnected()) {
             Function* init = Fifo::initializeOut(module, it->second);
             CallInst::Create(init, "", entryBB->getTerminator());
-        }else{
-            cout << "Warning! Output port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
+        } else {
+            cout << "Info: Output port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
         }
     }
 
@@ -215,10 +215,10 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
             connected &= (*itPort)->isConnected();
         }
 
-        if (connected){
+        if (connected) {
             // Create fifo accesses
             Fifo::createReadWritePeek(action, instance->isTraceActivate());
-        }else{
+        } else {
             // Deactivate action
             Procedure* sched = action->getScheduler();
             sched->setEmpty();

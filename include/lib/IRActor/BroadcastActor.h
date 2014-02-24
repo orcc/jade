@@ -110,9 +110,6 @@ private:
     /** Port type of the broadcast */
     llvm::IntegerType* type;
 
-    /** Fifo type of the broadcast */
-    AbstractConnector* fifo;
-
     /** LLVM Context */
     llvm::LLVMContext &Context;
 

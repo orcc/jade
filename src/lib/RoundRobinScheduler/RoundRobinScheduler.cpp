@@ -105,8 +105,6 @@ RoundRobinScheduler::~RoundRobinScheduler (){
 }
 
 void RoundRobinScheduler::createNetworkScheduler(){
-    map<string, Instance*>::iterator it;
-
     Module* module = decoder->getModule();
     LLVMContext &Context = getGlobalContext();
 
