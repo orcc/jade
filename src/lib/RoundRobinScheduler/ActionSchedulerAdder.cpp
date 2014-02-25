@@ -63,6 +63,8 @@
 using namespace llvm;
 using namespace std;
 
+// Will be used to configure fifo for unconnected outputs ports
+extern cl::opt<int> FifoSize;
 
 ActionSchedulerAdder::ActionSchedulerAdder(llvm::LLVMContext& C, Decoder* decoder) : Context(C) {
     this->module = decoder->getModule();
@@ -187,12 +189,14 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
     for (it = outputs->begin(); it != outputs->end(); it++){
         Port* output = it->second;
 
-        if (output->isConnected()) {
-            Function* init = Fifo::initializeOut(module, it->second);
-            CallInst::Create(init, "", entryBB->getTerminator());
-        } else {
+        if (!output->isConnected()) {
             cout << "Info: Output port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
+            initializeFakeFIFO(output);
         }
+
+        Function* init = Fifo::initializeOut(module, output);
+        CallInst::Create(init, "", entryBB->getTerminator());
+
     }
 
     // Add read/write/peek access
@@ -215,14 +219,8 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
             connected &= (*itPort)->isConnected();
         }
 
-        if (connected) {
-            // Create fifo accesses
-            Fifo::createReadWritePeek(action, instance->isTraceActivate());
-        } else {
-            // Deactivate action
-            Procedure* sched = action->getScheduler();
-            sched->setEmpty();
-        }
+        // Create fifo accesses
+        Fifo::createReadWritePeek(action, instance->isTraceActivate());
     }
 
     //Close inputs
@@ -244,6 +242,21 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
             CallInst::Create(close, "", returnBB->getTerminator());
         }
     }
+}
+
+void ActionSchedulerAdder::initializeFakeFIFO(Port *port)
+{
+    // The special Fifo, not connected to anything
+    Fifo* fifo = new Fifo(Context, decoder->getModule(), port->getType(), FifoSize);
+
+    // Global variable to access the Fifo
+    Type* fifoType = fifo->getGV()->getType();
+    GlobalVariable *var =  new GlobalVariable(*module, fifoType, true, GlobalValue::InternalLinkage, 0, port->getName());
+
+    // Register this variable in port
+    port->setFifoVar(var);
+
+    var->setInitializer(fifo->getGV());
 }
 
 BasicBlock* ActionSchedulerAdder::checkInputPattern(Pattern* pattern, Function* function, BasicBlock* skipBB, BasicBlock* BB){	
@@ -308,8 +321,9 @@ BasicBlock* ActionSchedulerAdder::checkOutputPattern(Pattern* pattern, llvm::Fun
     for ( it=numTokens->begin() ; it != numTokens->end(); it++ ){
         Port* port = it->first;
 
-        if (port->isInternal() || port->getFifoVar() == NULL){
+        if (port->isInternal() || port->getFifoVar() == NULL || !port->isConnected()){
             // Don't test internal ports
+            // Don't test unconnected ports
             continue;
         }
         Value* hasRoomValue = Fifo::createOutputTest(port, it->second, BB);

@@ -128,7 +128,6 @@ protected:
      */
     void createInitialize(Instance* instance);
 
-
     /**
      * @brief check a output pattern for an Action
      *
@@ -160,6 +159,16 @@ protected:
     virtual llvm::BasicBlock* checkInputPattern(Pattern* pattern, llvm::Function* function, llvm::BasicBlock* skipBB, llvm::BasicBlock* BB);
 
     virtual void initializeFIFO (Instance* instance);
+
+    /**
+     * @brief Initialize a Fifo in the special case of unconnected port.
+     *
+     * This is necessary since Fifo are usually created in Connector, from information parsed in a Connection.
+     * In the case of unconnected port, no connection is associated with the port. We create it in this method.
+     *
+     * @param port The unconnected port
+     */
+    void initializeFakeFIFO(Port *port);
 
     /** LLVM Context */
     llvm::LLVMContext &Context;
