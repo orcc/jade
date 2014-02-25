@@ -58,6 +58,7 @@
 #include "lib/IRCore/Network/Instance.h"
 #include "lib/RoundRobinScheduler/Fifo.h"
 #include "lib/IRUtil/FunctionMng.h"
+#include "llvm/Support/CommandLine.h"
 //------------------------------
 
 using namespace llvm;
