@@ -60,6 +60,7 @@
 //------------------------------
 
 #define DISPLAY_DISABLE 0
+#define DISPLAY_ENABLE 1
 
 #ifdef __APPLE__
 #include "SDL.h"
@@ -234,6 +235,8 @@ void setOptions(){
 
     if (nodisplay){
         display_flags = DISPLAY_DISABLE;
+    } else {
+        display_flags = DISPLAY_ENABLE;
     }
 
     if (!debexec.empty()){

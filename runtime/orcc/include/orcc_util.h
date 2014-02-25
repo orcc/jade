@@ -64,8 +64,7 @@ void wait_for_key();
 void print_usage();
 
 #define DISPLAY_DISABLE 0
-#define DISPLAY_READY 1
-#define DISPLAY_ENABLE 2
+#define DISPLAY_ENABLE 1
 
 #define DEFAULT_INFINITE_LOOP -1
 

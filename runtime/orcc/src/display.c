@@ -53,7 +53,7 @@ static void press_a_key(int code) {
 
 
 char displayYUV_getFlags(){
-    return display_flags + DISPLAY_READY;
+    return display_flags;
 }
 
 
