@@ -53,25 +53,27 @@ using namespace std;
 
 extern cl::opt<std::string> OutputDir;
 
-void LLVMUtility::printModule(string file, Decoder* decoder){
-    std::string ErrorInfo;
+void LLVMUtility::printModule(Decoder* decoder, string fileName){
     Module* module = decoder->getModule();
 
-    //Preparing output file
-    string OutFile = file;
-    OutFile.insert(0,OutputDir);
-
-    //Preparing output
-    std::auto_ptr<raw_fd_ostream> Out(new raw_fd_ostream(OutFile.c_str(), ErrorInfo, sys::fs::F_Binary));
-
-    if (!ErrorInfo.empty()) {
-        std::cout << ErrorInfo << '\n';
-        return;
+    if(fileName == "") {
+        string netName = decoder->getConfiguration()->getNetwork()->getName();
+        fileName = netName + "_FULL_MODULE.ll";
     }
 
-    *Out << *module;
-}
+    std::string ErrorInfo;
+    //Preparing output file
+    string outputPath = OutputDir + fileName;
 
+    //Preparing output
+    std::auto_ptr<raw_fd_ostream> outStream(new raw_fd_ostream(outputPath.c_str(), ErrorInfo, sys::fs::F_Binary));
+    if (!ErrorInfo.empty()) {
+        std::cerr << ErrorInfo << endl;
+        return;
+    }
+    *outStream << *module;
+
+}
 
 void LLVMUtility::verify(string file, Decoder* decoder){
     std::string Err;

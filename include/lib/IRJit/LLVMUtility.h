@@ -41,7 +41,6 @@
 
 //------------------------------
 
-
 /**
  * @brief  This class manages the LLVM infrastructure to write elements
  *
@@ -59,7 +58,7 @@ public:
      */
     LLVMUtility(){}
 
-    void printModule(std::string file, Decoder* decoder);
+    void printModule(Decoder* decoder, std::string fileName = "");
     void verify(std::string file, Decoder* decoder);
 
 };

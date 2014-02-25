@@ -290,6 +290,6 @@ int RVCEngine::print(Network* network, string outputFile){
     }
 
     Decoder* decoder = it->second;
-    utility.printModule(outputFile, decoder);
+    utility.printModule(decoder, outputFile);
     return 0;
 }

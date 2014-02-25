@@ -312,7 +312,7 @@ void startCmdLine(){
 
     // Print the given decoder if needed
     if (OutputDir != ""){
-        engine->print(network, "module.txt");
+        engine->print(network);
     }
 
     //Run network
@@ -333,7 +333,6 @@ int main(int argc, char **argv, char **envp) {
 
     // Print a stack trace if we signal out.
     PrintStackTraceOnErrorSignal();
-    PrettyStackTraceProgram X(argc, argv);
     ParseCommandLineOptions(argc, argv, "Just-In-Time Adaptive Decoder Engine (Jade) \n");
     (void) signal(SIGINT, clean_exit);
 

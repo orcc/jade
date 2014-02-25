@@ -134,7 +134,7 @@ public:
      *  @param outputFile : the name of the file to print into
      *
      */
-    int print(Network* network, std::string outputFile);
+    int print(Network* network, std::string outputFile = "");
 
     /*!
      *  @brief Verify the network
