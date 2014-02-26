@@ -177,12 +177,13 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
     for (it = inputs->begin(); it != inputs->end(); it++){
         Port* input = it->second;
 
-        if (input->isConnected()) {
-            Function* init = Fifo::initializeIn(module, input);
-            CallInst::Create(init, "", entryBB->getTerminator());
-        } else {
-            cerr << "Warning! Input port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
+        if (!input->isConnected()) {
+            cout << "Info: Input port " << it->first << " of instance " << instance->getId() << " is not connected in the network." << endl;
+            initializeFakeFIFO(input);
         }
+
+        Function* init = Fifo::initializeIn(module, input);
+        CallInst::Create(init, "", entryBB->getTerminator());
     }
 
     //Initialize outputs
@@ -197,31 +198,14 @@ void ActionSchedulerAdder::initializeFIFO (Instance* instance){
 
         Function* init = Fifo::initializeOut(module, output);
         CallInst::Create(init, "", entryBB->getTerminator());
-
     }
 
     // Add read/write/peek access
     std::list<Action*>::iterator itAct;
     std::list<Action*>* actions = instance->getActions();
     for (itAct = actions->begin(); itAct != actions->end(); itAct++){
-        bool connected = true;
-        Action* action = *itAct;
-        set<Port*>::iterator itPort;
-
-        // Check if all inputs of the given action are connected
-        set<Port*>* inputs = action->getInputPattern()->getPorts();
-        for (itPort = inputs->begin(); itPort != inputs->end(); itPort++){
-            connected &= (*itPort)->isConnected();
-        }
-
-        // Check if all outputs of the given action are connected
-        set<Port*>* outputs = action->getOutputPattern()->getPorts();
-        for (itPort = outputs->begin(); itPort != outputs->end(); itPort++){
-            connected &= (*itPort)->isConnected();
-        }
-
         // Create fifo accesses
-        Fifo::createReadWritePeek(action, instance->isTraceActivate());
+        Fifo::createReadWritePeek(*itAct, instance->isTraceActivate());
     }
 
     //Close inputs
@@ -275,7 +259,7 @@ BasicBlock* ActionSchedulerAdder::checkInputPattern(Pattern* pattern, Function* 
     for ( it=numTokens->begin() ; it != numTokens->end(); it++ ){
         Port* port = it->first;
 
-        if (port->isInternal() || port->getFifoVar() == NULL){
+        if (port->isInternal() || port->getFifoVar() == NULL || !port->isConnected()){
             // Don't test internal ports
             continue;
         }
