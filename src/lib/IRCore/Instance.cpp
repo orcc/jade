@@ -36,6 +36,8 @@
 */
 
 //------------------------------
+#include <iostream>
+
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/GlobalVariable.h"
@@ -133,6 +135,10 @@ void Instance::solveParameters(){
         llvm::GlobalVariable* variable = parameter->getGlobalVariable();
 
         itArguments = arguments->find(itParameter->first);
+        if(itArguments == arguments->end()) {
+            cerr << "Error: parameter " << itParameter->first << " is not set in instance " << id << endl;
+            exit(1);
+        }
         Expr* expr = itArguments->second;
         Constant* value = NULL;
         parameter->setInitialValue(expr);
