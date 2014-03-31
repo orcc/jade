@@ -193,17 +193,17 @@ private:
     std::map<std::string, IRAttribute*> *parseAttributes(TiXmlNode* node);
 
     /*!
-     *  @brief Parses the current node as a actor parameters.
+     *  @brief Parses the current node to find instance arguments.
      *
-     * Returns a map of IRAttribute parameter names -> values by parsing the parameter
-     * node of an actor.
+     * Returns a map of IRAttribute parameter names -> values by parsing the arguments
+     * of an instance.
      *
      *  @param element : xmlNode representation of IRAttributes element
      *
      *  @return  a map of IRAttributes with their value
      */
 
-    std::map<std::string, Expr*>* parseParameters(TiXmlNode* node);
+    std::map<std::string, Expr*>* parseArguments(TiXmlNode* node);
 
 
     /*!

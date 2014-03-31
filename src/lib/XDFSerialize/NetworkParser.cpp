@@ -154,17 +154,17 @@ Instance* NetworkParser::parseInstance(TiXmlElement* instance){
     }
 
     // Get parameters
-    map<string, Expr*>* parameters = parseParameters(child);
+    map<string, Expr*>* arguments = parseArguments(child);
 
     // Get attributes
     map<string, IRAttribute*>* attributes = parseAttributes(child);
 
-    return new Instance(graph, string(id.c_str()), string(clasz.c_str()), parameters, attributes);
+    return new Instance(graph, string(id.c_str()), string(clasz.c_str()), arguments, attributes);
 }
 
 
-map<string, Expr*> *NetworkParser::parseParameters(TiXmlNode* node){
-    map<string, Expr*> *parameters = new map<string, Expr*>;
+map<string, Expr*> *NetworkParser::parseArguments(TiXmlNode* node){
+    map<string, Expr*> *arguments = new map<string, Expr*>;
 
     while(node != NULL){
         if (TiXmlString(node->Value()) == XDFNetwork::INSTANCE_PARAMETER){
@@ -175,12 +175,12 @@ map<string, Expr*> *NetworkParser::parseParameters(TiXmlNode* node){
                 exit(1);
             }
             Expr* expression = exprParser->parseExpr(node->FirstChild());
-            parameters->insert(pair<string, Expr*>(string(name.c_str()), expression));
+            arguments->insert(pair<string, Expr*>(name.data(), expression));
         }
         node = node->NextSibling();
     }
 
-    return parameters;
+    return arguments;
 
 }
 

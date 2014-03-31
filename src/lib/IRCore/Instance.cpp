@@ -50,11 +50,11 @@
 using namespace std;
 using namespace llvm;
 
-Instance::Instance(HDAGGraph* graph, std::string id, std::string clasz, std::map<std::string, Expr*>* parameterValues, 
+Instance::Instance(HDAGGraph* graph, std::string id, std::string clasz, std::map<std::string, Expr*>* arguments,
                    std::map<std::string, IRAttribute*>* attributes) : Entity(new map<std::string, Port*>() , new map<std::string, Port*>(), NULL, NULL){
     this->id = id;
     this->clasz = clasz;
-    this->parameterValues = parameterValues;
+    this->arguments = arguments;
     this->attributes = attributes;
     this->actor = NULL;
     this->configuration = NULL;
@@ -78,7 +78,7 @@ Instance::Instance(std::string id, Actor* actor)  : Entity(new map<std::string, 
     this->parameters = NULL;
     this->procedures = NULL;
     this->actionScheduler = NULL;
-    this->parameterValues = new map<string, Expr*>();
+    this->arguments = new map<string, Expr*>();
     this->attributes = new map<string, IRAttribute*>();
     this->enableTrace = false;
 
@@ -125,14 +125,15 @@ void Instance::setAsOutput(Port* port) {
 }
 
 void Instance::solveParameters(){
-    map<string, Expr*>::iterator itValues;
     std::map<std::string, Variable*>::iterator itParameter;
+    map<string, Expr*>::iterator itArguments;
 
-    for (itParameter= parameters->begin(); itParameter != parameters->end(); itParameter++){
+    for (itParameter = parameters->begin(); itParameter != parameters->end(); itParameter++){
         Variable* parameter = itParameter->second;
         llvm::GlobalVariable* variable = parameter->getGlobalVariable();
-        itValues = parameterValues->find(itParameter->first);
-        Expr* expr = itValues->second;
+
+        itArguments = arguments->find(itParameter->first);
+        Expr* expr = itArguments->second;
         Constant* value = NULL;
         parameter->setInitialValue(expr);
 

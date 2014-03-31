@@ -88,7 +88,7 @@ public:
      * @param parameters : list of Expr representif parameters of this instance
      *
      */
-    Instance(HDAGGraph* graph, std::string id, std::string clasz, std::map<std::string, Expr*>* parameterValues,
+    Instance(HDAGGraph* graph, std::string id, std::string clasz, std::map<std::string, Expr*>* arguments,
              std::map<std::string, IRAttribute*>* attributes);
 
     /*!
@@ -213,7 +213,7 @@ public:
      * @return a map on the Instance paramter
      *
      */
-    std::map<std::string, Expr*>* getParameterValues(){return parameterValues;}
+    std::map<std::string, Expr*>* getParameterValues(){return arguments;}
 
     /**
      *  @brief Set a new input port for the instance
@@ -291,7 +291,7 @@ public:
 protected:
 
     /* Parameters of an instance */
-    std::map<std::string, Expr*>* parameterValues;
+    std::map<std::string, Expr*>* arguments;
 
     /* Id of an instance */
     std::string id;
