@@ -23,13 +23,19 @@ target_link_libraries(Jade
 	IRUtil
 	IRCore
 	HDAGGraph
-    TinyXml
+	TinyXml
 	orcc
-	${SDL_LIBRARY}
 	${LLVM_LIBRARIES}
 	${LLVM_LD_FLAGS}
 	${CMAKE_THREAD_LIBS_INIT}
 )
+
+// Configure the SDL version
+if(SDL2_FOUND)
+	target_link_libraries(Jade ${SDL2_LIBRARY})
+else()
+	target_link_libraries(Jade ${SDL_LIBRARY})
+endif()
 
 install(TARGETS Jade
 	RUNTIME DESTINATION bin

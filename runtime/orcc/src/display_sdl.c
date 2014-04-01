@@ -26,7 +26,9 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#include "SDL.h"
+
+#include <SDL.h>
+ 
 #include "orcc_util.h"
 
 static SDL_Surface *m_screen;

@@ -3,11 +3,16 @@ cmake_minimum_required (VERSION 2.8)
 
 project (Jade)
 
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/)
+
 include(resources/JadeMacros.cmake)
 
 # Search for required third party libraries
-find_package(SDL REQUIRED)
 find_package(Threads REQUIRED)
+find_package(SDL2 QUIET)
+if(NOT SDL2_FOUND)
+	find_package(SDL REQUIRED)
+endif()
 
 # Generate documentation option
 option(GENERATE_DOCS "Generate documentation using doxygen.")
