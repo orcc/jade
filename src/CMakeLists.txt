@@ -1,5 +1,4 @@
 
-
 # Add libraries
 add_subdirectory(lib/ConfigurationEngine)
 add_subdirectory(lib/RVCEngine)
@@ -18,7 +17,7 @@ add_subdirectory(lib/XCFSerialize)
 add_subdirectory(lib/XDFSerialize)
 
 if(BUILD_GPAC_RVC_DECODER)
-	add_subdirectory(gpac/RVCDecoder)
+    add_subdirectory(gpac/RVCDecoder)
 endif()
 
 # Aplications

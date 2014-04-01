@@ -11,7 +11,7 @@ include(resources/JadeMacros.cmake)
 find_package(Threads REQUIRED)
 find_package(SDL2 QUIET)
 if(NOT SDL2_FOUND)
-	find_package(SDL REQUIRED)
+    find_package(SDL REQUIRED)
 endif()
 
 # Generate documentation option
@@ -23,18 +23,18 @@ option(BUILD_GPAC_RVC_DECODER "Generate RVCDecodcr library needed to compile Gpa
 # We don't use find_package(LLVM) here because if users compiled LLVM with autotools (configure / make) instead
 # of CMake (cmake / make) the share/llvm/cmake path is missing in install directory.
 find_program(LLVM_CONFIG_TOOL llvm-config
-	DOC "Path to llvm-config executable"
+    DOC "Path to llvm-config executable"
 )
 
 # Check if find_program didn't succeed to find llvm-config executable
 if("${LLVM_CONFIG_TOOL}" STREQUAL "LLVM_CONFIG_TOOL-NOTFOUND")
-	message(FATAL_ERROR "The llvm-config has not been found on your system. Please set manually LLVM_CONFIG_TOOL variable with the full path of llvm-config you want to use.\nYou also can fill CMAKE_MODULE_PATH with the path of an LLVM bin directory.")
+    message(FATAL_ERROR "The llvm-config has not been found on your system. Please set manually LLVM_CONFIG_TOOL variable with the full path of llvm-config you want to use.\nYou also can fill CMAKE_MODULE_PATH with the path of an LLVM bin directory.")
 endif()
 
 # Check if LLVM_CONFIG_TOOL has a valid value (path of llvm-config)
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --version OUTPUT_VARIABLE LLVM_CFG_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
 if("" STREQUAL "${LLVM_CFG_VERSION}")
-	message(FATAL_ERROR "The LLVM_CONFIG_TOOL variable have an invalid value. It must contains the full path of llvm-config executable.")
+    message(FATAL_ERROR "The LLVM_CONFIG_TOOL variable have an invalid value. It must contains the full path of llvm-config executable.")
 endif()
 
 message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure link information")
@@ -42,11 +42,11 @@ message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure link information")
 # List LLVM components used in Jade
 set(COMPONENTS jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine support)
 
-execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}	OUTPUT_VARIABLE LLVM_LIBRARIES		OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND ${LLVM_CONFIG_TOOL} --bindir				OUTPUT_VARIABLE LLVM_BIN_DIR		OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND ${LLVM_CONFIG_TOOL} --includedir 			OUTPUT_VARIABLE LLVM_INCLUDE_DIRS	OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND ${LLVM_CONFIG_TOOL} --cppflags 				OUTPUT_VARIABLE LLVM_CPP_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND ${LLVM_CONFIG_TOOL} --ldflags 				OUTPUT_VARIABLE LLVM_LD_FLAGS		OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}    OUTPUT_VARIABLE LLVM_LIBRARIES      OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --bindir                OUTPUT_VARIABLE LLVM_BIN_DIR        OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --includedir            OUTPUT_VARIABLE LLVM_INCLUDE_DIRS   OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --cppflags              OUTPUT_VARIABLE LLVM_CPP_FLAGS      OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --ldflags               OUTPUT_VARIABLE LLVM_LD_FLAGS       OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 message(STATUS "LLVM version ${LLVM_CFG_VERSION} found in folder ${LLVM_BIN_DIR}")
 
@@ -57,9 +57,9 @@ set(JADE_BIN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Set output path depending on build type set in environment
 if("" STREQUAL "${CMAKE_BUILD_TYPE}")
-	set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/Default")
+    set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/Default")
 else()
-	set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/${CMAKE_BUILD_TYPE}")
+    set(JADE_OUTPUT_PATH "${JADE_BIN_DIR}/${CMAKE_BUILD_TYPE}")
 endif()
 
 # Configure build flags
@@ -69,7 +69,7 @@ include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS})
 message(STATUS "includes: ${LLVM_INCLUDE_DIRS}")
 
 if(GENERATE_DOCS)
-	add_subdirectory(doc)
+    add_subdirectory(doc)
 endif()
 
 add_subdirectory(runtime)
