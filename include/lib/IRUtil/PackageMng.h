@@ -167,7 +167,7 @@ public:
     /**
      * @brief Get package from the given package name
      *
-     *	If the package does not existe, create a map
+     *  If the package does not existe, create a map
      *  of package representing the dependance of name
      *
      * @param name : the required package name
@@ -180,7 +180,7 @@ public:
     /**
      * @brief Set a map of packages
      *
-     *	Create a map of package representing the dependance of a list of actors
+     *  Create a map of package representing the dependance of a list of actors
      *
      * @param actors : a map of actor
      *

@@ -83,8 +83,8 @@ public:
      *
      *  Creates a new instance.
      *
-     * @param id	: string of the instance id
-     * @param clasz	: string of the instance class
+     * @param id    : string of the instance id
+     * @param clasz : string of the instance class
      * @param parameters : list of Expr representif parameters of this instance
      *
      */
@@ -183,7 +183,7 @@ public:
     /*!
      *  @brief Setter of actor
      *
-     *	Set the actor of this instance and refresh actor instance list
+     *  Set the actor of this instance and refresh actor instance list
      * @param actor : Actor of this instance
      *
      */
@@ -192,7 +192,7 @@ public:
     /*!
      *  @brief Set the configuration of instance
      *
-     *	Set the configuration where this instance is references
+     *  Set the configuration where this instance is references
      *
      *  @param configuration : the Configuration where instance is refered.
      */
@@ -201,7 +201,7 @@ public:
     /*!
      *  @brief Get the configuration of instance
      *
-     *	Get the configuration where this instance is references
+     *  Get the configuration where this instance is references
      *
      *  @return the Configuration where instance is refered.
      */

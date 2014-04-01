@@ -66,13 +66,13 @@ public:
     /**
      *  @brief Add broadcast into the given network
      *
-     *	This transformation detect multiple connection to port
+     *  This transformation detect multiple connection to port
      *    and insert broadcast actor to force port being connected
      *     to an only port
      *
-     *	@param C : LLVMContext
+     *  @param C : LLVMContext
      *
-     *	@param configuration : Configuration to transform
+     *  @param configuration : Configuration to transform
      */
     BroadcastAdder(llvm::LLVMContext& C, Configuration* configuration, Decoder* decoder);
 

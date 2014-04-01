@@ -62,11 +62,11 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Create a new round robin scheduler for the given decoder
+     *  Create a new round robin scheduler for the given decoder
      *
-     *	@param C : the LLVM Context
+     *  @param C : the LLVM Context
      *
-     *	@param decoder : the Decoder to insert the round robin scheduler into
+     *  @param decoder : the Decoder to insert the round robin scheduler into
      */
     RoundRobinScheduler(llvm::LLVMContext& C, Decoder* decoder, std::list<Instance*>* instances, bool optimized = true, bool verbose = false);
     ~RoundRobinScheduler();
@@ -74,35 +74,35 @@ public:
     /**
      *  @brief Return the main function of the scheduler
      *
-     *	@return the main llvm::Function of scheduler
+     *  @return the main llvm::Function of scheduler
      */
     llvm::Function* getMainFunction(){return scheduler;}
 
     /**
      *  @brief Return the initialize function of the scheduler
      *
-     *	@return the initialize llvm::Function of scheduler
+     *  @return the initialize llvm::Function of scheduler
      */
     llvm::Function* getInitFunction(){return initialize;}
 
     /**
      *  @brief Add an instance in the scheduler
      *
-     *	@param instance : the Instance to add
+     *  @param instance : the Instance to add
      */
     void addInstance(Instance* instance);
 
     /**
      *  @brief Return the stop GV
      *
-     *	@return the stop GV
+     *  @return the stop GV
      */
     llvm::GlobalVariable* getStopGV(){return stopGV;}
 
     /**
      *  @brief Remove an instance in the scheduler
      *
-     *	@param instance : the Instance to remove
+     *  @param instance : the Instance to remove
      */
     void removeInstance(Instance* instance);
 

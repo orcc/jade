@@ -70,7 +70,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Initialize the execution engine
+     *  Initialize the execution engine
      *
      *  @param C : the llvm::Context
      *
@@ -84,14 +84,14 @@ public:
     /**
      *  @brief Destructor
      *
-     *	Delete the execution engione
+     *  Delete the execution engione
      */
     ~LLVMExecution();
 
     /**
      *  @brief map a function in the decider
      *
-     *	Map an external procedure in the decoder
+     *  Map an external procedure in the decoder
      *
      *  @param procedure : the procedure to map
      *
@@ -117,20 +117,20 @@ public:
     /**
      *  @brief run a specific function of the current decoder
      *
-     *	@param function : the llvm::Function to run
+     *  @param function : the llvm::Function to run
      */
     void runFunction(llvm::Function* function);
     /**
      *  @brief stop the current decoder
      *
-     *	Stop the decoder
+     *  Stop the decoder
      */
     void stop();
 
     /**
      *  @brief cleart the current decoder
      *
-     *	Clear the decoder
+     *  Clear the decoder
      */
     void clear();
 
@@ -139,9 +139,9 @@ public:
      *
      *   Return true if the given llvm::GlobalValue (or a llvm::Function) has been previously compiled.
      *
-     *	@param gv : the llvm::GlobalVariable to verify
+     *  @param gv : the llvm::GlobalVariable to verify
      *
-     *	@return true if gv has been compiled otherwise false
+     *  @return true if gv has been compiled otherwise false
      */
     bool isCompiledGV(llvm::GlobalVariable* gv);
 
@@ -150,9 +150,9 @@ public:
      *
      *   Return the address of a llvm::GlobalVariable (or a llvm::Function)
      *
-     *	@param gv : the llvm::GlobalVariable to get pointer from.
+     *  @param gv : the llvm::GlobalVariable to get pointer from.
      *
-     *	@return address of a gv
+     *  @return address of a gv
      */
     void* getGVPtr(llvm::GlobalVariable* gv);
 
@@ -161,9 +161,9 @@ public:
      *
      *   Map a port to a fifo if only the Port has already been compiled by the execution engine
      *
-     *	@param gv : the llvm::GlobalValue to et the pointer from
+     *  @param gv : the llvm::GlobalValue to et the pointer from
      *
-     *	@return true if the port has been compiled, false otherwise
+     *  @return true if the port has been compiled, false otherwise
      */
     bool mapFifo(Port* port, Fifo* fifo);
 
@@ -173,7 +173,7 @@ public:
     /**
      *  @brief Link native procedures in the decoder
      *
-     *	@param externs : a list of external procedures
+     *  @param externs : a list of external procedures
      */
     void linkExternalProc(std::list<Procedure*> externs);
 

@@ -54,24 +54,24 @@
  */
 class TypeEntry : public Entry {
 public:
-	/*!
+    /*!
      *  @brief Constructor
      *
-	 * Creates a type entry.
-	 *
+     * Creates a type entry.
+     *
      */
     TypeEntry(IRType* type){this->type = type;}
-	~TypeEntry();
+    ~TypeEntry();
 
-	/**
-	 * @brief Returns true if this entry is type of TypeEntry.
-	 * 
-	 * @return true if this type is TypeEntry
-	 */
+    /**
+     * @brief Returns true if this entry is type of TypeEntry.
+     * 
+     * @return true if this type is TypeEntry
+     */
     bool isTypeEntry(){return true;}
 
 private:
-	IRType* type;
+    IRType* type;
 
 };
 

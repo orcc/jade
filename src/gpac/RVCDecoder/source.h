@@ -40,10 +40,10 @@
 #ifndef SOURCE_H
 #define SOURCE_H
 
-#define NAL_IS_READ			0
-#define NAL_NOT_READ		1
-#define	NAL_TODO_READ		2
-#define NAL_ALREADY_READ	3
+#define NAL_IS_READ         0
+#define NAL_NOT_READ        1
+#define NAL_TODO_READ       2
+#define NAL_ALREADY_READ    3
 
 #ifdef __cplusplus
 extern "C" {

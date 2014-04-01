@@ -179,11 +179,11 @@ public:
     IRAttribute* getAttribute(std::string name);
 
 private:
-    std::map<std::string, IRAttribute*>* attributes;	/** Map of attributes */
+    std::map<std::string, IRAttribute*>* attributes;    /** Map of attributes */
     Vertex* source;             /** Source vertex */
-    Vertex* target;				/** Target vertex */
-    Port* srcPort;				/** Source Port */
-    Port* tgtPort;				/** Destination Port */
+    Vertex* target;             /** Target vertex */
+    Port* srcPort;              /** Source Port */
+    Port* tgtPort;              /** Destination Port */
     Fifo* fifo;                 /** Fifo of the connection */
     HDAGGraph* parent;          /** Graph of this connection */
 };

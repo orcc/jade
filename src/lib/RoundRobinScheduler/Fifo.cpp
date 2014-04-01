@@ -569,7 +569,7 @@ Fifo::~Fifo(){
 }
 
 
-StructType* Fifo::getOrInsertFifoStruct(Module* module, IntegerType* connectionType){	
+StructType* Fifo::getOrInsertFifoStruct(Module* module, IntegerType* connectionType){   
     int size = connectionType->getBitWidth();
 
     // Set structure name
@@ -662,7 +662,7 @@ Function* Fifo::getOrInsertNumTokensFn(llvm::Module* module, llvm::IntegerType* 
 }
 
 
-Function* Fifo::getOrInsertRoomFn(Module* module, IntegerType* connectionType){	
+Function* Fifo::getOrInsertRoomFn(Module* module, IntegerType* connectionType){ 
     StructType* fifoStruct = getOrInsertFifoStruct(module, connectionType);
 
     // Set function name

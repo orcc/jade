@@ -46,41 +46,41 @@
 
 //External functions of natives provedures
 extern "C"{
-	//External functions for display
-	extern void displayYUV_init();
-	extern void displayYUV_displayPicture(unsigned char *pictureBufferY,
-		unsigned char *pictureBufferU, unsigned char *pictureBufferV,
-		unsigned short pictureWidth, unsigned short pictureHeight);
-	extern char displayYUV_getFlags();
+    //External functions for display
+    extern void displayYUV_init();
+    extern void displayYUV_displayPicture(unsigned char *pictureBufferY,
+        unsigned char *pictureBufferU, unsigned char *pictureBufferV,
+        unsigned short pictureWidth, unsigned short pictureHeight);
+    extern char displayYUV_getFlags();
     extern int displayYUV_getNbFrames();
 
 
-	//External functions for compare
-	extern void compareYUV_init();
-	extern void compareYUV_comparePicture(unsigned char *pictureBufferY, unsigned char *pictureBufferU,
+    //External functions for compare
+    extern void compareYUV_init();
+    extern void compareYUV_comparePicture(unsigned char *pictureBufferY, unsigned char *pictureBufferU,
                                unsigned char *pictureBufferV, unsigned short pictureWidth,
                                unsigned short pictureHeight);
 
-	//External functions for source
-	extern void source_init();
-	extern void source_readNBytes(unsigned char *outTable, unsigned short nbTokenToRead);
-	extern int source_sizeOfFile();
-	extern void source_rewind();
-	extern void printSpeed();
-	extern unsigned int source_getNbLoop(void);
-	extern void source_exit(int exitCode);
-	extern unsigned int source_readByte();
-	extern void source_isMaxLoopsReached();
-	extern void source_decrementNbLoops();
+    //External functions for source
+    extern void source_init();
+    extern void source_readNBytes(unsigned char *outTable, unsigned short nbTokenToRead);
+    extern int source_sizeOfFile();
+    extern void source_rewind();
+    extern void printSpeed();
+    extern unsigned int source_getNbLoop(void);
+    extern void source_exit(int exitCode);
+    extern unsigned int source_readByte();
+    extern void source_isMaxLoopsReached();
+    extern void source_decrementNbLoops();
 
-	//Extern functions for writer
-	extern void Writer_init();
-	extern void Writer_write(unsigned char byte);
-	extern void Writer_close();
+    //Extern functions for writer
+    extern void Writer_init();
+    extern void Writer_write(unsigned char byte);
+    extern void Writer_close();
 
-	//Extern functions for fpsPrint
-	extern void fpsPrintInit();
-	extern void fpsPrintNewPicDecoded(void);
+    //Extern functions for fpsPrint
+    extern void fpsPrintInit();
+    extern void fpsPrintNewPicDecoded(void);
 
     extern int* stopVar;
 

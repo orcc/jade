@@ -71,7 +71,7 @@ public:
     /**
      * @brief Constructor.
      *
-     *	Set a new initializer for a decoder
+     *  Set a new initializer for a decoder
      *
      * @param decoder : Decoder where instance has to be reinitialized
      */
@@ -80,7 +80,7 @@ public:
     /**
      * @brief Add an instance to initialize.
      *
-     *	Add an already compiled instance for reinitialization
+     *  Add an already compiled instance for reinitialization
      *
      * @param instance : Instance to reinitialize
      */
@@ -99,7 +99,7 @@ private:
     /**
      * @brief Create an initialize function
      *
-     *	@param module : the Module to write the function
+     *  @param module : the Module to write the function
      */
     void createInitializeFn(llvm::Module* module);
 

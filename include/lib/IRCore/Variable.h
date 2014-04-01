@@ -65,9 +65,9 @@ public:
     /**
      * Creates a new variable with the given type, and name.
      *
-     * @param type :	Type of the variable
+     * @param type :    Type of the variable
      *
-     * @param name :	string on the variable name
+     * @param name :    string on the variable name
      */
     Variable(llvm::Type* type, std::string name, bool global, bool assignable, llvm::GlobalVariable* variable){
         this->type = type;

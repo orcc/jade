@@ -59,7 +59,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Initialize the execution engine
+     *  Initialize the execution engine
      *
      *  @param C : the llvm::Context
      *
@@ -73,7 +73,7 @@ public:
     /**
      *  @brief Destructor
      *
-     *	Delete the execution engione
+     *  Delete the execution engione
      */
     ~LLVMArmFix();
 

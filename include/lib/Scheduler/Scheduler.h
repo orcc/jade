@@ -58,7 +58,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Create a scheduler
+     *  Create a scheduler
      */
     Scheduler(){}
     virtual ~Scheduler(){}

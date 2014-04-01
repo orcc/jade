@@ -63,9 +63,9 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Create a new Action Scheduler without fsm
+     *  Create a new Action Scheduler without fsm
      *
-     *	@param function : llvm::Function corresponding to the action scheduler
+     *  @param function : llvm::Function corresponding to the action scheduler
      */
     ActionScheduler(std::list<Action*>* actions, FSM* fsm){
         this->fsm = fsm;
@@ -79,36 +79,36 @@ public:
     /**
      *  @brief Getter of scheduler function
      *
-     *	Return the corresponding llvm::function of the action scheduler
+     *  Return the corresponding llvm::function of the action scheduler
      *
-     *	@return corresponding llvm::Function  of action scheduler
+     *  @return corresponding llvm::Function  of action scheduler
      */
     llvm::Function* getSchedulerFunction(){ return schedulerFunction;}
 
     /**
      *  @brief Setter of scheduler function
      *
-     *	Set the corresponding llvm::function of the action scheduler
+     *  Set the corresponding llvm::function of the action scheduler
      *
-     *	@param corresponding llvm::Function  of action scheduler
+     *  @param corresponding llvm::Function  of action scheduler
      */
     void setSchedulerFunction(llvm::Function* schedulerFunction){ this->schedulerFunction = schedulerFunction;}
 
     /**
      *  @brief Setter of initialize function
      *
-     *	Set the corresponding llvm::function of the initialize function
+     *  Set the corresponding llvm::function of the initialize function
      *
-     *	@param corresponding llvm::Function  of initialize
+     *  @param corresponding llvm::Function  of initialize
      */
     void setInitializeFunction(llvm::Function* initializeFunction){ this->initializeFunction = initializeFunction;}
 
     /**
      *  @brief Getter of initialize scheduler function
      *
-     *	Return the corresponding llvm::function of the initialize scheduler
+     *  Return the corresponding llvm::function of the initialize scheduler
      *
-     *	@return corresponding llvm::Function  of initialize scheduler
+     *  @return corresponding llvm::Function  of initialize scheduler
      */
     llvm::Function* getInitializeFunction(){ return initializeFunction;}
 
@@ -118,14 +118,14 @@ public:
      * Returns the FSM of this action scheduler, or NULL if it does
      * not have one.
      *
-     *	@return the FSM of the action scheduler
+     *  @return the FSM of the action scheduler
      */
     FSM* getFsm(){ return fsm;}
 
     /**
      *  @brief Returns true if this action scheduler has an FSM.
      *
-     *	@return true if the action scheduler has an FSM
+     *  @return true if the action scheduler has an FSM
      */
     bool hasFsm(){ return fsm != NULL;}
 
@@ -145,7 +145,7 @@ public:
     /**
      *  @brief Returns true if this action scheduler has a scheduler function.
      *
-     *	@return true if the action scheduler has a scheduler function.
+     *  @return true if the action scheduler has a scheduler function.
      */
     bool hasInitializeScheduler(){ return initializeFunction != NULL;}
 

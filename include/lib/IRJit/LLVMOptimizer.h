@@ -62,7 +62,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Initialize optimizer
+     *  Initialize optimizer
      *
      */
     LLVMOptimizer(Decoder* decoder){
@@ -72,14 +72,14 @@ public:
     /**
      *  @brief Destructor
      *
-     *	Delete optimizer
+     *  Delete optimizer
      */
     ~LLVMOptimizer(){}
 
     /**
      *  @brief Launch optimization
      *
-     *	@param optLevel : optimization level
+     *  @param optLevel : optimization level
      */
     void optimize(int optLevel);
 private:

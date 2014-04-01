@@ -63,7 +63,7 @@ TypeParser::~TypeParser (){
 
 }
 
-IRType* TypeParser::parseType(TiXmlNode* node){	
+IRType* TypeParser::parseType(TiXmlNode* node){ 
 
     while(node != NULL){
         if (TiXmlString(node->Value()) == XDFNetwork::TYPE) {

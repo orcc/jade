@@ -53,11 +53,11 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Create a new action scheduler for dynamic actors
+     *  Create a new action scheduler for dynamic actors
      *
-     *	@param C : the llvm::Context
+     *  @param C : the llvm::Context
      *
-     *	@param decoder : the Decoder where dynamic action scheduler is inserted
+     *  @param decoder : the Decoder where dynamic action scheduler is inserted
      */
     QSDFScheduler(llvm::LLVMContext& C, Decoder* decoder);
     ~QSDFScheduler(){}

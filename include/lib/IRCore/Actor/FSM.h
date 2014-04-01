@@ -64,7 +64,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Creates a new FSM.
+     *  Creates a new FSM.
      */
     FSM(){
         index = 0;
@@ -78,7 +78,7 @@ public:
     /**
      *  @brief Set functions used by the fsm
      *
-     *	@param function : llvm::Function used by the fsm
+     *  @param function : llvm::Function used by the fsm
      */
     void setFunctions(std::list<llvm::Function*>* functions){
         this->functions = functions;
@@ -87,7 +87,7 @@ public:
     /**
      *  @brief Get functions used by the fsm
      *
-     *	@return a list of llvm::Function used by the fsm
+     *  @return a list of llvm::Function used by the fsm
      */
     std::list<llvm::Function*>* getFunctions(){ return functions;}
 
@@ -97,7 +97,7 @@ public:
      *
      *  Set the llvm::GlobalVariable fsm_state used to manage fsm in llvm
      *
-     *	@param function : llvm::Function used by the fsm
+     *  @param function : llvm::Function used by the fsm
      */
     void setFsmState(llvm::GlobalVariable* fsm_state){
         this->fsm_state = fsm_state;
@@ -109,7 +109,7 @@ public:
      *  Set the llvm::Function outside_fsm used to manage actions outside the fsm.
      *   This function is set to null when no actions are outside the fsm.
      *
-     *	@param function : llvm::Function used by the fsm
+     *  @param function : llvm::Function used by the fsm
      */
     void setOutFsmFn(llvm::Function* outFsm){
         this->outFsm = outFsm;
@@ -121,7 +121,7 @@ public:
      *  Return Tree if actions from the actor are outside this fsm,
      *    otherwise return False
      *
-     *	@return true if exist an outside_fsm function, otherwise False
+     *  @return true if exist an outside_fsm function, otherwise False
      */
     bool hasOutFsmFn(){ return outFsm != NULL;}
 
@@ -130,7 +130,7 @@ public:
      *
      *  Get the llvm::Function outside_fsm used to manage actions outside the fsm in llvm
      *
-     *	@return llvm::Function corresponding to outside_fsm
+     *  @return llvm::Function corresponding to outside_fsm
      */
     llvm::Function* getOutFsmFn(){ return outFsm;}
 
@@ -139,7 +139,7 @@ public:
      *
      *  Get the llvm::GlobalVariable fsm_state used to manage fsm in llvm
      *
-     *	@return llvm::GlobalVariable corresponding to fsm_state
+     *  @return llvm::GlobalVariable corresponding to fsm_state
      */
     llvm::GlobalVariable* getFsmState(){ return fsm_state;}
 
@@ -343,16 +343,16 @@ public:
 
 
 private:
-    /**	index of last state added to the state map */
+    /** index of last state added to the state map */
     int index;
 
-    /** initial state	 */
+    /** initial state    */
     State* initialState;
 
-    /** map of state name to state	 */
+    /** map of state name to state   */
     std::map<std::string, State*> states;
 
-    /** map of state name to transition	 */
+    /** map of state name to transition  */
     std::map<std::string, Transition*> transitions;
 
     /** llvm::Function of the fsm */

@@ -56,7 +56,7 @@ using namespace llvm;
 extern cl::opt<int> FifoSize;
 
 Connection::Connection(HDAGGraph* graph, Vertex* source, Port* srcPort, Vertex* target, Port* tgtPort, std::map<std::string, IRAttribute*>* attributes): HDAGEdge()
-{	
+{   
     this->parent = graph;
     this->attributes = attributes;
     this->srcPort = srcPort;

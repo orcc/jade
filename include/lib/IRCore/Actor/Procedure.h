@@ -61,9 +61,9 @@ public:
      *
      * Construcs a new procedure.
      *
-     * @param name		: name of the procedure.
+     * @param name      : name of the procedure.
      *
-     * @param external	: whether it is external or not.
+     * @param external  : whether it is external or not.
      *
      * @param function : the llvm::Function of this procedure.
      */
@@ -79,30 +79,30 @@ public:
     /**
      *  @brief Getter of function
      *
-     *	Return the llvm::function bound to this procedure
+     *  Return the llvm::function bound to this procedure
      *
-     *	@return llvm::Function corresponding to the procedure
+     *  @return llvm::Function corresponding to the procedure
      */
     llvm::Function* getFunction(){return function;}
 
     /**
      *  @brief Getter of the function's name
      *
-     *	@return name of the function
+     *  @return name of the function
      */
     std::string getName(){return name;}
 
     /**
      *  @brief Getter of external
      *
-     *	@return llvm::ConstantInt about external function
+     *  @return llvm::ConstantInt about external function
      */
     llvm::ConstantInt* getExternal(){return external;}
 
     /**
      *  @brief Return true if procedure external
      *
-     *	@return true if procedure is external otherwise false
+     *  @return true if procedure is external otherwise false
      */
     bool isExternal();
 

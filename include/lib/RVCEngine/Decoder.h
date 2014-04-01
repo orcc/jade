@@ -99,7 +99,7 @@ public:
     /**
      *  @brief Getter of configuration
      *
-     *	Return the configuration used by the decoder
+     *  Return the configuration used by the decoder
      *
      *  @return configuration used by the decoder
      *
@@ -109,7 +109,7 @@ public:
     /**
      *  @brief Set a new configuration
      *
-     *	Reconfigure a decoder with a new configuration
+     *  Reconfigure a decoder with a new configuration
      *
      *  @param configuration : the new configuration
      *

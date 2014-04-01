@@ -91,7 +91,7 @@ public:
     /**
      *  @brief Get of an instance in the configuration
      *
-     *	Return the instance that correspond to the given name
+     *  Return the instance that correspond to the given name
      *    in the configuration.
      *
      *  @return the instance if found, otherwise NULL
@@ -126,10 +126,10 @@ public:
     /**
      *  @brief return the actor corresponding to the given name
      *
-     *	Return an actor corresponding to the given name if the current actor is contained in the configuration,
+     *  Return an actor corresponding to the given name if the current actor is contained in the configuration,
      *   return NULL if the actor is not contained in the configuration
      *
-     *	@param name : std::string name of the actor
+     *  @param name : std::string name of the actor
      *
      *  @return the actor if contained in the configuration otherwise NULL
      *
@@ -139,10 +139,10 @@ public:
     /**
      *  @brief set the actors contains in the configuration
      *
-     *	Set list of actors used by the configuration, determine required
+     *  Set list of actors used by the configuration, determine required
      *    package and instanciate the configuration.
      *
-     *	@param name : a map of actors contains in the configuration
+     *  @param name : a map of actors contains in the configuration
      *
      */
     void setActors(std::map<std::string, Actor*>* actors);
@@ -150,7 +150,7 @@ public:
     /**
      *  @brief get the actors contains in the configuration
      *
-     *	@return a map of actors contains in the configuration
+     *  @return a map of actors contains in the configuration
      *
      */
     std::map<std::string, Actor*>* getActors(){
@@ -169,7 +169,7 @@ public:
     /**
      *  @brief Get of a specific actor
      *
-     *	Return the specifics actors created for this configuration,
+     *  Return the specifics actors created for this configuration,
      *   mostly broadcast actors
      *
      *  @return a list of dedicated actors
@@ -216,7 +216,7 @@ public:
 
     /**
      *  @brief Insert a specific actor in the configuration,
-     *		all the instance of this specific actor are added in
+     *      all the instance of this specific actor are added in
      *      the instance list
      *
      *  @param actor: specific actor to add in the configuration

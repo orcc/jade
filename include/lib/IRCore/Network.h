@@ -96,7 +96,7 @@ public:
      *
      * @return HDAGGraph representing the network's contents
      */
-    HDAGGraph* getGraph() {	return graph;}
+    HDAGGraph* getGraph() { return graph;}
 
     /**
      * @brief Return connections of this network
@@ -112,7 +112,7 @@ public:
      *
      * @return the name of the network
      */
-    std::string getName() {	return name;}
+    std::string getName() { return name;}
 
     /*!
      *  @brief Print network in a dot file.

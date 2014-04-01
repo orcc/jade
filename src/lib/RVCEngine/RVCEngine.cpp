@@ -147,7 +147,7 @@ int RVCEngine::stop(Network* network){
 
 int RVCEngine::verify(Network* network, std::string errorFile){
     map<Network*, Decoder*>::iterator it;
-    clock_t	timer = clock ();
+    clock_t timer = clock ();
     it = decoders.find(network);
 
     if (it == decoders.end()){
@@ -181,7 +181,7 @@ int RVCEngine::run(Network* network){
 }
 
 int RVCEngine::optimize(Network* network, int optLevel){
-    clock_t	timer = clock ();
+    clock_t timer = clock ();
 
     map<Network*, Decoder*>::iterator it;
 
@@ -267,7 +267,7 @@ map<string, Actor*>* RVCEngine::parseActors(Configuration* Configuration) {
 
 void RVCEngine::doOptimizeDecoder(Decoder* decoder){
     //TODO : add CFGSimplification and mem2reg
-    /*	InstanceInternalize internalize;
+    /*  InstanceInternalize internalize;
     internalize.transform(decoder);
 
     PassManager Passes;

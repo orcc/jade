@@ -84,7 +84,7 @@ public:
     /*!
      *  @brief Parses the given TiXmlNode as a Type.
      *
-     *	Parses the given TiXmlNode element as a Type, and returns
+     *  Parses the given TiXmlNode element as a Type, and returns
      * the corresponding Type.
      *
      *  @param root : TiXmlNode representation of Type element

@@ -68,7 +68,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Initialize the JIT engine
+     *  Initialize the JIT engine
      *
      */
     LLVMWriter(std::string prefix, Decoder* decoder);

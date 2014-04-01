@@ -70,9 +70,9 @@ class Variable;
  * @brief  This class defines an actor in the network
  *
   * This class defines an actor. An actor has parameters, input and output ports,
- *	state variables, procedures, actions and an action scheduler. The action
- *	scheduler has information about the FSM if the actor has one, and the order
- *	in which actions should be scheduled.
+ *  state variables, procedures, actions and an action scheduler. The action
+ *  scheduler has information about the FSM if the actor has one, and the order
+ *  in which actions should be scheduled.
  *
  * @author Jerome Gorin
  *
@@ -83,7 +83,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Creates a new empty actor.
+     *  Creates a new empty actor.
 
      * @param name : string on the actor name
      *
@@ -98,7 +98,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Creates a new actor.
+     *  Creates a new actor.
      *
      * @param name : string on the actor name
      *
@@ -127,7 +127,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Creates a new actor with the given moc.
+     *  Creates a new actor with the given moc.
      *
      * @param name : string on the actor name
      *

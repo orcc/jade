@@ -57,8 +57,8 @@ typedef struct{
 /*!
  *  @brief Prepare the display of llvm execution engine decoder
  *
- *	When we have two output frames, the second is saved and transmit
- *	when the output buffer is free
+ *  When we have two output frames, the second is saved and transmit
+ *  when the output buffer is free
  *
  *  @param outBuffer : output buffer
  */

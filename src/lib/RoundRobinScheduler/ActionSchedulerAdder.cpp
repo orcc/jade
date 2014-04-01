@@ -244,7 +244,7 @@ void ActionSchedulerAdder::initializeFakeFIFO(Port *port)
     var->setInitializer(fifo->getGV());
 }
 
-BasicBlock* ActionSchedulerAdder::checkInputPattern(Pattern* pattern, Function* function, BasicBlock* skipBB, BasicBlock* BB){	
+BasicBlock* ActionSchedulerAdder::checkInputPattern(Pattern* pattern, Function* function, BasicBlock* skipBB, BasicBlock* BB){  
     //Pattern is empty, return current basic block
     if (pattern->isEmpty()){
         return BB;

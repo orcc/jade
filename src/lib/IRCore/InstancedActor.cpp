@@ -46,100 +46,100 @@ using namespace std;
 using namespace llvm;
 
 InstancedActor::InstancedActor(Decoder* decoder, Instance* instance,
-								map<string, Port*>* inputs,
-								map<string, Port*>* outputs,
-								map<Variable*, GlobalVariable*>* stateVars,
-								map<Variable*, GlobalVariable*>* parameters,
-								map<Procedure*, Function*>* procedures,
-								list<Action*>* actions,
-								list<Action*>* initializes,
-								ActionScheduler* scheduler){
-		this->instance = instance;
-		this->decoder = decoder;
-		this->inputs = inputs;
-		this->outputs = outputs;
-		this->stateVars = stateVars;
-		this->parameters = parameters;
-		this->actions = actions;
-		this->procedures = procedures;
-		this->scheduler = scheduler;
-		this->actor = instance->getActor();
-		this->initializes = initializes;
+                                map<string, Port*>* inputs,
+                                map<string, Port*>* outputs,
+                                map<Variable*, GlobalVariable*>* stateVars,
+                                map<Variable*, GlobalVariable*>* parameters,
+                                map<Procedure*, Function*>* procedures,
+                                list<Action*>* actions,
+                                list<Action*>* initializes,
+                                ActionScheduler* scheduler){
+        this->instance = instance;
+        this->decoder = decoder;
+        this->inputs = inputs;
+        this->outputs = outputs;
+        this->stateVars = stateVars;
+        this->parameters = parameters;
+        this->actions = actions;
+        this->procedures = procedures;
+        this->scheduler = scheduler;
+        this->actor = instance->getActor();
+        this->initializes = initializes;
 }
 
 
 GlobalVariable* InstancedActor::getParameterVar(Variable* parameter){
-	map<Variable*, llvm::GlobalVariable*>::iterator it;
-	
-	it = parameters->find(parameter);
+    map<Variable*, llvm::GlobalVariable*>::iterator it;
+    
+    it = parameters->find(parameter);
 
-	if(it == parameters->end()){
-		// This parameter has not be found in the instanced actor
-		return NULL;
-	}
+    if(it == parameters->end()){
+        // This parameter has not be found in the instanced actor
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 
 }
 
 GlobalVariable* InstancedActor::getStateVar(Variable* stateVar){
-	map<Variable*, GlobalVariable*>::iterator it;
-	
-	it = stateVars->find(stateVar);
+    map<Variable*, GlobalVariable*>::iterator it;
+    
+    it = stateVars->find(stateVar);
 
-	if(it == stateVars->end()){
-		// This parameter has not be found in the instanced actor
-		return NULL;
-	}
+    if(it == stateVars->end()){
+        // This parameter has not be found in the instanced actor
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 }
 
 Port* InstancedActor::getPort(string portName){
-	Port* port = getInput(portName);
+    Port* port = getInput(portName);
 
-	// Search inside input ports 
-	if (port!= NULL){
-		return port;
-	}
+    // Search inside input ports 
+    if (port!= NULL){
+        return port;
+    }
 
-	// Search inside output ports 
-	return getOutput(portName);
+    // Search inside output ports 
+    return getOutput(portName);
 }
 
 
 Port* InstancedActor::getInput(string portName){
-	std::map<std::string, Port*>::iterator it;
-	
-	it = inputs->find(portName);
+    std::map<std::string, Port*>::iterator it;
+    
+    it = inputs->find(portName);
 
-	if(it == inputs->end()){
-		return NULL;
-	}
+    if(it == inputs->end()){
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 }
 
 Port* InstancedActor::getOutput(string portName){
-	std::map<std::string, Port*>::iterator it;
-	
-	it = outputs->find(portName);
+    std::map<std::string, Port*>::iterator it;
+    
+    it = outputs->find(portName);
 
-	if(it == outputs->end()){
-		return NULL;
-	}
+    if(it == outputs->end()){
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 }
 
 Function* InstancedActor::getProcedureVar(Procedure* procedure){
-	map<Procedure*, Function*>::iterator it;
-	
-	it = procedures->find(procedure);
+    map<Procedure*, Function*>::iterator it;
+    
+    it = procedures->find(procedure);
 
-	if(it == procedures->end()){
-		return NULL;
-	}
+    if(it == procedures->end()){
+        return NULL;
+    }
 
-	return (*it).second;
+    return (*it).second;
 }

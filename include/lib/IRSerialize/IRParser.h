@@ -230,7 +230,7 @@ private:
      * @brief parse the tokens links to a pattern
      *
      * Parses the given llvm::Value as a MDNode representing the number of tokens
-     *	comsumption/produces by ports.
+     *  comsumption/produces by ports.
      *
      * @param ports : the ports of the actor
      *
@@ -244,7 +244,7 @@ private:
      * @brief parse the variables links to ports
      *
      * Parses the given llvm::Value as a MDNode representing the variable linked to a port,
-     *	in a pattern.
+     *  in a pattern.
      *
      * @param ports : the ports of the actor
      *

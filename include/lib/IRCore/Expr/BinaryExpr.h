@@ -61,9 +61,9 @@ public:
      *  @brief Constructor of the class BinaryExpr
      *
      *  @param C : llvm::LLVMContext.
-     *  @param	e1 : first Expr of binary expression
-     *  @param	op : BinaryOp of the binary expression
-     *  @param	e2 : second Expr of binary expression
+     *  @param  e1 : first Expr of binary expression
+     *  @param  op : BinaryOp of the binary expression
+     *  @param  e2 : second Expr of binary expression
      *
      */
     BinaryExpr(llvm::LLVMContext &C, Expr* e1, BinaryOp* op, Expr* e2) :  Expr(C){

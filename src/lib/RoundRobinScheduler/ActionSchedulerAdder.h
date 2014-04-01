@@ -77,11 +77,11 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Create a new round robin scheduler for the given decoder
+     *  Create a new round robin scheduler for the given decoder
      *
-     *	@param jit : JIT for including instructions
+     *  @param jit : JIT for including instructions
      *
-     *	@param decoder : the Decoder to insert the round robin scheduler into
+     *  @param decoder : the Decoder to insert the round robin scheduler into
      */
     ActionSchedulerAdder(llvm::LLVMContext& C, Decoder* decoder);
     ~ActionSchedulerAdder(){}
@@ -98,7 +98,7 @@ protected:
     /**
      *  @brief Create an action scheduler
      *
-     *	Create an action scheduler in the instance
+     *  Create an action scheduler in the instance
      *
      *  @param instance : the Instance to add the action scheduler
      */
@@ -122,7 +122,7 @@ protected:
     /**
      *  @brief Create initialize
      *
-     *	Create the initialize action scheduler for the instance
+     *  Create the initialize action scheduler for the instance
      *
      *  @param instance : the Instance to add the initialization action scheduler
      */

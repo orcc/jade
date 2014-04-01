@@ -90,7 +90,7 @@ const string IRConstant::KEY_MOC= "MoC";
 IRParser::IRParser(llvm::LLVMContext& C, string VTLDir) : Context(C){
     this->inputs = NULL;
     this->outputs = NULL;
-    this->parser = 	new LLVMParser(Context, VTLDir);
+    this->parser =  new LLVMParser(Context, VTLDir);
     this->VTLDir = VTLDir;
 }
 

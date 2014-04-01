@@ -96,13 +96,13 @@ private:
      *  Compare two package and returns the actors contained in package ref but not in package cur.
      *    intersect defines the intersection between the two packages and can be NULL.
      *
-     *	@param ref : the reference map of package
+     *  @param ref : the reference map of package
      *
-     *	@param cur : the map of package to compare
+     *  @param cur : the map of package to compare
      *
-     *	@param diff : the resulting difference
+     *  @param diff : the resulting difference
      *
-     *	@param intersect : the intersection between package, can be NULL.
+     *  @param intersect : the intersection between package, can be NULL.
      */
     void comparePackages(std::map<std::string, Package*>* ref,
                          std::map<std::string, Package*>* cur,
@@ -115,13 +115,13 @@ private:
      *  Compare two list of actors and returns the actors contained in list ref but not in list cur.
      *    intersect defines the intersection between the two lists.
      *
-     *	@param ref : the reference map of package
+     *  @param ref : the reference map of package
      *
-     *	@param cur : the map of package to compare
+     *  @param cur : the map of package to compare
      *
-     *	@param diff : the resulting difference
+     *  @param diff : the resulting difference
      *
-     *	@param intersect : the intersection between list, can be NULL.
+     *  @param intersect : the intersection between list, can be NULL.
      */
     void compareActors(std::map<std::string, Actor*>* ref,
                        std::map<std::string, Actor*>* cur,
@@ -133,11 +133,11 @@ private:
      *
      *  Store all instance from the actor in the list of instance
      *
-     *	@param actors : map of actors to analyze
+     *  @param actors : map of actors to analyze
      *
-     *	@param instances : list of Instance to store childs of the given actors
+     *  @param instances : list of Instance to store childs of the given actors
      *
-     *	@param configuration : the Configuration to get the instance from
+     *  @param configuration : the Configuration to get the instance from
      */
     void markInstances(std::map<std::string, Actor*>* actors,
                        std::list<Instance*>* instances,
@@ -148,9 +148,9 @@ private:
      *
      *  Check instances with the closest property and store them in toKeep.
      *
-     *	@param actors : map of actors to analyze
+     *  @param actors : map of actors to analyze
      *
-     *	@param instance : list of couple similar Instances
+     *  @param instance : list of couple similar Instances
      */
     void detectInstances(std::map<std::string, Actor*>* actors);
 

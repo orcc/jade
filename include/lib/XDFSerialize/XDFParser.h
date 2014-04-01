@@ -74,7 +74,7 @@ public:
     /**
      *  @brief Start Parsing XDF file
      *
-     *  @param	filename : name of the XDF file to parse
+     *  @param  filename : name of the XDF file to parse
      *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
      */
@@ -83,7 +83,7 @@ public:
     /**
      *  @brief Start Parsing XDF char
      *
-     *  @param	XML : XML text to parse
+     *  @param  XML : XML text to parse
      *
      *  @return a network class that describe the network of the dataflow, NULL if parsing failed
      */

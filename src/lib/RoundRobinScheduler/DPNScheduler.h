@@ -73,11 +73,11 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Create a new action scheduler for dynamic actors
+     *  Create a new action scheduler for dynamic actors
      *
-     *	@param C : the llvm::Context
+     *  @param C : the llvm::Context
      *
-     *	@param decoder : the Decoder where dynamic action scheduler is inserted
+     *  @param decoder : the Decoder where dynamic action scheduler is inserted
      */
     DPNScheduler(llvm::LLVMContext& C, Decoder* decoder);
     ~DPNScheduler(){}
@@ -102,7 +102,7 @@ protected:
     /**
      *  @brief Create scheduler of action outside the FSM
      *
-     *	Create an action scheduler for the action outside the FSM
+     *  Create an action scheduler for the action outside the FSM
      *
      *  @param instance : the Instance to add the action scheduler
      */

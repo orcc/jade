@@ -64,7 +64,7 @@ void TiXmlBase::EncodeString( const TIXML_STRING& str, TIXML_STRING* outString )
         {
             // Hexadecimal character reference.
             // Pass through unchanged.
-            // &#xA9;	-- copyright symbol, for example.
+            // &#xA9;   -- copyright symbol, for example.
             //
             // The -1 is a bug fix from Rob Laveaux. It keeps
             // an overflow from happening if there is no ';'.
@@ -117,8 +117,8 @@ void TiXmlBase::EncodeString( const TIXML_STRING& str, TIXML_STRING* outString )
                 sprintf( buf, "&#x%02X;", (unsigned) ( c & 0xff ) );
             #endif
 
-            //*ME:	warning C4267: convert 'size_t' to 'int'
-            //*ME:	Int-Cast to make compiler happy ...
+            //*ME:  warning C4267: convert 'size_t' to 'int'
+            //*ME:  Int-Cast to make compiler happy ...
             outString->append( buf, (int)strlen( buf ) );
             ++i;
         }
@@ -126,7 +126,7 @@ void TiXmlBase::EncodeString( const TIXML_STRING& str, TIXML_STRING* outString )
         {
             //char realc = (char) c;
             //outString->append( &realc, 1 );
-            *outString += (char) c;	// somewhat more efficient function call.
+            *outString += (char) c; // somewhat more efficient function call.
             ++i;
         }
     }
@@ -203,7 +203,7 @@ TiXmlNode* TiXmlNode::LinkEndChild( TiXmlNode* node )
     if ( lastChild )
         lastChild->next = node;
     else
-        firstChild = node;			// it was an empty list.
+        firstChild = node;          // it was an empty list.
 
     lastChild = node;
     return node;
@@ -298,7 +298,7 @@ TiXmlNode* TiXmlNode::ReplaceChild( TiXmlNode* replaceThis, const TiXmlNode& wit
         return 0;
 
     if ( withThis.ToDocument() ) {
-        // A document can never be a child.	Thanks to Noam.
+        // A document can never be a child. Thanks to Noam.
         TiXmlDocument* document = GetDocument();
         if ( document )
             document->SetError( TIXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, TIXML_ENCODING_UNKNOWN );
@@ -449,7 +449,7 @@ const TiXmlElement* TiXmlNode::FirstChildElement() const
 {
     const TiXmlNode* node;
 
-    for (	node = FirstChild();
+    for (   node = FirstChild();
             node;
             node = node->NextSibling() )
     {
@@ -464,7 +464,7 @@ const TiXmlElement* TiXmlNode::FirstChildElement( const char * _value ) const
 {
     const TiXmlNode* node;
 
-    for (	node = FirstChild( _value );
+    for (   node = FirstChild( _value );
             node;
             node = node->NextSibling( _value ) )
     {
@@ -479,7 +479,7 @@ const TiXmlElement* TiXmlNode::NextSiblingElement() const
 {
     const TiXmlNode* node;
 
-    for (	node = NextSibling();
+    for (   node = NextSibling();
             node;
             node = node->NextSibling() )
     {
@@ -494,7 +494,7 @@ const TiXmlElement* TiXmlNode::NextSiblingElement( const char * _value ) const
 {
     const TiXmlNode* node;
 
-    for (	node = NextSibling( _value );
+    for (   node = NextSibling( _value );
             node;
             node = node->NextSibling( _value ) )
     {
@@ -814,7 +814,7 @@ void TiXmlElement::CopyTo( TiXmlElement* target ) const
     // Element class:
     // Clone the attributes, then clone the children.
     const TiXmlAttribute* attribute = 0;
-    for(	attribute = attributeSet.First();
+    for(    attribute = attributeSet.First();
     attribute;
     attribute = attribute->Next() )
     {
@@ -1000,12 +1000,12 @@ bool TiXmlDocument::LoadFile( FILE* file, TiXmlEncoding encoding )
     // Wikipedia:
     // Systems based on ASCII or a compatible character set use either LF  (Line feed, '\n', 0x0A, 10 in decimal) or
     // CR (Carriage return, '\r', 0x0D, 13 in decimal) individually, or CR followed by LF (CR+LF, 0x0D 0x0A)...
-    //		* LF:    Multics, Unix and Unix-like systems (GNU/Linux, AIX, Xenix, Mac OS X, FreeBSD, etc.), BeOS, Amiga, RISC OS, and others
-    //		* CR+LF: DEC RT-11 and most other early non-Unix, non-IBM OSes, CP/M, MP/M, DOS, OS/2, Microsoft Windows, Symbian OS
-    //		* CR:    Commodore 8-bit machines, Apple II family, Mac OS up to version 9 and OS-9
+    //      * LF:    Multics, Unix and Unix-like systems (GNU/Linux, AIX, Xenix, Mac OS X, FreeBSD, etc.), BeOS, Amiga, RISC OS, and others
+    //      * CR+LF: DEC RT-11 and most other early non-Unix, non-IBM OSes, CP/M, MP/M, DOS, OS/2, Microsoft Windows, Symbian OS
+    //      * CR:    Commodore 8-bit machines, Apple II family, Mac OS up to version 9 and OS-9
 
-    const char* p = buf;	// the read head
-    char* q = buf;			// the write head
+    const char* p = buf;    // the read head
+    char* q = buf;          // the write head
     const char CR = 0x0d;
     const char LF = 0x0a;
 
@@ -1018,7 +1018,7 @@ bool TiXmlDocument::LoadFile( FILE* file, TiXmlEncoding encoding )
         if ( *p == CR ) {
             *q++ = LF;
             p++;
-            if ( *p == LF ) {		// check for CR+LF (and skip LF)
+            if ( *p == LF ) {       // check for CR+LF (and skip LF)
                 p++;
             }
         }
@@ -1293,7 +1293,7 @@ void TiXmlText::Print( FILE* cfile, int depth ) const
         for ( i=0; i<depth; i++ ) {
             fprintf( cfile, "    " );
         }
-        fprintf( cfile, "<![CDATA[%s]]>\n", value.c_str() );	// unformatted output
+        fprintf( cfile, "<![CDATA[%s]]>\n", value.c_str() );    // unformatted output
     }
     else
     {
@@ -1342,7 +1342,7 @@ TiXmlDeclaration::TiXmlDeclaration( const char * _version,
 
 
 #ifdef TIXML_USE_STL
-TiXmlDeclaration::TiXmlDeclaration(	const std::string& _version,
+TiXmlDeclaration::TiXmlDeclaration( const std::string& _version,
                                     const std::string& _encoding,
                                     const std::string& _standalone )
     : TiXmlNode( TiXmlNode::TINYXML_DECLARATION )
@@ -1371,7 +1371,7 @@ void TiXmlDeclaration::operator=( const TiXmlDeclaration& copy )
 void TiXmlDeclaration::Print( FILE* cfile, int /*depth*/, TIXML_STRING* str ) const
 {
     if ( cfile ) fprintf( cfile, "<?xml " );
-    if ( str )	 (*str) += "<?xml ";
+    if ( str )   (*str) += "<?xml ";
 
     if ( !version.empty() ) {
         if ( cfile ) fprintf (cfile, "version=\"%s\" ", version.c_str ());
@@ -1386,7 +1386,7 @@ void TiXmlDeclaration::Print( FILE* cfile, int /*depth*/, TIXML_STRING* str ) co
         if ( str ) { (*str) += "standalone=\""; (*str) += standalone; (*str) += "\" "; }
     }
     if ( cfile ) fprintf( cfile, "?>" );
-    if ( str )	 (*str) += "?>";
+    if ( str )   (*str) += "?>";
 }
 
 
@@ -1467,9 +1467,9 @@ TiXmlAttributeSet::~TiXmlAttributeSet()
 void TiXmlAttributeSet::Add( TiXmlAttribute* addMe )
 {
     #ifdef TIXML_USE_STL
-    assert( !Find( TIXML_STRING( addMe->Name() ) ) );	// Shouldn't be multiply adding to the set.
+    assert( !Find( TIXML_STRING( addMe->Name() ) ) );   // Shouldn't be multiply adding to the set.
     #else
-    assert( !Find( addMe->Name() ) );	// Shouldn't be multiply adding to the set.
+    assert( !Find( addMe->Name() ) );   // Shouldn't be multiply adding to the set.
     #endif
 
     addMe->next = &sentinel;
@@ -1494,7 +1494,7 @@ void TiXmlAttributeSet::Remove( TiXmlAttribute* removeMe )
             return;
         }
     }
-    assert( 0 );		// we tried to remove a non-linked attribute.
+    assert( 0 );        // we tried to remove a non-linked attribute.
 }
 
 
@@ -1636,7 +1636,7 @@ TiXmlHandle TiXmlHandle::Child( int count ) const
     {
         int i;
         TiXmlNode* child = node->FirstChild();
-        for (	i=0;
+        for (   i=0;
                 child && i<count;
                 child = child->NextSibling(), ++i )
         {
@@ -1655,7 +1655,7 @@ TiXmlHandle TiXmlHandle::Child( const char* value, int count ) const
     {
         int i;
         TiXmlNode* child = node->FirstChild( value );
-        for (	i=0;
+        for (   i=0;
                 child && i<count;
                 child = child->NextSibling( value ), ++i )
         {
@@ -1674,7 +1674,7 @@ TiXmlHandle TiXmlHandle::ChildElement( int count ) const
     {
         int i;
         TiXmlElement* child = node->FirstChildElement();
-        for (	i=0;
+        for (   i=0;
                 child && i<count;
                 child = child->NextSiblingElement(), ++i )
         {
@@ -1693,7 +1693,7 @@ TiXmlHandle TiXmlHandle::ChildElement( const char* value, int count ) const
     {
         int i;
         TiXmlElement* child = node->FirstChildElement( value );
-        for (	i=0;
+        for (   i=0;
                 child && i<count;
                 child = child->NextSiblingElement( value ), ++i )
         {

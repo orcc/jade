@@ -72,7 +72,7 @@ public:
     /**
      *  @brief Start Parsing XCF filep
      *
-     *  @param	filename : name of the XCF file to parse
+     *  @param  filename : name of the XCF file to parse
      *
      *  @return a mapping class that describe the mapping of a network, NULL if parsing failed
      */

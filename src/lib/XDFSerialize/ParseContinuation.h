@@ -43,8 +43,8 @@
 */
 
 /*!
-*	@class ParseContinuation
-*	@brief  This class defines a parse continuation, by storing the next node that shall
+*   @class ParseContinuation
+*   @brief  This class defines a parse continuation, by storing the next node that shall
 * be parsed along with the result already computed.
 *
 */

@@ -141,7 +141,7 @@ private:
     /**
      *  @brief Create the pattern of the broadcast action
      *
-     *	@param ports : ports of the action
+     *  @param ports : ports of the action
      */
     Pattern* createPattern(std::map<std::string, Port*>* ports);
 

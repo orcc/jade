@@ -60,8 +60,8 @@ class IRAttribute;
 //------------------------------
 
 /*!
-*	@class NetworkParser
-*	@brief This class defines the network parser of class XDFparser.
+*   @class NetworkParser
+*   @brief This class defines the network parser of class XDFparser.
 *
 */
 class NetworkParser {

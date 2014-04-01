@@ -52,13 +52,13 @@ class Decoder;
  */
 class DecoderTransformation {
 public:
-	/**
-	 * @brief Transforms the given decoder.
-	 * 
-	 * @param decoder
-	 *            a Decoder
-	 */
-	virtual void transform(Decoder* decoder){}
+    /**
+     * @brief Transforms the given decoder.
+     * 
+     * @param decoder
+     *            a Decoder
+     */
+    virtual void transform(Decoder* decoder){}
 };
 
 #endif

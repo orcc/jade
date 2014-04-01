@@ -135,7 +135,7 @@ bool Network::removeConnection(Connection* connection){
     return graph->removeEdge(connection);
 }
 
-list<Connection*>* Network::getConnections(){	
+list<Connection*>* Network::getConnections(){   
     connections.clear();
 
     int nbEdge = graph->getNbEdges();
@@ -147,7 +147,7 @@ list<Connection*>* Network::getConnections(){
     return &connections;
 }
 
-list<Connection*>* Network::getAllConnections(Instance* source, Instance* target){	
+list<Connection*>* Network::getAllConnections(Instance* source, Instance* target){  
     return (list<Connection*>*)graph->getAllEdges(new Vertex(source), new Vertex(target));
 }
 

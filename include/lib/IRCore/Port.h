@@ -74,8 +74,8 @@ public:
     /**
      * @brief Creates a new port in a graph
      *
-     * @param name	:  name of the port
-     * @param type	:  type of the port
+     * @param name  :  name of the port
+     * @param type  :  type of the port
      * @param graph :  parent graph of the port
      */
     Port(std::string name, llvm::IntegerType* type, HDAGGraph* graph) {
@@ -96,8 +96,8 @@ public:
     /**
      * @brief Creates a new port in an actor
      *
-     * @param name	:  name of the port
-     * @param type	:  type of the port
+     * @param name  :  name of the port
+     * @param type  :  type of the port
      * @param actor :  parent actor of the port
      */
     Port(std::string name, llvm::IntegerType* type, Actor* actor) {
@@ -118,8 +118,8 @@ public:
     /**
      * @brief Creates a new port in an instance
      *
-     * @param name	:  name of the port
-     * @param type	:  type of the port
+     * @param name  :  name of the port
+     * @param type  :  type of the port
      * @param actor :  parent actor of the port
      */
     Port(std::string name, llvm::IntegerType* type, Instance* instance) {

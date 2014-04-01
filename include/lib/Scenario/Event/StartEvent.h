@@ -57,7 +57,7 @@ public:
      * @param threaded : start in threaded mode or not.
      */
     StartEvent(int id, std::string input, std::string mappingFile) : Event(id) {
-		this->input = input;
+        this->input = input;
         this->mapping = mappingFile;
     }
 

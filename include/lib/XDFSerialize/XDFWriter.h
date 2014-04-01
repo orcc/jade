@@ -64,7 +64,7 @@ public:
     /**
      *  @brief Constructor of the class XDFWriter
      *
-     *  @param	filename : a file that represents the absolute path of the output directory
+     *  @param  filename : a file that represents the absolute path of the output directory
      *
      *  @param network : a network
      */
@@ -105,7 +105,7 @@ private:
     /**
      *  @brief Appends Attribute elements to the given parent parent.
      *
-     *	 Each attribute of the attributes map is transformed to an Attribute xml element parent.
+     *   Each attribute of the attributes map is transformed to an Attribute xml element parent.
      *
      *  @param parent : the parent parent
      *
@@ -138,7 +138,7 @@ private:
      *
      *  @param expr : the entry value as an expression
      *
-     *	@return an entry xml element parent
+     *  @return an entry xml element parent
      */
     TiXmlElement* writeEntry(std::string name, Expr* expr);
 

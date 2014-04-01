@@ -53,7 +53,7 @@ public:
     /**
      *  @brief Constructor
      *
-     *	Initialize the JIT engine
+     *  Initialize the JIT engine
      *
      */
     LLVMUtility(){}

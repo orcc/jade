@@ -70,7 +70,7 @@ public:
      *
      * Instanciate a configuration of decoder using the given Configuration.
      *
-     *	@param configuration : a Configuration for instanciating a configuration
+     *  @param configuration : a Configuration for instanciating a configuration
      */
     void configure(Decoder* decoder);
 
@@ -79,9 +79,9 @@ public:
      *
      * Reconfigure a decoder with the given configuration
      *
-     *	@param decoder : the Decoder to reconfigure
+     *  @param decoder : the Decoder to reconfigure
      *
-     *	@param configuration : the new Configuration
+     *  @param configuration : the new Configuration
      */
     void reconfigure(Decoder* decoder, Configuration* configuration);
 
@@ -90,7 +90,7 @@ public:
      *
      *  Reinitialize a decoder
      *
-     *	@param decoder : the Decoder to reinitialize
+     *  @param decoder : the Decoder to reinitialize
      */
     void reinit(Decoder* decoder);
 
@@ -99,9 +99,9 @@ private:
     /**
      *  @brief Clear connections of a decoder
      *
-     *	Remove every connections and broadcast created in the decoder
+     *  Remove every connections and broadcast created in the decoder
      *
-     *	@param decoder : the decoder to clean
+     *  @param decoder : the decoder to clean
      */
     void clearConnections(Decoder* decoder);
 

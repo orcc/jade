@@ -45,7 +45,7 @@
 
 using namespace llvm;
 
-Procedure::~Procedure(){	
+Procedure::~Procedure(){    
 
 }
 
