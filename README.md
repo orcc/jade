@@ -1,6 +1,6 @@
 # Jade
 
-**This branch supports build of Jade against LLVM _3.4_ only.**
+**This branch supports build of Jade against LLVM _3.5_ only.**
 
 ## About
 The Just-In-Time Adaptive Decoder Engine (Jade) project is a new dynamic decoder based on the Low Level Virtual Machine (LLVM), fully compliant with MPEG RVC paradigm. The Jade executable can dynamically instantiate several RVC decoder descriptions produced by the Jade backend of Orcc (http://github.com/orcc/orcc).

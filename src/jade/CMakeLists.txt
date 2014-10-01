@@ -7,7 +7,7 @@ add_executable(Jade
     Console.h
 )
 
-# Library requiered
+# Libraries required
 target_link_libraries(Jade
     RVCEngine
     ConfigurationEngine
@@ -27,7 +27,7 @@ target_link_libraries(Jade
     orcc
     ${LLVM_LIBRARIES}
     ${LLVM_LD_FLAGS}
-    ${CMAKE_THREAD_LIBS_INIT}
+    ${LLVM_SYSTEM_LIBS}
 )
 
 # Configure the SDL version

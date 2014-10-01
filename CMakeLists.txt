@@ -37,16 +37,17 @@ if("" STREQUAL "${LLVM_CFG_VERSION}")
     message(FATAL_ERROR "The LLVM_CONFIG_TOOL variable have an invalid value. It must contains the full path of llvm-config executable.")
 endif()
 
-message(STATUS "Use ${LLVM_CONFIG_TOOL} to configure link information")
+message(STATUS "Using ${LLVM_CONFIG_TOOL} to configure link information")
 
 # List LLVM components used in Jade
-set(COMPONENTS jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter ipo irreader engine support)
+set(COMPONENTS jit asmparser instrumentation interpreter nativecodegen bitreader selectiondag linker bitwriter lto irreader engine support)
 
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --libs ${COMPONENTS}    OUTPUT_VARIABLE LLVM_LIBRARIES      OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --bindir                OUTPUT_VARIABLE LLVM_BIN_DIR        OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --includedir            OUTPUT_VARIABLE LLVM_INCLUDE_DIRS   OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --cppflags              OUTPUT_VARIABLE LLVM_CPP_FLAGS      OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND ${LLVM_CONFIG_TOOL} --ldflags               OUTPUT_VARIABLE LLVM_LD_FLAGS       OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND ${LLVM_CONFIG_TOOL} --system-libs           OUTPUT_VARIABLE LLVM_SYSTEM_LIBS    OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 message(STATUS "LLVM version ${LLVM_CFG_VERSION} found in folder ${LLVM_BIN_DIR}")
 
@@ -64,8 +65,12 @@ endif()
 
 # Configure build flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CPP_FLAGS} -fno-rtti -fPIC")
+if(UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+endif()
 
 include_directories(${JADE_MAIN_INCLUDE_DIR} ${LLVM_INCLUDE_DIRS})
+add_definitions(${LLVM_CPP_FLAGS})
 message(STATUS "includes: ${LLVM_INCLUDE_DIRS}")
 
 if(GENERATE_DOCS)
