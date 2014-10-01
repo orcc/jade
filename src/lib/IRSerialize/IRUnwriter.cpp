@@ -169,18 +169,16 @@ void IRUnwriter::unwriteProcedures(map<string, Procedure*>* procs){
 void IRUnwriter::unwritePort(string key, Port* port){
     GlobalVariable* fifoVar = port->getFifoVar();
     if(fifoVar) {
-        for(Value::use_iterator it = fifoVar->use_begin() ; it != fifoVar->use_end() ; ++it) {
-            // (*it) is a User instance
-            (*it)->replaceUsesOfWith(fifoVar, NULL);
+        for(User* user : fifoVar->users()) {
+            user->replaceUsesOfWith(fifoVar, NULL);
         }
         fifoVar->eraseFromParent();
     }
 
     GlobalVariable* ptrVar = port->getPtrVar()->getGlobalVariable();
     if(ptrVar) {
-        for(Value::use_iterator it = ptrVar->use_begin() ; it != ptrVar->use_end() ; ++it) {
-            // (*it) is a User instance
-            (*it)->replaceUsesOfWith(ptrVar, NULL);
+        for(User* user : ptrVar->users()) {
+            user->replaceUsesOfWith(ptrVar, NULL);
         }
         ptrVar->eraseFromParent();
     }

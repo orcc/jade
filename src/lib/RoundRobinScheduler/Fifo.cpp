@@ -184,20 +184,16 @@ Value* Fifo::replaceAccess (Port* port, Procedure* proc) {
 
     //Get load instruction on port
     GlobalVariable* portPtr = port->getPtrVar()->getGlobalVariable();
-    for (Value::use_iterator UI = portPtr->use_begin(), UE = portPtr->use_end();
-         UI != UE; ++UI) {
-        Use *U = &UI.getUse();
-        Instruction *I = cast<Instruction>(U->getUser());
+    for (User *U : portPtr->users()) {
+        Instruction *I = cast<Instruction>(U);
         BasicBlock* BB = I->getParent();
         if ((BB->getParent() == function) && (isa<LoadInst>(I))) {
             LoadInst* loadInst = cast<LoadInst>(I);
 
             //Get bitcast instruction on load
-            for (Value::use_iterator LI = loadInst->use_begin(), LE = loadInst->use_end();
-                 LI != LE; ++LI) {
-                Use* CastU = &LI.getUse();
-                if (isa<BitCastInst>(CastU->getUser())){
-                    BitCastInst* CastInst = cast<BitCastInst>(CastU->getUser());
+            for (User *U2 : loadInst->users()) {
+                if (isa<BitCastInst>(U2)){
+                    BitCastInst* CastInst = cast<BitCastInst>(U2);
                     ArrayType* arrayTy = ArrayType::get(port->getType(), port->getFifoSize());
 
                     // Load index and create a new cast
@@ -206,9 +202,7 @@ Value* Fifo::replaceAccess (Port* port, Procedure* proc) {
 
                     //Get GET instruction on bitcast
                     std::vector<GetElementPtrInst*> GEPs;
-                    for (Value::use_iterator GI = CastInst->use_begin(), GE = CastInst->use_end();
-                         GI != GE; ++GI) {
-                        User* user = GI.getUse().getUser();
+                    for (User* user : CastInst->users()) {
                         if (isa<GetElementPtrInst>(user)){
                             GetElementPtrInst* GEPInst = cast<GetElementPtrInst>(user);
 
@@ -273,13 +267,11 @@ void Fifo::createFifoTrace(Module* module, Port* port, GetElementPtrInst* gep, v
 
     if (port->isReadable()){
 
-        for (Value::use_iterator LI = gep->use_begin(), LE = gep->use_end();
-             LI != LE; ++LI) {
-            Use* use = &LI.getUse();
-            if (isa<LoadInst>(use->getUser())){
+        for (User* user : gep->users()) {
+            if (isa<LoadInst>(user)){
 
                 // Get value read in the fifo
-                LoadInst* loadInst = cast<LoadInst>(use->getUser());
+                LoadInst* loadInst = cast<LoadInst>(user);
                 instr = loadInst->getParent()->getTerminator();
 
                 // Create message
@@ -301,13 +293,10 @@ void Fifo::createFifoTrace(Module* module, Port* port, GetElementPtrInst* gep, v
             }
         }
     }else{
-        for (Value::use_iterator LI = gep->use_begin(), LE = gep->use_end();
-             LI != LE; ++LI) {
-            Use* use = &LI.getUse();
-
-            if (isa<StoreInst>(use->getUser())){
+        for (User* user : gep->users()) {
+            if (isa<StoreInst>(user)){
                 // Get value writen in the fifo
-                StoreInst* storeInst = cast<StoreInst>(use->getUser());
+                StoreInst* storeInst = cast<StoreInst>(user);
                 instr = storeInst->getParent()->getTerminator();
 
                 // Create message
