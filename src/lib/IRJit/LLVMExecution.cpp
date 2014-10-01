@@ -98,7 +98,7 @@ LLVMExecution::LLVMExecution(LLVMContext& C, Decoder* decoder, bool verbose): Co
 
     // If not jitting lazily, load the whole bitcode file eagerly too.
     if (NoLazyCompilation) {
-        if (module->MaterializeAllPermanently(&ErrorMsg)) {
+        if (module->materializeAllPermanently(&ErrorMsg)) {
             cout << "bitcode didn't read correctly." << endl;
             cerr << "Reason: " << ErrorMsg << endl;
             exit(1);

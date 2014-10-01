@@ -344,7 +344,6 @@ int main(int argc, char **argv, char **envp) {
     }
 
     //Initialize context
-    llvm_start_multithreaded();
     InitializeNativeTarget();
     InitializeNativeTargetAsmPrinter();
     setOptions();
@@ -388,6 +387,5 @@ int main(int argc, char **argv, char **envp) {
         startCmdLine();
     }
 
-    llvm_stop_multithreaded();
     return 0;
 }

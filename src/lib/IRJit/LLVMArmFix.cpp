@@ -296,7 +296,7 @@ tool_output_file* LLVMArmFix::generateNativeCode(string IntermediateAssemblyFile
     // Open the file.
     string error;
 
-    tool_output_file *FDOut = new tool_output_file(IntermediateAssemblyFile.c_str(), error);
+    tool_output_file *FDOut = new tool_output_file(IntermediateAssemblyFile.c_str(), error, sys::fs::F_None);
     if (!error.empty()) {
         errs() << error << '\n';
         delete FDOut;

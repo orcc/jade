@@ -43,6 +43,8 @@
 #include "llvm/IR/Verifier.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/CommandLine.h"
+#include "llvm/Support/FileSystem.h"
+
 
 #include "lib/RVCEngine/Decoder.h"
 #include "lib/IRJit//LLVMUtility.h"
@@ -66,7 +68,7 @@ void LLVMUtility::printModule(Decoder* decoder, string fileName){
     string outputPath = OutputDir + fileName;
 
     //Preparing output
-    std::auto_ptr<raw_fd_ostream> outStream(new raw_fd_ostream(outputPath.c_str(), ErrorInfo, sys::fs::F_Binary));
+    std::auto_ptr<raw_fd_ostream> outStream(new raw_fd_ostream(outputPath.c_str(), ErrorInfo, sys::fs::F_None));
     if (!ErrorInfo.empty()) {
         std::cerr << ErrorInfo << endl;
         return;
@@ -79,7 +81,8 @@ void LLVMUtility::verify(string file, Decoder* decoder){
     std::string Err;
     Module* module = decoder->getModule();
 
-    if (verifyModule(*module, ReturnStatusAction, &Err)) {
+    raw_string_ostream err_stream(Err);
+    if (verifyModule(*module, &err_stream)) {
         ofstream output;
 
         //Preparing output file

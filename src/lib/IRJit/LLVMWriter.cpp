@@ -114,11 +114,7 @@ bool LLVMWriter::LinkGlobalInits(llvm::GlobalVariable* variable){
 /// CopyGVAttributes - copy additional attributes (those not needed to construct
 /// a GlobalValue) from the SrcGV to the DestGV.
 void LLVMWriter::CopyGVAttributes(GlobalValue *DestGV, const GlobalValue *SrcGV) {
-
-    // Use the maximum alignment, rather than just copying the alignment of SrcGV.
-    unsigned Alignment = std::max(DestGV->getAlignment(), SrcGV->getAlignment());
     DestGV->copyAttributesFrom(SrcGV);
-    DestGV->setAlignment(Alignment);
 }
 
 Function* LLVMWriter::createFunction(Function* function){
