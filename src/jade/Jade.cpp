@@ -44,7 +44,7 @@
 #include "Console.h"
 
 #include "llvm/IR/LLVMContext.h"
-#include "llvm/Support/PassNameParser.h"
+#include "llvm/IR/LegacyPassNameParser.h"
 #include "llvm/Support/PrettyStackTrace.h"
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/Threading.h"

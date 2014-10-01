@@ -40,7 +40,7 @@
 #include <fstream>
 
 #include "llvm/IR/Module.h"
-#include "llvm/Analysis/Verifier.h"
+#include "llvm/IR/Verifier.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/CommandLine.h"
 

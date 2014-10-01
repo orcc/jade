@@ -52,7 +52,7 @@
 #include "lib/IRJit/LLVMExecution.h"
 #include "lib/IROptimize/FifoFnRemoval.h"
 #include "lib/IROptimize/InstanceInternalize.h"
-#include "llvm/Support/PassNameParser.h"
+#include "llvm/IR/LegacyPassNameParser.h"
 //------------------------------
 
 using namespace std;
