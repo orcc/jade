@@ -308,9 +308,9 @@ tool_output_file* LLVMArmFix::generateNativeCode(string IntermediateAssemblyFile
 
     // Add the target data from the target machine, if it exists, or the module.
     if (const DataLayout *DL = Target.getDataLayout())
-        PM.add(new DataLayout(*DL));
+        PM.add(new DataLayoutPass(*DL));
     else
-        PM.add(new DataLayout(module));
+        PM.add(new DataLayoutPass(module));
 
     // Override default to generate verbose assembly.
     Target.setAsmVerbosityDefault(true);

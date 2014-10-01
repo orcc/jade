@@ -58,7 +58,6 @@ using namespace std;
 
 //Optimization flag
 bool VerifyEach = false;
-string DefaultDataLayout("");
 bool StandardCompileOpts = false;
 bool StandardLinkOpts = true;
 bool DisableInline = false;
@@ -91,7 +90,7 @@ void LLVMOptimizer::optimize(int optLevel){
     // Create a PassManager to hold and optimize the collection of passes we are
     // about to build...
     //
-    PassManager Passes;
+    legacy::PassManager Passes;
 
     // Add an appropriate TargetLibraryInfo pass for the module's triple.
     TargetLibraryInfo *TLI;
@@ -104,21 +103,12 @@ void LLVMOptimizer::optimize(int optLevel){
     Passes.add(TLI);
 
     // Add an appropriate DataLayout instance for this module.
-    DataLayout *DL = 0;
-    const std::string &ModuleDataLayout = module->getDataLayout();
-    if (!ModuleDataLayout.empty())
-        DL = new DataLayout(ModuleDataLayout);
-    else if (!DefaultDataLayout.empty())
-        DL = new DataLayout(DefaultDataLayout);
+    Passes.add(new DataLayoutPass(module));
 
-    if (DL)
-        Passes.add(DL);
-
-    OwningPtr<FunctionPassManager> FPasses;
+    std::unique_ptr<FunctionPassManager> FPasses;
     if (optLevel > 0) {
         FPasses.reset(new FunctionPassManager(module));
-        if (DL)
-            FPasses->add(new DataLayout(*DL));
+        FPasses->add(new DataLayoutPass(module));
     }
 
     AddOptimizationPasses(Passes, *FPasses, optLevel);
