@@ -22,7 +22,7 @@ The Jade project is structured as follow :
 To compile, Jade depends on:
 - CMake (at least 2.6): http://www.cmake.org
 - SDL (at least 1.2.14): http://www.libsdl.org
-- LLVM 3.4: http://llvm.org
+- LLVM 3.5: http://llvm.org
 
 To compile Jade, use cmake to generate build files corresponding to your environment. You must ensure SDL library and LLVM binary dir are reachable from command line (add it to your PATH environment variable) or use cmake-gui to manually set their location.
 
